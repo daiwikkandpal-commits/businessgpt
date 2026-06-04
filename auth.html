@@ -18,14 +18,14 @@ body{font-family:'Sora',sans-serif;background:#050d1a;color:#e2ecff;min-height:1
   --br:rgba(59,130,246,0.15);--br2:rgba(59,130,246,0.3);
   --t:#e2ecff;--t2:#94a3c4;--t3:#5a6a8a;
 }
-
+ 
 /* glow */
 .glow{position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
     radial-gradient(ellipse 60% 50% at 15% 15%,rgba(37,99,235,.15) 0%,transparent 70%),
     radial-gradient(ellipse 50% 40% at 85% 85%,rgba(29,78,216,.10) 0%,transparent 65%),
     radial-gradient(ellipse 35% 30% at 75% 10%,rgba(59,130,246,.07) 0%,transparent 60%)}
-
+ 
 /* nav */
 nav{position:relative;z-index:10;background:rgba(5,13,26,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--br)}
 .nav-i{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -36,11 +36,11 @@ nav{position:relative;z-index:10;background:rgba(5,13,26,.92);backdrop-filter:bl
 .logo-name span{color:var(--b4)}
 .nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid var(--br);transition:all .2s}
 .nav-back:hover{color:var(--t);border-color:var(--br2);background:rgba(59,130,246,.06)}
-
+ 
 /* layout */
 .wrap{flex:1;display:grid;grid-template-columns:1fr 1fr;position:relative;z-index:1}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}.panel{display:none}}
-
+ 
 /* left panel */
 .panel{background:var(--bg2);border-right:1px solid var(--br);padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}
 .panel::after{content:'';position:absolute;bottom:-100px;right:-100px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.1) 0%,transparent 70%)}
@@ -59,11 +59,11 @@ nav{position:relative;z-index:10;background:rgba(5,13,26,.92);backdrop-filter:bl
 .q-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
 .q-name{font-size:13px;font-weight:500;color:var(--t)}
 .q-sub{font-size:11px;color:var(--t3)}
-
+ 
 /* right / form side */
 .form-wrap{display:flex;align-items:center;justify-content:center;padding:48px 24px}
 .card{width:100%;max-width:420px}
-
+ 
 /* setup notice */
 .setup{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:12px;padding:16px 18px;margin-bottom:22px;display:none}
 .setup.show{display:block}
@@ -81,24 +81,24 @@ nav{position:relative;z-index:10;background:rgba(5,13,26,.92);backdrop-filter:bl
 .cfg-input::placeholder{color:var(--t3)}
 .cfg-btn{width:100%;padding:9px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.3);border-radius:7px;color:#fbbf24;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;transition:all .15s}
 .cfg-btn:hover{background:rgba(245,158,11,.24)}
-
+ 
 /* tabs */
 .tabs{display:flex;background:var(--bg2);border:1px solid var(--br);border-radius:10px;padding:4px;margin-bottom:26px}
 .tab{flex:1;padding:9px;text-align:center;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--t2);border-radius:7px;cursor:pointer;transition:all .18s}
 .tab.on{background:var(--b5);color:#fff;box-shadow:0 2px 14px rgba(59,130,246,.3)}
-
+ 
 .head{font-size:23px;font-weight:700;color:var(--t);margin-bottom:5px;letter-spacing:-.4px}
 .sub{font-size:14px;color:var(--t2);margin-bottom:22px;line-height:1.6}
-
+ 
 /* google btn */
 .g-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 20px;border-radius:9px;background:var(--bg2);border:1px solid var(--br2);font-size:14px;font-weight:500;color:var(--t);font-family:'Sora',sans-serif;cursor:pointer;transition:all .2s;margin-bottom:6px}
 .g-btn:hover:not(:disabled){border-color:rgba(59,130,246,.5);background:rgba(59,130,246,.05)}
 .g-btn:disabled{opacity:.5;cursor:not-allowed}
-
+ 
 /* divider */
 .div{display:flex;align-items:center;gap:12px;margin:18px 0;font-size:12px;color:var(--t3)}
 .div::before,.div::after{content:'';flex:1;height:1px;background:var(--br)}
-
+ 
 /* fields */
 .field{margin-bottom:14px}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
@@ -116,7 +116,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 .eye svg{width:15px;height:15px}
 .ferr{font-size:12px;color:#f87171;margin-top:5px;display:none}
 .ferr.on{display:block}
-
+ 
 /* password strength */
 .pws{margin-top:8px;display:none}
 .pws.on{display:block}
@@ -125,18 +125,18 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 .bw{background:#f87171;border-color:#f87171}.bf{background:#fbbf24;border-color:#fbbf24}
 .bg2c{background:#60a5fa;border-color:#60a5fa}.bs{background:#4ade80;border-color:#4ade80}
 .pw-lbl{font-size:11px;color:var(--t3)}
-
+ 
 /* checkbox */
 .ck-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:16px}
 .ck-row input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--b5);cursor:pointer;padding:0}
 .ck-row label{font-size:13px;color:var(--t2);margin:0;line-height:1.5;cursor:pointer}
 .ck-row a{color:var(--b4);text-decoration:none}
 .ck-row a:hover{text-decoration:underline}
-
+ 
 .forgot-row{display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:14px}
 .forgot{font-size:13px;color:var(--b4);text-decoration:none}
 .forgot:hover{text-decoration:underline}
-
+ 
 /* submit */
 .sub-btn{width:100%;padding:13px;background:var(--b5);color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(59,130,246,.28);display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
 .sub-btn:hover:not(:disabled){background:var(--b6);box-shadow:0 4px 28px rgba(59,130,246,.44);transform:translateY(-1px)}
@@ -147,11 +147,11 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
+ 
 .sw{text-align:center;margin-top:16px;font-size:13px;color:var(--t2)}
 .sw a{color:var(--b4);text-decoration:none;font-weight:500}
 .sw a:hover{text-decoration:underline}
-
+ 
 /* success */
 .suc{display:none;text-align:center;padding:16px 0;animation:fadeUp .3s ease}
 .suc.on{display:block}
@@ -162,7 +162,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 .suc-sub{font-size:14px;color:var(--t2);line-height:1.65;margin-bottom:24px}
 .go{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--b5);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;text-decoration:none;box-shadow:0 4px 20px rgba(59,130,246,.28);transition:all .2s}
 .go:hover{background:var(--b6)}
-
+ 
 /* user bar */
 .ubar{display:none;background:rgba(37,99,235,.08);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:12px 16px;align-items:center;gap:12px;margin-bottom:22px}
 .ubar.on{display:flex}
@@ -171,7 +171,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 .uem{font-size:12px;color:var(--t3)}
 .so-btn{font-size:12px;color:var(--t3);cursor:pointer;padding:5px 10px;border-radius:6px;border:1px solid var(--br);transition:all .15s;background:none;font-family:'Sora',sans-serif;margin-left:auto}
 .so-btn:hover{color:var(--t2);border-color:var(--br2)}
-
+ 
 /* modal */
 .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(5,13,26,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
 .modal.on{display:flex}
@@ -180,7 +180,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 .mclose:hover{color:var(--t)}
 .mtitle{font-size:20px;font-weight:700;color:var(--t);margin-bottom:8px}
 .msub{font-size:14px;color:var(--t2);margin-bottom:20px;line-height:1.6}
-
+ 
 /* toast */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg2);border:1px solid var(--br2);border-radius:10px;padding:13px 22px;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--t);box-shadow:0 8px 36px rgba(0,0,0,.45);z-index:1000;opacity:0;pointer-events:none;transition:all .3s;min-width:260px;white-space:nowrap}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -192,7 +192,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
 </head>
 <body>
 <div class="glow" aria-hidden="true"></div>
-
+ 
 <!-- Nav -->
 <nav>
   <div class="nav-i">
@@ -210,9 +210,9 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
     </a>
   </div>
 </nav>
-
+ 
 <div class="wrap">
-
+ 
   <!-- Left panel -->
   <div class="panel">
     <div>
@@ -241,21 +241,12 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
       </div>
     </div>
   </div>
-
+ 
   <!-- Right / form -->
   <div class="form-wrap">
     <div class="card">
-
-      <!-- Setup notice -->
-      <div class="setup" id="setup">
-        <div class="setup-title">⚙️ One-time Supabase setup</div>
-        <p>To enable real accounts for you and others, connect a free <a href="https://supabase.com" target="_blank">Supabase</a> project. Takes 2 minutes.</p>
-        <div class="setup-steps">
-          <div class="ss"><div class="ss-n">1</div><span>Go to <a href="https://supabase.com" target="_blank">supabase.com</a> → New project (free tier)</span></div>
-          <div class="ss"><div class="ss-n">2</div><span><b style="color:var(--t)">Settings → API</b> → copy your Project URL &amp; anon key</span></div>
-          <div class="ss"><div class="ss-n">3</div><span><b style="color:var(--t)">Authentication → Providers → Email</b> → make sure it's enabled</span></div>
-          <div class="ss"><div class="ss-n">4</div><span>Paste both values below and click Save</span></div>
-        </div>
+ 
+      
         <div class="cfg">
           <div>
             <div class="cfg-label">Project URL</div>
@@ -268,7 +259,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           <button class="cfg-btn" onclick="saveConfig()">Save &amp; connect →</button>
         </div>
       </div>
-
+ 
       <!-- Logged-in user bar -->
       <div class="ubar" id="ubar">
         <div class="uav" id="uav">?</div>
@@ -278,18 +269,18 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
         </div>
         <button class="so-btn" onclick="signOut()">Sign out</button>
       </div>
-
+ 
       <!-- Tabs -->
       <div class="tabs" id="tabs">
         <button class="tab on" id="t-si" onclick="go('in')">Sign in</button>
         <button class="tab" id="t-su" onclick="go('up')">Create account</button>
       </div>
-
+ 
       <!-- SIGN IN -->
       <div id="f-in">
         <div class="head">Welcome back</div>
         <div class="sub">Sign in to access your progress and unlimited marking.</div>
-
+ 
         <button class="g-btn" id="gsi" onclick="googleAuth()">
           <svg viewBox="0 0 48 48" width="18" height="18">
             <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.6 2.3 30.2 0 24 0 14.6 0 6.6 5.5 2.7 13.6l7.8 6.1C12.4 13.1 17.8 9.5 24 9.5z"/>
@@ -299,9 +290,9 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </svg>
           Continue with Google
         </button>
-
+ 
         <div class="div">or sign in with email</div>
-
+ 
         <div class="field">
           <label for="si-e">Email address</label>
           <div class="iw">
@@ -310,7 +301,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </div>
           <div class="ferr" id="si-ee">Please enter a valid email address.</div>
         </div>
-
+ 
         <div class="field">
           <label for="si-p">Password</label>
           <div class="iw">
@@ -322,22 +313,22 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </div>
           <div class="ferr" id="si-pe">Incorrect email or password.</div>
         </div>
-
+ 
         <div class="forgot-row">
           <a href="#" class="forgot" onclick="openModal(event)">Forgot password?</a>
         </div>
-
+ 
         <button class="sub-btn" id="si-btn" onclick="signIn()">
           <span class="bt">Sign in</span><div class="sp"></div>
         </button>
         <div class="sw">Don't have an account? <a href="#" onclick="go('up');return false">Create one free →</a></div>
       </div>
-
+ 
       <!-- SIGN UP -->
       <div id="f-up" style="display:none">
         <div class="head">Create your account</div>
         <div class="sub">Free to start. No credit card required.</div>
-
+ 
         <button class="g-btn" id="gsu" onclick="googleAuth()">
           <svg viewBox="0 0 48 48" width="18" height="18">
             <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.6 2.3 30.2 0 24 0 14.6 0 6.6 5.5 2.7 13.6l7.8 6.1C12.4 13.1 17.8 9.5 24 9.5z"/>
@@ -347,9 +338,9 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </svg>
           Continue with Google
         </button>
-
+ 
         <div class="div">or sign up with email</div>
-
+ 
         <div class="field-row">
           <div>
             <label for="su-fn">First name</label>
@@ -368,7 +359,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
             <div class="ferr" id="su-lne">Required.</div>
           </div>
         </div>
-
+ 
         <div class="field">
           <label for="su-e">Email address</label>
           <div class="iw">
@@ -377,7 +368,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </div>
           <div class="ferr" id="su-ee">Please enter a valid email address.</div>
         </div>
-
+ 
         <div class="field">
           <label for="su-p">Password</label>
           <div class="iw">
@@ -393,19 +384,19 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           </div>
           <div class="ferr" id="su-pe">Password must be at least 8 characters.</div>
         </div>
-
+ 
         <div class="ck-row">
           <input type="checkbox" id="terms"/>
           <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
         </div>
         <div class="ferr" id="terms-e" style="margin-top:-8px;margin-bottom:12px">You must agree to continue.</div>
-
+ 
         <button class="sub-btn" id="su-btn" onclick="signUp()">
           <span class="bt">Create account</span><div class="sp"></div>
         </button>
         <div class="sw">Already have an account? <a href="#" onclick="go('in');return false">Sign in →</a></div>
       </div>
-
+ 
       <!-- SUCCESS -->
       <div class="suc" id="suc">
         <div class="suc-ring" id="suc-ring">✓</div>
@@ -413,11 +404,11 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
         <div class="suc-sub" id="suc-sub">You're all set.</div>
         <a href="index.html" class="go" id="suc-btn">Go to marker →</a>
       </div>
-
+ 
     </div>
   </div>
 </div>
-
+ 
 <!-- Forgot password modal -->
 <div class="modal" id="modal">
   <div class="mbox">
@@ -436,54 +427,33 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
     </button>
   </div>
 </div>
-
+ 
 <!-- Toast -->
 <div class="toast" id="toast">
   <span class="t-ic" id="t-ic"></span>
   <span id="t-msg"></span>
 </div>
-
+ 
 <script>
 const CFG = 'bgpt_cfg';
 const SES = 'bgpt_user';
 let sb = null;
 let mode = 'in';
-
+ 
 /* ── config ── */
-function loadCfg(){try{return JSON.parse(localStorage.getItem(CFG))}catch{return null}}
-function saveConfig(){
-  const url=document.getElementById('cfgUrl').value.trim();
-  const key=document.getElementById('cfgKey').value.trim();
-  if(!url.startsWith('https://')||!key.startsWith('eyJ')){toast('bad','Please enter a valid Supabase URL and key.');return}
-  localStorage.setItem(CFG,JSON.stringify({url,key}));
-  if(init({url,key})){
-    document.getElementById('setup').classList.remove('show');
-    toast('ok','Connected! You can now create and sign into real accounts.');
-  }
+function init(){
+  try{sb=window.supabase.createClient('https://vlrmnktixxhksixzvmkw.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscm1ua3RpeHhoa3NpeHp2bWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyODkyMjUsImV4cCI6MjA5NTg2NTIyNX0.0-bD_bFxEmHTQ49ta4aeL8n5WKbsBWVyD-3n5iVMB7A');return true}catch{return false}
 }
-function init(cfg){
-  if(!cfg)return false;
-  try{sb=window.supabase.createClient(cfg.url,cfg.key);return true}catch{return false}
-}
-
+ 
 /* ── boot ── */
 window.addEventListener('DOMContentLoaded',async()=>{
-  const cfg=loadCfg();
-  if(cfg){
-    document.getElementById('cfgUrl').value=cfg.url;
-    document.getElementById('cfgKey').value=cfg.key;
-    init(cfg);
-  } else {
-    document.getElementById('setup').classList.add('show');
-  }
+  init();
   if(location.search.includes('signup'))go('up');
-  if(sb){
-    const {data:{session}}=await sb.auth.getSession();
-    if(session)showLoggedIn(session.user);
-    sb.auth.onAuthStateChange((_,session)=>{if(session)showLoggedIn(session.user)});
-  }
+  const {data:{session}}=await sb.auth.getSession();
+  if(session)showLoggedIn(session.user);
+  sb.auth.onAuthStateChange((_,session)=>{if(session)showLoggedIn(session.user)});
 });
-
+ 
 /* ── helpers ── */
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 const vEmail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
@@ -499,7 +469,7 @@ function toast(type,msg){
   el.className='toast on '+type;
   clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),4500);
 }
-
+ 
 /* ── tabs ── */
 function go(m){
   mode=m;
@@ -511,7 +481,7 @@ function go(m){
   document.getElementById('t-su').classList.toggle('on',m==='up');
   clrErr();
 }
-
+ 
 /* ── password strength ── */
 function strength(v){
   const el=document.getElementById('pws');
@@ -523,7 +493,7 @@ function strength(v){
   for(let i=1;i<=4;i++){const b=document.getElementById('pb'+i);b.className='pw-bar'+(i<=s?' '+cls[s-1]:'');}
   const l=document.getElementById('pwl');l.textContent=labs[s-1]||'';l.style.color=cols[s-1]||'var(--t3)';
 }
-
+ 
 /* ── eye toggle ── */
 function eye(id,btn){
   const i=document.getElementById(id);i.type=i.type==='text'?'password':'text';
@@ -531,18 +501,18 @@ function eye(id,btn){
     ?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
     :`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
 }
-
+ 
 /* ── Google ── */
 async function googleAuth(){
-  if(!sb){toast('bad','Connect Supabase first using the setup panel.');return}
+  if(!sb){init();}
   const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href}});
   if(error)toast('bad',error.message);
 }
-
+ 
 /* ── Sign in ── */
 async function signIn(){
   clrErr();
-  if(!sb){toast('bad','Connect Supabase first.');return}
+  if(!sb){init();}
   const e=document.getElementById('si-e').value.trim();
   const p=document.getElementById('si-p').value;
   let ok=true;
@@ -560,11 +530,11 @@ async function signIn(){
   await delay(800);
   location.href='index.html';
 }
-
+ 
 /* ── Sign up ── */
 async function signUp(){
   clrErr();
-  if(!sb){toast('bad','Connect Supabase first.');return}
+  if(!sb){init();}
   const fn=document.getElementById('su-fn').value.trim();
   const ln=document.getElementById('su-ln').value.trim();
   const e=document.getElementById('su-e').value.trim();
@@ -600,7 +570,7 @@ async function signUp(){
   }
   document.getElementById('suc').classList.add('on');
 }
-
+ 
 /* ── Show logged-in ── */
 function showLoggedIn(user){
   const name=user.user_metadata?.full_name||user.email.split('@')[0];
@@ -617,7 +587,7 @@ function showLoggedIn(user){
   document.getElementById('suc').classList.add('on');
   localStorage.setItem(SES,JSON.stringify({name,email:user.email,avatar:av}));
 }
-
+ 
 async function signOut(){
   if(sb)await sb.auth.signOut();
   localStorage.removeItem(SES);
@@ -627,12 +597,12 @@ async function signOut(){
   go('in');
   toast('ok','Signed out.');
 }
-
+ 
 /* ── Forgot password ── */
 function openModal(e){e.preventDefault();document.getElementById('modal').classList.add('on')}
 function closeModal(){document.getElementById('modal').classList.remove('on')}
 async function resetPw(){
-  if(!sb){toast('bad','Connect Supabase first.');return}
+  if(!sb){init();}
   const e=document.getElementById('fp-e').value.trim();
   if(!vEmail(e)){toast('bad','Please enter a valid email address.');return}
   setLoad('fp-btn',true);
@@ -642,7 +612,7 @@ async function resetPw(){
   if(error)toast('bad',error.message);
   else toast('ok','Reset link sent — check your inbox!');
 }
-
+ 
 /* ── events ── */
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 document.addEventListener('keydown',e=>{
