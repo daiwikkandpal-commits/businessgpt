@@ -1010,52 +1010,65 @@ footer {
 
 <!-- FULL PAPER PAGE -->
 <div id="fullPaperPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding:40px 0 80px">
-  <div style="max-width:900px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:20px">
+  <div style="max-width:900px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:22px">
 
     <!-- Header -->
     <div>
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Full Paper Marking</div>
       <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:6px">Mark a full paper</div>
-      <p style="font-size:14px;color:var(--text2)">Paste all your answers for a complete Paper 1 or Paper 2 and get a full report with scores for every question.</p>
+      <p style="font-size:14px;color:var(--text2)">Upload your question paper and mark scheme as PDFs, type your answers, and get a complete report out of 80 marks.</p>
     </div>
 
-    <!-- Paper selector -->
+    <!-- Paper tabs -->
     <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
-      <button id="fpt1" onclick="setFP(1)" style="padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:var(--blue-500);color:#fff;cursor:pointer;box-shadow:0 2px 12px rgba(59,130,246,.3)">Paper 1</button>
-      <button id="fpt2" onclick="setFP(2)" style="padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer">Paper 2</button>
+      <button id="fpt1" onclick="setFP(1)" style="padding:8px 22px;border-radius:7px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:var(--blue-500);color:#fff;cursor:pointer;box-shadow:0 2px 12px rgba(59,130,246,.3)">Paper 1</button>
+      <button id="fpt2" onclick="setFP(2)" style="padding:8px 22px;border-radius:7px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer">Paper 2</button>
     </div>
 
     <div style="height:1px;background:var(--border)"></div>
 
-    <!-- Instructions -->
-    <div style="background:rgba(37,99,235,.07);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--text2);line-height:1.7">
-      <strong style="color:var(--text)">How to use:</strong> Paste your case study context at the top, then type each question number followed by your answer. Paste the mark scheme for each question too for the most accurate marking. The AI will mark each question individually and give you a full paper report.
+    <!-- Upload row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+      <!-- Question paper upload -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="font-size:13px;font-weight:500;color:var(--text2)">Question Paper <span style="color:var(--text3);font-weight:400">— upload PDF</span></label>
+        <div id="qp-drop" onclick="document.getElementById('qp-file').click()" style="border:1.5px dashed var(--border2);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)" onmouseover="this.style.borderColor='var(--blue-400)';this.style.background='rgba(59,130,246,.04)'" onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--bg2)'">
+          <div style="font-size:24px;margin-bottom:8px">📄</div>
+          <div style="font-size:13px;font-weight:500;color:var(--text2)" id="qp-label">Click to upload PDF</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:3px">or drag and drop</div>
+        </div>
+        <input type="file" id="qp-file" accept=".pdf" style="display:none" onchange="handlePDF(this,'qp')"/>
+        <div id="qp-status" style="font-size:12px;color:var(--text3)"></div>
+      </div>
+
+      <!-- Mark scheme upload -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="font-size:13px;font-weight:500;color:var(--text2)">Mark Scheme <span style="color:var(--text3);font-weight:400">— upload PDF</span></label>
+        <div id="ms-drop" onclick="document.getElementById('ms-file').click()" style="border:1.5px dashed var(--border2);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)" onmouseover="this.style.borderColor='var(--blue-400)';this.style.background='rgba(59,130,246,.04)'" onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--bg2)'">
+          <div style="font-size:24px;margin-bottom:8px">📋</div>
+          <div style="font-size:13px;font-weight:500;color:var(--text2)" id="ms-label">Click to upload PDF</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:3px">or drag and drop</div>
+        </div>
+        <input type="file" id="ms-file" accept=".pdf" style="display:none" onchange="handlePDF(this,'ms')"/>
+        <div id="ms-status" style="font-size:12px;color:var(--text3)"></div>
+      </div>
+
     </div>
 
-    <!-- Case study context -->
-    <div style="display:flex;flex-direction:column;gap:7px">
-      <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study / context <span style="color:var(--text3);font-weight:400">— paste the full scenario from the paper</span></label>
-      <textarea id="fp-context" rows="4" placeholder="e.g. BPT is a bicycle manufacturer operating in country A. It employs 200 workers and exports to 8 countries..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+    <!-- Answers -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label style="font-size:13px;font-weight:500;color:var(--text2)">Your answers <span style="color:var(--text3);font-weight:400">— type or paste all your answers. Label each one clearly e.g. "1(a) Revenue is..."</span></label>
+      <textarea id="fp-answers" rows="12" placeholder="1(a) Revenue is the income received from selling goods and services...&#10;&#10;1(b) Two reasons why the business might want to expand:&#10;First, the business could increase its revenue...&#10;&#10;2(a) ..." style="width:100%;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
 
-    <!-- Questions container -->
-    <div id="fp-questions" style="display:flex;flex-direction:column;gap:16px"></div>
-
-    <!-- Add question button -->
-    <button onclick="addFPQuestion()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;color:var(--text2);font-size:13px;font-weight:500;font-family:'Sora',sans-serif;cursor:pointer;width:fit-content;transition:all .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Add question
-    </button>
-
-    <div style="height:1px;background:var(--border)"></div>
-
-    <!-- Mark all button -->
+    <!-- Mark button -->
     <button id="fp-btn" onclick="markFullPaper()" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);transition:all .2s;width:fit-content">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
       Mark full paper
     </button>
 
-    <!-- Full paper results -->
+    <!-- Results -->
     <div id="fp-results"></div>
 
   </div>
@@ -2345,31 +2358,12 @@ function saveGeminiKey() {
 
 // ── Full Paper ───────────────────────────────────────
 let fpPaper = 1;
-let fpQCount = 0;
+let qpText = '';
+let msText = '';
 
-function showFullPaper() {
-  document.getElementById('fullPaperPage').style.display = 'block';
-  document.getElementById('dashPage').style.display = 'none';
-  document.getElementById('markerPage').style.display = 'none';
-  document.getElementById('pastPapersPage').style.display = 'none';
-  document.getElementById('notesPage').style.display = 'none';
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
-  document.querySelector('footer').style.display = 'none';
-  ['navMarker','navPapers','navNotes','navDash','navFullPaper'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
-  });
-  const fp = document.getElementById('navFullPaper');
-  if (fp) { fp.style.color = '#60a5fa'; fp.style.fontWeight = '600'; }
-  window.scrollTo(0,0);
-  document.title = 'Full Paper — BusinessGPT';
-  // Add initial 3 questions if empty
-  if (fpQCount === 0) {
-    addFPQuestion();
-    addFPQuestion();
-    addFPQuestion();
-  }
+// Set up PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
 }
 
 function setFP(p) {
@@ -2382,150 +2376,187 @@ function setFP(p) {
   document.getElementById('fpt2').style.boxShadow = p===2 ? '0 2px 12px rgba(59,130,246,.3)' : 'none';
 }
 
-function addFPQuestion() {
-  fpQCount++;
-  const n = fpQCount;
-  const container = document.getElementById('fp-questions');
-  const div = document.createElement('div');
-  div.id = 'fpq-' + n;
-  div.style.cssText = 'background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px';
-  div.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <div style="font-size:13px;font-weight:600;color:var(--text)">Question ${n}</div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:12px;color:var(--text3)">Marks:</span>
-          <input type="number" id="fpq-marks-${n}" value="4" min="1" max="20" style="width:60px;padding:5px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none"/>
-        </div>
-        <select id="fpq-type-${n}" style="padding:5px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none">
-          <option value="define">Define</option>
-          <option value="state">State</option>
-          <option value="calculate">Calculate</option>
-          <option value="explain" selected>Explain</option>
-          <option value="analyse">Analyse</option>
-          <option value="evaluate">Evaluate</option>
-        </select>
-        <button onclick="document.getElementById('fpq-${n}').remove()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1;padding:2px" title="Remove">×</button>
-      </div>
-    </div>
-    <input type="text" id="fpq-q-${n}" placeholder="Question text (e.g. Explain two reasons why...)" style="width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none"/>
-    <textarea id="fpq-ms-${n}" rows="2" placeholder="Mark scheme (optional)" style="width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;line-height:1.6;resize:vertical;outline:none"></textarea>
-    <textarea id="fpq-ans-${n}" rows="3" placeholder="Your answer..." style="width:100%;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none"></textarea>
-  `;
-  container.appendChild(div);
+async function extractPDFText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const typedArray = new Uint8Array(e.target.result);
+        const pdf = await pdfjsLib.getDocument(typedArray).promise;
+        let text = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          text += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        resolve(text);
+      } catch(err) {
+        reject(err);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+async function handlePDF(input, type) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const label = document.getElementById(type + '-label');
+  const status = document.getElementById(type + '-status');
+  const drop = document.getElementById(type + '-drop');
+
+  label.textContent = 'Extracting text...';
+  status.textContent = '';
+  drop.style.borderColor = 'var(--blue-400)';
+
+  try {
+    const text = await extractPDFText(file);
+    if (type === 'qp') qpText = text;
+    else msText = text;
+
+    label.textContent = '✓ ' + file.name;
+    label.style.color = '#4ade80';
+    drop.style.borderColor = 'rgba(74,222,128,.4)';
+    drop.style.background = 'rgba(74,222,128,.04)';
+    status.textContent = Math.round(text.length / 5) + ' words extracted';
+    status.style.color = '#4ade80';
+  } catch(e) {
+    label.textContent = '✗ Could not read PDF';
+    label.style.color = '#f87171';
+    status.textContent = 'Try copy-pasting the text manually instead';
+    status.style.color = '#f87171';
+  }
 }
 
 async function markFullPaper() {
-  const context = document.getElementById('fp-context').value.trim();
-  const btn = document.getElementById('fp-btn');
+  const answers = document.getElementById('fp-answers').value.trim();
 
-  // Collect all questions
-  const questions = [];
-  for (let i = 1; i <= fpQCount; i++) {
-    const qEl = document.getElementById('fpq-' + i);
-    if (!qEl) continue;
-    const q = document.getElementById('fpq-q-' + i)?.value.trim();
-    const ms = document.getElementById('fpq-ms-' + i)?.value.trim();
-    const ans = document.getElementById('fpq-ans-' + i)?.value.trim();
-    const marks = parseInt(document.getElementById('fpq-marks-' + i)?.value) || 4;
-    const type = document.getElementById('fpq-type-' + i)?.value || 'explain';
-    if (!q || !ans) continue;
-    questions.push({ n: i, q, ms, ans, marks, type });
+  if (!qpText && !msText && !answers) {
+    alert('Please upload at least a question paper PDF and type your answers.');
+    return;
   }
-
-  if (questions.length === 0) {
-    alert('Please fill in at least one question and answer.');
+  if (!answers) {
+    document.getElementById('fp-answers').style.borderColor = 'rgba(248,113,113,.5)';
+    document.getElementById('fp-answers').focus();
     return;
   }
 
+  const btn = document.getElementById('fp-btn');
   btn.disabled = true;
-  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking ${questions.length} question${questions.length>1?'s':''}…`;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking full paper…';
 
-  const resultsEl = document.getElementById('fp-results');
-  resultsEl.innerHTML = `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;color:var(--text2);font-size:14px">Marking all questions — please wait…</div>`;
+  document.getElementById('fp-results').innerHTML = `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
+      <div style="font-size:13px;color:var(--text2)">Reading your paper and marking all questions — this may take 15–30 seconds…</div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+        <div style="height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(59,130,246,.06),rgba(59,130,246,.2),rgba(59,130,246,.06));background-size:200% 100%;animation:shimmer 1.5s infinite"></div>
+        <div style="height:8px;border-radius:4px;width:75%;background:linear-gradient(90deg,rgba(59,130,246,.06),rgba(59,130,246,.2),rgba(59,130,246,.06));background-size:200% 100%;animation:shimmer 1.5s infinite"></div>
+      </div>
+    </div>`;
 
-  // Mark each question via API
-  const results = [];
-  for (const q of questions) {
-    const prompt = `You are a Cambridge IGCSE Business Studies examiner marking Paper ${fpPaper}.
-Question ${q.n} (${q.marks} marks, type: ${q.type}): ${q.q}
-${context ? 'Business context: ' + context : ''}
-${q.ms ? 'Mark scheme: ' + q.ms : ''}
-Student answer: ${q.ans}
-Respond ONLY with valid JSON:
-{"score":integer,"summary":"one sentence","level":"e.g. Full marks/Level 2","strengths":["strength"],"improvements":["improvement"],"missed":["missed point"]}`;
+  const prompt = `You are an experienced Cambridge IGCSE Business Studies examiner. Mark this complete Paper ${fpPaper} submission.
 
-    try {
-      const res = await fetch('/.netlify/functions/mark', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      const text = data.text || '';
-      const r = JSON.parse(text.replace(/```json|```/g,'').trim());
-      results.push({ ...q, result: r });
-      saveMarking(fpPaper, q.q.slice(0,80), r.score, q.marks, r.summary);
-    } catch(e) {
-      results.push({ ...q, result: { score: 0, summary: 'Marking failed', level: 'Error', strengths: [], improvements: [], missed: [] } });
+${qpText ? 'QUESTION PAPER:\n' + qpText.slice(0, 8000) : ''}
+
+${msText ? 'MARK SCHEME:\n' + msText.slice(0, 6000) : ''}
+
+STUDENT ANSWERS:\n${answers}
+
+Instructions:
+- Identify each question from the student's answers (they should be labelled e.g. 1a, 1b, 2a etc)
+- Mark each question strictly against the Cambridge mark scheme (or use Cambridge IGCSE Business Studies 0450 marking principles if no mark scheme provided)
+- The total paper is out of 80 marks
+- For each question give a score, brief feedback and missed points
+
+Respond ONLY with valid JSON, no markdown:
+{
+  "total_score": integer,
+  "total_max": 80,
+  "grade": "A*/A/B/C/D/U",
+  "overall_comment": "one sentence overall assessment",
+  "questions": [
+    {
+      "label": "1(a)",
+      "question": "brief question description",
+      "score": integer,
+      "max": integer,
+      "feedback": "specific feedback",
+      "missed": "key point missed or empty string"
     }
+  ]
+}`;
+
+  try {
+    const res = await fetch('/.netlify/functions/mark', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    const text = data.text || '';
+    const r = JSON.parse(text.replace(/```json|```/g,'').trim());
+    showFPResults(r);
+    // Save to dashboard
+    saveMarking(fpPaper, 'Full Paper ' + new Date().toLocaleDateString(), r.total_score, r.total_max, r.overall_comment);
+  } catch(e) {
+    document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — please try again. Make sure your answers are clearly labelled (e.g. 1a, 1b, 2a).</div>`;
   }
 
-  // Show full report
-  const totalScore = results.reduce((s, r) => s + (r.result.score || 0), 0);
-  const totalMax = results.reduce((s, r) => s + r.marks, 0);
-  const totalPct = Math.round((totalScore / totalMax) * 100);
-  const grade = totalPct>=90?'A*':totalPct>=80?'A':totalPct>=70?'B':totalPct>=60?'C':totalPct>=50?'D':'U';
-  const sc = totalPct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:totalPct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg> Mark again';
+}
 
-  const rows = (arr, col) => (arr||[]).map(s=>`<div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2);line-height:1.55;padding:2px 0"><div style="width:6px;height:6px;border-radius:50%;background:${col};flex-shrink:0;margin-top:5px"></div><span>${s}</span></div>`).join('');
+function showFPResults(r) {
+  const pct = Math.round((r.total_score / r.total_max) * 100);
+  const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
 
-  resultsEl.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:16px;animation:fadeUp .3s ease">
+  document.getElementById('fp-results').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
 
-      <!-- Total score card -->
+      <!-- Total -->
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
         <div style="width:72px;height:72px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:22px;font-weight:700">${totalScore}</span>
-          <span style="font-size:11px;opacity:.7">/ ${totalMax}</span>
+          <span style="font-size:22px;font-weight:700">${r.total_score}</span>
+          <span style="font-size:11px;opacity:.7">/ ${r.total_max}</span>
         </div>
         <div style="flex:1">
           <div style="font-size:20px;font-weight:700;color:var(--text)">Paper ${fpPaper} — Full Report</div>
-          <div style="font-size:14px;color:var(--text2);margin-top:3px">${totalPct}% overall · ${results.length} questions marked</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">${r.overall_comment}</div>
         </div>
-        <span style="padding:8px 20px;border-radius:10px;font-size:22px;font-weight:700;background:${sc.bg};color:${sc.c}">${grade}</span>
+        <div style="text-align:center">
+          <div style="padding:8px 20px;border-radius:10px;font-size:26px;font-weight:700;background:${sc.bg};color:${sc.c}">${r.grade}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">${pct}%</div>
+        </div>
       </div>
 
-      <!-- Individual question results -->
-      ${results.map(r => {
-        const pct = Math.round((r.result.score / r.marks) * 100);
-        const qsc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.1)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.1)'}:{c:'#f87171',bg:'rgba(248,113,113,.1)'};
-        return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden">
-          <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">
-            <div style="width:48px;height:48px;border-radius:50%;background:${qsc.bg};color:${qsc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-              <span style="font-size:16px;font-weight:700">${r.result.score}</span>
-              <span style="font-size:10px;opacity:.7">/${r.marks}</span>
-            </div>
-            <div style="flex:1">
-              <div style="font-size:13px;font-weight:600;color:var(--text)">Q${r.n}: ${r.q.slice(0,60)}${r.q.length>60?'…':''}</div>
-              <div style="font-size:12px;color:var(--text2);margin-top:2px">${r.result.summary||''} · ${r.result.level||''}</div>
-            </div>
-          </div>
-          <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px">
-            ${r.result.strengths?.length?`<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:5px">Strengths</div>${rows(r.result.strengths,'#4ade80')}</div>`:''}
-            ${r.result.improvements?.length?`<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:5px">Improvements</div>${rows(r.result.improvements,'#fbbf24')}</div>`:''}
-            ${r.result.missed?.length?`<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:5px">Missed mark points</div>${rows(r.result.missed,'#f87171')}</div>`:''}
-          </div>
-        </div>`;
-      }).join('')}
+      <!-- Question breakdown -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600;color:var(--text)">Question breakdown</div>
+        <table style="width:100%;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Question</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Score</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Feedback</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Missed</th>
+          </tr>
+          ${(r.questions||[]).map(q => {
+            const qpct = Math.round((q.score/q.max)*100);
+            const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
+            return `<tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:12px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
+              <td style="padding:12px 20px;font-size:13px;font-weight:700;color:${qc}">${q.score}/${q.max}</td>
+              <td style="padding:12px 20px;font-size:13px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
+              <td style="padding:12px 20px;font-size:13px;color:#f87171;max-width:200px">${q.missed||'—'}</td>
+            </tr>`;
+          }).join('')}
+        </table>
+      </div>
 
     </div>`;
-
-  btn.disabled = false;
-  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg> Mark again`;
 }
 
-// ── Supabase for progress tracking ─────────────────
+// ── Supabase for progress tracking ───────────────── ─────────────────
 const SUPA_URL = 'https://vlrmnktixxhksixzvmkw.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscm1ua3RpeHhoa3NpeHp2bWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyODkyMjUsImV4cCI6MjA5NTg2NTIyNX0.0-bD_bFxEmHTQ49ta4aeL8n5WKbsBWVyD-3n5iVMB7A';
 let _supabase = null;
