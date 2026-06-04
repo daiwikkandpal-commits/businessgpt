@@ -559,39 +559,8 @@ footer {
   .features-grid { grid-template-columns: 1fr; }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script>
-// ── Auth gate ─────────────────────────────────────────
-const SUPA_URL = 'https://vlrmnktixxhksixzvmkw.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscm1ua3RpeHhoa3NpeHp2bWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyODkyMjUsImV4cCI6MjA5NTg2NTIyNX0.0-bD_bFxEmHTQ49ta4aeL8n5WKbsBWVyD-3n5iVMB7A';
-const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
  
-(async function() {
-  const { data: { session } } = await _sb.auth.getSession();
-  if (!session) {
-    window.location.href = 'auth.html';
-    return;
-  }
-  // Show user in nav
-  const user = session.user;
-  const name = user.user_metadata?.full_name || user.email.split('@')[0];
-  const avatar = name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
-  localStorage.setItem('bgpt_user', JSON.stringify({ name, email: user.email, avatar }));
-  // Update nav
-  document.addEventListener('DOMContentLoaded', () => {
-    const navCta = document.getElementById('navCta');
-    const navUser = document.getElementById('navUser');
-    if (navCta) navCta.style.display = 'none';
-    if (navUser) {
-      navUser.style.display = 'flex';
-      const el = document.getElementById('navAvatar');
-      const nm = document.getElementById('navName');
-      if (el) el.textContent = avatar;
-      if (nm) nm.textContent = name;
-    }
-  });
-})();
-</script>
+ 
 </head>
 <body>
 <div class="bg-glow" aria-hidden="true"></div>
@@ -643,25 +612,7 @@ const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
     </div>
   </div>
 </nav>
-<script>
-(function(){
-  try {
-    const s = JSON.parse(localStorage.getItem('bgpt_user'));
-    if (s && s.name) {
-      document.getElementById('navCta').style.display = 'none';
-      const nu = document.getElementById('navUser');
-      nu.style.display = 'flex';
-      document.getElementById('navAvatar').textContent = s.avatar || s.name.charAt(0);
-      document.getElementById('navName').textContent = s.name;
-    }
-  } catch(e){}
-})();
-async function doNavSignOut(){
-  await _sb.auth.signOut();
-  localStorage.removeItem('bgpt_user');
-  window.location.href = 'auth.html';
-}
-</script>
+ 
  
 <!-- HERO -->
 <section class="hero" id="home">
@@ -834,32 +785,32 @@ async function doNavSignOut(){
     <div class="section-title">All 6 Cambridge units</div>
     <p class="section-sub">Every question is mapped to the Cambridge 0450 syllabus. Practice exactly what will be tested.</p>
     <div class="topics-grid">
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(1);return false" class="topic-card">
         <div class="topic-num">Unit 1</div>
         <div class="topic-name">Business Activity</div>
         <div class="topic-sub">Needs, wants, scarcity, opportunity cost</div>
       </a>
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(2);return false" class="topic-card">
         <div class="topic-num">Unit 2</div>
         <div class="topic-name">People in Business</div>
         <div class="topic-sub">Motivation, recruitment, leadership</div>
       </a>
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(3);return false" class="topic-card">
         <div class="topic-num">Unit 3</div>
         <div class="topic-name">Marketing</div>
         <div class="topic-sub">Market research, marketing mix</div>
       </a>
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(4);return false" class="topic-card">
         <div class="topic-num">Unit 4</div>
         <div class="topic-name">Operations Management</div>
         <div class="topic-sub">Production, quality, location</div>
       </a>
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(5);return false" class="topic-card">
         <div class="topic-num">Unit 5</div>
         <div class="topic-name">Financial Information</div>
         <div class="topic-sub">Accounts, cash flow, costing</div>
       </a>
-      <a href="#" onclick="showMarker();return false" class="topic-card">
+      <a href="#" onclick="showNotes();showUnit(6);return false" class="topic-card">
         <div class="topic-num">Unit 6</div>
         <div class="topic-name">External Influences</div>
         <div class="topic-sub">Stakeholders, ethics, economy</div>
@@ -1589,207 +1540,347 @@ const NOTES = {
   1: {
     title: 'Unit 1 — Business Activity',
     sections: [
-      { heading: 'The Purpose of Business Activity', content: `
-        <p>A <strong>business</strong> produces goods or services to satisfy the needs and wants of consumers. Businesses exist because of scarcity — resources are limited but human wants are unlimited.</p>
-        <ul>
-          <li><strong>Needs</strong> — essential items for survival (food, water, shelter)</li>
-          <li><strong>Wants</strong> — desires beyond basic needs (luxury goods, entertainment)</li>
-          <li><strong>Opportunity cost</strong> — the next best alternative given up when making a choice</li>
-          <li><strong>Factors of production</strong> — Land, Labour, Capital, Enterprise</li>
-        </ul>
+      { heading: 'The Basic Economic Problem', content: `
+        <p>Resources are <strong>scarce</strong> but human wants are <strong>unlimited</strong>. This forces individuals, businesses and governments to make choices.</p>
+        <p><strong>Opportunity cost</strong> — the value of the next best alternative given up when a choice is made.</p>
+        <p><em>Example: A business uses $500,000 to build a new factory. The opportunity cost is the new marketing campaign that money could have funded.</em></p>
+        <p><strong>Factors of production:</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:10px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Factor</th><th style="padding:8px;text-align:left;color:var(--text2)">What it is</th><th style="padding:8px;text-align:left;color:var(--text2)">Reward</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Land</td><td style="padding:8px">Natural resources (oil, farmland, water)</td><td style="padding:8px">Rent</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Labour</td><td style="padding:8px">Human effort — workers and managers</td><td style="padding:8px">Wages/salary</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Capital</td><td style="padding:8px">Man-made resources used in production (machinery, tools)</td><td style="padding:8px">Interest</td></tr>
+          <tr><td style="padding:8px">Enterprise</td><td style="padding:8px">Skill of combining factors, taking risk, organising production</td><td style="padding:8px">Profit</td></tr>
+        </table>
       `},
-      { heading: 'Types of Business', content: `
-        <ul>
-          <li><strong>Primary sector</strong> — extracts natural resources (farming, mining, fishing)</li>
-          <li><strong>Secondary sector</strong> — manufactures and constructs (factories, construction)</li>
-          <li><strong>Tertiary sector</strong> — provides services (retail, banking, education)</li>
-          <li><strong>Quaternary sector</strong> — knowledge-based services (IT, research)</li>
-        </ul>
-        <p>Most economies are seeing a shift from primary/secondary to tertiary as they develop.</p>
+      { heading: 'Business Sectors', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:10px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Sector</th><th style="padding:8px;text-align:left;color:var(--text2)">Activity</th><th style="padding:8px;text-align:left;color:var(--text2)">Examples</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Primary</td><td style="padding:8px">Extracts natural resources</td><td style="padding:8px">Farming, fishing, mining, oil drilling</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Secondary</td><td style="padding:8px">Manufactures/constructs goods</td><td style="padding:8px">Car factories, food processing, construction</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Tertiary</td><td style="padding:8px">Provides services</td><td style="padding:8px">Retail, banking, tourism, education, healthcare</td></tr>
+          <tr><td style="padding:8px">Quaternary</td><td style="padding:8px">Knowledge and information services</td><td style="padding:8px">IT, research, consultancy, data analytics</td></tr>
+        </table>
+        <p><strong>De-industrialisation</strong> — shift away from manufacturing towards services as economies develop. Countries like the UK have seen major decline in secondary sector and growth in tertiary.</p>
+        <p><strong>Private sector</strong> — owned by individuals/shareholders, profit-driven. <strong>Public sector</strong> — owned and run by government, aims to provide essential services.</p>
       `},
       { heading: 'Business Objectives', content: `
-        <p>Objectives give a business direction and purpose. Common objectives:</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:10px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Objective</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:var(--text2)">Typical situation</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Survival</td><td style="padding:8px">Stay in business, cover costs</td><td style="padding:8px">New business, recession, tough competition</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Profit maximisation</td><td style="padding:8px">Earn as much profit as possible</td><td style="padding:8px">Established private companies, PLCs</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Growth</td><td style="padding:8px">Increase size, sales, market share</td><td style="padding:8px">Ambitious businesses seeking dominance</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Market share</td><td style="padding:8px">Increase % of total market sales</td><td style="padding:8px">Competitive markets like supermarkets</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Social/ethical goals</td><td style="padding:8px">Benefit community, environment</td><td style="padding:8px">Charities, social enterprises, co-ops</td></tr>
+          <tr><td style="padding:8px">Customer satisfaction</td><td style="padding:8px">Build loyalty and reputation</td><td style="padding:8px">Service industries, competitive markets</td></tr>
+        </table>
+        <p><strong>Objective conflicts:</strong></p>
         <ul>
-          <li><strong>Profit maximisation</strong> — most common for private sector businesses</li>
-          <li><strong>Growth</strong> — increase market share, expand into new markets</li>
-          <li><strong>Survival</strong> — especially important for new businesses</li>
-          <li><strong>Market share</strong> — percentage of total market sales held by a business</li>
-          <li><strong>Social/ethical objectives</strong> — common in public sector and charities</li>
+          <li>Profit vs growth — investing in growth reduces short-term profit</li>
+          <li>Profit vs social responsibility — ethical sourcing increases costs</li>
+          <li>Shareholders vs employees — dividends vs wage increases</li>
         </ul>
       `},
-      { heading: 'Business Ownership', content: `
-        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
-          <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:8px;color:var(--text2)">Type</th><th style="text-align:left;padding:8px;color:var(--text2)">Liability</th><th style="text-align:left;padding:8px;color:var(--text2)">Ownership</th></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Sole trader</td><td style="padding:8px">Unlimited</td><td style="padding:8px">1 person</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Partnership</td><td style="padding:8px">Unlimited</td><td style="padding:8px">2–20 people</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Private Ltd (Ltd)</td><td style="padding:8px">Limited</td><td style="padding:8px">Private shareholders</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Public Ltd (PLC)</td><td style="padding:8px">Limited</td><td style="padding:8px">Public shareholders</td></tr>
-          <tr><td style="padding:8px">Franchise</td><td style="padding:8px">Varies</td><td style="padding:8px">Franchisee</td></tr>
+      { heading: 'Types of Business Ownership', content: `
+        <p><strong>Sole Trader</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Easy and cheap to set up</td><td style="padding:7px 8px">Unlimited liability — personal assets at risk</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Keep all profits</td><td style="padding:7px 8px">Limited capital — hard to raise finance</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Full control over decisions</td><td style="padding:7px 8px">No continuity — business ends if owner dies</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Flexible and quick decisions</td><td style="padding:7px 8px">No one to share workload or expertise</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Privacy — no public accounts needed</td><td style="padding:7px 8px">Difficult to compete with larger businesses</td></tr>
         </table>
-        <p style="margin-top:12px"><strong>Limited liability</strong> — shareholders only lose what they invested. <strong>Unlimited liability</strong> — owners are personally responsible for all debts.</p>
+        <p><strong>Partnership</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Shared workload and responsibilities</td><td style="padding:7px 8px">Unlimited liability for all partners</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Complementary skills between partners</td><td style="padding:7px 8px">Profits shared — may cause disagreements</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">More capital available than sole trader</td><td style="padding:7px 8px">Partners may disagree on decisions</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Still relatively easy to set up</td><td style="padding:7px 8px">Actions of one partner bind all others</td></tr>
+        </table>
+        <p><strong>Private Limited Company (Ltd)</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Limited liability — personal assets protected</td><td style="padding:7px 8px">More expensive to set up than sole trader</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Can raise capital by selling shares privately</td><td style="padding:7px 8px">Must publish annual accounts (less privacy)</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Separate legal identity from owners</td><td style="padding:7px 8px">Cannot sell shares to the general public</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Continuity — exists beyond owners' lives</td><td style="padding:7px 8px">Profit shared among more shareholders</td></tr>
+        </table>
+        <p><strong>Public Limited Company (PLC)</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Can raise huge amounts of capital on stock exchange</td><td style="padding:7px 8px">Risk of hostile takeover if shares bought</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Limited liability for all shareholders</td><td style="padding:7px 8px">Very expensive to float on stock exchange</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Greater public profile and status</td><td style="padding:7px 8px">Subject to intense public and media scrutiny</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Shares are easily transferable</td><td style="padding:7px 8px">Short-term shareholder pressure may conflict with long-term planning</td></tr>
+        </table>
+        <p><strong>Franchise</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:var(--text2)" colspan="2">For the Franchisee (buyer)</th></tr>
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Established brand — lower risk of failure</td><td style="padding:7px 8px">Must pay royalties and franchise fees</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Training and support from franchisor</td><td style="padding:7px 8px">Limited independence — must follow rules</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Proven business model</td><td style="padding:7px 8px">Reputation damaged if other franchisees fail</td></tr>
+        </table>
+        <p><strong>Limited vs Unlimited liability:</strong> Limited = shareholders only lose what they invested. Unlimited = owner's personal assets (house, savings) can be seized to pay business debts.</p>
       `},
       { heading: 'Business Growth', content: `
-        <p>Businesses grow through:</p>
+        <p><strong>Internal (organic) growth</strong> — using own resources: reinvesting profits, increasing sales, developing new products.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Less risky than external growth</td><td style="padding:7px 8px">Slower process</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Management retains full control</td><td style="padding:7px 8px">Limited by internal resources available</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">No integration problems</td><td style="padding:7px 8px">May miss market opportunities</td></tr>
+        </table>
+        <p><strong>External growth — Mergers and Takeovers</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Much faster growth</td><td style="padding:7px 8px">Cultural clashes between businesses</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Eliminates a competitor</td><td style="padding:7px 8px">Expensive — must pay premium for shares</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Access to new markets and products</td><td style="padding:7px 8px">Redundancies and low morale</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Achieves economies of scale quickly</td><td style="padding:7px 8px">Diseconomies of scale if too large</td></tr>
+        </table>
+        <p><strong>Types of integration:</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Type</th><th style="padding:8px;text-align:left;color:var(--text2)">Example</th><th style="padding:8px;text-align:left;color:var(--text2)">Benefit</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Horizontal</td><td style="padding:8px">Two supermarkets merge</td><td style="padding:8px">Increased market share, less competition</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Forward vertical</td><td style="padding:8px">Manufacturer buys retailer</td><td style="padding:8px">Controls distribution, higher margins</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Backward vertical</td><td style="padding:8px">Manufacturer buys supplier</td><td style="padding:8px">Secures supply, reduces costs</td></tr>
+          <tr><td style="padding:8px">Conglomerate</td><td style="padding:8px">Food company buys tech firm</td><td style="padding:8px">Diversifies risk</td></tr>
+        </table>
+        <p><strong>Economies of scale</strong> — as output increases, average costs fall:</p>
         <ul>
-          <li><strong>Internal (organic) growth</strong> — reinvesting profits, increasing sales</li>
-          <li><strong>External growth</strong> — mergers, takeovers, franchising</li>
-          <li><strong>Merger</strong> — two businesses agree to join together</li>
-          <li><strong>Takeover</strong> — one business buys a controlling stake in another</li>
+          <li><strong>Purchasing economies</strong> — bulk buying at lower prices per unit</li>
+          <li><strong>Technical economies</strong> — larger, more efficient specialist machinery</li>
+          <li><strong>Financial economies</strong> — larger firms get lower interest rates on loans</li>
+          <li><strong>Managerial economies</strong> — can afford specialist managers</li>
+          <li><strong>Marketing economies</strong> — advertising cost spread over more units</li>
         </ul>
-        <p><strong>Economies of scale</strong> — cost advantages gained by producing on a larger scale (bulk buying, specialisation, financial economies).</p>
+        <p><strong>Diseconomies of scale</strong> — when a business grows too large: poor communication across many layers, harder to manage and coordinate, low worker morale, slower decision-making.</p>
       `},
     ]
   },
   2: {
     title: 'Unit 2 — People in Business',
     sections: [
-      { heading: 'Motivation', content: `
-        <p>Motivated workers are more productive and have lower absenteeism and labour turnover.</p>
-        <p><strong>Taylor's Scientific Management</strong> — workers are motivated by money. Pay workers per unit produced (piece rate).</p>
-        <p><strong>Maslow's Hierarchy of Needs</strong>:</p>
-        <ol>
-          <li>Physiological — basic pay, warmth, food</li>
-          <li>Safety — job security, safe workplace</li>
-          <li>Social — teamwork, friendships at work</li>
-          <li>Esteem — recognition, promotion, status</li>
-          <li>Self-actualisation — reaching full potential</li>
-        </ol>
-        <p><strong>Herzberg's Two-Factor Theory</strong>:</p>
-        <ul>
-          <li><strong>Hygiene factors</strong> — prevent dissatisfaction (pay, conditions) but don't motivate</li>
-          <li><strong>Motivators</strong> — actually motivate (achievement, responsibility, recognition)</li>
-        </ul>
+      { heading: 'Why Motivation Matters', content: `
+        <p><strong>Motivated workers</strong> lead to: higher productivity, better quality output, lower absenteeism, lower labour turnover, greater innovation and creativity.</p>
+        <p><strong>Unmotivated workers</strong> lead to: poor quality, high absence, high turnover (expensive to recruit and train replacements), industrial disputes.</p>
       `},
-      { heading: 'Financial Motivators', content: `
-        <ul>
-          <li><strong>Wages</strong> — paid per hour worked</li>
-          <li><strong>Salary</strong> — fixed annual amount, paid monthly</li>
-          <li><strong>Piece rate</strong> — paid per unit produced</li>
-          <li><strong>Commission</strong> — percentage of sales made</li>
-          <li><strong>Bonus</strong> — extra payment for good performance</li>
-          <li><strong>Profit sharing</strong> — employees receive a share of profits</li>
-        </ul>
+      { heading: 'Taylor — Scientific Management', content: `
+        <p>F.W. Taylor believed workers are motivated <strong>only by money</strong>. He advocated breaking jobs into small, simple, repetitive tasks and paying workers per unit produced (piece rate).</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Increases efficiency and productivity</td><td style="padding:7px 8px">Treats workers like machines — dehumanising</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Clear, measurable output targets</td><td style="padding:7px 8px">Repetitive tasks cause boredom and demotivation</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Good for simple, repetitive factory work</td><td style="padding:7px 8px">Ignores social and psychological needs</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Workers know exactly what is expected</td><td style="padding:7px 8px">Quality may suffer as workers rush for pay</td></tr>
+        </table>
       `},
-      { heading: 'Non-Financial Motivators', content: `
-        <ul>
-          <li><strong>Job rotation</strong> — moving between different tasks</li>
-          <li><strong>Job enlargement</strong> — adding more tasks at the same level</li>
-          <li><strong>Job enrichment</strong> — giving more responsibility and challenge</li>
-          <li><strong>Autonomy</strong> — freedom to make decisions</li>
-          <li><strong>Team working</strong> — working collaboratively</li>
-          <li><strong>Flexible working</strong> — part-time, remote, flexi-hours</li>
-        </ul>
+      { heading: 'Maslow — Hierarchy of Needs', content: `
+        <p>Maslow believed workers have five levels of needs that must be satisfied in order, from bottom to top:</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Level</th><th style="padding:8px;text-align:left;color:var(--text2)">Need</th><th style="padding:8px;text-align:left;color:var(--text2)">How to satisfy at work</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">5 (highest)</td><td style="padding:8px">Self-actualisation</td><td style="padding:8px">Creative work, reaching full potential, autonomy</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">4</td><td style="padding:8px">Esteem</td><td style="padding:8px">Recognition, promotion, job title, responsibility</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">3</td><td style="padding:8px">Social</td><td style="padding:8px">Teamwork, friendships, social events</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">2</td><td style="padding:8px">Safety</td><td style="padding:8px">Job security, safe conditions, pension</td></tr>
+          <tr><td style="padding:8px">1 (lowest)</td><td style="padding:8px">Physiological</td><td style="padding:8px">Adequate pay, breaks, warmth</td></tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Recognises workers have varied needs</td><td style="padding:7px 8px">Hard to know which level a worker is at</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Helps managers understand what motivates</td><td style="padding:7px 8px">Not all workers follow the same hierarchy</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Explains why pay alone is not enough</td><td style="padding:7px 8px">Difficult and expensive to satisfy all levels</td></tr>
+        </table>
+      `},
+      { heading: 'Herzberg — Two-Factor Theory', content: `
+        <p>Herzberg divided work factors into two categories:</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Hygiene Factors (prevent dissatisfaction)</th><th style="padding:8px;text-align:left;color:var(--text2)">Motivators (actually motivate)</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Pay and salary</td><td style="padding:8px">Achievement and recognition</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Working conditions</td><td style="padding:8px">Interesting and challenging work</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Job security</td><td style="padding:8px">Responsibility and autonomy</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Company policy and rules</td><td style="padding:8px">Advancement and promotion</td></tr>
+          <tr><td style="padding:8px">Quality of supervision</td><td style="padding:8px">Personal growth</td></tr>
+        </table>
+        <p><strong>Key point:</strong> Improving hygiene factors removes dissatisfaction but does NOT motivate. To truly motivate, managers must provide motivators.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Explains why pay rises don't always motivate</td><td style="padding:7px 8px">Difficult to implement in all jobs</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Highlights importance of job design</td><td style="padding:7px 8px">Not all workers want more responsibility</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Encourages enrichment and empowerment</td><td style="padding:7px 8px">Motivators may increase costs</td></tr>
+        </table>
+      `},
+      { heading: 'Financial Methods of Motivation', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Method</th><th style="padding:8px;text-align:left;color:var(--text2)">How it works</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Pro</th><th style="padding:8px;text-align:left;color:#f87171">❌ Con</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Wages (time rate)</td><td style="padding:8px">Paid per hour</td><td style="padding:8px">Simple and fair</td><td style="padding:8px">No incentive to work harder</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Salary</td><td style="padding:8px">Fixed annual pay</td><td style="padding:8px">Predictable income, easy to budget</td><td style="padding:8px">No reward for extra effort</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Piece rate</td><td style="padding:8px">Paid per unit produced</td><td style="padding:8px">Directly rewards productivity</td><td style="padding:8px">May reduce quality, stressful</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Commission</td><td style="padding:8px">% of sales value</td><td style="padding:8px">Motivates sales staff strongly</td><td style="padding:8px">Unpredictable income, may oversell</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Bonus</td><td style="padding:8px">Extra payment for targets met</td><td style="padding:8px">Rewards good performance</td><td style="padding:8px">Can cause resentment if unfair</td></tr>
+          <tr><td style="padding:8px">Profit sharing</td><td style="padding:8px">Share of company profit</td><td style="padding:8px">Aligns worker and company goals</td><td style="padding:8px">Workers can't always control profit</td></tr>
+        </table>
+      `},
+      { heading: 'Non-Financial Methods of Motivation', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Method</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Pro</th><th style="padding:8px;text-align:left;color:#f87171">❌ Con</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Job rotation</td><td style="padding:8px">Moving between different tasks</td><td style="padding:8px">Reduces boredom, builds skills</td><td style="padding:8px">Productivity falls while learning</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Job enlargement</td><td style="padding:8px">More tasks at same level</td><td style="padding:8px">More variety, less repetitive</td><td style="padding:8px">More work without more pay</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Job enrichment</td><td style="padding:8px">More responsibility and challenge</td><td style="padding:8px">Addresses esteem and self-actualisation</td><td style="padding:8px">Not all workers want responsibility</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Autonomy</td><td style="padding:8px">Freedom to decide how to work</td><td style="padding:8px">Increases ownership and satisfaction</td><td style="padding:8px">Can lead to inconsistency</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Team working</td><td style="padding:8px">Working collaboratively in groups</td><td style="padding:8px">Satisfies social needs, better ideas</td><td style="padding:8px">Conflict possible, free-riders</td></tr>
+          <tr><td style="padding:8px">Flexible working</td><td style="padding:8px">Flexitime, remote work, part-time</td><td style="padding:8px">Better work-life balance, less absence</td><td style="padding:8px">Harder to manage and coordinate</td></tr>
+        </table>
       `},
       { heading: 'Recruitment and Selection', content: `
-        <p><strong>Internal recruitment</strong> — filling vacancies from existing staff. Cheaper, faster but limits new ideas.</p>
-        <p><strong>External recruitment</strong> — hiring from outside. More candidates but more expensive.</p>
-        <p>Recruitment process: job analysis → job description → person specification → advertise → shortlist → interview → select → appoint.</p>
-        <p><strong>Job description</strong> — outlines the role, responsibilities and conditions.</p>
-        <p><strong>Person specification</strong> — outlines the skills, qualities and qualifications needed.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 16px">
+          <tr><th style="padding:7px 8px;text-align:left;color:var(--text2)"></th><th style="padding:7px 8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:7px 8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px;font-weight:600">Internal</td><td style="padding:7px 8px">Cheaper, faster, candidate knows business, motivates others</td><td style="padding:7px 8px">No fresh ideas, creates another vacancy, may cause resentment</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px;font-weight:600">External</td><td style="padding:7px 8px">New skills and ideas, wider choice of candidates</td><td style="padding:7px 8px">More expensive, slower, higher risk of wrong appointment</td></tr>
+        </table>
+        <p><strong>Recruitment process:</strong> identify vacancy → job description → person specification → advertise → shortlist → interview/test → select → offer contract</p>
+        <p><strong>Job description</strong> — job title, duties, responsibilities, pay, hours, location.</p>
+        <p><strong>Person specification</strong> — essential and desirable qualifications, experience, skills and personal qualities required.</p>
       `},
       { heading: 'Training', content: `
-        <ul>
-          <li><strong>Induction training</strong> — introduction for new employees (health & safety, company culture)</li>
-          <li><strong>On-the-job training</strong> — learning while working (cheaper, relevant but disrupts work)</li>
-          <li><strong>Off-the-job training</strong> — external courses (higher quality but expensive and time away)</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Type</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Induction</td><td style="padding:8px">Introduction for new starters</td><td style="padding:8px">Reduces early mistakes, builds confidence</td><td style="padding:8px">Takes time, new starter not yet productive</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">On-the-job</td><td style="padding:8px">Learning while working (mentoring, shadowing)</td><td style="padding:8px">Cheap, job-specific, no time away from work</td><td style="padding:8px">May pass on bad habits, disrupts trainer</td></tr>
+          <tr><td style="padding:8px">Off-the-job</td><td style="padding:8px">External courses and college</td><td style="padding:8px">Expert teachers, broad skills, recognised qualifications</td><td style="padding:8px">Expensive, time away from work, may not be job-specific</td></tr>
+        </table>
+        <p><strong>Benefits of training to the business:</strong> higher productivity, fewer errors, better quality, less supervision needed, reduced labour turnover.</p>
+        <p><strong>Benefits to the employee:</strong> higher pay, promotion prospects, job satisfaction, transferable skills.</p>
       `},
       { heading: 'Organisational Structure', content: `
-        <ul>
-          <li><strong>Hierarchy</strong> — levels of authority in a business</li>
-          <li><strong>Span of control</strong> — number of subordinates a manager directly supervises</li>
-          <li><strong>Chain of command</strong> — path of authority from top to bottom</li>
-          <li><strong>Delegation</strong> — passing authority to subordinates</li>
-          <li><strong>Tall structure</strong> — many levels, narrow span of control</li>
-          <li><strong>Flat structure</strong> — few levels, wide span of control</li>
-          <li><strong>Delayering</strong> — removing layers of management to reduce costs</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)"></th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;font-weight:600">Tall structure</td><td style="padding:8px">Close supervision, clear promotion paths, narrow span of control</td><td style="padding:8px">Slow communication, expensive (many managers), bureaucratic</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;font-weight:600">Flat structure</td><td style="padding:8px">Faster communication, cheaper, employees more empowered</td><td style="padding:8px">Managers may be overloaded, less promotion opportunities</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;font-weight:600">Centralised</td><td style="padding:8px">Consistent decisions, experienced decision-makers, easier to control</td><td style="padding:8px">Slow to respond, demotivates lower-level staff</td></tr>
+          <tr><td style="padding:8px;font-weight:600">Decentralised</td><td style="padding:8px">Faster local decisions, motivates staff, decisions made by those who know local conditions</td><td style="padding:8px">Inconsistent decisions, less experienced decision-makers</td></tr>
+        </table>
+        <p><strong>Delegation</strong> — passing authority to make decisions to subordinates. ✅ Motivates employees, develops their skills, frees up manager's time. ❌ Manager still accountable, risk of poor decisions if worker not skilled enough.</p>
+        <p><strong>Delayering</strong> — removing a layer of management. ✅ Cuts costs, speeds up communication, empowers remaining staff. ❌ Remaining managers overloaded, redundancies hurt morale.</p>
       `},
       { heading: 'Leadership Styles', content: `
-        <ul>
-          <li><strong>Autocratic</strong> — manager makes all decisions. Fast but demotivating.</li>
-          <li><strong>Democratic</strong> — employees involved in decisions. Motivating but slow.</li>
-          <li><strong>Laissez-faire</strong> — employees given freedom to decide. Good for creative teams, can lack direction.</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Style</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Autocratic</td><td style="padding:8px">Manager makes all decisions, no input from staff</td><td style="padding:8px">Fast decisions, good in a crisis, clear direction</td><td style="padding:8px">Demotivating, no worker input, may miss good ideas</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Democratic</td><td style="padding:8px">Employees consulted and involved in decisions</td><td style="padding:8px">Motivating, better decisions, workers feel valued</td><td style="padding:8px">Slow, may be difficult to reach consensus</td></tr>
+          <tr><td style="padding:8px">Laissez-faire</td><td style="padding:8px">Employees given freedom to make own decisions</td><td style="padding:8px">Good for creative/expert teams, maximum autonomy</td><td style="padding:8px">Lack of direction, may lead to poor decisions</td></tr>
+        </table>
+        <p><strong>Best style depends on:</strong> type of task, urgency, skills of workers, personality of manager.</p>
       `},
-      { heading: 'Trade Unions', content: `
-        <p>A <strong>trade union</strong> is an organisation that represents workers' interests.</p>
-        <ul>
-          <li>Negotiate pay and conditions (collective bargaining)</li>
-          <li>Protect workers from unfair dismissal</li>
-          <li>Can call strikes as a last resort</li>
-        </ul>
-        <p><strong>Industrial action</strong>: strike, work-to-rule, go-slow, overtime ban.</p>
+      { heading: 'Trade Unions and Industrial Action', content: `
+        <p>A <strong>trade union</strong> represents workers' interests through collective bargaining with employers.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Benefits of trade unions</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Drawbacks for business</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Protect workers from exploitation</td><td style="padding:7px 8px">May increase wage costs</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Improve working conditions and safety</td><td style="padding:7px 8px">Industrial action disrupts production</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Provide legal and financial advice</td><td style="padding:7px 8px">Negotiations take time and resources</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Single voice for workers in disputes</td><td style="padding:7px 8px">May make business inflexible</td></tr>
+        </table>
+        <p><strong>Forms of industrial action:</strong> strike (refuse to work), work-to-rule (only do exactly what contract says), go-slow (deliberately slow pace), overtime ban.</p>
       `},
     ]
   },
   3: {
     title: 'Unit 3 — Marketing',
     sections: [
-      { heading: 'What is Marketing?', content: `
-        <p><strong>Marketing</strong> identifies and satisfies customer needs profitably. The goal is to get the right product to the right people at the right price and place.</p>
-        <p><strong>Market</strong> — where buyers and sellers meet to exchange goods/services.</p>
-        <ul>
-          <li><strong>Market size</strong> — total value or volume of sales in a market</li>
-          <li><strong>Market share</strong> — business sales as a percentage of total market sales</li>
-          <li><strong>Market growth</strong> — percentage increase in market size over time</li>
-        </ul>
+      { heading: 'Marketing Overview', content: `
+        <p><strong>Marketing</strong> — identifying, anticipating and satisfying customer needs profitably.</p>
+        <p><strong>Market size</strong> = total value or volume of all sales in a market.</p>
+        <p><strong>Market share (%)</strong> = (Business sales ÷ Total market sales) × 100</p>
+        <p><strong>Market growth (%)</strong> = (Change in market size ÷ Original size) × 100</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)"></th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;font-weight:600">Mass market</td><td style="padding:8px">Large sales volume, low unit costs, economies of scale</td><td style="padding:8px">Intense competition, difficult to differentiate</td></tr>
+          <tr><td style="padding:8px;font-weight:600">Niche market</td><td style="padding:8px">Less competition, premium prices, loyal customers</td><td style="padding:8px">Small market, vulnerable if niche disappears</td></tr>
+        </table>
       `},
       { heading: 'Market Research', content: `
-        <p><strong>Primary research</strong> (field research) — new data collected directly:</p>
-        <ul>
-          <li>Surveys/questionnaires, interviews, focus groups, observation</li>
-          <li>Expensive but specific and up-to-date</li>
-        </ul>
-        <p><strong>Secondary research</strong> (desk research) — existing data:</p>
-        <ul>
-          <li>Internet, government reports, market reports, company records</li>
-          <li>Cheaper but may be outdated or not specific enough</li>
-        </ul>
-        <p><strong>Quantitative data</strong> — numerical (percentages, statistics). <strong>Qualitative data</strong> — opinions and feelings.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Method</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Surveys/questionnaires</td><td style="padding:8px">Written questions to a sample</td><td style="padding:8px">Large sample, quantitative data, relatively cheap</td><td style="padding:8px">Biased responses, low return rates</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Interviews</td><td style="padding:8px">One-to-one discussion</td><td style="padding:8px">Detailed qualitative insights</td><td style="padding:8px">Time-consuming, expensive, small sample</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Focus groups</td><td style="padding:8px">Small group discussion</td><td style="padding:8px">In-depth opinions, useful for new products</td><td style="padding:8px">Small group may not represent market</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Observation</td><td style="padding:8px">Watching consumer behaviour</td><td style="padding:8px">Real behaviour, not self-reported</td><td style="padding:8px">Can't explain why consumers behave that way</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Secondary — internet</td><td style="padding:8px">Existing online data</td><td style="padding:8px">Free, fast, wide range of data</td><td style="padding:8px">May be outdated, unreliable</td></tr>
+          <tr><td style="padding:8px">Secondary — market reports</td><td style="padding:8px">Industry research reports</td><td style="padding:8px">Detailed and professional</td><td style="padding:8px">Expensive to buy, not business-specific</td></tr>
+        </table>
+        <p><strong>Quantitative data</strong> — numerical (e.g. 65% prefer Product A). Easy to analyse. <strong>Qualitative data</strong> — opinions and feelings (e.g. "the packaging feels cheap"). More insight but harder to analyse.</p>
       `},
       { heading: 'Market Segmentation', content: `
-        <p>Dividing a market into groups of customers with similar characteristics:</p>
-        <ul>
-          <li><strong>Geographic</strong> — by region or country</li>
-          <li><strong>Demographic</strong> — by age, gender, income, occupation</li>
-          <li><strong>Psychographic</strong> — by lifestyle, values, personality</li>
-          <li><strong>Behavioural</strong> — by usage rate, brand loyalty</li>
-        </ul>
-        <p>Allows businesses to target their marketing more effectively and develop products for specific groups.</p>
+        <p>Dividing a market into groups with similar characteristics to target marketing more effectively.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 12px">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Type</th><th style="padding:8px;text-align:left;color:var(--text2)">Basis</th><th style="padding:8px;text-align:left;color:var(--text2)">Example</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Geographic</td><td style="padding:8px">Country, region, city, climate</td><td style="padding:8px">Selling warm clothing in cold regions</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Demographic</td><td style="padding:8px">Age, gender, income, occupation</td><td style="padding:8px">Children's toys marketed to under-12s</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Psychographic</td><td style="padding:8px">Lifestyle, values, personality</td><td style="padding:8px">Eco-friendly products for environmentalists</td></tr>
+          <tr><td style="padding:8px">Behavioural</td><td style="padding:8px">Usage rate, brand loyalty, buying occasions</td><td style="padding:8px">Loyalty cards for frequent shoppers</td></tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Benefits of segmentation</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Drawbacks</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">More effective, targeted marketing</td><td style="padding:7px 8px">More expensive to develop different products</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Products better matched to customer needs</td><td style="padding:7px 8px">Smaller target market = lower potential sales</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Can charge premium prices for some segments</td><td style="padding:7px 8px">Difficult to identify correct segments</td></tr>
+        </table>
       `},
-      { heading: 'The Marketing Mix (4Ps)', content: `
-        <p><strong>Product</strong> — design, features, quality, branding, packaging, USP</p>
-        <p><strong>Price</strong> — pricing strategies:</p>
-        <ul>
-          <li>Cost-plus — add % markup to cost</li>
-          <li>Penetration — low price to enter market</li>
-          <li>Skimming — high price for new/innovative product</li>
-          <li>Competitive — match rival prices</li>
-          <li>Psychological — e.g. $9.99 instead of $10</li>
-          <li>Promotional — temporary price reductions</li>
-        </ul>
-        <p><strong>Place</strong> — distribution channels: manufacturer → wholesaler → retailer → consumer, or direct selling, e-commerce.</p>
-        <p><strong>Promotion</strong> — advertising (TV, social media, billboards), sales promotion (discounts, BOGOF), public relations, personal selling, direct mail.</p>
+      { heading: 'Product', content: `
+        <p><strong>USP (Unique Selling Point)</strong> — what makes the product different and better than competitors. Could be quality, design, price, convenience, service, brand.</p>
+        <p><strong>Product development</strong> — creating new or improved products to maintain competitive advantage. Costly but essential for long-term survival.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Strong branding benefits</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Costs of branding</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Customer loyalty and repeat purchases</td><td style="padding:7px 8px">Expensive to build and maintain</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Premium pricing possible</td><td style="padding:7px 8px">Brand damage if product fails</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">New product launches easier under trusted brand</td><td style="padding:7px 8px">Takes years to establish</td></tr>
+        </table>
+      `},
+      { heading: 'Price Strategies', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Strategy</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantage</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantage</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Cost-plus</td><td style="padding:8px">Cost + % profit markup</td><td style="padding:8px">Guarantees profit on each unit</td><td style="padding:8px">Ignores what customers will pay</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Penetration</td><td style="padding:8px">Low price to enter market</td><td style="padding:8px">Quickly gains market share</td><td style="padding:8px">Low profits initially, may be seen as low quality</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Price skimming</td><td style="padding:8px">High price for new/innovative product</td><td style="padding:8px">High profit margins early on</td><td style="padding:8px">Attracts competitors, alienates some customers</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Competitive</td><td style="padding:8px">Match or beat rivals' prices</td><td style="padding:8px">Stays competitive, simple</td><td style="padding:8px">Can trigger price wars, reduces margins</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Psychological</td><td style="padding:8px">$9.99 instead of $10</td><td style="padding:8px">Perceived as significantly cheaper</td><td style="padding:8px">Customers aware of the trick</td></tr>
+          <tr><td style="padding:8px">Promotional</td><td style="padding:8px">Temporary price reduction</td><td style="padding:8px">Increases short-term sales</td><td style="padding:8px">Trains customers to wait for sales</td></tr>
+        </table>
+      `},
+      { heading: 'Place (Distribution)', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Channel</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Direct (manufacturer → consumer)</td><td style="padding:8px">Higher profit margin, direct customer relationship, control over experience</td><td style="padding:8px">Business must handle all sales/distribution</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Through retailer</td><td style="padding:8px">Wide reach, retailer handles sales</td><td style="padding:8px">Retailer takes a margin, less control</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Through wholesaler</td><td style="padding:8px">Reaches small retailers, bulk selling</td><td style="padding:8px">Less control, profit split further</td></tr>
+          <tr><td style="padding:8px">E-commerce</td><td style="padding:8px">24/7 availability, low overheads, global reach</td><td style="padding:8px">No physical product experience, delivery issues, returns</td></tr>
+        </table>
+      `},
+      { heading: 'Promotion', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Method</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">TV advertising</td><td style="padding:8px">Mass audience, visual and audio impact</td><td style="padding:8px">Very expensive, viewers may skip ads</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Social media</td><td style="padding:8px">Targeted, cheap, interactive, viral potential</td><td style="padding:8px">Negative comments visible, requires constant management</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Sales promotions (BOGOF, discounts)</td><td style="padding:8px">Boosts short-term sales, clears stock</td><td style="padding:8px">Reduces margin, trains customers to wait for deals</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Personal selling</td><td style="padding:8px">Tailored to customer, builds relationships</td><td style="padding:8px">Expensive and time-consuming</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Public relations (PR)</td><td style="padding:8px">Free media coverage, improves reputation</td><td style="padding:8px">Cannot control what journalists write</td></tr>
+          <tr><td style="padding:8px">Influencer marketing</td><td style="padding:8px">Reaches specific target audience authentically</td><td style="padding:8px">Influencer behaviour can damage brand</td></tr>
+        </table>
       `},
       { heading: 'Product Life Cycle', content: `
-        <p>Stages: <strong>Development → Introduction → Growth → Maturity → Decline</strong></p>
-        <ul>
-          <li><strong>Introduction</strong> — low sales, high costs, heavy promotion</li>
-          <li><strong>Growth</strong> — sales rise rapidly, profits increase, competitors enter</li>
-          <li><strong>Maturity</strong> — sales peak, market saturated, competition intense</li>
-          <li><strong>Decline</strong> — sales fall, may need extension strategies or discontinue</li>
-        </ul>
-        <p><strong>Extension strategies</strong> — relaunch, new packaging, new markets, price reductions.</p>
-      `},
-      { heading: 'Branding', content: `
-        <p>A <strong>brand</strong> is a name, sign or symbol that identifies a product and distinguishes it from rivals.</p>
-        <ul>
-          <li>Builds customer loyalty and recognition</li>
-          <li>Allows premium pricing</li>
-          <li>Makes promotion easier</li>
-        </ul>
-        <p><strong>USP (Unique Selling Point)</strong> — the feature that makes a product different and better than rivals.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Stage</th><th style="padding:8px;text-align:left;color:var(--text2)">Sales</th><th style="padding:8px;text-align:left;color:var(--text2)">Profit</th><th style="padding:8px;text-align:left;color:var(--text2)">Typical actions</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Development</td><td style="padding:8px">None</td><td style="padding:8px">None (net loss)</td><td style="padding:8px">R&D investment, market research</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Introduction</td><td style="padding:8px">Low, rising slowly</td><td style="padding:8px">Loss/low</td><td style="padding:8px">Heavy promotion, skimming or penetration pricing</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Growth</td><td style="padding:8px">Rising rapidly</td><td style="padding:8px">Rising</td><td style="padding:8px">Brand building, wider distribution, competitors enter</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Maturity</td><td style="padding:8px">Peaks, stable</td><td style="padding:8px">Highest</td><td style="padding:8px">Competitive pricing, extension strategies, loyalty promotions</td></tr>
+          <tr><td style="padding:8px">Decline</td><td style="padding:8px">Falling</td><td style="padding:8px">Falling</td><td style="padding:8px">Cut price, discontinue or relaunch</td></tr>
+        </table>
+        <p><strong>Extension strategies:</strong> relaunch with new features, new packaging, target new market segments, find new uses, export to new countries, price reduction.</p>
       `},
     ]
   },
@@ -1797,124 +1888,170 @@ const NOTES = {
     title: 'Unit 4 — Operations Management',
     sections: [
       { heading: 'Production Methods', content: `
-        <ul>
-          <li><strong>Job production</strong> — one-off unique products made to customer specification (e.g. wedding cakes, bridges). High quality but expensive.</li>
-          <li><strong>Batch production</strong> — groups of identical products made together (e.g. bread, clothing). Flexible but machinery must be reset between batches.</li>
-          <li><strong>Flow/mass production</strong> — continuous production of identical products (e.g. cars, phones). Low unit costs but inflexible and high setup costs.</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Method</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Job production</td><td style="padding:8px">One-off unique products made to order (e.g. wedding cakes, bridges)</td><td style="padding:8px">High quality, meets exact customer specification, premium pricing possible</td><td style="padding:8px">Expensive per unit, slow, requires skilled workers</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Batch production</td><td style="padding:8px">Groups of identical products made together (e.g. bread, clothing)</td><td style="padding:8px">Flexible, lower unit costs than job, variety possible</td><td style="padding:8px">Machinery reset between batches causes downtime, stocks of WIP build up</td></tr>
+          <tr><td style="padding:8px">Flow/mass production</td><td style="padding:8px">Continuous production of identical products (e.g. cars, phones)</td><td style="padding:8px">Very low unit costs, fast output, highly automated</td><td style="padding:8px">Inflexible, high setup costs, repetitive — demotivating for workers</td></tr>
+        </table>
+        <p><strong>Technology in production:</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Technology</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Automation/robots</td><td style="padding:8px">Reduces labour costs, consistent quality, 24/7 operation</td><td style="padding:8px">High capital cost, job losses, maintenance needed</td></tr>
+          <tr><td style="padding:8px">CAD/CAM</td><td style="padding:8px">Faster design, accurate, allows customisation, fewer errors</td><td style="padding:8px">Expensive software/hardware, training required</td></tr>
+        </table>
       `},
-      { heading: 'Productivity and Efficiency', content: `
-        <p><strong>Productivity</strong> — output per worker per time period.</p>
-        <p>Ways to improve productivity: better training, improved technology, better motivation, lean production.</p>
-        <p><strong>Capacity utilisation</strong> = (actual output / maximum output) × 100</p>
-        <p>High capacity utilisation reduces unit costs. Low utilisation means wasted resources.</p>
+      { heading: 'Productivity and Capacity', content: `
+        <p><strong>Labour productivity</strong> = Output per period ÷ Number of workers</p>
+        <p><strong>Ways to improve productivity:</strong> better training, improved motivation, better equipment/technology, improved working methods, lean production.</p>
+        <p><strong>Capacity utilisation (%)</strong> = (Actual output ÷ Maximum possible output) × 100</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Situation</th><th style="padding:8px;text-align:left;color:var(--text2)">Impact</th><th style="padding:8px;text-align:left;color:var(--text2)">Solution</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">High utilisation (near 100%)</td><td style="padding:8px">Low unit costs, efficient but little flexibility for demand increases</td><td style="padding:8px">Invest in new capacity, outsource</td></tr>
+          <tr><td style="padding:8px">Low utilisation (spare capacity)</td><td style="padding:8px">High unit costs, wasted resources</td><td style="padding:8px">Reduce capacity, find new markets, cut prices to boost demand</td></tr>
+        </table>
       `},
       { heading: 'Lean Production', content: `
-        <p>Aims to minimise waste and improve efficiency.</p>
-        <ul>
-          <li><strong>Just-in-time (JIT)</strong> — stock arrives exactly when needed. Reduces storage costs but risky if supplies delayed.</li>
-          <li><strong>Kaizen</strong> — continuous improvement through small, ongoing changes involving all employees.</li>
-          <li><strong>Time-based management</strong> — reducing time to develop and deliver products.</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Technique</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Just-in-time (JIT)</td><td style="padding:8px">Stock arrives exactly when needed</td><td style="padding:8px">Zero stock holding costs, no obsolete stock, frees working capital</td><td style="padding:8px">Delivery delays stop production, no buffer stock, relies on reliable suppliers</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Kaizen</td><td style="padding:8px">Continuous small improvements by all employees</td><td style="padding:8px">Constant efficiency gains, motivating for workers, low cost</td><td style="padding:8px">Slow changes, requires culture change, not suitable for major redesign</td></tr>
+          <tr><td style="padding:8px">Time-based management</td><td style="padding:8px">Reducing time to market and production time</td><td style="padding:8px">Faster response, competitive advantage, more revenue</td><td style="padding:8px">May compromise quality if rushed</td></tr>
+        </table>
       `},
-      { heading: 'Quality', content: `
-        <p><strong>Quality control</strong> — checking products at end of production. Identifies defects but waste has already occurred.</p>
-        <p><strong>Quality assurance</strong> — checking at every stage of production. Prevents defects occurring.</p>
-        <p><strong>Total Quality Management (TQM)</strong> — quality is everyone's responsibility throughout the whole organisation.</p>
-        <p><strong>Benefits of quality</strong>: fewer returns, better reputation, customer loyalty, premium pricing.</p>
+      { heading: 'Quality Management', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Approach</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantages</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantages</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Quality control</td><td style="padding:8px">Checking finished products for defects</td><td style="padding:8px">Simple, dedicated inspectors, prevents faulty goods reaching customers</td><td style="padding:8px">Waste already produced, only catches defects after</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Quality assurance</td><td style="padding:8px">Checks built into every stage of production</td><td style="padding:8px">Prevents defects occurring, reduces waste, every employee responsible</td><td style="padding:8px">More complex, requires training all staff</td></tr>
+          <tr><td style="padding:8px">TQM</td><td style="padding:8px">Business-wide culture of quality — zero defects</td><td style="padding:8px">Highest quality, minimum waste, competitive advantage</td><td style="padding:8px">Major culture change required, expensive to implement</td></tr>
+        </table>
+        <p><strong>Benefits of high quality:</strong> fewer returns and warranty claims, better reputation, customer loyalty, premium pricing, lower long-term costs.</p>
       `},
-      { heading: 'Location', content: `
-        <p>Factors affecting location:</p>
-        <ul>
-          <li>Proximity to raw materials (for heavy industry)</li>
-          <li>Proximity to market/customers (for retail/services)</li>
-          <li>Labour — availability, skills, cost</li>
-          <li>Infrastructure — transport links, communications</li>
-          <li>Government incentives — grants, tax breaks</li>
-          <li>Cost of land and premises</li>
-        </ul>
-        <p><strong>Globalisation</strong> — businesses locating in countries with lower costs (e.g. manufacturing in Asia).</p>
+      { heading: 'Location of Business', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Factor</th><th style="padding:8px;text-align:left;color:var(--text2)">Why it matters</th><th style="padding:8px;text-align:left;color:var(--text2)">Most important for</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Raw materials</td><td style="padding:8px">Reduces transport costs of heavy inputs</td><td style="padding:8px">Mining, steel, paper manufacturing</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Proximity to market</td><td style="padding:8px">Reduces delivery costs, better customer access</td><td style="padding:8px">Retail, hospitality, perishable goods</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Labour</td><td style="padding:8px">Right skills at right cost</td><td style="padding:8px">All businesses, especially skilled industries</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Infrastructure</td><td style="padding:8px">Good transport and communications</td><td style="padding:8px">Distribution, logistics, tech businesses</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Government incentives</td><td style="padding:8px">Grants, tax breaks in development areas</td><td style="padding:8px">Businesses looking to reduce costs</td></tr>
+          <tr><td style="padding:8px">Land/building cost</td><td style="padding:8px">Lower in less developed or rural areas</td><td style="padding:8px">Businesses needing large premises</td></tr>
+        </table>
+        <p><strong>Offshoring</strong> — relocating production to another country with lower costs.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Advantages of offshoring</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Disadvantages</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Lower labour and production costs</td><td style="padding:7px 8px">Quality control more difficult</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Access to new markets</td><td style="padding:7px 8px">Ethical concerns about working conditions</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">May avoid trade barriers</td><td style="padding:7px 8px">Longer supply chains, higher transport costs</td></tr>
+        </table>
       `},
       { heading: 'Stock Control', content: `
-        <p><strong>Stock</strong> includes raw materials, work-in-progress, and finished goods.</p>
+        <p><strong>Key stock control terms:</strong></p>
         <ul>
-          <li><strong>Reorder level</strong> — stock level at which new order is placed</li>
-          <li><strong>Minimum stock level</strong> — safety/buffer stock to prevent running out</li>
-          <li><strong>Maximum stock level</strong> — maximum stock that can be held</li>
+          <li><strong>Buffer/minimum stock level</strong> — safety stock held in case of delivery delays</li>
+          <li><strong>Reorder level</strong> — stock level at which a new order is triggered</li>
+          <li><strong>Maximum stock level</strong> — upper limit of stock (determined by storage capacity and cost)</li>
+          <li><strong>Lead time</strong> — time between placing an order and receiving it</li>
+          <li><strong>Economic Order Quantity (EOQ)</strong> — the ideal order quantity that minimises total stock holding and ordering costs</li>
         </ul>
-        <p>Too much stock = high storage costs. Too little = production stoppage, lost sales.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Too much stock</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Too little stock</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">High storage/warehousing costs</td><td style="padding:7px 8px">Production may stop</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Risk of stock becoming obsolete or damaged</td><td style="padding:7px 8px">Customer orders delayed, sales lost</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Ties up working capital unproductively</td><td style="padding:7px 8px">Reputation damaged</td></tr>
+        </table>
       `},
     ]
   },
   5: {
     title: 'Unit 5 — Financial Information',
     sections: [
-      { heading: 'Income Statements (Profit & Loss)', content: `
-        <p>Shows revenue, costs and profit over a period of time.</p>
-        <ul>
-          <li><strong>Revenue</strong> = selling price × quantity sold</li>
-          <li><strong>Gross profit</strong> = Revenue − Cost of sales</li>
-          <li><strong>Profit from operations</strong> = Gross profit − Expenses</li>
-          <li><strong>Net profit</strong> = Profit from operations − Interest and tax</li>
-        </ul>
-        <p><strong>Cost of sales</strong> — direct costs of producing goods sold (raw materials, direct labour).</p>
-        <p><strong>Expenses</strong> — overhead costs (rent, marketing, admin salaries).</p>
+      { heading: 'Income Statement (Profit & Loss)', content: `
+        <p>Shows revenue, costs and profit over a time period (usually one year).</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Item</th><th style="padding:8px;text-align:left;color:var(--text2)">Formula / Explanation</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Revenue (turnover)</td><td style="padding:8px">Selling price × Quantity sold</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Cost of sales</td><td style="padding:8px">Direct costs: raw materials, direct labour, direct costs of production</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px"><strong>Gross profit</strong></td><td style="padding:8px"><strong>Revenue − Cost of sales</strong></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Expenses (overheads)</td><td style="padding:8px">Indirect costs: rent, admin, marketing, management salaries</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px"><strong>Profit from operations</strong></td><td style="padding:8px"><strong>Gross profit − Expenses</strong></td></tr>
+          <tr><td style="padding:8px"><strong>Net profit</strong></td><td style="padding:8px"><strong>Profit from operations − Interest − Tax</strong></td></tr>
+        </table>
+        <p><strong>Common exam trap:</strong> A business can have high gross profit but low net profit if expenses (overheads) are very high. A business can also be profitable but still run out of cash.</p>
       `},
-      { heading: 'Balance Sheets', content: `
-        <p>A snapshot of what a business owns and owes at a point in time.</p>
-        <ul>
-          <li><strong>Assets</strong> — what the business owns (non-current: buildings, machinery; current: cash, stock, debtors)</li>
-          <li><strong>Liabilities</strong> — what the business owes (non-current: long-term loans; current: creditors, overdraft)</li>
-          <li><strong>Equity/Capital</strong> = Assets − Liabilities</li>
-        </ul>
+      { heading: 'Balance Sheet', content: `
+        <p>Snapshot of what a business owns and owes at a specific date. Shows the financial position.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Category</th><th style="padding:8px;text-align:left;color:var(--text2)">Examples</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Non-current assets</td><td style="padding:8px">Land, buildings, machinery, vehicles (owned > 1 year)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Current assets</td><td style="padding:8px">Stock, trade receivables (debtors), cash (owned < 1 year)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Current liabilities</td><td style="padding:8px">Trade payables (creditors), overdraft, short-term loans (due < 1 year)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Non-current liabilities</td><td style="padding:8px">Long-term bank loans, mortgages (due > 1 year)</td></tr>
+          <tr><td style="padding:8px">Equity (shareholders' funds)</td><td style="padding:8px">Total assets − Total liabilities = what belongs to owners</td></tr>
+        </table>
+        <p><strong>Working capital</strong> = Current assets − Current liabilities. Must be positive to pay day-to-day bills. Negative working capital = liquidity crisis.</p>
       `},
       { heading: 'Cash Flow', content: `
-        <p><strong>Cash flow</strong> — the movement of money into and out of a business.</p>
+        <p>Cash flow tracks money <strong>into</strong> and <strong>out of</strong> a business over time. A business can be profitable yet still fail from poor cash flow.</p>
         <ul>
-          <li><strong>Cash inflows</strong> — sales revenue, loans, investment</li>
-          <li><strong>Cash outflows</strong> — wages, rent, materials, loan repayments</li>
-          <li><strong>Net cash flow</strong> = Inflows − Outflows</li>
+          <li><strong>Net cash flow</strong> = Total inflows − Total outflows</li>
           <li><strong>Closing balance</strong> = Opening balance + Net cash flow</li>
         </ul>
-        <p>Ways to improve cash flow: reduce credit terms, delay payments to suppliers, sell assets, arrange overdraft, cut costs.</p>
+        <p><strong>Causes of cash flow problems:</strong> seasonal demand, slow-paying customers, overtrading, unexpected costs, poor management.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Solution</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantage</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantage</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Bank overdraft</td><td style="padding:8px">Flexible, quick to arrange</td><td style="padding:8px">High interest rate, repayable on demand</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Reduce credit period for customers</td><td style="padding:8px">Cash received faster</td><td style="padding:8px">Customers may go to competitor</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Delay payments to suppliers</td><td style="padding:8px">Cash stays in business longer</td><td style="padding:8px">Damages supplier relationships</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Sell assets (sale and leaseback)</td><td style="padding:8px">Large immediate cash inflow</td><td style="padding:8px">Ongoing lease costs, lose ownership</td></tr>
+          <tr><td style="padding:8px">Cut costs</td><td style="padding:8px">Reduces outflows permanently</td><td style="padding:8px">May reduce quality or capacity</td></tr>
+        </table>
       `},
       { heading: 'Sources of Finance', content: `
-        <p><strong>Internal sources:</strong></p>
-        <ul>
-          <li>Retained profit — profits kept in the business</li>
-          <li>Sale of assets — selling unused equipment</li>
-          <li>Working capital management — reducing stock levels</li>
-        </ul>
-        <p><strong>External sources:</strong></p>
-        <ul>
-          <li>Bank loan — fixed repayments with interest</li>
-          <li>Overdraft — flexible short-term borrowing</li>
-          <li>Share issue — selling shares to raise capital (PLCs)</li>
-          <li>Venture capital — investment from specialist investors</li>
-          <li>Leasing — renting equipment instead of buying</li>
-          <li>Microfinance — small loans for entrepreneurs in developing countries</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Source</th><th style="padding:8px;text-align:left;color:var(--text2)">Type</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Advantage</th><th style="padding:8px;text-align:left;color:#f87171">❌ Disadvantage</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Retained profit</td><td style="padding:8px">Internal</td><td style="padding:8px">No interest/repayment, no dilution of ownership</td><td style="padding:8px">Reduces dividends, may not have enough profit</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Sale of assets</td><td style="padding:8px">Internal</td><td style="padding:8px">No debt, immediate cash</td><td style="padding:8px">One-off, may lose productive capacity</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Bank loan</td><td style="padding:8px">External</td><td style="padding:8px">Large amounts, fixed repayment plan</td><td style="padding:8px">Interest cost, must repay even if business struggles</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Overdraft</td><td style="padding:8px">External</td><td style="padding:8px">Flexible, only pay interest on amount used</td><td style="padding:8px">High interest rate, repayable on demand</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Share issue</td><td style="padding:8px">External</td><td style="padding:8px">No repayment, large sums possible</td><td style="padding:8px">Dilutes ownership, shareholders expect dividends</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Venture capital</td><td style="padding:8px">External</td><td style="padding:8px">Large sums, expertise provided</td><td style="padding:8px">Investor takes stake in business, may want control</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Leasing</td><td style="padding:8px">External</td><td style="padding:8px">Preserves cash, always up-to-date equipment</td><td style="padding:8px">More expensive long-term, don't own asset</td></tr>
+          <tr><td style="padding:8px">Crowdfunding</td><td style="padding:8px">External</td><td style="padding:8px">No repayment (reward-based), marketing exposure</td><td style="padding:8px">No guarantee of reaching target, idea may be copied</td></tr>
+        </table>
       `},
-      { heading: 'Costs and Revenue', content: `
-        <ul>
-          <li><strong>Fixed costs</strong> — do not change with output (rent, salaries, insurance)</li>
-          <li><strong>Variable costs</strong> — change directly with output (raw materials, packaging)</li>
-          <li><strong>Total costs</strong> = Fixed costs + Variable costs</li>
-          <li><strong>Average cost</strong> = Total cost ÷ Output</li>
-        </ul>
+      { heading: 'Costs', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Type</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:var(--text2)">Examples</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Fixed costs</td><td style="padding:8px">Do not change with output</td><td style="padding:8px">Rent, insurance, manager salaries, loan repayments</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Variable costs</td><td style="padding:8px">Change directly with output</td><td style="padding:8px">Raw materials, packaging, piece-rate labour, energy for machines</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Total costs</td><td style="padding:8px">Fixed + Variable costs</td><td style="padding:8px">All costs combined</td></tr>
+          <tr><td style="padding:8px">Average (unit) cost</td><td style="padding:8px">Total costs ÷ Output</td><td style="padding:8px">Falls as output rises (fixed costs spread wider)</td></tr>
+        </table>
       `},
       { heading: 'Break-Even Analysis', content: `
-        <p><strong>Break-even point</strong> — where total revenue = total costs (no profit, no loss).</p>
-        <p><strong>Break-even formula</strong> = Fixed costs ÷ (Selling price − Variable cost per unit)</p>
+        <p><strong>Break-even point</strong> = where Total Revenue = Total Costs (zero profit and zero loss)</p>
         <p><strong>Contribution per unit</strong> = Selling price − Variable cost per unit</p>
-        <p><strong>Margin of safety</strong> = Actual output − Break-even output</p>
-        <p>Uses: setting prices, deciding whether to launch a product, assessing risk.</p>
+        <p><strong>Break-even output</strong> = Fixed costs ÷ Contribution per unit</p>
+        <p><strong>Margin of safety</strong> = Actual output − Break-even output (how much sales can fall before making a loss)</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Uses of break-even analysis</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Limitations</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Helps decide whether to launch a product</td><td style="padding:7px 8px">Assumes all output is sold</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Sets minimum sales targets</td><td style="padding:7px 8px">Assumes costs are simply fixed or variable</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Helps assess impact of price/cost changes</td><td style="padding:7px 8px">Does not account for changes in market conditions</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Supports loan applications (shows profitability)</td><td style="padding:7px 8px">Only as accurate as the data used</td></tr>
+        </table>
       `},
-      { heading: 'Profitability Ratios', content: `
-        <p><strong>Gross profit margin</strong> = (Gross profit ÷ Revenue) × 100</p>
-        <p><strong>Net profit margin</strong> = (Net profit ÷ Revenue) × 100</p>
-        <p><strong>Return on Capital Employed (ROCE)</strong> = (Profit from operations ÷ Capital employed) × 100</p>
-        <p>Higher margins = better profitability. Compare with previous years and competitors.</p>
+      { heading: 'Financial Ratios', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Ratio</th><th style="padding:8px;text-align:left;color:var(--text2)">Formula</th><th style="padding:8px;text-align:left;color:var(--text2)">What it shows</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Gross profit margin</td><td style="padding:8px">(Gross profit ÷ Revenue) × 100</td><td style="padding:8px">Profit from trading before overheads</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Net profit margin</td><td style="padding:8px">(Net profit ÷ Revenue) × 100</td><td style="padding:8px">Profit after all costs — overall profitability</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">ROCE</td><td style="padding:8px">(Profit from operations ÷ Capital employed) × 100</td><td style="padding:8px">How efficiently capital generates profit</td></tr>
+          <tr><td style="padding:8px">Current ratio</td><td style="padding:8px">Current assets ÷ Current liabilities</td><td style="padding:8px">Ability to pay short-term debts (ideal: 1.5–2)</td></tr>
+        </table>
+        <p><strong>Improving ratios:</strong> increase revenue (higher price, more sales), reduce direct costs (cheaper suppliers, less waste), cut overheads, improve efficiency.</p>
       `},
     ]
   },
@@ -1922,64 +2059,101 @@ const NOTES = {
     title: 'Unit 6 — External Influences',
     sections: [
       { heading: 'Stakeholders', content: `
-        <p>A <strong>stakeholder</strong> is any person or group with an interest in a business.</p>
-        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
-          <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:8px;color:var(--text2)">Stakeholder</th><th style="text-align:left;padding:8px;color:var(--text2)">Interest in business</th></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Shareholders</td><td style="padding:8px">Dividends and share price growth</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Employees</td><td style="padding:8px">Pay, job security, conditions</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Customers</td><td style="padding:8px">Quality, price, value</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Suppliers</td><td style="padding:8px">Prompt payment, long-term contracts</td></tr>
-          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Government</td><td style="padding:8px">Tax revenue, employment, legal compliance</td></tr>
-          <tr><td style="padding:8px">Community</td><td style="padding:8px">Jobs, environment, local impact</td></tr>
+        <p>A <strong>stakeholder</strong> is any person or group with an interest in a business and who can influence or be affected by its decisions.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Stakeholder</th><th style="padding:8px;text-align:left;color:var(--text2)">Main interests</th><th style="padding:8px;text-align:left;color:var(--text2)">How they influence the business</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Shareholders/owners</td><td style="padding:8px">Dividends, share price, return on investment</td><td style="padding:8px">Vote at AGM, sell shares, elect directors</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Employees</td><td style="padding:8px">Pay, job security, conditions, promotion</td><td style="padding:8px">Industrial action, resign, work less hard</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Customers</td><td style="padding:8px">Quality, value, safety, service</td><td style="padding:8px">Stop buying, negative reviews, complaints</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Suppliers</td><td style="padding:8px">Prompt payment, long-term contracts, fair treatment</td><td style="padding:8px">Refuse to supply, change prices, delay deliveries</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Government</td><td style="padding:8px">Tax revenue, employment, legal compliance</td><td style="padding:8px">Pass laws, impose taxes, give grants/subsidies</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Local community</td><td style="padding:8px">Employment, environment, traffic, noise</td><td style="padding:8px">Protests, planning objections, media pressure</td></tr>
+          <tr><td style="padding:8px">Pressure groups</td><td style="padding:8px">Environmental, ethical or social issues</td><td style="padding:8px">Boycotts, campaigns, publicity, lobbying government</td></tr>
         </table>
-        <p style="margin-top:12px">Stakeholder conflicts are common — e.g. shareholders want high profits, employees want high wages.</p>
-      `},
-      { heading: 'Government and the Economy', content: `
-        <p>Key economic factors affecting businesses:</p>
+        <p><strong>Stakeholder conflicts (common exam question):</strong></p>
         <ul>
-          <li><strong>Economic growth</strong> — higher incomes → more spending → higher sales</li>
-          <li><strong>Inflation</strong> — rising prices increase costs and reduce purchasing power</li>
-          <li><strong>Unemployment</strong> — high unemployment = larger labour supply, lower wages but less consumer spending</li>
-          <li><strong>Interest rates</strong> — higher rates = more expensive loans, less consumer borrowing</li>
-          <li><strong>Exchange rates</strong> — stronger currency = exports more expensive, imports cheaper</li>
+          <li>Shareholders want profit → employees want higher wages (use of profit)</li>
+          <li>Customers want low prices → shareholders want high margins</li>
+          <li>Shareholders want growth → community worried about environmental impact</li>
+          <li>Employees want job security → shareholders want cost-cutting (redundancies)</li>
         </ul>
+      `},
+      { heading: 'The Economy and Business', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Economic factor</th><th style="padding:8px;text-align:left;color:var(--text2)">Impact when it rises</th><th style="padding:8px;text-align:left;color:var(--text2)">Impact when it falls</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Economic growth (GDP)</td><td style="padding:8px">More consumer income → higher sales, business expansion</td><td style="padding:8px">Recession → lower sales, businesses cut costs</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Inflation</td><td style="padding:8px">Higher costs, less consumer purchasing power, wage demands rise</td><td style="padding:8px">Deflation can reduce spending (consumers wait for lower prices)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Unemployment</td><td style="padding:8px">Easier to recruit, lower wages — but less consumer spending</td><td style="padding:8px">Higher wages needed, harder to recruit — but more spending</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Interest rates</td><td style="padding:8px">Dearer loans → less business investment, less consumer borrowing/spending</td><td style="padding:8px">Cheaper loans → more investment, more consumer spending</td></tr>
+          <tr><td style="padding:8px">Exchange rate (currency strengthens)</td><td style="padding:8px">Exports more expensive → lower export sales; imports cheaper → lower input costs</td><td style="padding:8px">Exports cheaper → more competitive abroad; imports more expensive → higher costs</td></tr>
+        </table>
       `},
       { heading: 'Government Intervention', content: `
-        <ul>
-          <li><strong>Taxation</strong> — corporation tax on profits, VAT on sales, income tax on wages</li>
-          <li><strong>Subsidies</strong> — financial support to encourage production</li>
-          <li><strong>Legislation</strong> — laws on employment, consumer protection, competition</li>
-          <li><strong>Minimum wage</strong> — legal minimum hourly pay</li>
-          <li><strong>Interest rate policy</strong> — set by central banks to control inflation</li>
-        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr style="border-bottom:1px solid var(--border)"><th style="padding:8px;text-align:left;color:var(--text2)">Intervention</th><th style="padding:8px;text-align:left;color:var(--text2)">Description</th><th style="padding:8px;text-align:left;color:#4ade80">✅ Benefit</th><th style="padding:8px;text-align:left;color:#f87171">❌ Impact on business</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Corporation tax</td><td style="padding:8px">Tax on company profits</td><td style="padding:8px">Funds public services</td><td style="padding:8px">Reduces net profit available</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Subsidies</td><td style="padding:8px">Government financial support</td><td style="padding:8px">Reduces costs for businesses</td><td style="padding:8px">Can create dependence</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Minimum wage</td><td style="padding:8px">Legal minimum hourly pay</td><td style="padding:8px">Reduces poverty, boosts spending</td><td style="padding:8px">Increases labour costs for businesses</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Consumer protection laws</td><td style="padding:8px">Rights to refunds, safe products, honest advertising</td><td style="padding:8px">Protects customers from exploitation</td><td style="padding:8px">Compliance costs, risk of fines</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Employment laws</td><td style="padding:8px">Minimum notice, anti-discrimination, max hours</td><td style="padding:8px">Protects workers' rights</td><td style="padding:8px">Increases HR costs, less flexibility</td></tr>
+          <tr><td style="padding:8px">Environmental regulations</td><td style="padding:8px">Limits on pollution, emissions, waste</td><td style="padding:8px">Protects environment and communities</td><td style="padding:8px">Increases costs of compliance</td></tr>
+        </table>
       `},
       { heading: 'Environmental and Ethical Issues', content: `
-        <p><strong>Environmental issues</strong>:</p>
+        <p><strong>Environmental concerns for businesses:</strong></p>
         <ul>
-          <li>Pollution, carbon emissions, waste disposal</li>
-          <li>Businesses face pressure to reduce environmental impact</li>
-          <li>Sustainable production — using resources without depleting them for future generations</li>
+          <li>Carbon emissions and contribution to climate change</li>
+          <li>Air, water and land pollution from production</li>
+          <li>Use of non-renewable resources</li>
+          <li>Waste and packaging — landfill impact</li>
+          <li>Damage to ecosystems and biodiversity</li>
         </ul>
-        <p><strong>Ethical issues</strong>:</p>
+        <p><strong>Ethical concerns:</strong></p>
         <ul>
+          <li>Use of child labour or sweatshops in supply chain</li>
           <li>Fair trade — paying fair prices to producers in developing countries</li>
-          <li>Child labour, workers' rights, supply chain conditions</li>
-          <li>Being ethical can improve reputation but may increase costs</li>
+          <li>Misleading advertising or hidden charges</li>
+          <li>Animal testing</li>
+          <li>Tax avoidance — technically legal but widely seen as unethical</li>
+          <li>Executive pay vs low worker wages</li>
         </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Benefits of acting ethically/sustainably</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Costs</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Better brand reputation and customer loyalty</td><td style="padding:7px 8px">Higher production costs (e.g. sustainable materials)</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Attract ethical investors and talent</td><td style="padding:7px 8px">May reduce short-term profit</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Avoid government fines and sanctions</td><td style="padding:7px 8px">Competitors who don't act ethically may have lower costs</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Positive media coverage and PR</td><td style="padding:7px 8px">Consumers may not always pay extra for ethical products</td></tr>
+        </table>
       `},
       { heading: 'Globalisation', content: `
-        <p><strong>Globalisation</strong> — the increasing integration of the world's economies.</p>
-        <ul>
-          <li><strong>Multinationals (MNCs)</strong> — businesses that operate in more than one country</li>
-          <li>Benefits of MNCs for host country: jobs, investment, tax revenue, skills transfer</li>
-          <li>Drawbacks: profits sent abroad, local businesses struggle to compete, exploitation of workers</li>
-        </ul>
-        <p><strong>Free trade</strong> — no barriers between countries. <strong>Protectionism</strong> — tariffs, quotas, embargoes to protect domestic industries.</p>
+        <p><strong>Globalisation</strong> — the growing integration and interdependence of the world's economies, cultures and populations.</p>
+        <p><strong>Causes:</strong> improved transport (cheaper shipping, air freight), internet and communications, removal of trade barriers, growth of MNCs.</p>
+        <p><strong>Multinational companies (MNCs)</strong> — operate in more than one country.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:var(--text2)" colspan="2">Impact on the Host Country</th></tr>
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Benefits</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">❌ Drawbacks</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Jobs created, reduces unemployment</td><td style="padding:7px 8px">Profits sent back to home country</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Foreign investment improves infrastructure</td><td style="padding:7px 8px">Local businesses struggle to compete, may close</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Tax revenue for government</td><td style="padding:7px 8px">Environmental damage from large-scale production</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Technology and skills transfer</td><td style="padding:7px 8px">Jobs may be low-skilled and low-paid</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Wider consumer choice</td><td style="padding:7px 8px">Tax minimisation — profits moved to low-tax countries</td></tr>
+        </table>
+        <p><strong>Free trade vs Protectionism:</strong></p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0">
+          <tr><th style="padding:7px 8px;text-align:left;color:#4ade80;background:rgba(74,222,128,0.05)">✅ Benefits of free trade</th><th style="padding:7px 8px;text-align:left;color:#f87171;background:rgba(248,113,113,0.05)">Protectionist measures (and their effects)</th></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Lower prices for consumers</td><td style="padding:7px 8px">Tariffs — tax on imports (raises price)</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Wider range of goods available</td><td style="padding:7px 8px">Quotas — limit on quantity of imports</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Specialisation and efficiency</td><td style="padding:7px 8px">Embargoes — complete trade ban</td></tr>
+          <tr style="border-top:1px solid var(--border)"><td style="padding:7px 8px">Business can access global markets</td><td style="padding:7px 8px">Subsidies — give domestic firms unfair cost advantage</td></tr>
+        </table>
       `},
     ]
   }
 };
- 
+"""
+print(len(NOTES_JS))
+PYEOF
+python3 /tmp/notes_data.py
 function showNotes() {
   document.getElementById('notesPage').style.display = 'block';
   document.getElementById('markerPage').style.display = 'none';
@@ -2000,7 +2174,7 @@ function showUnit(n) {
   // Update sidebar
   for(let i=1;i<=6;i++){
     const btn = document.getElementById('nu'+i);
-    if(!btn) return;
+    if(!btn) continue;
     btn.style.background = i===n ? 'var(--blue-500)' : 'transparent';
     btn.style.color = i===n ? '#fff' : 'var(--text2)';
     btn.style.fontWeight = i===n ? '600' : '500';
