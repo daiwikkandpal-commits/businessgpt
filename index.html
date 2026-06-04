@@ -615,6 +615,7 @@ const _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
       <li><a href="#topics" onclick="showHome()">Topics</a></li>
       <li><a href="#" id="navMarker" onclick="showMarker();return false" style="color:var(--text2)">Marker</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
+      <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#faq" onclick="showHome()">FAQ</a></li>
     </ul>
     <div class="nav-cta" id="navCta">
@@ -1034,6 +1035,27 @@ async function doNavSignOut(){
   </div>
 </div>
  
+<!-- NOTES PAGE -->
+<div id="notesPage" style="display:none;min-height:100vh;position:relative;z-index:1">
+  <div style="display:flex;height:calc(100vh - 64px);overflow:hidden">
+ 
+    <!-- Sidebar -->
+    <div style="width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--border);padding:20px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:10px">Units</div>
+      <button onclick="showUnit(1)" id="nu1" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:var(--blue-500);color:#fff;cursor:pointer;text-align:left;width:100%">1 — Business Activity</button>
+      <button onclick="showUnit(2)" id="nu2" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">2 — People in Business</button>
+      <button onclick="showUnit(3)" id="nu3" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">3 — Marketing</button>
+      <button onclick="showUnit(4)" id="nu4" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">4 — Operations Management</button>
+      <button onclick="showUnit(5)" id="nu5" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">5 — Financial Information</button>
+      <button onclick="showUnit(6)" id="nu6" style="padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">6 — External Influences</button>
+    </div>
+ 
+    <!-- Notes content -->
+    <div style="flex:1;overflow-y:auto;padding:36px 48px;max-width:860px" id="notesContent"></div>
+ 
+  </div>
+</div>
+ 
 <!-- CTA -->
 <section class="cta-section">
   <div class="container">
@@ -1094,6 +1116,7 @@ let markerPaper = 1;
 function showHome() {
   document.getElementById('markerPage').style.display = 'none';
   document.getElementById('pastPapersPage').style.display = 'none';
+  document.getElementById('notesPage').style.display = 'none';
   document.querySelector('.hero').style.display = '';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = '');
   document.querySelector('footer').style.display = '';
@@ -1559,6 +1582,455 @@ function renderPastPapers() {
  
     </div>
   `).join('');
+}
+ 
+// ── Notes ────────────────────────────────────────────
+const NOTES = {
+  1: {
+    title: 'Unit 1 — Business Activity',
+    sections: [
+      { heading: 'The Purpose of Business Activity', content: `
+        <p>A <strong>business</strong> produces goods or services to satisfy the needs and wants of consumers. Businesses exist because of scarcity — resources are limited but human wants are unlimited.</p>
+        <ul>
+          <li><strong>Needs</strong> — essential items for survival (food, water, shelter)</li>
+          <li><strong>Wants</strong> — desires beyond basic needs (luxury goods, entertainment)</li>
+          <li><strong>Opportunity cost</strong> — the next best alternative given up when making a choice</li>
+          <li><strong>Factors of production</strong> — Land, Labour, Capital, Enterprise</li>
+        </ul>
+      `},
+      { heading: 'Types of Business', content: `
+        <ul>
+          <li><strong>Primary sector</strong> — extracts natural resources (farming, mining, fishing)</li>
+          <li><strong>Secondary sector</strong> — manufactures and constructs (factories, construction)</li>
+          <li><strong>Tertiary sector</strong> — provides services (retail, banking, education)</li>
+          <li><strong>Quaternary sector</strong> — knowledge-based services (IT, research)</li>
+        </ul>
+        <p>Most economies are seeing a shift from primary/secondary to tertiary as they develop.</p>
+      `},
+      { heading: 'Business Objectives', content: `
+        <p>Objectives give a business direction and purpose. Common objectives:</p>
+        <ul>
+          <li><strong>Profit maximisation</strong> — most common for private sector businesses</li>
+          <li><strong>Growth</strong> — increase market share, expand into new markets</li>
+          <li><strong>Survival</strong> — especially important for new businesses</li>
+          <li><strong>Market share</strong> — percentage of total market sales held by a business</li>
+          <li><strong>Social/ethical objectives</strong> — common in public sector and charities</li>
+        </ul>
+      `},
+      { heading: 'Business Ownership', content: `
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
+          <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:8px;color:var(--text2)">Type</th><th style="text-align:left;padding:8px;color:var(--text2)">Liability</th><th style="text-align:left;padding:8px;color:var(--text2)">Ownership</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Sole trader</td><td style="padding:8px">Unlimited</td><td style="padding:8px">1 person</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Partnership</td><td style="padding:8px">Unlimited</td><td style="padding:8px">2–20 people</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Private Ltd (Ltd)</td><td style="padding:8px">Limited</td><td style="padding:8px">Private shareholders</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Public Ltd (PLC)</td><td style="padding:8px">Limited</td><td style="padding:8px">Public shareholders</td></tr>
+          <tr><td style="padding:8px">Franchise</td><td style="padding:8px">Varies</td><td style="padding:8px">Franchisee</td></tr>
+        </table>
+        <p style="margin-top:12px"><strong>Limited liability</strong> — shareholders only lose what they invested. <strong>Unlimited liability</strong> — owners are personally responsible for all debts.</p>
+      `},
+      { heading: 'Business Growth', content: `
+        <p>Businesses grow through:</p>
+        <ul>
+          <li><strong>Internal (organic) growth</strong> — reinvesting profits, increasing sales</li>
+          <li><strong>External growth</strong> — mergers, takeovers, franchising</li>
+          <li><strong>Merger</strong> — two businesses agree to join together</li>
+          <li><strong>Takeover</strong> — one business buys a controlling stake in another</li>
+        </ul>
+        <p><strong>Economies of scale</strong> — cost advantages gained by producing on a larger scale (bulk buying, specialisation, financial economies).</p>
+      `},
+    ]
+  },
+  2: {
+    title: 'Unit 2 — People in Business',
+    sections: [
+      { heading: 'Motivation', content: `
+        <p>Motivated workers are more productive and have lower absenteeism and labour turnover.</p>
+        <p><strong>Taylor's Scientific Management</strong> — workers are motivated by money. Pay workers per unit produced (piece rate).</p>
+        <p><strong>Maslow's Hierarchy of Needs</strong>:</p>
+        <ol>
+          <li>Physiological — basic pay, warmth, food</li>
+          <li>Safety — job security, safe workplace</li>
+          <li>Social — teamwork, friendships at work</li>
+          <li>Esteem — recognition, promotion, status</li>
+          <li>Self-actualisation — reaching full potential</li>
+        </ol>
+        <p><strong>Herzberg's Two-Factor Theory</strong>:</p>
+        <ul>
+          <li><strong>Hygiene factors</strong> — prevent dissatisfaction (pay, conditions) but don't motivate</li>
+          <li><strong>Motivators</strong> — actually motivate (achievement, responsibility, recognition)</li>
+        </ul>
+      `},
+      { heading: 'Financial Motivators', content: `
+        <ul>
+          <li><strong>Wages</strong> — paid per hour worked</li>
+          <li><strong>Salary</strong> — fixed annual amount, paid monthly</li>
+          <li><strong>Piece rate</strong> — paid per unit produced</li>
+          <li><strong>Commission</strong> — percentage of sales made</li>
+          <li><strong>Bonus</strong> — extra payment for good performance</li>
+          <li><strong>Profit sharing</strong> — employees receive a share of profits</li>
+        </ul>
+      `},
+      { heading: 'Non-Financial Motivators', content: `
+        <ul>
+          <li><strong>Job rotation</strong> — moving between different tasks</li>
+          <li><strong>Job enlargement</strong> — adding more tasks at the same level</li>
+          <li><strong>Job enrichment</strong> — giving more responsibility and challenge</li>
+          <li><strong>Autonomy</strong> — freedom to make decisions</li>
+          <li><strong>Team working</strong> — working collaboratively</li>
+          <li><strong>Flexible working</strong> — part-time, remote, flexi-hours</li>
+        </ul>
+      `},
+      { heading: 'Recruitment and Selection', content: `
+        <p><strong>Internal recruitment</strong> — filling vacancies from existing staff. Cheaper, faster but limits new ideas.</p>
+        <p><strong>External recruitment</strong> — hiring from outside. More candidates but more expensive.</p>
+        <p>Recruitment process: job analysis → job description → person specification → advertise → shortlist → interview → select → appoint.</p>
+        <p><strong>Job description</strong> — outlines the role, responsibilities and conditions.</p>
+        <p><strong>Person specification</strong> — outlines the skills, qualities and qualifications needed.</p>
+      `},
+      { heading: 'Training', content: `
+        <ul>
+          <li><strong>Induction training</strong> — introduction for new employees (health & safety, company culture)</li>
+          <li><strong>On-the-job training</strong> — learning while working (cheaper, relevant but disrupts work)</li>
+          <li><strong>Off-the-job training</strong> — external courses (higher quality but expensive and time away)</li>
+        </ul>
+      `},
+      { heading: 'Organisational Structure', content: `
+        <ul>
+          <li><strong>Hierarchy</strong> — levels of authority in a business</li>
+          <li><strong>Span of control</strong> — number of subordinates a manager directly supervises</li>
+          <li><strong>Chain of command</strong> — path of authority from top to bottom</li>
+          <li><strong>Delegation</strong> — passing authority to subordinates</li>
+          <li><strong>Tall structure</strong> — many levels, narrow span of control</li>
+          <li><strong>Flat structure</strong> — few levels, wide span of control</li>
+          <li><strong>Delayering</strong> — removing layers of management to reduce costs</li>
+        </ul>
+      `},
+      { heading: 'Leadership Styles', content: `
+        <ul>
+          <li><strong>Autocratic</strong> — manager makes all decisions. Fast but demotivating.</li>
+          <li><strong>Democratic</strong> — employees involved in decisions. Motivating but slow.</li>
+          <li><strong>Laissez-faire</strong> — employees given freedom to decide. Good for creative teams, can lack direction.</li>
+        </ul>
+      `},
+      { heading: 'Trade Unions', content: `
+        <p>A <strong>trade union</strong> is an organisation that represents workers' interests.</p>
+        <ul>
+          <li>Negotiate pay and conditions (collective bargaining)</li>
+          <li>Protect workers from unfair dismissal</li>
+          <li>Can call strikes as a last resort</li>
+        </ul>
+        <p><strong>Industrial action</strong>: strike, work-to-rule, go-slow, overtime ban.</p>
+      `},
+    ]
+  },
+  3: {
+    title: 'Unit 3 — Marketing',
+    sections: [
+      { heading: 'What is Marketing?', content: `
+        <p><strong>Marketing</strong> identifies and satisfies customer needs profitably. The goal is to get the right product to the right people at the right price and place.</p>
+        <p><strong>Market</strong> — where buyers and sellers meet to exchange goods/services.</p>
+        <ul>
+          <li><strong>Market size</strong> — total value or volume of sales in a market</li>
+          <li><strong>Market share</strong> — business sales as a percentage of total market sales</li>
+          <li><strong>Market growth</strong> — percentage increase in market size over time</li>
+        </ul>
+      `},
+      { heading: 'Market Research', content: `
+        <p><strong>Primary research</strong> (field research) — new data collected directly:</p>
+        <ul>
+          <li>Surveys/questionnaires, interviews, focus groups, observation</li>
+          <li>Expensive but specific and up-to-date</li>
+        </ul>
+        <p><strong>Secondary research</strong> (desk research) — existing data:</p>
+        <ul>
+          <li>Internet, government reports, market reports, company records</li>
+          <li>Cheaper but may be outdated or not specific enough</li>
+        </ul>
+        <p><strong>Quantitative data</strong> — numerical (percentages, statistics). <strong>Qualitative data</strong> — opinions and feelings.</p>
+      `},
+      { heading: 'Market Segmentation', content: `
+        <p>Dividing a market into groups of customers with similar characteristics:</p>
+        <ul>
+          <li><strong>Geographic</strong> — by region or country</li>
+          <li><strong>Demographic</strong> — by age, gender, income, occupation</li>
+          <li><strong>Psychographic</strong> — by lifestyle, values, personality</li>
+          <li><strong>Behavioural</strong> — by usage rate, brand loyalty</li>
+        </ul>
+        <p>Allows businesses to target their marketing more effectively and develop products for specific groups.</p>
+      `},
+      { heading: 'The Marketing Mix (4Ps)', content: `
+        <p><strong>Product</strong> — design, features, quality, branding, packaging, USP</p>
+        <p><strong>Price</strong> — pricing strategies:</p>
+        <ul>
+          <li>Cost-plus — add % markup to cost</li>
+          <li>Penetration — low price to enter market</li>
+          <li>Skimming — high price for new/innovative product</li>
+          <li>Competitive — match rival prices</li>
+          <li>Psychological — e.g. $9.99 instead of $10</li>
+          <li>Promotional — temporary price reductions</li>
+        </ul>
+        <p><strong>Place</strong> — distribution channels: manufacturer → wholesaler → retailer → consumer, or direct selling, e-commerce.</p>
+        <p><strong>Promotion</strong> — advertising (TV, social media, billboards), sales promotion (discounts, BOGOF), public relations, personal selling, direct mail.</p>
+      `},
+      { heading: 'Product Life Cycle', content: `
+        <p>Stages: <strong>Development → Introduction → Growth → Maturity → Decline</strong></p>
+        <ul>
+          <li><strong>Introduction</strong> — low sales, high costs, heavy promotion</li>
+          <li><strong>Growth</strong> — sales rise rapidly, profits increase, competitors enter</li>
+          <li><strong>Maturity</strong> — sales peak, market saturated, competition intense</li>
+          <li><strong>Decline</strong> — sales fall, may need extension strategies or discontinue</li>
+        </ul>
+        <p><strong>Extension strategies</strong> — relaunch, new packaging, new markets, price reductions.</p>
+      `},
+      { heading: 'Branding', content: `
+        <p>A <strong>brand</strong> is a name, sign or symbol that identifies a product and distinguishes it from rivals.</p>
+        <ul>
+          <li>Builds customer loyalty and recognition</li>
+          <li>Allows premium pricing</li>
+          <li>Makes promotion easier</li>
+        </ul>
+        <p><strong>USP (Unique Selling Point)</strong> — the feature that makes a product different and better than rivals.</p>
+      `},
+    ]
+  },
+  4: {
+    title: 'Unit 4 — Operations Management',
+    sections: [
+      { heading: 'Production Methods', content: `
+        <ul>
+          <li><strong>Job production</strong> — one-off unique products made to customer specification (e.g. wedding cakes, bridges). High quality but expensive.</li>
+          <li><strong>Batch production</strong> — groups of identical products made together (e.g. bread, clothing). Flexible but machinery must be reset between batches.</li>
+          <li><strong>Flow/mass production</strong> — continuous production of identical products (e.g. cars, phones). Low unit costs but inflexible and high setup costs.</li>
+        </ul>
+      `},
+      { heading: 'Productivity and Efficiency', content: `
+        <p><strong>Productivity</strong> — output per worker per time period.</p>
+        <p>Ways to improve productivity: better training, improved technology, better motivation, lean production.</p>
+        <p><strong>Capacity utilisation</strong> = (actual output / maximum output) × 100</p>
+        <p>High capacity utilisation reduces unit costs. Low utilisation means wasted resources.</p>
+      `},
+      { heading: 'Lean Production', content: `
+        <p>Aims to minimise waste and improve efficiency.</p>
+        <ul>
+          <li><strong>Just-in-time (JIT)</strong> — stock arrives exactly when needed. Reduces storage costs but risky if supplies delayed.</li>
+          <li><strong>Kaizen</strong> — continuous improvement through small, ongoing changes involving all employees.</li>
+          <li><strong>Time-based management</strong> — reducing time to develop and deliver products.</li>
+        </ul>
+      `},
+      { heading: 'Quality', content: `
+        <p><strong>Quality control</strong> — checking products at end of production. Identifies defects but waste has already occurred.</p>
+        <p><strong>Quality assurance</strong> — checking at every stage of production. Prevents defects occurring.</p>
+        <p><strong>Total Quality Management (TQM)</strong> — quality is everyone's responsibility throughout the whole organisation.</p>
+        <p><strong>Benefits of quality</strong>: fewer returns, better reputation, customer loyalty, premium pricing.</p>
+      `},
+      { heading: 'Location', content: `
+        <p>Factors affecting location:</p>
+        <ul>
+          <li>Proximity to raw materials (for heavy industry)</li>
+          <li>Proximity to market/customers (for retail/services)</li>
+          <li>Labour — availability, skills, cost</li>
+          <li>Infrastructure — transport links, communications</li>
+          <li>Government incentives — grants, tax breaks</li>
+          <li>Cost of land and premises</li>
+        </ul>
+        <p><strong>Globalisation</strong> — businesses locating in countries with lower costs (e.g. manufacturing in Asia).</p>
+      `},
+      { heading: 'Stock Control', content: `
+        <p><strong>Stock</strong> includes raw materials, work-in-progress, and finished goods.</p>
+        <ul>
+          <li><strong>Reorder level</strong> — stock level at which new order is placed</li>
+          <li><strong>Minimum stock level</strong> — safety/buffer stock to prevent running out</li>
+          <li><strong>Maximum stock level</strong> — maximum stock that can be held</li>
+        </ul>
+        <p>Too much stock = high storage costs. Too little = production stoppage, lost sales.</p>
+      `},
+    ]
+  },
+  5: {
+    title: 'Unit 5 — Financial Information',
+    sections: [
+      { heading: 'Income Statements (Profit & Loss)', content: `
+        <p>Shows revenue, costs and profit over a period of time.</p>
+        <ul>
+          <li><strong>Revenue</strong> = selling price × quantity sold</li>
+          <li><strong>Gross profit</strong> = Revenue − Cost of sales</li>
+          <li><strong>Profit from operations</strong> = Gross profit − Expenses</li>
+          <li><strong>Net profit</strong> = Profit from operations − Interest and tax</li>
+        </ul>
+        <p><strong>Cost of sales</strong> — direct costs of producing goods sold (raw materials, direct labour).</p>
+        <p><strong>Expenses</strong> — overhead costs (rent, marketing, admin salaries).</p>
+      `},
+      { heading: 'Balance Sheets', content: `
+        <p>A snapshot of what a business owns and owes at a point in time.</p>
+        <ul>
+          <li><strong>Assets</strong> — what the business owns (non-current: buildings, machinery; current: cash, stock, debtors)</li>
+          <li><strong>Liabilities</strong> — what the business owes (non-current: long-term loans; current: creditors, overdraft)</li>
+          <li><strong>Equity/Capital</strong> = Assets − Liabilities</li>
+        </ul>
+      `},
+      { heading: 'Cash Flow', content: `
+        <p><strong>Cash flow</strong> — the movement of money into and out of a business.</p>
+        <ul>
+          <li><strong>Cash inflows</strong> — sales revenue, loans, investment</li>
+          <li><strong>Cash outflows</strong> — wages, rent, materials, loan repayments</li>
+          <li><strong>Net cash flow</strong> = Inflows − Outflows</li>
+          <li><strong>Closing balance</strong> = Opening balance + Net cash flow</li>
+        </ul>
+        <p>Ways to improve cash flow: reduce credit terms, delay payments to suppliers, sell assets, arrange overdraft, cut costs.</p>
+      `},
+      { heading: 'Sources of Finance', content: `
+        <p><strong>Internal sources:</strong></p>
+        <ul>
+          <li>Retained profit — profits kept in the business</li>
+          <li>Sale of assets — selling unused equipment</li>
+          <li>Working capital management — reducing stock levels</li>
+        </ul>
+        <p><strong>External sources:</strong></p>
+        <ul>
+          <li>Bank loan — fixed repayments with interest</li>
+          <li>Overdraft — flexible short-term borrowing</li>
+          <li>Share issue — selling shares to raise capital (PLCs)</li>
+          <li>Venture capital — investment from specialist investors</li>
+          <li>Leasing — renting equipment instead of buying</li>
+          <li>Microfinance — small loans for entrepreneurs in developing countries</li>
+        </ul>
+      `},
+      { heading: 'Costs and Revenue', content: `
+        <ul>
+          <li><strong>Fixed costs</strong> — do not change with output (rent, salaries, insurance)</li>
+          <li><strong>Variable costs</strong> — change directly with output (raw materials, packaging)</li>
+          <li><strong>Total costs</strong> = Fixed costs + Variable costs</li>
+          <li><strong>Average cost</strong> = Total cost ÷ Output</li>
+        </ul>
+      `},
+      { heading: 'Break-Even Analysis', content: `
+        <p><strong>Break-even point</strong> — where total revenue = total costs (no profit, no loss).</p>
+        <p><strong>Break-even formula</strong> = Fixed costs ÷ (Selling price − Variable cost per unit)</p>
+        <p><strong>Contribution per unit</strong> = Selling price − Variable cost per unit</p>
+        <p><strong>Margin of safety</strong> = Actual output − Break-even output</p>
+        <p>Uses: setting prices, deciding whether to launch a product, assessing risk.</p>
+      `},
+      { heading: 'Profitability Ratios', content: `
+        <p><strong>Gross profit margin</strong> = (Gross profit ÷ Revenue) × 100</p>
+        <p><strong>Net profit margin</strong> = (Net profit ÷ Revenue) × 100</p>
+        <p><strong>Return on Capital Employed (ROCE)</strong> = (Profit from operations ÷ Capital employed) × 100</p>
+        <p>Higher margins = better profitability. Compare with previous years and competitors.</p>
+      `},
+    ]
+  },
+  6: {
+    title: 'Unit 6 — External Influences',
+    sections: [
+      { heading: 'Stakeholders', content: `
+        <p>A <strong>stakeholder</strong> is any person or group with an interest in a business.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:8px">
+          <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:8px;color:var(--text2)">Stakeholder</th><th style="text-align:left;padding:8px;color:var(--text2)">Interest in business</th></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Shareholders</td><td style="padding:8px">Dividends and share price growth</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Employees</td><td style="padding:8px">Pay, job security, conditions</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Customers</td><td style="padding:8px">Quality, price, value</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Suppliers</td><td style="padding:8px">Prompt payment, long-term contracts</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Government</td><td style="padding:8px">Tax revenue, employment, legal compliance</td></tr>
+          <tr><td style="padding:8px">Community</td><td style="padding:8px">Jobs, environment, local impact</td></tr>
+        </table>
+        <p style="margin-top:12px">Stakeholder conflicts are common — e.g. shareholders want high profits, employees want high wages.</p>
+      `},
+      { heading: 'Government and the Economy', content: `
+        <p>Key economic factors affecting businesses:</p>
+        <ul>
+          <li><strong>Economic growth</strong> — higher incomes → more spending → higher sales</li>
+          <li><strong>Inflation</strong> — rising prices increase costs and reduce purchasing power</li>
+          <li><strong>Unemployment</strong> — high unemployment = larger labour supply, lower wages but less consumer spending</li>
+          <li><strong>Interest rates</strong> — higher rates = more expensive loans, less consumer borrowing</li>
+          <li><strong>Exchange rates</strong> — stronger currency = exports more expensive, imports cheaper</li>
+        </ul>
+      `},
+      { heading: 'Government Intervention', content: `
+        <ul>
+          <li><strong>Taxation</strong> — corporation tax on profits, VAT on sales, income tax on wages</li>
+          <li><strong>Subsidies</strong> — financial support to encourage production</li>
+          <li><strong>Legislation</strong> — laws on employment, consumer protection, competition</li>
+          <li><strong>Minimum wage</strong> — legal minimum hourly pay</li>
+          <li><strong>Interest rate policy</strong> — set by central banks to control inflation</li>
+        </ul>
+      `},
+      { heading: 'Environmental and Ethical Issues', content: `
+        <p><strong>Environmental issues</strong>:</p>
+        <ul>
+          <li>Pollution, carbon emissions, waste disposal</li>
+          <li>Businesses face pressure to reduce environmental impact</li>
+          <li>Sustainable production — using resources without depleting them for future generations</li>
+        </ul>
+        <p><strong>Ethical issues</strong>:</p>
+        <ul>
+          <li>Fair trade — paying fair prices to producers in developing countries</li>
+          <li>Child labour, workers' rights, supply chain conditions</li>
+          <li>Being ethical can improve reputation but may increase costs</li>
+        </ul>
+      `},
+      { heading: 'Globalisation', content: `
+        <p><strong>Globalisation</strong> — the increasing integration of the world's economies.</p>
+        <ul>
+          <li><strong>Multinationals (MNCs)</strong> — businesses that operate in more than one country</li>
+          <li>Benefits of MNCs for host country: jobs, investment, tax revenue, skills transfer</li>
+          <li>Drawbacks: profits sent abroad, local businesses struggle to compete, exploitation of workers</li>
+        </ul>
+        <p><strong>Free trade</strong> — no barriers between countries. <strong>Protectionism</strong> — tariffs, quotas, embargoes to protect domestic industries.</p>
+      `},
+    ]
+  }
+};
+ 
+function showNotes() {
+  document.getElementById('notesPage').style.display = 'block';
+  document.getElementById('markerPage').style.display = 'none';
+  document.getElementById('pastPapersPage').style.display = 'none';
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
+  document.querySelector('footer').style.display = 'none';
+  document.getElementById('navMarker').style.color = 'var(--text2)';
+  document.getElementById('navMarker').style.fontWeight = '500';
+  if(document.getElementById('navPapers')){document.getElementById('navPapers').style.color='var(--text2)';document.getElementById('navPapers').style.fontWeight='500';}
+  if(document.getElementById('navNotes')){document.getElementById('navNotes').style.color='#60a5fa';document.getElementById('navNotes').style.fontWeight='600';}
+  window.scrollTo(0,0);
+  document.title = 'Notes — BusinessGPT';
+  showUnit(1);
+}
+ 
+function showUnit(n) {
+  // Update sidebar
+  for(let i=1;i<=6;i++){
+    const btn = document.getElementById('nu'+i);
+    if(!btn) return;
+    btn.style.background = i===n ? 'var(--blue-500)' : 'transparent';
+    btn.style.color = i===n ? '#fff' : 'var(--text2)';
+    btn.style.fontWeight = i===n ? '600' : '500';
+  }
+  const unit = NOTES[n];
+  if(!unit) return;
+  const content = document.getElementById('notesContent');
+  if(!content) return;
+  content.innerHTML = `
+    <div style="margin-bottom:32px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Cambridge IGCSE Business Studies 0450</div>
+      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">${unit.title}</div>
+    </div>
+    ${unit.sections.map(s => `
+      <div style="margin-bottom:28px">
+        <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)">${s.heading}</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.8">
+          <style>
+            #notesContent ul { padding-left:20px;margin:8px 0; }
+            #notesContent ol { padding-left:20px;margin:8px 0; }
+            #notesContent li { margin:4px 0; }
+            #notesContent p { margin:8px 0; }
+            #notesContent strong { color:var(--text); }
+            #notesContent table { margin:8px 0; }
+          </style>
+          ${s.content}
+        </div>
+      </div>
+    `).join('')}
+  `;
 }
  
 function saveGeminiKey() {
