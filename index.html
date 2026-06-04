@@ -2366,6 +2366,25 @@ if (typeof pdfjsLib !== 'undefined') {
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
 }
 
+function showFullPaper() {
+  document.getElementById('fullPaperPage').style.display = 'block';
+  document.getElementById('dashPage').style.display = 'none';
+  document.getElementById('markerPage').style.display = 'none';
+  document.getElementById('pastPapersPage').style.display = 'none';
+  document.getElementById('notesPage').style.display = 'none';
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
+  document.querySelector('footer').style.display = 'none';
+  ['navMarker','navPapers','navNotes','navDash','navFullPaper'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
+  });
+  const fp = document.getElementById('navFullPaper');
+  if (fp) { fp.style.color = '#60a5fa'; fp.style.fontWeight = '600'; }
+  window.scrollTo(0,0);
+  document.title = 'Full Paper — BusinessGPT';
+}
+
 function setFP(p) {
   fpPaper = p;
   document.getElementById('fpt1').style.background = p===1 ? 'var(--blue-500)' : 'transparent';
