@@ -583,7 +583,7 @@ footer {
     <ul class="nav-links" id="navLinks">
       <li><a href="#" id="navDash" onclick="showDash();return false" style="color:var(--text2)">Dashboard</a></li>
       <li><a href="#" id="navMarker" onclick="showMarker();return false" style="color:var(--text2)">Marker</a></li>
-      <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper</a></li>
+      <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#faq" onclick="showHome()">FAQ</a></li>
@@ -1014,7 +1014,7 @@ footer {
 
     <!-- Header -->
     <div>
-      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Full Paper Marking</div>
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Full Paper Marking (Elite)</div>
       <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:6px">Mark a full paper</div>
       <p style="font-size:14px;color:var(--text2)">Upload your question paper and mark scheme as PDFs, type your answers, and get a complete report out of 80 marks.</p>
     </div>
@@ -2382,7 +2382,7 @@ function showFullPaper() {
   const fp = document.getElementById('navFullPaper');
   if (fp) { fp.style.color = '#60a5fa'; fp.style.fontWeight = '600'; }
   window.scrollTo(0,0);
-  document.title = 'Full Paper — BusinessGPT';
+  document.title = 'Full Paper Marking (Elite) — BusinessGPT';
 }
 
 function setFP(p) {
