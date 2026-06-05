@@ -1014,11 +1014,10 @@ footer {
 <div id="fullPaperPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding:40px 0 80px">
   <div style="max-width:900px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:22px">
 
-    <!-- Header -->
     <div>
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Full Paper Marking (Elite)</div>
       <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:6px">Mark a full paper</div>
-      <p style="font-size:14px;color:var(--text2)">Upload your question paper and mark scheme as PDFs, type your answers, and get a complete report out of 80 marks.</p>
+      <p style="font-size:14px;color:var(--text2)">Select a past paper, write your answers to all 20 questions, and get a complete report out of 80 marks with detailed feedback on every question.</p>
     </div>
 
     <!-- Paper tabs -->
@@ -1027,51 +1026,43 @@ footer {
       <button id="fpt2" onclick="setFP(2)" style="padding:8px 22px;border-radius:7px;font-size:14px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer">Paper 2</button>
     </div>
 
-    <div style="height:1px;background:var(--border)"></div>
-
-    <!-- Upload row -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-
-      <!-- Question paper upload -->
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <label style="font-size:13px;font-weight:500;color:var(--text2)">Question Paper <span style="color:var(--text3);font-weight:400">— upload PDF</span></label>
-        <div id="qp-drop" onclick="document.getElementById('qp-file').click()" style="border:1.5px dashed var(--border2);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)" onmouseover="this.style.borderColor='var(--blue-400)';this.style.background='rgba(59,130,246,.04)'" onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--bg2)'">
-          <div style="font-size:24px;margin-bottom:8px">📄</div>
-          <div style="font-size:13px;font-weight:500;color:var(--text2)" id="qp-label">Click to upload PDF</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:3px">or drag and drop</div>
+    <!-- Paper 1 content -->
+    <div id="fp1-content">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <!-- Paper selector -->
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:13px;font-weight:500;color:var(--text2)">Select paper</label>
+          <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;max-width:340px">
+            <option value="">— Choose a paper —</option>
+            <option value="w25_11">2025 Oct/Nov Variant 1</option>
+          </select>
         </div>
-        <input type="file" id="qp-file" accept=".pdf" style="display:none" onchange="handlePDF(this,'qp')"/>
-        <div id="qp-status" style="font-size:12px;color:var(--text3)"></div>
-      </div>
 
-      <!-- Mark scheme upload -->
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <label style="font-size:13px;font-weight:500;color:var(--text2)">Mark Scheme <span style="color:var(--text3);font-weight:400">— upload PDF</span></label>
-        <div id="ms-drop" onclick="document.getElementById('ms-file').click()" style="border:1.5px dashed var(--border2);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)" onmouseover="this.style.borderColor='var(--blue-400)';this.style.background='rgba(59,130,246,.04)'" onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--bg2)'">
-          <div style="font-size:24px;margin-bottom:8px">📋</div>
-          <div style="font-size:13px;font-weight:500;color:var(--text2)" id="ms-label">Click to upload PDF</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:3px">or drag and drop</div>
+        <!-- Paper info (shown after selection) -->
+        <div id="fp-paper-info" style="display:none;background:rgba(37,99,235,.07);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--text)">How to use:</strong> All questions are loaded below. Write your answer to each question in the box provided. When done, click <strong>Mark full paper</strong>.
         </div>
-        <input type="file" id="ms-file" accept=".pdf" style="display:none" onchange="handlePDF(this,'ms')"/>
-        <div id="ms-status" style="font-size:12px;color:var(--text3)"></div>
-      </div>
 
+        <!-- Questions (loaded dynamically) -->
+        <div id="fp-questions-list" style="display:flex;flex-direction:column;gap:12px"></div>
+
+        <!-- Mark button -->
+        <button id="fp-btn" onclick="markFullPaper()" style="display:none;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);width:fit-content">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+          Mark full paper
+        </button>
+
+        <!-- Results -->
+        <div id="fp-results"></div>
+      </div>
     </div>
 
-    <!-- Answers -->
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <label style="font-size:13px;font-weight:500;color:var(--text2)">Your answers <span style="color:var(--text3);font-weight:400">— type or paste all your answers. Label each one clearly e.g. "1(a) Revenue is..."</span></label>
-      <textarea id="fp-answers" rows="12" placeholder="1(a) Revenue is the income received from selling goods and services...&#10;&#10;1(b) Two reasons why the business might want to expand:&#10;First, the business could increase its revenue...&#10;&#10;2(a) ..." style="width:100%;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+    <!-- Paper 2 placeholder -->
+    <div id="fp2-content" style="display:none;padding:40px;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:14px">
+      <div style="font-size:32px;margin-bottom:12px">🚧</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text2)">Paper 2 coming soon</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:6px">We're adding past Paper 2s — check back soon!</div>
     </div>
-
-    <!-- Mark button -->
-    <button id="fp-btn" onclick="markFullPaper()" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);transition:all .2s;width:fit-content">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
-      Mark full paper
-    </button>
-
-    <!-- Results -->
-    <div id="fp-results"></div>
 
   </div>
 </div>
@@ -2423,15 +2414,178 @@ function saveGeminiKey() {
   document.getElementById('keyStatus').style.color = '#4ade80';
 }
 
+const PAST_PAPERS_DATA = {
+  'w25_11': {
+    label: '2025 Oct/Nov Variant 1',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Define 'trade union'.",
+        marks: 2,
+        part: 'a',
+        context: "WMH is a business which operates in the secondary sector. It makes furniture including tables and chairs. WMH's employees are all members of a trade union. The Managing Director knows the business is likely to remain small. She is considering introducing new technology into WMH's factory.",
+        ms: "Full definition (2 marks): Group of workers who join together to ensure their interests are protected. An organisation of employees aimed at improving pay and working conditions. Partial (1 mark): Group of workers/employees who join together. People/organisation who fight for employee/worker rights. Stand for workers' rights/protect workers."
+      },
+      {
+        q: '1(b)',
+        text: "Define 'secondary sector'.",
+        marks: 2,
+        part: 'a',
+        context: "WMH is a business which operates in the secondary sector. It makes furniture including tables and chairs.",
+        ms: "Full definition (2 marks): Businesses that process/manufacture goods from natural resources. Manufacture goods using the raw materials provided by the primary sector. Converts raw materials into manufactured goods. Partial (1 mark): Makes products. Manufactures goods. Refines/processes raw materials. Do not award examples of manufactured goods."
+      },
+      {
+        q: '1(c)',
+        text: "Identify four reasons why a business might remain small.",
+        marks: 4,
+        part: 'c',
+        context: "WMH is a business which operates in the secondary sector. The Managing Director knows the business is likely to remain small.",
+        ms: "1 mark per reason (max 4). Points include: Limited access to capital to expand; Limited access to suitable labour; Personal preference/owner does not want responsibility/wants to keep control; Lack of skills/knowledge/experience; Size of the market/small market/low demand; To maintain close customer relationships/provide personal service; Some large firms dominate the market/too much competition; Can be flexible/respond quickly to changes; No economies of scale/to avoid diseconomies; Operating at maximum possible output. Only award first four responses. Do not award vague statements such as less stressful."
+      },
+      {
+        q: '1(d)',
+        text: "Explain two possible effects of WMH introducing new technology.",
+        marks: 6,
+        part: 'd',
+        context: "WMH is a business which operates in the secondary sector. It makes furniture including tables and chairs. WMH's employees are all members of a trade union. The Managing Director is considering introducing new technology into WMH's factory.",
+        ms: "1 mark identification + 1 mark application to business + 1 mark explanation (max 2 effects = 6 marks). Positive effects: Improve quality/less waste/fewer mistakes leading to better reputation for its furniture; Increases productivity/efficiency/quicker production leading to lower costs for this small business; Improved communication leading to fewer mistakes/better efficiency in the factory; Can design new products which may increase sales/access new markets; Greater job satisfaction/motivation reducing absenteeism/lowering labour turnover. Negative effects: Purchasing new equipment/expensive increasing cash outflows/debt; Need to train workers which can increase costs; Some employees may lose their jobs/made redundant. Application words: furniture/tables/chairs, trade union, factory, small business, secondary sector/manufacturing. Some points can be knowledge or analysis but do not award the same point twice."
+      },
+      {
+        q: '1(e)',
+        text: "Explain two factors a manufacturing business should consider when deciding on a suitable location for a factory. Which factor is likely to be the most important? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "WMH is a business which operates in the secondary sector. It makes furniture. This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application - this is a general question. Factors: Access to skilled labour as may be difficult to find/recruit; Access to raw materials/components so production is not delayed; Availability/rent of suitable land which could restrict size of factory; Good transport links to ensure materials arrive/products sent when needed; Proximity to market to ensure sales/revenue can be made; Government grants which could help reduce costs; Legal controls which may prevent locating in certain areas; Access to utilities/power/water as needed for production. Justification must explain why one factor is MORE important than another with reasoning - e.g. land is more important because it might limit output which could reduce ability to meet demand whereas a business can train employees and extra cost might be covered by additional revenue."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'import tariff'.",
+        marks: 2,
+        part: 'a',
+        context: "CPW is a private sector business which sells electrical goods including kettles and ovens in its 36 shops. CPW buys all its inventory from local suppliers to avoid import tariffs.",
+        ms: "Full definition (2 marks): A tax placed on imported goods. A tax applied to the value of imported goods. A specific form of tax imposed on imported goods. Partial (1 mark): A type of tax. First mark is for understanding this is a tax."
+      },
+      {
+        q: '2(b)',
+        text: "Identify one non-current asset and one current liability.",
+        marks: 2,
+        part: 'a',
+        context: "CPW statement of financial position 2024: Non-current assets $120m, Current assets $70m, Current liabilities $110m, Non-current liabilities $75m.",
+        ms: "1 mark per correct answer. Non-current assets: Machinery, Equipment, Land, Buildings/shops/factories/offices, Motor vehicles/delivery vehicles. Current liabilities: Overdraft, Short-term loan, Trade payables/creditors. Only award first responses given for each."
+      },
+      {
+        q: '2(c)',
+        text: "Outline two ways the information in Table 2.1 might be useful to CPW.",
+        marks: 4,
+        part: 'c',
+        context: "CPW statement of financial position 2024 ($million): Non-current assets 120, Current assets 70, Current liabilities 110, Non-current liabilities 75. CPW is a private sector business selling electrical goods (kettles/ovens) in 36 shops. Buying 10 new delivery vehicles.",
+        ms: "1 mark per way + 1 mark application (max 2 ways = 4 marks). Ways: Show value of liabilities/what the business owes - current liabilities $110 million; Show value of assets/what the business owns - $190 million; Support loan application/help raise finance for the 10 vehicles; Calculate working capital/current assets minus current liabilities; Show how business finances its activities; Calculate current ratio 0.63:1 or 0.64:1; Compare performance with other businesses/over time; Show value of business/capital employed $80 million; Equity/owners capital $5 million. Application words: private sector business, electrical goods/kettles/ovens, 36 shops, 10 vehicles, local suppliers, import tariffs, delivery service, $75m non-current liabilities, $120m non-current assets, $110m current liabilities, $70m current assets, 0.63:1 current ratio, $190m total assets, negative $40m working capital, $80m capital employed, $5m equity."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two factors CPW should consider when deciding on a source of finance for the new vehicles.",
+        marks: 6,
+        part: 'd',
+        context: "CPW is a private sector business selling electrical goods in 36 shops. Non-current assets $120m, Current assets $70m, Current liabilities $110m, Non-current liabilities $75m. Needs to purchase 10 new delivery vehicles.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 factors = 6 marks). Factors: Amount required for the 10 vehicles because this is a large amount a bank loan may be required; Current level of borrowing/loans as bank might not lend extra when have non-current liabilities of $75 million; Time period as vehicles needed long-term so source needs to be long-term to make deliveries; Cost of finance/affordability as high interest rates could increase cash outflows adding to current liabilities of $110 million; Size/legal form of private sector business; Security/collateral needed; Level of control; How urgently funds are required. Application words: private sector business, electrical goods, 36 shops, 10 vehicles, local suppliers, import tariffs, delivery service, $75m non-current liabilities, $120m non-current assets, $110m current liabilities, $70m current assets."
+      },
+      {
+        q: '2(e)',
+        text: "Explain two objectives a private sector business might have. Which objective is likely to be the most important? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Objectives: Survival/stay in business to breakeven/ensure costs are covered; Make a profit when revenue exceeds total costs; Growth/expansion as this can help spread risk; Increase sales leading to higher revenue; Increase market share which could allow controlling prices; Socially/ethically/environmentally responsible; Increase returns to shareholders to encourage investment; Increase brand image/reputation; Customer satisfaction. Justification must compare two objectives and explain why one is MORE important than the other with reasoning - e.g. survival is most important because without it there is no opportunity to make profit in the long term. Analysis can focus on explaining what the objective is or advantages of that objective."
+      },
+      {
+        q: '3(a)',
+        text: "Identify X and Y on the break-even chart.",
+        marks: 2,
+        part: 'a',
+        context: "SBL is a fast food restaurant which sells 900 chicken burgers each week. It has 14 employees. A partially completed break-even chart is shown. X is the intersection point of total costs and total revenue. Y is the line that starts from zero and rises steeply (total revenue line).",
+        ms: "1 mark each. X: Break-even (point). Y: (Total) revenue. Only award first response given for each."
+      },
+      {
+        q: '3(b)',
+        text: "Define 'margin of safety'.",
+        marks: 2,
+        part: 'a',
+        context: "SBL sells 900 chicken burgers each week and has a break-even point of 500 units.",
+        ms: "Full definition (2 marks): The difference between the current level of output/sales and break-even output/sales. The amount by which sales exceed the break-even point. Partial (1 mark): Difference between total output and break-even point. Number of units that exceed break-even output."
+      },
+      {
+        q: '3(c)',
+        text: "Outline two advantages of Vicki delegating tasks to her employees.",
+        marks: 4,
+        part: 'c',
+        context: "SBL is a fast food restaurant selling 900 chicken burgers each week with 14 employees. Owner Vicki does not currently use delegation but provides training. Break-even output is 500 units, margin of safety is 400 units.",
+        ms: "1 mark per advantage + 1 mark application (max 2 advantages = 4 marks). Advantages: Motivate employees helping increase sales above 900 units; Develop employee skills/increase flexibility when making burgers; Builds trust between owner and employees/better working relations; The owner cannot do all tasks alone/reduces her workload/time to focus on other tasks such as completing break-even chart; Quality of owner's work often improved/less likely to make mistakes at the restaurant; She can measure performance/success of employees. Application words: fast food/restaurant, chicken burgers, 14 employees, 900 meals a week, 500/break-even, 400/margin of safety, training, economic recession."
+      },
+      {
+        q: '3(d)',
+        text: "Explain two possible effects of an economic recession on Vicki's business.",
+        marks: 6,
+        part: 'd',
+        context: "SBL is a fast food restaurant selling 900 chicken burgers each week with 14 employees. Break-even is 500 units, margin of safety 400 units. Vicki provides training and is considering delegation.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 effects = 6 marks). Effects: Lower/fewer sales leading to lower revenue from selling burgers; May need to lower costs as revenue falling for the restaurant; More workers available so may lower labour costs of the 14 employees; Workers may be made redundant/reduce workforce which could demotivate other workers; Low business confidence so less willing to invest; The business may fail/hard to survive; May have cash flow problems so cannot pay day-to-day costs; May lower prices; May delay expansion plans; Banks may not be willing to lend; May change objective to survival; Lower profit so less funds to invest. Application words: fast food/restaurant, chicken burgers, 14 employees, delegation, 900 meals a week, 500 break-even output, 400 margin of safety. Effects can be positive or negative but mirror answers only credited once."
+      },
+      {
+        q: '3(e)',
+        text: "Explain two methods of training a business might use. Which is likely to be the best method for a service business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Methods: On-the-job training - being trained in the workplace/watching experienced worker/business specific training/lower cost/some work completed during training/may learn bad habits/trainer less productive. Off-the-job training - being trained away from workplace/trained by experts/new up-to-date skills/higher cost/wages paid but no work done. Induction training - helps new employees understand workplace/job role/new workers settle in quickly/delays when start work. Justification must compare two methods and explain why one is BETTER for a service business than the other with reasoning."
+      },
+      {
+        q: '4(a)',
+        text: "Define 'brand image'.",
+        marks: 2,
+        part: 'a',
+        context: "MTL is a large business which sells children's toys. Having a good brand image is important.",
+        ms: "Full definition (2 marks): The image or identity given to a product/business which distinguishes it from competitors. Characteristics that distinguish a business from others through design or logo. The general impression of a product/business held by consumers. Personality given to a product/business through marketing activities. Partial (1 mark): Identity given to a product/business. How product/business is seen by others. Characteristics that make a business unique."
+      },
+      {
+        q: '4(b)',
+        text: "Identify two reasons why some markets have become more competitive.",
+        marks: 2,
+        part: 'a',
+        context: "MTL is a large business selling children's toys. The market has become more competitive.",
+        ms: "1 mark per reason (max 2). Points: Globalisation/growth of free trade agreements; Changes in technology e.g. ecommerce/internet/social media; Changes in legal controls/more or fewer regulations/government intervention; Transport improvements/infrastructure improvements. Only award first two responses. Do not award factors affecting demand or spending patterns such as changes in population, changes in advertising or changes in prices. Accept reduced barriers to entry once if no other specific reasons."
+      },
+      {
+        q: '4(c)',
+        text: "Outline one way MTL could act ethically with each of the following stakeholder groups: Employees and Customers.",
+        marks: 4,
+        part: 'c',
+        context: "MTL is a large business which sells children's toys. MTL wants to act ethically with all of its stakeholder groups including its 430 employees. The market has become more competitive. Having a good brand image is important.",
+        ms: "1 mark per way + 1 mark application (max 2 stakeholder groups = 4 marks). Employees: Pay fair/good wages to its 430 employees; Ensure fair/good working conditions when making the toys; Not employ child labour; Not use zero hours contracts. Customers: Charge a fair price which can help maintain its good brand image; Not advertise misleading prices when operating in a competitive market. Application words: children's toys, 430 employees, competitive market, large business, good brand image, new markets in other countries, methods of promotion."
+      },
+      {
+        q: '4(d)',
+        text: "Explain two problems MTL might have when entering a new market in another country.",
+        marks: 6,
+        part: 'd',
+        context: "MTL is a large business selling children's toys. MTL operates ethically and has 430 employees. Good brand image is important. MTL's directors are considering entering a new market in another country.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 problems = 6 marks). Problems: Lack of market knowledge so may not be aware of competitors' pricing/promotion for toys; Language differences so may have to translate/change wording on packaging to explain how it is ethical; Cultural differences so product may not sell there which could damage brand image; Changes in exchange rates may make it difficult to set prices for this large business; Different legal controls which could restrict what/how they can sell; Import restrictions/quotas which could restrict number of products they can import; Economic differences e.g. average income; Increased transport costs as products may be transported over long distances; Level of competition; Lack of recognition of the business; High taxes; Difficulty locating suppliers; Increased risk of non-payment as methods of payment likely different. Application words: children's toys, ethical, stakeholder groups, 430 employees, good brand image, large business, methods of promotion."
+      },
+      {
+        q: '4(e)',
+        text: "Explain two methods of promotion a business might use for its products. Which method is likely to be the best for a large business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Methods: Television - expensive/can include moving images to attract attention; Magazines - able to target specific types of customers; Discount offers/promotional pricing/coupons/loyalty cards - makes products more affordable; Social media/internet/influencers - reach large numbers of people; Leaflets - low-cost method; Posters/billboards - seen by everyone passing by; Point of sale displays/demonstrations - customer shown how it is used; Radio advertising - target specific regions; Newspapers; Gifts; Sponsorship; Competitions - encourage customer to buy to receive reward; Free samples; BOGOF; After-sales service. Justification must compare two methods and explain why one is BETTER for a large business than the other - e.g. television is best because a large business can afford the cost and is likely to reach far more people than a poster."
+      }
+    ]
+  }
+};
+
+
 // ── Full Paper ───────────────────────────────────────
 let fpPaper = 1;
-let qpText = '';
-let msText = '';
-
-// Set up PDF.js worker
-if (typeof pdfjsLib !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-}
+let currentFPPaper = null;
 
 function showFullPaper() {
   document.getElementById('fullPaperPage').style.display = 'block';
@@ -2460,116 +2614,113 @@ function setFP(p) {
   document.getElementById('fpt2').style.background = p===2 ? 'var(--blue-500)' : 'transparent';
   document.getElementById('fpt2').style.color = p===2 ? '#fff' : 'var(--text2)';
   document.getElementById('fpt2').style.boxShadow = p===2 ? '0 2px 12px rgba(59,130,246,.3)' : 'none';
+  document.getElementById('fp1-content').style.display = p===1 ? 'block' : 'none';
+  document.getElementById('fp2-content').style.display = p===2 ? 'block' : 'none';
 }
 
-async function extractPDFText(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const typedArray = new Uint8Array(e.target.result);
-        const pdf = await pdfjsLib.getDocument(typedArray).promise;
-        let text = '';
-        for (let i = 1; i <= pdf.numPages; i++) {
-          const page = await pdf.getPage(i);
-          const content = await page.getTextContent();
-          text += content.items.map(item => item.str).join(' ') + '\n';
-        }
-        resolve(text);
-      } catch(err) {
-        reject(err);
-      }
-    };
-    reader.readAsArrayBuffer(file);
-  });
-}
+function loadFPPaper() {
+  const key = document.getElementById('fp-paper-select').value;
+  const paper = PAST_PAPERS_DATA[key];
+  const list = document.getElementById('fp-questions-list');
+  const info = document.getElementById('fp-paper-info');
+  const btn = document.getElementById('fp-btn');
 
-async function handlePDF(input, type) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const label = document.getElementById(type + '-label');
-  const status = document.getElementById(type + '-status');
-  const drop = document.getElementById(type + '-drop');
-
-  label.textContent = 'Extracting text...';
-  status.textContent = '';
-  drop.style.borderColor = 'var(--blue-400)';
-
-  try {
-    const text = await extractPDFText(file);
-    if (type === 'qp') qpText = text;
-    else msText = text;
-
-    label.textContent = '✓ ' + file.name;
-    label.style.color = '#4ade80';
-    drop.style.borderColor = 'rgba(74,222,128,.4)';
-    drop.style.background = 'rgba(74,222,128,.04)';
-    status.textContent = Math.round(text.length / 5) + ' words extracted';
-    status.style.color = '#4ade80';
-  } catch(e) {
-    label.textContent = '✗ Could not read PDF';
-    label.style.color = '#f87171';
-    status.textContent = 'Try copy-pasting the text manually instead';
-    status.style.color = '#f87171';
+  if (!paper) {
+    list.innerHTML = '';
+    info.style.display = 'none';
+    btn.style.display = 'none';
+    currentFPPaper = null;
+    return;
   }
+
+  currentFPPaper = paper;
+  info.style.display = 'block';
+  btn.style.display = 'inline-flex';
+  document.getElementById('fp-results').innerHTML = '';
+
+  // Group questions by scenario (1, 2, 3, 4)
+  const scenarios = {};
+  paper.questions.forEach(q => {
+    const num = q.q[0];
+    if (!scenarios[num]) scenarios[num] = [];
+    scenarios[num].push(q);
+  });
+
+  list.innerHTML = Object.entries(scenarios).map(([num, qs]) => `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+      <div style="padding:14px 18px;background:rgba(37,99,235,.06);border-bottom:1px solid var(--border)">
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--blue-400);margin-bottom:4px">Question ${num}</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">${qs[0].context.split('.')[0]}.</div>
+      </div>
+      ${qs.map(q => `
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+            <span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:32px">${q.q}</span>
+            <span style="font-size:13px;color:var(--text);flex:1">${q.text}</span>
+            <span style="font-size:11px;color:var(--text3);white-space:nowrap">[${q.marks} marks]</span>
+          </div>
+          <textarea id="fpans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.marks <= 2 ? 2 : q.marks <= 4 ? 3 : 5}" placeholder="Your answer for ${q.q}..." style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
 }
 
 async function markFullPaper() {
-  const answers = document.getElementById('fp-answers').value.trim();
-
-  if (!qpText && !msText && !answers) {
-    alert('Please upload at least a question paper PDF and type your answers.');
-    return;
-  }
-  if (!answers) {
-    document.getElementById('fp-answers').style.borderColor = 'rgba(248,113,113,.5)';
-    document.getElementById('fp-answers').focus();
-    return;
-  }
+  if (!currentFPPaper) return;
 
   const btn = document.getElementById('fp-btn');
   btn.disabled = true;
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking full paper…';
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking all 20 questions…';
 
   document.getElementById('fp-results').innerHTML = `
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
-      <div style="font-size:13px;color:var(--text2)">Reading your paper and marking all questions — this may take 15–30 seconds…</div>
-      <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
-        <div style="height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(59,130,246,.06),rgba(59,130,246,.2),rgba(59,130,246,.06));background-size:200% 100%;animation:shimmer 1.5s infinite"></div>
-        <div style="height:8px;border-radius:4px;width:75%;background:linear-gradient(90deg,rgba(59,130,246,.06),rgba(59,130,246,.2),rgba(59,130,246,.06));background-size:200% 100%;animation:shimmer 1.5s infinite"></div>
-      </div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking all questions — this may take 30–60 seconds…</div>
+      <div style="font-size:13px;color:var(--text3)">Please don't close this tab</div>
     </div>`;
 
-  const prompt = `You are an experienced Cambridge IGCSE Business Studies examiner. Mark this complete Paper ${fpPaper} submission.
+  // Collect all answers
+  const questions = currentFPPaper.questions;
+  const answers = questions.map(q => {
+    const key = q.q.replace(/[^a-z0-9]/gi,'_');
+    const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
+    return { ...q, answer: ans };
+  });
 
-${qpText ? 'QUESTION PAPER:\n' + qpText.slice(0, 8000) : ''}
+  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
 
-${msText ? 'MARK SCHEME:\n' + msText.slice(0, 6000) : ''}
+  // Build a single comprehensive prompt
+  const qList = answers.map(q =>
+    `${q.q} [${q.marks} marks]: ${q.text}
+Context: ${q.context}
+Mark scheme: ${q.ms}
+Student answer: ${q.answer || '(no answer provided)'}`
+  ).join('
 
-STUDENT ANSWERS:\n${answers}
+---
 
-Instructions:
-- Identify each question from the student's answers (they should be labelled e.g. 1a, 1b, 2a etc)
-- Mark each question strictly against the Cambridge mark scheme (or use Cambridge IGCSE Business Studies 0450 marking principles if no mark scheme provided)
-- The total paper is out of 80 marks
-- For each question give a score, brief feedback and missed points
+');
+
+  const prompt = `You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark all 20 questions for the paper below.
+
+${qList}
+
+Mark each question strictly according to its mark scheme. Total paper is ${totalMax} marks.
+
+For each question:
+- Apply the exact mark scheme provided
+- Award marks for correct knowledge (k), relevant application to the business (app), and analysis/explanation (an)
+- Part (e) questions: reserve up to 2 marks for justified evaluation/conclusion - cap at 4/6 without it
+- Be strict but fair
 
 Respond ONLY with valid JSON, no markdown:
 {
   "total_score": integer,
-  "total_max": 80,
+  "total_max": ${totalMax},
   "grade": "A*/A/B/C/D/U",
-  "overall_comment": "one sentence overall assessment",
+  "overall_comment": "one sentence",
   "questions": [
-    {
-      "label": "1(a)",
-      "question": "brief question description",
-      "score": integer,
-      "max": integer,
-      "feedback": "specific feedback",
-      "missed": "key point missed or empty string"
-    }
+    {"label": "1(a)", "score": integer, "max": integer, "feedback": "specific feedback", "missed": "key missed point or empty string"}
   ]
 }`;
 
@@ -2583,10 +2734,9 @@ Respond ONLY with valid JSON, no markdown:
     const text = data.text || '';
     const r = JSON.parse(text.replace(/```json|```/g,'').trim());
     showFPResults(r);
-    // Save to dashboard
-    saveMarking(fpPaper, 'Full Paper ' + new Date().toLocaleDateString(), r.total_score, r.total_max, r.overall_comment);
+    saveMarking(1, currentFPPaper.label, r.total_score, r.total_max, r.overall_comment);
   } catch(e) {
-    document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — please try again. Make sure your answers are clearly labelled (e.g. 1a, 1b, 2a).</div>`;
+    document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — please try again. Error: ${e.message}</div>`;
   }
 
   btn.disabled = false;
@@ -2599,29 +2749,26 @@ function showFPResults(r) {
 
   document.getElementById('fp-results').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
-
-      <!-- Total -->
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
-        <div style="width:72px;height:72px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:22px;font-weight:700">${r.total_score}</span>
+        <div style="width:80px;height:80px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:24px;font-weight:700">${r.total_score}</span>
           <span style="font-size:11px;opacity:.7">/ ${r.total_max}</span>
         </div>
         <div style="flex:1">
-          <div style="font-size:20px;font-weight:700;color:var(--text)">Paper ${fpPaper} — Full Report</div>
+          <div style="font-size:22px;font-weight:700;color:var(--text)">${currentFPPaper.label}</div>
           <div style="font-size:14px;color:var(--text2);margin-top:4px">${r.overall_comment}</div>
         </div>
         <div style="text-align:center">
-          <div style="padding:8px 20px;border-radius:10px;font-size:26px;font-weight:700;background:${sc.bg};color:${sc.c}">${r.grade}</div>
+          <div style="padding:10px 24px;border-radius:10px;font-size:28px;font-weight:700;background:${sc.bg};color:${sc.c}">${r.grade}</div>
           <div style="font-size:12px;color:var(--text3);margin-top:4px">${pct}%</div>
         </div>
       </div>
 
-      <!-- Question breakdown -->
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">
-        <div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600;color:var(--text)">Question breakdown</div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600;color:var(--text)">Question by question breakdown</div>
         <table style="width:100%;border-collapse:collapse">
           <tr style="border-bottom:1px solid var(--border)">
-            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Question</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Q</th>
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Score</th>
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Feedback</th>
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Missed</th>
@@ -2630,19 +2777,18 @@ function showFPResults(r) {
             const qpct = Math.round((q.score/q.max)*100);
             const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
             return `<tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:12px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
-              <td style="padding:12px 20px;font-size:13px;font-weight:700;color:${qc}">${q.score}/${q.max}</td>
-              <td style="padding:12px 20px;font-size:13px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
-              <td style="padding:12px 20px;font-size:13px;color:#f87171;max-width:200px">${q.missed||'—'}</td>
+              <td style="padding:10px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
+              <td style="padding:10px 20px;font-size:13px;font-weight:700;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
+              <td style="padding:10px 20px;font-size:13px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
+              <td style="padding:10px 20px;font-size:13px;color:#f87171;max-width:180px">${q.missed||'—'}</td>
             </tr>`;
           }).join('')}
         </table>
       </div>
-
     </div>`;
 }
 
-// ── Supabase for progress tracking ───────────────── ─────────────────
+// ── Supabase for progress tracking ───────────────── ───────────────── ─────────────────
 const SUPA_URL = 'https://vlrmnktixxhksixzvmkw.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscm1ua3RpeHhoa3NpeHp2bWt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyODkyMjUsImV4cCI6MjA5NTg2NTIyNX0.0-bD_bFxEmHTQ49ta4aeL8n5WKbsBWVyD-3n5iVMB7A';
 let _supabase = null;
