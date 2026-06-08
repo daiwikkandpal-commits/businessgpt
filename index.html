@@ -1030,17 +1030,22 @@ footer {
     <div id="fp1-content">
       <div style="display:flex;flex-direction:column;gap:14px">
         <!-- Paper selector -->
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <label style="font-size:13px;font-weight:500;color:var(--text2)">Select paper</label>
-          <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;max-width:340px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label style="font-size:13px;font-weight:600;color:var(--text2);letter-spacing:0.03em;text-transform:uppercase">Select Paper</label>
+          <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:12px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;width:100%;max-width:420px;cursor:pointer;transition:border-color 0.2s;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236b7280%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 14px center;padding-right:40px">
             <option value="">— Choose a paper —</option>
-            <option value="s25_13">2025 May/June Variant 3</option>
-            <option value="s25_12">2025 May/June Variant 2</option>
-            <option value="s25_11">2025 May/June Variant 1</option>
-            <option value="w25_13">2025 Oct/Nov Variant 3</option>
-            <option value="w25_12">2025 Oct/Nov Variant 2</option>
-            <option value="w25_11">2025 Oct/Nov Variant 1</option>
-            <option value="w24_13">2024 Oct/Nov Variant 3</option>
+            <optgroup label="━━  2025  ━━━━━━━━━━━━━━━━━━━━━━">
+              <option value="m25_12">  🟣  Feb/March · Variant 2</option>
+              <option value="s25_13">  🟢  May/June · Variant 3</option>
+              <option value="s25_12">  🟢  May/June · Variant 2</option>
+              <option value="s25_11">  🟢  May/June · Variant 1</option>
+              <option value="w25_13">  🔵  Oct/Nov · Variant 3</option>
+              <option value="w25_12">  🔵  Oct/Nov · Variant 2</option>
+              <option value="w25_11">  🔵  Oct/Nov · Variant 1</option>
+            </optgroup>
+            <optgroup label="━━  2024  ━━━━━━━━━━━━━━━━━━━━━━">
+              <option value="w24_13">  🔵  Oct/Nov · Variant 3</option>
+            </optgroup>
           </select>
         </div>
 
@@ -3243,6 +3248,171 @@ const PAST_PAPERS_DATA = {
         part: 'e',
         context: "This is a general question so there are no marks for application.",
         ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Advantages: No need to repay so does not increase debt/liabilities; no interest to pay so no additional cash outflows; easy/quick to obtain. Disadvantages: Takes time to generate sufficient funds which could delay expansion; may not have sufficient/any funds which limits expansion size; reduces payment/reward to owners which may deter further investment. Evaluation must discuss at least one advantage and one disadvantage and make a justified recommendation explaining why one side outweighs the other."
+      }
+    ]
+  },
+  'm25_12': {
+    label: '2025 Feb/March Variant 2',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Identify two motivators from Herzberg's theory of motivation.",
+        marks: 2,
+        part: 'a',
+        context: "Amir and Carla are business partners. They own a luxury hotel which operates in a niche market. The business has a short hierarchical structure. Amir and Carla use Herzberg\'s theory of motivation to keep their 5 employees well motivated. Amir and Carla are considering opening another hotel in a different city. They will need to identify a suitable source of finance if they decide to expand. Secondary market research can be used to help a business decide whether it should expand.",
+        ms: "Award 1 mark per motivator (max 2). Motivators include: Achievement; Recognition; Personal growth; Advancement; The work itself. Only award first two responses given."
+      },
+      {
+        q: '1(b)',
+        text: 'Identify two features of a short hierarchical structure.',
+        marks: 2,
+        part: 'b',
+        context: "Amir and Carla are business partners. They own a luxury hotel which operates in a niche market. The business has a short hierarchical structure. Amir and Carla use Herzberg\'s theory of motivation to keep their 5 employees well motivated.",
+        ms: 'Award 1 mark per feature (max 2). Features include: Shorter chain of command; Wider span of control; Quicker/faster communication; Top managers are less remote from employees. Only award first two responses given.'
+      },
+      {
+        q: '1(c)',
+        text: 'Outline two advantages to Amir and Carla of operating in a niche market.',
+        marks: 4,
+        part: 'c',
+        context: "Amir and Carla are business partners. They own a luxury hotel which operates in a niche market. The business has a short hierarchical structure. Amir and Carla use Herzberg\'s theory of motivation to keep their 5 employees well motivated. Amir and Carla are considering opening another hotel in a different city.",
+        ms: "Award 1 mark per advantage (max 2) + 1 mark per application (max 2). Advantages: Can charge higher prices (for its luxury service); Fewer competitors (for the hotel); Focus on meeting the needs of customers/can target customers (through its 5 employees); Can survive in markets dominated by larger firms (which may increase the chance of expanding); Builds up specialist skills/knowledge. Application words: hotel/rooms, luxury, 5 employees, expand/new hotel/growth, different city, 2 partners/partnership."
+      },
+      {
+        q: '1(d)',
+        text: 'Explain two sources of finance Amir and Carla could use if they decide to expand.',
+        marks: 6,
+        part: 'd',
+        context: "Amir and Carla are business partners. They own a luxury hotel which operates in a niche market. Amir and Carla are considering opening another hotel in a different city. They will need to identify a suitable source of finance if they decide to expand.",
+        ms: "Award 1 mark per source (max 2) + 1 mark per application (max 2) + 1 mark per explanation (max 2). Sources: Retained profits (from the hotel, does not need to pay it back); Bank loans (to obtain a large amount/varying length of time to repay/quick to arrange, for the luxury service); Owner savings (from the 2 partners, may be readily accessible/no interest to pay); Crowdfunding (no interest to pay). Application: new hotel/rooms, 2 partners/partnership, luxury, niche market, different city, market research."
+      },
+      {
+        q: '1(e)',
+        text: 'Do you think secondary market research is the most appropriate type of market research for a business to use when deciding whether it should expand? Justify your answer.',
+        marks: 6,
+        part: 'e',
+        context: "Amir and Carla are business partners. They own a luxury hotel which operates in a niche market. Amir and Carla are considering opening another hotel in a different city. Secondary market research can be used to help a business decide whether it should expand.",
+        ms: "Award up to 2 marks for identification of relevant points. Award up to 2 marks for relevant development. Award up to 2 marks for a justified decision. No application marks. Secondary market research: Low cost (so more funds to spend in other areas); Quick to obtain (may speed up decision-making); Data may be out of date (may not make appropriate decisions); Wide range of data; Data may not be relevant; Data available for all businesses. Primary market research: More in-depth information; Specific/only available to the business; Up to date; May not have necessary skills to collect data; Expensive; Takes time to collect. Do not accept same point twice. Justification must compare secondary vs primary research and make a clear reasoned decision."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'sole trader'.",
+        marks: 2,
+        part: 'a',
+        context: "Rachel\'s business produces and sells chocolate bars. Quality is important. Rachel is a sole trader who received government support when she started up her business. The business operates in a competitive market. Rachel is considering ways to increase sales of her best-selling product. She is also planning to introduce a new chocolate bar. Rachel knows deciding which pricing method to use for a new product is important.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: A business is owned (and controlled) by one person; An (unincorporated) business owned by one person. Partial: One person starts/runs/controls/operates a business."
+      },
+      {
+        q: '2(b)',
+        text: 'Identify two ways a government can support business start-ups.',
+        marks: 2,
+        part: 'b',
+        context: "Rachel\'s business produces and sells chocolate bars. Rachel is a sole trader who received government support when she started up her business.",
+        ms: 'Award 1 mark per way (max 2). Ways include: Providing (low cost) loans/low interest rates; Providing grants; Low-cost rent; Lower tax/tax relief; Providing training; Providing advice/research/marketing data; Providing mentors. Only award first two responses given.'
+      },
+      {
+        q: '2(c)',
+        text: "Outline two ways Rachel could increase sales of her best-selling product.",
+        marks: 4,
+        part: 'c',
+        context: "Rachel\'s business produces and sells chocolate bars. Quality is important. Rachel is a sole trader who received government support when she started up her business. The business operates in a competitive market. Rachel is considering ways to increase sales of her best-selling product.",
+        ms: "Award 1 mark per way (max 2) + 1 mark per application (max 2). Ways: Advertising/social media (quality is important); Improve existing product/better quality materials/new features (to make its chocolate); Decrease prices/promotional pricing/offer discounts (in the competitive market); Point of sale display (by the sole trader); Free samples; Competitions; Free gifts; BOGOF; New/change packaging; Enter a new market; Sell through new outlets. Application: chocolate bars/cocoa, sole trader, competitive market, quality is important."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two reasons why quality is important to Rachel's business.",
+        marks: 6,
+        part: 'd',
+        context: "Rachel\'s business produces and sells chocolate bars. Quality is important. Rachel is a sole trader who received government support when she started up her business. The business operates in a competitive market. Rachel is considering ways to increase sales of her best-selling product. She is also planning to introduce a new chocolate bar.",
+        ms: "Award 1 mark per reason (max 2) + 1 mark per application (max 2) + 1 mark per explanation (max 2). Reasons: Can charge higher prices (which could influence pricing method) and increase profit margin; Attract new customers increasing market share (in the competitive market); Establish brand image which can increase sales (of chocolate bars); Differentiate product from competitors which could increase market share; Reduce complaints (for the sole trader) so reduce returns/cash outflows/less waste; Maintain customer loyalty which can lead to repeat sales/increase revenue. Application: chocolate bars/cocoa/ingredients, sole trader, competitive market, pricing method, new product, best-selling product."
+      },
+      {
+        q: '2(e)',
+        text: 'Do you think price skimming is the best pricing method for a business to use when introducing a new product? Justify your answer.',
+        marks: 6,
+        part: 'e',
+        context: "Rachel\'s business produces and sells chocolate bars. Rachel is a sole trader. The business operates in a competitive market. Rachel is also planning to introduce a new chocolate bar. Rachel knows deciding which pricing method to use for a new product is important.",
+        ms: "Award up to 2 marks for identification. Award up to 2 marks for development. Award up to 2 marks for justified decision. No application marks. Points must refer to a specific pricing method. Price skimming: Gives image of high quality (may increase reputation); May be quick to recover research/development costs (break even sooner); Increase profit margin; High price may encourage competitors to enter market (decrease market share); High price may decrease demand (decrease revenue). Other pricing methods: Penetration pricing (low price may be more affordable, increases sales); Cost-plus pricing (simple to use); Competitive pricing (should not lose sales to competition on price alone). Advantages/disadvantages of other methods can be awarded as analysis. Justification must compare price skimming vs another pricing method and make a clear reasoned decision."
+      },
+      {
+        q: '3(a)',
+        text: "Define 'working capital'.",
+        marks: 2,
+        part: 'a',
+        context: "TJK manufactures candles. Contributing to sustainable development is important to TJK. The business uses batch production in its factory in country X. The target market for TJK\'s products is females between 20 and 50 years of age. The Managing Director is reviewing TJK\'s financial data. Extract from TJK\'s financial data for 2024 ($000): Working capital 900, Profit 400, Revenue 1000.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: The money available for a business to pay its day-to-day expenses/short-term debts; Current assets minus current liabilities. Partial: Funds used to pay inventory/wages/electricity."
+      },
+      {
+        q: '3(b)',
+        text: "Calculate TJK's profit margin. Show your working.",
+        marks: 2,
+        part: 'b',
+        context: "TJK manufactures candles. Contributing to sustainable development is important to TJK. The business uses batch production in its factory in country X. Extract from TJK\'s financial data for 2024 ($000): Working capital 900, Profit 400, Revenue 1000.",
+        ms: "Award 2 marks for correct calculation, 1 mark for correct method but wrong answer. Correct answer: 40%. Method: Profit / Revenue x 100 = (400,000 / 1,000,000) x 100 = 40%. % sign required for 2 marks. If correct answer given with no workings, award 2 marks."
+      },
+      {
+        q: '3(c)',
+        text: 'Identify four benefits to a business of becoming a multinational company.',
+        marks: 4,
+        part: 'c',
+        context: "TJK manufactures candles. The business uses batch production in its factory in country X. The Managing Director is also considering the benefits to a business of becoming a multinational company.",
+        ms: 'Award 1 mark per benefit (max 4). Benefits: Increased sales/access to bigger/new markets; Better reputation/image; Lower transport costs; Avoid barriers to trade; Spread risks; Easier access to raw materials; Access to cheaper labour; Take advantage of lower tax rates; Access to government funding/grants. Only award first four responses given.'
+      },
+      {
+        q: '3(d)',
+        text: 'Explain two ways TJK could contribute to sustainable development.',
+        marks: 6,
+        part: 'd',
+        context: "TJK manufactures candles. Contributing to sustainable development is important to TJK. The business uses batch production in its factory in country X. The target market for TJK\'s products is females between 20 and 50 years of age.",
+        ms: "Award 1 mark per way (max 2) + 1 mark per application (max 2) + 1 mark per explanation (max 2). Ways: Reduce waste (when making candles) leading to less pollution; Use fewer resources (in the factory) so more left for future generations; Use environmentally friendly/sustainable materials (which could reduce harmful emissions); Use renewable energy/resources (in batch production); Develop environmentally friendly products (for females); Buy resources locally (reducing carbon footprint); Recycle (reduce amount of waste); Use environmentally friendly/sustainable packaging; Reuse materials so reduce number of materials needed. Application: candles, factory, batch production, females aged 20-50, $400,000 profit, $1 million revenue. Less pollution is analysis only."
+      },
+      {
+        q: '3(e)',
+        text: 'Do you think batch production is the best method of production for a business to use? Justify your answer.',
+        marks: 6,
+        part: 'e',
+        context: "TJK manufactures candles. The business uses batch production in its factory in country X. The target market for TJK\'s products is females between 20 and 50 years of age.",
+        ms: "Award up to 2 marks for identification. Award up to 2 marks for development. Award up to 2 marks for justified decision. No application marks. Batch production: Flexible/can easily change from one product to another (respond quickly to changing customer tastes); Variety of products can be made (widen customer base/spread risk); Variety of tasks can motivate employees; Machines must be re-set between batches (reduce output); Warehouse space needed (increases storage costs). Flow production: Quick/high output; Economies of scale; Lower unit cost (able to charge lower price); Can operate 24 hours; Fewer employees/high automation; Machine breakdown stops whole line; High initial cost of machinery; Can lower motivation. Job production: Can charge high price (increasing profit margin); Can meet exact requirements of customers; Often high quality; Labour intensive (increases labour costs). Can accept comparative points. Justification must compare batch vs another method and make a clear reasoned decision."
+      },
+      {
+        q: '4(a)',
+        text: 'Identify two services provided by businesses in the tertiary sector.',
+        marks: 2,
+        part: 'a',
+        context: "SEP operates in the tertiary sector. As a social enterprise, SEP has many objectives. It collects old books from libraries and schools and sells them to customers at a low price. SEP provides training for its 10 part-time employees. SEP\'s manager wants to know how the introduction of a legal minimum wage might affect a business.",
+        ms: 'Award 1 mark per service (max 2). Services include: Banking; Retailing; Hotels; Holidays/tourism; Restaurant; Insurance; Accountancy; Advertising; Hairdressing; Entertainment; Transporting; Legal services; Education; Healthcare/medical/hospitals. Only award first two responses. Do not award names of businesses.'
+      },
+      {
+        q: '4(b)',
+        text: 'Identify two objectives a social enterprise might have.',
+        marks: 2,
+        part: 'b',
+        context: "SEP operates in the tertiary sector. As a social enterprise, SEP has many objectives. It collects old books from libraries and schools and sells them to customers at a low price.",
+        ms: 'Award 1 mark per objective (max 2). Objectives: To make a profit to reinvest back into the business; Social benefit/welfare or examples e.g. to benefit/improve local community/disadvantaged groups in society; To protect the environment/environmental issues. Only award first two responses given.'
+      },
+      {
+        q: '4(c)',
+        text: 'Outline two benefits to SEP of having part-time employees.',
+        marks: 4,
+        part: 'c',
+        context: "SEP operates in the tertiary sector. As a social enterprise, SEP has many objectives. It collects old books from libraries and schools and sells them to customers at a low price. SEP provides training for its 10 part-time employees.",
+        ms: "Award 1 mark per benefit (max 2) + 1 mark per application (max 2). Benefits: Cheaper than full-time/reduce labour costs (which may help have low prices); More flexible hours of work (when selling books); Can ask/more likely to work at busier times (for the social enterprise); Can/more likely to extend working hours (for the tertiary sector business); Provides a range of skills/experience (among the 10 employees); Helps attract well-qualified employees who need flexible hours; Can help keep experienced staff. Application: books, social enterprise, tertiary sector, 10 employees, libraries/schools."
+      },
+      {
+        q: '4(d)',
+        text: 'Explain two reasons why training is important to SEP.',
+        marks: 6,
+        part: 'd',
+        context: "SEP operates in the tertiary sector. As a social enterprise, SEP has many objectives. It collects old books from libraries and schools and sells them to customers at a low price. SEP provides training for its 10 part-time employees.",
+        ms: "Award 1 mark per reason (max 2) + 1 mark per application (max 2) + 1 mark per explanation (max 2). Reasons: Increase knowledge/skills/flexibility (of the 10 employees) which can increase quality of service; Increase motivation (in the social enterprise) which can increase productivity/efficiency; Better quality/decrease errors (when dealing with the books) which can decrease waste/cost; Increase efficiency (of the tertiary sector business) which can lower average/unit cost; Fewer accidents/ensure safe working conditions to avoid legal action; Able to train others reducing training costs; Help introduce new process which could lower mistakes; To attract new/potential employees. Application: books, social enterprise, 10 employees, part-time employees, tertiary sector, libraries/schools."
+      },
+      {
+        q: '4(e)',
+        text: 'Do you think the introduction of a legal minimum wage will always have a negative effect on a business? Justify your answer.',
+        marks: 6,
+        part: 'e',
+        context: "SEP operates in the tertiary sector. As a social enterprise, SEP has many objectives. SEP provides training for its 10 part-time employees. SEP\'s manager wants to know how the introduction of a legal minimum wage might affect a business.",
+        ms: "Award up to 2 marks for identification. Award up to 2 marks for development. Award up to 2 marks for justified decision. No application marks. Positive effects: May encourage more people to apply for jobs (easier to recruit); Business may already pay above minimum wage so limited/no effect on costs; Increase motivation (increasing productivity/reduce absenteeism/labour turnover). Negative effects: Have to pay more to employees (increase costs, may have to increase prices); May not be able to afford to pay all workers higher wage (may have to make redundancies); Other workers paid more than minimum may ask for wage increase; May have to find other ways to reduce costs (may reduce quality). Justification must weigh whether minimum wage will ALWAYS be negative and make a clear reasoned decision."
       }
     ]
   },
