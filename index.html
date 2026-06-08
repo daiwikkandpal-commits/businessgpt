@@ -1035,6 +1035,7 @@ footer {
           <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;max-width:340px">
             <option value="">— Choose a paper —</option>
             <option value="w25_11">2025 Oct/Nov Variant 1</option>
+            <option value="w24_13">2024 Oct/Nov Variant 3</option>
           </select>
         </div>
 
@@ -2415,6 +2416,171 @@ function saveGeminiKey() {
 }
 
 const PAST_PAPERS_DATA = {
+  'w24_13': {
+    label: '2024 Oct/Nov Variant 3',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Identify the lines labelled X and Y in Fig. 1.1.",
+        marks: 2,
+        part: 'a',
+        context: "BPT manufactures bicycles in country A. It uses batch production. The Operations Director is preparing a break-even chart for one of BPT's bicycles. The chart shows two lines — X starts from a positive y-intercept (total cost line) and Y starts from the origin (total revenue line). BPT imports 60% of its raw materials and exports its bicycles to 8 countries. Total fixed costs are $50,000. Break-even output is 125 units.",
+        ms: "1 mark per correct answer (max 2). X: Total cost(s). Y: Total revenue. Only award the first response given for each answer."
+      },
+      {
+        q: '1(b)',
+        text: "Define 'import tariff'.",
+        marks: 2,
+        part: 'a',
+        context: "BPT manufactures bicycles in country A. BPT imports 60% of its raw materials. The Managing Director wants to know how the introduction of import tariffs might affect BPT.",
+        ms: "Full definition (2 marks): A tax placed on imported goods when they arrive into a country. Partial definition (1 mark): Type of tax. Tax on imported goods."
+      },
+      {
+        q: '1(c)',
+        text: "Outline two ways BPT could lower its break-even level of output.",
+        marks: 4,
+        part: 'c',
+        context: "BPT manufactures bicycles in country A using batch production. Total fixed costs are $50,000. Break-even output is 125 units. BPT imports 60% of its raw materials and exports to 8 countries.",
+        ms: "1 mark per way + 1 mark application (max 2 ways = 4 marks). Ways: Increase price of its bicycles; Lower fixed cost or examples e.g. reduce rent below $50,000; Lower variable/raw material costs so may consider importing more than 60%. Application words: bicycles or related words, 60%/import raw materials, $50,000 total fixed costs, 125 break-even output, 8 countries, batch production."
+      },
+      {
+        q: '1(d)',
+        text: "Explain two ways a depreciation in country A's exchange rate might affect BPT.",
+        marks: 6,
+        part: 'd',
+        context: "BPT manufactures bicycles in country A. BPT imports 60% of its raw materials and exports its bicycles to 8 countries. Total fixed costs are $50,000. Break-even output is 125 units.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 ways = 6 marks). Ways: Increased cost of imports which would increase break-even output/increase in price of bicycles; Exports appear cheaper which may increase demand/sales in the 8 countries; May have to find alternative/cheaper suppliers as imports its raw materials which could take time/lead to production delays. Application words: bicycles, 60% of raw materials are imported, 125 break-even output, $50,000 fixed costs, 8 countries."
+      },
+      {
+        q: '1(e)',
+        text: "Do you think batch production is the best method of production for a business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Batch production: Flexibility so can change what to make/quickly adapt to meet customer demands; Production may not be greatly affected if machinery breaks down; Variety/range of products made which could widen customer base/help spread risk; Can motivate workers leading to less absenteeism/lower labour turnover; Time lost switching/resetting machines between batches could lead to lost output/lower efficiency; Need to move/store semi-finished goods leading to increased storage costs; One fault could affect entire batch leading to waste. Flow production: High output; Likely to benefit from economies of scale/discounts for bulk purchasing reducing average costs; Capital intensive methods/fewer employees needed lowering wage cost; If one machine breaks down the whole production line will stop; High set up costs; Inflexible if demand changes. Job production: Unique/meet exact customer needs which can help brand loyalty; Can charge higher price which may increase profit margin; Skilled labour needed which increases labour costs; No economies of scale leading to higher average cost; Production can take a long time; Costs are higher as labour intensive; Mistakes can be expensive to correct. Justification must compare two methods and explain why one is better than another with reasoning - e.g. batch production is the best method because flexibility to adapt to changes in customer demand is likely to be more important than high output levels from flow production."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'inflation'.",
+        marks: 2,
+        part: 'a',
+        context: "Ramon is an entrepreneur who plans to start up a home tutoring service to provide students with extra help to learn maths. He is concerned about how an increase in the rate of inflation might affect his business.",
+        ms: "Full definition (2 marks): An increase in the general price level of goods and services over time. Partial definition (1 mark): An increase in the price of goods/services."
+      },
+      {
+        q: '2(b)',
+        text: "Identify two characteristics of a successful entrepreneur.",
+        marks: 2,
+        part: 'a',
+        context: "Ramon is an entrepreneur who plans to start up a home tutoring service.",
+        ms: "1 mark per characteristic (max 2). Only award first two responses. Characteristics: Risk-taker; Creative; Hard-working; Innovative; Effective communicator; Optimistic; (Self) confident; Independent; (Self) motivated/focused/determined/committed; Resourceful/adaptable; Leadership; Resilience/determination/patience; Initiative."
+      },
+      {
+        q: '2(c)',
+        text: "Outline two ways a business plan might help Ramon.",
+        marks: 4,
+        part: 'c',
+        context: "Ramon is an entrepreneur starting a home tutoring service to help students learn maths. He has prepared a business plan. He is considering buying a franchise and is concerned about inflation. He is considering crowdfunding as a source of finance.",
+        ms: "1 mark per way + 1 mark application (max 2 ways = 4 marks). Ways: Get a bank loan/finance/attract investors if decides not to use crowdfunding; Set targets/objectives/future planning for his tutoring business; Understand/reduce possible risks/threats for him as an entrepreneur; Acts as a checklist/way to track progress/compare against goals of his start-up; Helps decision-making; Helps organise resources/labour requirements/marketing strategy. Application words: entrepreneur, start-up/new business, home tutoring/help to learn maths, franchise, increase in inflation, crowdfunding."
+      },
+      {
+        q: '2(d)',
+        text: "Explain one advantage and one disadvantage to Ramon of buying a franchise.",
+        marks: 6,
+        part: 'd',
+        context: "Ramon is an entrepreneur starting a home tutoring service. He is considering buying a franchise. He has a business plan and is concerned about increasing inflation. He is considering crowdfunding.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation per advantage AND disadvantage (max 6 marks). Advantages: Easier/quicker to build a customer base which can help gain sales/revenue for his tutoring service; Training/advice offered by franchisor which saves costs important for a start-up; Franchisor pays for advertising which will reduce his cash outflows calculated in his business plan; Banks may be more willing to lend finance to a franchisee so may not need to use crowdfunding; Sell under established/successful brand name so easier to attract customers/can help reduce risk of failure. Disadvantages: Cost to buy franchise which he may not be able to afford at a time when inflation is increasing; Do not have total control/less independence which may be why he became an entrepreneur; Unable to make decisions that suit local area; Must pay royalties/franchise fee/percentage of revenue/profit which could reduce profit margin/increase costs. Application words: entrepreneur, start-up/new business, home tutoring service/learn maths, inflation, crowdfunding, business plan."
+      },
+      {
+        q: '2(e)',
+        text: "Do you think crowdfunding is the best source of finance for a start-up business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Crowdfunding: No initial fee is payable so does not increase cash outflows; Allows for the public reaction to be tested/help advertise which could lead to more customers; Proposal may be rejected using time which could have been used for other purposes; May allow competitors the opportunity to learn more about your business before launch which could lead to fewer sales; No guarantee can raise full amount/not raise enough funds so may have to find another source. Other sources: Own savings as there is no need to repay but may not have sufficient funds; Bank loan so more likely to raise full amount needed quickly but will need to pay interest. Justification must compare crowdfunding with another source and explain why one is better than another - e.g. crowdfunding is best because a new business is risky so the bank may not lend to them anyway and even if it did, it may not be able to afford the repayments."
+      },
+      {
+        q: '3(a)',
+        text: "Define 'private sector'.",
+        marks: 2,
+        part: 'a',
+        context: "LRL makes skincare products including face cream. It is a private sector business in country X. One of LRL's objectives is to contribute to sustainable development. The total value of sales of skincare products in country X for 2023 was $120 million. LRL has a 30% market share.",
+        ms: "Full definition (2 marks): The part of the economy that is controlled by individuals/companies for profit. When business activities are owned by individuals/group of individuals. Partial definition (1 mark): Run by individuals. Do not award: Examples. Features of a sole trader, partnership or limited company."
+      },
+      {
+        q: '3(b)',
+        text: "Calculate the value of LRL's market share in 2023.",
+        marks: 2,
+        part: 'a',
+        context: "LRL is a private sector business making skincare products. The total value of sales of skincare products in country X for 2023 was $120 million. LRL's market share is 30%.",
+        ms: "Correct answer (2 marks): $36 million / $36,000,000. Method (1 mark): 120 × 30% = 36. If correct answer given with no working shown, award 2 marks. Award only 1 mark if $36m is written as part of the answer but is not given as the final answer. Need 'million' for 2 marks."
+      },
+      {
+        q: '3(c)',
+        text: "Outline two ways LRL could contribute to sustainable development.",
+        marks: 4,
+        part: 'c',
+        context: "LRL makes skincare products including face cream. It is a private sector business in country X. LRL has a 30% market share. The total market value is $120 million, so LRL's revenue is $36 million. LRL has objectives including contributing to sustainable development and maintaining customer loyalty.",
+        ms: "1 mark per way + 1 mark application (max 2 ways = 4 marks). Ways: Reduce amount/number of resources used when making skincare products; Develop environmentally friendly products which could help the marketing mix; Use environmentally friendly methods of production at this private sector business; Use environmentally friendly materials/buy materials from sustainable sources which may help improve customer loyalty; Use environmentally friendly packaging/reduce packaging; Reduce waste; Reuse products/materials; Recycle products/materials; Replant trees. Application words: skincare or examples such as face cream, private sector business, marketing mix, customer loyalty, 30% market share, $120 million total value of market sales, $36 million revenue."
+      },
+      {
+        q: '3(d)',
+        text: "Explain two advantages to LRL of maintaining customer loyalty.",
+        marks: 6,
+        part: 'd',
+        context: "LRL makes skincare products including face cream. It is a private sector business with 30% market share. Total market value is $120 million so LRL revenue is $36 million. LRL has an appropriate marketing mix and contributes to sustainable development.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 advantages = 6 marks). Advantages: Easier to match products to existing customer needs reducing wastage as know which are the popular types of skincare products; Improve/good reputation/brand image so less promotion needed/lower cost by this private sector business; Increase sales/customers which could increase revenue/market share above $36m; Encourages existing customers to try new products; May be able to increase prices which would increase profit margin. Application words: skincare/face cream, marketing mix, sustainable development, 30% market share, private sector business, $120 million total value, $36 million revenue. Increase market share is analysis only."
+      },
+      {
+        q: '3(e)',
+        text: "Explain two elements of the marketing mix. Which do you think is the most important element for a business? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application. Candidates must discuss two elements of the marketing mix to access evaluation marks.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Must discuss two elements to access evaluation marks. Promotion: Raises awareness/informs potential customers leading to more sales; Attracts/persuades potential customers increasing revenue; Creates/builds brand image increasing customer loyalty; Way to communicate with customers. Product: Without a product there is nothing to sell/if dislike the product customers will not buy it; A poor quality product will not last long in the market; Good quality product can encourage customer loyalty; Good quality can improve brand image. Place: Close/near target market/customers to ensure sales; A suitable location might have high rent leading to increased costs/higher prices. Price: A low price could create image of low quality damaging its reputation; If price is too low may not cover costs; If the price is too high the business may be less competitive lowering market share. Justification must compare two elements and explain why one is MORE important than another with reasoning."
+      },
+      {
+        q: '4(a)',
+        text: "Define 'commission'.",
+        marks: 2,
+        part: 'a',
+        context: "RHN is a clothing retailer. It has 50 shops and 290 employees. Commission is used as one method of financial reward. The business often uses internal recruitment when there is a job vacancy. Last year RHN made a profit of $1.5 million.",
+        ms: "Full definition (2 marks): Payment to employees relating to the number/value of sales made. Partial definition (1 mark): Money based on sales/what sold."
+      },
+      {
+        q: '4(b)',
+        text: "Identify two external users of accounts.",
+        marks: 2,
+        part: 'a',
+        context: "RHN is a clothing retailer. The Managing Director, as an internal user of accounts, has been analysing RHN's statement of financial position.",
+        ms: "1 mark per user (max 2). Only award first two responses. External users: Banks/lenders; Suppliers; Government; Potential investor; Local community/pressure groups."
+      },
+      {
+        q: '4(c)',
+        text: "Identify four ways the information in a statement of financial position can be used.",
+        marks: 4,
+        part: 'c',
+        context: "RHN is a clothing retailer. The Managing Director has been analysing RHN's statement of financial position.",
+        ms: "1 mark per way (max 4). Only award first four responses. Ways: Calculate working capital; Calculate current ratio; Calculate acid test ratio; Shows how the business finances its activities/shareholders can see how any expansion has been funded; Shows the assets the business owns/what the business owns; Show value of liabilities/what the business owes; Support loan application/raise finance/show investors; Show value of the business/what the business is worth; Compare performance over time; Compare performance against competitors."
+      },
+      {
+        q: '4(d)',
+        text: "Explain two possible reasons why providing training for its employees is important to RHN.",
+        marks: 6,
+        part: 'd',
+        context: "RHN is a clothing retailer with 50 shops and 290 employees. All employees are provided with training. Commission is used as a financial reward. The business often uses internal recruitment. Last year RHN made a profit of $1.5 million.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 reasons = 6 marks). Reasons: More skilled/flexible employees so can cover absences of others in its 50 shops; Fewer mistakes/better quality service from its 290 employees which could improve its reputation; Increases motivation which can help reduce labour turnover which is helpful as uses internal recruitment; Fewer customer complaints about its clothing increasing customer loyalty; Less supervision needed so managers have time to focus on other activities; Improves efficiency/productivity; Fewer accidents/ensure safe working conditions; Able to train others reducing training costs; Provide new ideas/improves innovation; Helps attract potential employees; Helps introduce a new process. Application words: clothing, shops/retailer, 290 employees, commission, internal recruitment, $1.5m profit, 50 locations. Analysis only: Better reputation; Increase sales; Employee loyalty/lower labour turnover; Customer loyalty."
+      },
+      {
+        q: '4(e)',
+        text: "Do you think the advantages for a business of using internal recruitment are greater than the disadvantages? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Advantages: Employees know the business so can start work more quickly/less training needed; Low cost/cheaper which reduces cash outflows/as do not have to spend funds on job advertisements; Less time-consuming/quicker which means time can be used for other purposes; Can motivate employees so reducing labour turnover/encourages employee loyalty/improve efficiency; Company knows the employee which reduces risk/likelihood of employing someone who is not appropriate for the job. Disadvantages: Suitable candidates may not be available/employees may not have experience/skills needed which could lead to mistakes/wrong actions taken; Reduces pool/fewer potential candidates; Would create another vacancy for the business to fill; Could create resentment/jealousy among those not selected which could demotivate these employees; Lack of new ideas so business may become less competitive. Justification must compare advantages and disadvantages and explain why advantages are GREATER or LESSER than disadvantages with reasoning."
+      }
+    ]
+  },
   'w25_11': {
     label: '2025 Oct/Nov Variant 1',
     questions: [
