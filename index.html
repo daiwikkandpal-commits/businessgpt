@@ -2841,75 +2841,83 @@ async function markFullPaper() {
 
   document.getElementById('fp-results').innerHTML = `
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
-      <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking all questions — this may take 30–60 seconds…</div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking in batches — this may take 20–40 seconds…</div>
       <div style="font-size:13px;color:var(--text3)">Please don't close this tab</div>
     </div>`;
 
-  // Collect all answers
   const questions = currentFPPaper.questions;
+  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
+
   const answers = questions.map(q => {
     const key = q.q.replace(/[^a-z0-9]/gi,'_');
     const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
     return { ...q, answer: ans };
   });
 
-  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
+  // Split into 4 batches of 5 questions each, run in parallel
+  function buildBatchPrompt(batch) {
+    const qList = batch.map(q =>
+      q.q + ' [' + q.marks + ' marks]: ' + q.text +
+      '\nContext: ' + q.context +
+      '\nMark scheme: ' + q.ms +
+      '\nStudent answer: ' + (q.answer || '(no answer provided)')
+    ).join('\n\n---\n\n');
 
-  // Build a single comprehensive prompt
-  const qList = answers.map(q =>
-    q.q + ' [' + q.marks + ' marks]: ' + q.text +
-    '\nContext: ' + q.context +
-    '\nMark scheme: ' + q.ms +
-    '\nStudent answer: ' + (q.answer || '(no answer provided)')
-  ).join('\n\n---\n\n');
+    return [
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner.',
+      'Mark each question strictly using its mark scheme.',
+      '- Award marks for correct knowledge (k), application (app), and analysis/explanation (an)',
+      '- Part (e) questions: cap at 4/6 without a justified evaluative conclusion',
+      '- Be strict but fair',
+      '',
+      qList,
+      '',
+      'Respond ONLY with valid JSON array, no markdown, no extra text:',
+      '[{"label":"1(a)","score":0,"max":0,"feedback":"...","missed":"..."}]'
+    ].join('\n');
+  }
 
-  // Trim mark schemes if prompt is too long
-  const trimmedAnswers = questions.map(q => {
-    const key = q.q.replace(/[^a-z0-9]/gi,'_');
-    const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
-    return { ...q, answer: ans };
-  });
-
-  const promptParts = [
-    'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark all 20 questions for the paper below.',
-    '',
-    qList,
-    '',
-    'Mark each question strictly according to its mark scheme. Total paper is ' + totalMax + ' marks.',
-    '',
-    'For each question:',
-    '- Apply the exact mark scheme provided',
-    '- Award marks for correct knowledge (k), relevant application to the business (app), and analysis/explanation (an)',
-    '- Part (e) questions: reserve up to 2 marks for justified evaluation/conclusion - cap at 4/6 without it',
-    '- Be strict but fair',
-    '',
-    'Respond ONLY with valid JSON, no markdown:',
-    '{',
-    '  "total_score": integer,',
-    '  "total_max": ' + totalMax + ',',
-    '  "grade": "A*/A/B/C/D/U",',
-    '  "overall_comment": "one sentence",',
-    '  "questions": [',
-    '    {"label": "1(a)", "score": integer, "max": integer, "feedback": "specific feedback", "missed": "key missed point or empty string"}',
-    '  ]',
-    '}'
-  ];
-  const prompt = promptParts.join('\n');
-
-  try {
+  async function markBatch(batch) {
+    const prompt = buildBatchPrompt(batch);
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
     const data = await res.json();
+    if (data.error) throw new Error(data.error);
     const text = data.text || '';
-    const bt3 = String.fromCharCode(96,96,96); const cleaned = text.replace(bt3+'json','').replace(bt3,'').trim();
-    const r = JSON.parse(cleaned);
+    const bt3 = String.fromCharCode(96,96,96);
+    const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
+    return JSON.parse(cleaned);
+  }
+
+  try {
+    const batchSize = 5;
+    const batches = [];
+    for (let i = 0; i < answers.length; i += batchSize) {
+      batches.push(answers.slice(i, i + batchSize));
+    }
+
+    const batchResults = await Promise.all(batches.map(b => markBatch(b)));
+    const allQuestions = batchResults.flat();
+
+    const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
+    const pct = Math.round((totalScore/totalMax)*100);
+    const grade = pct>=90?'A*':pct>=75?'A':pct>=60?'B':pct>=45?'C':pct>=30?'D':'U';
+
+    const r = {
+      total_score: totalScore,
+      total_max: totalMax,
+      grade,
+      overall_comment: 'Marked across all 20 questions.',
+      questions: allQuestions
+    };
+
     showFPResults(r);
     saveMarking(1, currentFPPaper.label, r.total_score, r.total_max, r.overall_comment);
   } catch(e) {
-    document.getElementById('fp-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — ' + (e.message || 'Unknown error. The paper may be too large for one request.') + '</div>';
+    document.getElementById('fp-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — ' + (e.message || 'Unknown error') + '</div>';
     console.error('Full paper marking error:', e);
   }
 
