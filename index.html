@@ -1034,6 +1034,8 @@ footer {
           <label style="font-size:13px;font-weight:500;color:var(--text2)">Select paper</label>
           <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;max-width:340px">
             <option value="">— Choose a paper —</option>
+            <option value="w25_13">2025 Oct/Nov Variant 3</option>
+            <option value="w25_12">2025 Oct/Nov Variant 2</option>
             <option value="w25_11">2025 Oct/Nov Variant 1</option>
             <option value="w24_13">2024 Oct/Nov Variant 3</option>
           </select>
@@ -2578,6 +2580,336 @@ const PAST_PAPERS_DATA = {
         part: 'e',
         context: "This is a general question so there are no marks for application.",
         ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Advantages: Employees know the business so can start work more quickly/less training needed; Low cost/cheaper which reduces cash outflows/as do not have to spend funds on job advertisements; Less time-consuming/quicker which means time can be used for other purposes; Can motivate employees so reducing labour turnover/encourages employee loyalty/improve efficiency; Company knows the employee which reduces risk/likelihood of employing someone who is not appropriate for the job. Disadvantages: Suitable candidates may not be available/employees may not have experience/skills needed which could lead to mistakes/wrong actions taken; Reduces pool/fewer potential candidates; Would create another vacancy for the business to fill; Could create resentment/jealousy among those not selected which could demotivate these employees; Lack of new ideas so business may become less competitive. Justification must compare advantages and disadvantages and explain why advantages are GREATER or LESSER than disadvantages with reasoning."
+      }
+    ]
+  },
+  'w25_13': {
+    label: '2025 Oct/Nov Variant 3',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Identify two reasons why a business might import raw materials.",
+        marks: 2,
+        part: 'a',
+        context: "KPX manufactures computers. The business imports 60% of its raw materials. The Operations Director is considering ways to use lean production methods in KPX's factory. The Finance Director is reviewing KPX's financial data. Financial data for 2024 ($million): Revenue $750m, Cost of sales $360m, Gross profit $390m, Profit $90m.",
+        ms: "1 mark per reason (max 2). Only award first two responses. Accept: Not available/limited supply in own country; Lower cost; Better quality; Wider range of materials. Other appropriate responses credited."
+      },
+      {
+        q: '1(b)',
+        text: "Calculate KPX's expenses in 2024. Show your working.",
+        marks: 2,
+        part: 'b',
+        context: "KPX manufactures computers. Financial data for 2024 ($million): Revenue $750m, Cost of sales $360m, Gross profit $390m, Profit $90m.",
+        ms: "Award 2 marks for correct answer, 1 mark for correct method but incorrect answer. Correct answer: $300 million. Method: Gross profit minus profit = $390m minus $90m = $300m. For 2 marks answer must be in millions. Dollar sign not required. Max 1 for 300 on own. If correct answer given with no working, award 2 marks."
+      },
+      {
+        q: '1(c)',
+        text: "Outline two ways KPX's Finance Director could use the financial data in Table 1.1.",
+        marks: 4,
+        part: 'c',
+        context: "KPX manufactures computers. Imports 60% of raw materials. Operations Director considering lean production. Financial data 2024: Revenue $750m, Cost of sales $360m, Gross profit $390m, Profit $90m. Expenses = $300m.",
+        ms: "Award 1 mark per way (max 2), 1 mark per application (max 2). Ways: Show whether made a profit [k] which is $90m [app]; Calculate profit margin [k] for the factory [app]; Calculate gross profit margin [k] when importing raw materials [app]; Help make decisions about whether to continue/stop production [k] of computers [app]; Track performance against objectives/time [k]; Compare performance against other businesses [k]; Support a loan application [k]. App words: computers, factory, imports 60% raw materials, lean production, $750m revenue, $360m cost of sales, $390m gross profit, $90m profit, 52% gross profit margin, 12% profit margin, $300m expenses. Can award 'use ratio analysis' where no specific examples given."
+      },
+      {
+        q: '1(d)',
+        text: "Explain two methods of lean production KPX could use.",
+        marks: 6,
+        part: 'd',
+        context: "KPX manufactures computers. The business imports 60% of its raw materials. The Operations Director is considering ways to use lean production methods in KPX's factory. Financial data 2024: Revenue $750m, Cost of sales $360m, Gross profit $390m, Profit $90m.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Methods: Just-in-time (JIT) inventory control [k] when importing raw materials [app] reducing space/inventory held/lower storage costs [an]; Kaizen [k] to help eliminate mistakes/errors [an] when making computers [app]. Analysis can focus on explaining how the method works OR an advantage of using it. App words: computers, factory, imports 60% raw materials, $750m revenue, $360m cost of sales, $390m gross profit, $90m profit, $300m expenses. Some points can be [an] of different methods but only award once e.g. lower cost, fewer mistakes."
+      },
+      {
+        q: '1(e)',
+        text: "Explain two reasons why profit is important for a business. Which reason is likely to be the most important? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "KPX manufactures computers. The business imports 60% of its raw materials. Financial data 2024: Revenue $750m, Cost of sales $360m, Gross profit $390m, Profit $90m.",
+        ms: "General question - no application marks. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision. Reasons: Provides a source of funds [k] as no interest to pay [an]; Reward for risk-taking [k] as owners invest money hoping for return/motivate them to continue [an]; Return on shareholder/owner investment [k] otherwise could invest elsewhere [an]; Help attract investors/finance [k] helping business expand [an]; Measure of success [k] as low profit suggests not worth continuing [an]; Need for long-term survival [k]. Must discuss two reasons to access evaluation. Evaluation capped at 4/6 without justified conclusion comparing both reasons."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'entrepreneur'.",
+        marks: 2,
+        part: 'a',
+        context: "Max is an entrepreneur who wants to start up a business selling books. He has decided to use ecommerce. Max has been told there is government support for start-up businesses. He will use market research to help make business decisions. Max knows it is important for a new business to build customer loyalty.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: An individual who takes the financial risk of starting (and managing) a new business; OR a person who takes the risk for a new business venture. Partial: A person who starts/sets up a business. First mark for idea of starting a business. Take a risk is +1 only."
+      },
+      {
+        q: '2(b)',
+        text: "Identify two reasons why governments support start-up businesses.",
+        marks: 2,
+        part: 'b',
+        context: "Max is an entrepreneur who wants to start up a business selling books. Max has been told there is government support for start-up businesses.",
+        ms: "1 mark per reason (max 2). Only award first two responses. Accept: Create jobs/reduce unemployment; Increase competition; Increase output/improve GDP; Generate taxation/taxes; Motivate/encourage entrepreneurs; Business can grow into larger businesses in future; Reduce imports/increase exports; Provide wider variety of goods/services. Do NOT award: Examples of government support."
+      },
+      {
+        q: '2(c)',
+        text: "Outline two opportunities for Max's business of using ecommerce.",
+        marks: 4,
+        part: 'c',
+        context: "Max is an entrepreneur who wants to start up a business selling books. He has decided to use ecommerce. Max has been told there is government support for start-up businesses. He will use market research. Max knows it is important for a new business to build customer loyalty.",
+        ms: "Award 1 mark per opportunity (max 2), 1 mark per application (max 2). Opportunities: Lower rent/no shops needed [k] so may not need as much government support [app]; Widen market/more potential customers/orders 24/7 [k] for the books [app]; Website can promote the business [k] helpful for this new business [app]; Easy/quick to update [k] for this entrepreneur [app]; Can provide detailed information [k] alongside market research [app]; Fewer employees needed [k]. App words: entrepreneur, books, new/start-up business, government support, market research, build customer loyalty. Benefits must be to the business not to customers."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two ways Max could use market research to help make business decisions.",
+        marks: 6,
+        part: 'd',
+        context: "Max is an entrepreneur who wants to start up a business selling books. He has decided to use ecommerce. Max has been told there is government support. He will use market research to help make business decisions. Max knows it is important to build customer loyalty.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Ways: Identify consumer needs/target market [k] as it's a new business [app] to ensure sales [an]; Identify competition [k] influencing marketing/pricing [an] for his books [app]; Identify market size/trends/demand [k] to know what products to stock [an] which may help build customer loyalty [app]; How to promote its products [k] to raise awareness [an] as plans to use ecommerce [app]; What/amount of inventory to buy [k] keeping variable costs low [an]; Set prices [k] to ensure business can breakeven/cover costs [an]. App words: entrepreneur, books, new/start-up business, government support, ecommerce, build customer loyalty. Do NOT award: Methods of market research."
+      },
+      {
+        q: '2(e)',
+        text: "Explain two ways a business could build customer loyalty. Which is likely to be the best way for a new business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "Max is an entrepreneur who wants to start up a business selling books. He has decided to use ecommerce. Max knows it is important for a new business to build customer loyalty.",
+        ms: "General question - no application marks. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision for a new business. Ways: Offer good customer service/train employees [k] making customers feel valued/builds trust [an]; Loyalty reward scheme/special offers/discounts to regular customers [k] so they have incentive to return [an]; Build customer relationships/communicate e.g. newsletters [k] so customers remember your business [an]; Ask for feedback/carry out market research [k] so items match customer needs [an]; Respond to complaints quickly [k] so customers are less likely to go elsewhere [an]; Offer extra services e.g. after sales service/delivery/credit [k] showing that the business cares [an]. Must discuss two ways to access evaluation. Evaluation capped at 4/6 without justified conclusion."
+      },
+      {
+        q: '3(a)',
+        text: "Identify two ways business activity can affect the environment.",
+        marks: 2,
+        part: 'a',
+        context: "STB is a public limited company. It uses job production to build houses. In 2024 the business built 13,500 houses. STB has many stakeholder groups including its 5000 employees. The Managing Director knows business activity can affect the environment and there are many reasons why a business should respond to environmental pressures. She also wants to know how economic growth might affect STB.",
+        ms: "1 mark per way (max 2). Only award first two responses. Accept: Pollution (or examples); Use up green space/deforestation/loss of habitat; Deplete natural resources/overmining; Traffic congestion. Other appropriate responses credited."
+      },
+      {
+        q: '3(b)',
+        text: "Identify two reasons why a business should respond to environmental pressures.",
+        marks: 2,
+        part: 'b',
+        context: "STB is a public limited company. It uses job production to build houses. In 2024 the business built 13,500 houses. STB has many stakeholder groups including its 5000 employees. There are many reasons why a business should respond to environmental pressures.",
+        ms: "1 mark per reason (max 2). Only award first two responses. Accept: Enhance/protect brand image/reputation; Attract/maintain sales; Reduce risk of customer boycott; Differentiate from competitors; To avoid pressure group action; Help recruit employees; Help retain employees; Help attract investors; Reduce risk of legal action/fines/ensure meets legal standards. Other appropriate responses credited."
+      },
+      {
+        q: '3(c)',
+        text: "Outline two ways economic growth might affect STB.",
+        marks: 4,
+        part: 'c',
+        context: "STB is a public limited company. It uses job production to build houses. In 2024 the business built 13,500 houses. STB has many stakeholder groups including its 5000 employees. The Managing Director wants to know how economic growth might affect STB.",
+        ms: "Award 1 mark per way (max 2), 1 mark per application (max 2). Ways: High demand/sales [k] for houses [app]; More difficult to recruit/find suitable employees [k] for job production [app]; Higher business profits likely [k] for this public limited company [app]; Can increase output [k] above 13,500 houses [app]; Increase in business confidence [k]; STB may consider more investment [k]; Employees may ask for higher wages [k]; Increased rent costs/less choice of location [k]. App words: builds houses/construction industry, 13,500 houses, 5000 employees/builders, public limited company/PLC, job production."
+      },
+      {
+        q: '3(d)',
+        text: "Explain two benefits to STB of using job production.",
+        marks: 6,
+        part: 'd',
+        context: "STB is a public limited company. It uses job production to build houses. In 2024 the business built 13,500 houses. STB has many stakeholder groups including its 5000 employees.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Benefits: Motivate employees [k] helping lower absenteeism/increase retention [an] among its 5000 employees [app]; Could set higher price [k] for each house [app] increasing added value/profit margin [an]; Meet exact customer requirements [k] helping brand loyalty/competitive advantage [an] for this public limited company [app]; Unique/one-off product/USP [k]; High-quality goods/service [k]. App words: public limited company/PLC, builds houses/construction industry, 13,500 houses, 5000 employees/builders, economic growth. Some analysis can be awarded for different benefits but only award once."
+      },
+      {
+        q: '3(e)',
+        text: "Do you think employees are the most important stakeholder group for a manufacturing business? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "STB is a public limited company. It uses job production to build houses. In 2024 the business built 13,500 houses. STB has many stakeholder groups including its 5000 employees.",
+        ms: "General question - no application marks. Candidates can focus solely on employees and still access evaluation. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision. Employees: Make/produce the products [k] otherwise nothing to sell/cannot meet demand [an]; Responsible for quality [k] improving/damaging reputation [an]; Without sufficient employees cannot meet demand [k]. Other stakeholders: Shareholders/owners [k] who provide finance/capital [an]; Customers [k] who buy the products [an] generating revenue [an]; Suppliers [k] who provide materials/inventory [an]; Local community [k] who provide workers [an]; Government [k] providing the legal framework [an]; Bank [k] who provide finance/loans [an]. Justification must follow from relevant analysis. Some points can be relevant to more than one stakeholder but only award once. Evaluation capped at 4/6 without justified conclusion."
+      },
+      {
+        q: '4(a)',
+        text: "Define 'tertiary sector'.",
+        marks: 2,
+        part: 'a',
+        context: "ZPR is a business in the tertiary sector. It has 1 restaurant which has 20 employees. The Human Resources Manager is preparing a job description as ZPR needs 2 new chefs. He said: 'I need to advertise the job vacancies externally. ZPR will use a range of financial rewards as it can be difficult to recruit employees.' The manager knows there are many factors for a business to consider when deciding who to recruit.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: Industry/industries which provide services to consumers/customers and/or other sectors of the economy; OR businesses that supply a service to consumers and/or other businesses. Partial: Provide services. Who the services are sold to is +1 only. Do NOT award: Examples of businesses such as delivery business, accountant, shops; Names of shops/retailers."
+      },
+      {
+        q: '4(b)',
+        text: "Define 'job description'.",
+        marks: 2,
+        part: 'b',
+        context: "ZPR is a business in the tertiary sector. It has 1 restaurant which has 20 employees. The Human Resources Manager is preparing a job description as ZPR needs 2 new chefs.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: Outlines the responsibilities and duties to be carried out by someone to do a specific job; OR a list of the key points about a job including job title, key duties, responsibilities and accountabilities; OR a description of the tasks, roles, and responsibilities of a particular position. Partial: States what the job involves. 1 mark for what it includes/examples of elements. 1 mark for link to job/position. Max 1 if any reference to skills/qualifications."
+      },
+      {
+        q: '4(c)',
+        text: "Identify four financial rewards a business could use.",
+        marks: 4,
+        part: 'c',
+        context: "ZPR is a business in the tertiary sector. It has 1 restaurant which has 20 employees. ZPR will use a range of financial rewards as it can be difficult to recruit employees.",
+        ms: "1 mark per financial reward (max 4). Only award first four responses. Accept: Time-rate; Piece-rate; Salary; Bonus; Commission; Profit sharing; Fringe benefits or examples e.g. discounts on business goods; Share ownership. Other appropriate responses credited."
+      },
+      {
+        q: '4(d)',
+        text: "Explain two ways ZPR could use to advertise its job vacancies externally.",
+        marks: 6,
+        part: 'd',
+        context: "ZPR is a business in the tertiary sector. It has 1 restaurant which has 20 employees. The Human Resources Manager is preparing a job description as ZPR needs 2 new chefs. He said: 'I need to advertise the job vacancies externally. ZPR will use a range of financial rewards as it can be difficult to recruit employees.'",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Ways: National newspapers [k] especially as difficult to recruit employees [app] attracting people from a wider area [an]; Recruitment agencies [k] as need 2 chefs [app] and agency does all the work saving time [an]; Specialist magazines [k] such as one aimed at restaurants [app] as potential employees more likely to see it [an]; Company website [k] of this tertiary sector business [app] likely to be free [an]; Online recruitment sites [k] reaching large number of people [an]; Government run job centres [k]; Visiting universities/colleges [k]; Local newspapers [k]. App words: tertiary sector, restaurant, 20 employees, job description, 2 chefs/cooks, difficult to recruit, financial rewards. Analysis can focus on explaining the way or an advantage of using it."
+      },
+      {
+        q: '4(e)',
+        text: "Explain two factors a business should consider when deciding who to recruit. Which factor is likely to be the most important for a tertiary sector business? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "ZPR is a business in the tertiary sector. It has 1 restaurant which has 20 employees. The Human Resources Manager is preparing a job description as ZPR needs 2 new chefs. The manager knows there are many factors for a business to consider when deciding who to recruit.",
+        ms: "General question - no application marks. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision for a tertiary sector business. Factors: Experience/skills [k] showing the person is able to do the job [an] AND/OR may expect higher wages [an]; Education/qualifications [k] as person likely to make fewer mistakes/provide better service [an]; Personality/attitude/whether trustable [k] as may want someone willing to learn [an]; Punctuality/disciplinary record [k] as if they are late it could cause delays [an]. Must discuss two factors to access evaluation. Justification must follow from relevant analysis. Some analysis could work for more than one factor but only award once. Evaluation capped at 4/6 without justified conclusion."
+      }
+    ]
+  },
+  'w25_12': {
+    label: '2025 Oct/Nov Variant 2',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Define 'quality assurance'.",
+        marks: 2,
+        part: 'a',
+        context: "BEI is a multinational company. It manufactures aeroplanes. Quality assurance is important. BEI has 5000 employees. BEI's directors have announced plans to reduce the size of its workforce (downsize). The Human Resources Director is considering which employees to make redundant. Employee A: Worked at BEI for 1 year, worked at another manufacturing business for 12 years, able to use most of the machines at BEI, often late for work, popular with other employees, left school with 2 IGCSEs.",
+        ms: "Award 2 marks for a full definition, 1 mark for partial. Full: Checking for quality/standards throughout the production process/at every stage; OR a method of improving quality by trying to prevent mistakes happening in the production process. Partial: Checking work done/checking quality multiple times; OR try to prevent mistakes. To gain both marks, answer must show (1) checking quality/product AND (2) throughout/at every stage of the production process."
+      },
+      {
+        q: '1(b)',
+        text: "Identify two reasons why a business might reduce the size of its workforce.",
+        marks: 2,
+        part: 'b',
+        context: "BEI is a multinational company. It manufactures aeroplanes. BEI has 5000 employees. BEI's directors have announced plans to reduce the size of its workforce (downsize).",
+        ms: "1 mark per reason (max 2). Only award first two responses. Accept: Fall/decrease in demand/sales/revenue/recession; Introduction of automation/machinery/technology/becoming capital intensive; Financial problems/need to reduce costs; Closure of factory/shop/office; Merger/takeover; Relocation/move operations to another part of country/world."
+      },
+      {
+        q: '1(c)',
+        text: "Outline, with reference to BEI, the difference between redundancy and dismissal.",
+        marks: 4,
+        part: 'c',
+        context: "BEI is a multinational company. It manufactures aeroplanes. Quality assurance is important. BEI has 5000 employees. BEI's directors have announced plans to reduce the size of its workforce (downsize). Employee A: Worked at BEI for 1 year, worked at another manufacturing business for 12 years, able to use most of the machines at BEI, often late for work, popular with other employees, left school with 2 IGCSEs.",
+        ms: "Award 1 mark for understanding of redundancy (max 1), 1 mark for understanding of dismissal (max 1), 1 mark each for relevant application to BEI (max 2). Redundancy: Job no longer needed/exists [k] as business is downsizing [app]; Worker has done nothing wrong [k] when making aeroplanes [app]; Being asked to leave because skills/experience no longer needed [k]. Dismissal: Employee is incompetent/cannot do the job [k] at the multinational company [app]; Being asked to leave because of poor behaviour/conduct [k] which may affect quality assurance [app]; Termination of employment by employer [k]. App words: multinational/MNC, aeroplanes, quality assurance, downsize, 5000 employees, often late, worked 1 year at BEI. Do NOT award: sacked/fired/laid off on own."
+      },
+      {
+        q: '1(d)',
+        text: "Explain one advantage and one disadvantage of BEI making employee A redundant.",
+        marks: 6,
+        part: 'd',
+        context: "BEI is a multinational company. It manufactures aeroplanes. BEI has 5000 employees. BEI's directors plan to downsize. Employee A: Worked at BEI for 1 year, worked at another manufacturing business for 12 years, able to use most of the machines at BEI, often late for work, popular with other employees, left school with 2 IGCSEs.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per explanation/analysis (max 2). Advantages: Less compensation to pay [k] as only been there 1 year [app] lowering cash outflows [an]; Improve productivity/efficiency [k] because often late [app] so orders met on time [an]. Disadvantages: Lose experience [k] as worked at another business 12 years [app] leading to more mistakes/less output [an]; Lose skills [k] as can use most machinery [app] leading to production delays [an]; Lower motivation of other employees [k] as popular with them [app] increasing labour turnover [an]; Have to train someone else [k] increasing costs [an]. Note: increase costs on own is [an] only; labour turnover/absenteeism is [an] only."
+      },
+      {
+        q: '1(e)',
+        text: "Explain two possible benefits to a country of a multinational company locating there. Which benefit is likely to be the most important? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "BEI is a multinational company. It manufactures aeroplanes. BEI has 5000 employees. BEI's directors have announced plans to reduce the size of its workforce (downsize).",
+        ms: "General question - no application marks. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified evaluation. Benefits: Increase jobs/employment [k] increasing income [an]/reducing unemployment [an]/improving standard of living [an]; Generate taxes [k] which may improve public services [an]; More competition [k] increasing choice/quality/lower prices [an]; Increase reputation of country [k] encouraging other businesses to invest [an]; Knowledge sharing/increase skills [k] improving production methods/efficiency [an]; Improve infrastructure [k]. Must identify two valid benefits to access evaluation. Evaluation capped at 4/6 without justified conclusion comparing both benefits."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'cash flow forecast'.",
+        marks: 2,
+        part: 'a',
+        context: "OTK is a small jewellery shop in the centre of Main City. The business does not currently use ecommerce. OTK buys its jewellery from local suppliers. It pays for the jewellery 30 days later. The shop manager is analysing OTK's cash flow forecast. She is concerned about a short-term cash flow problem.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: Estimate of future cash inflows and outflows of a business (usually on a month-by-month basis). Partial: Shows the cash inflows and outflows of a business. First mark for understanding it refers to cash/money in(flows) and out(flows). Second mark for idea that it is an estimate or future values."
+      },
+      {
+        q: '2(b)',
+        text: "Identify two reasons why cash is important for a business.",
+        marks: 2,
+        part: 'b',
+        context: "OTK is a small jewellery shop in the centre of Main City. OTK buys from local suppliers and pays 30 days later. The shop manager is concerned about a short-term cash flow problem.",
+        ms: "1 mark per reason (max 2). Only award first two. Accept: Pay employees/wages/salary; Pay suppliers/trade payables/raw materials; Pay rent; Pay insurance; Pay utilities; Pay advertising; Pay interest on loans/repay loan; For emergencies/unexpected costs; Ensure survival. Can award pay expenses/short-term debts/day-to-day costs when no specific examples given."
+      },
+      {
+        q: '2(c)',
+        text: "Identify four functions of management.",
+        marks: 4,
+        part: 'c',
+        context: "OTK is a small jewellery shop in the centre of Main City. The shop manager is analysing OTK's cash flow forecast.",
+        ms: "1 mark per function (max 4). Only award first four. The five functions are: Control; Coordinate; Plan; Organise; Command. Do NOT award alternative words - must be these exact terms."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two ways OTK could overcome a short-term cash flow problem.",
+        marks: 6,
+        part: 'd',
+        context: "OTK is a small jewellery shop in the centre of Main City. The business does not currently use ecommerce. OTK buys its jewellery from local suppliers. It pays for the jewellery 30 days later. The shop manager is concerned about a short-term cash flow problem.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Ways: Overdraft [k] allowing business to spend more than in current account [an] for this jewellery business [app]; Ask suppliers for longer to pay [k] delaying cash outflows [an] for more than 30 days [app]; Short-term bank loan [k] for the shop [app] increasing cash inflows quickly [an]; Delay purchase of non-current assets [k] keeping more cash in business [an]; Sell non-current assets [k] generating cash inflows [an]; Ask customers to pay sooner/offer discounts [k]. App words: small business, jewellery, shop, centre of Main City, no ecommerce, 30 days later, local suppliers. Analysis must show effect on cash inflow/outflow."
+      },
+      {
+        q: '2(e)',
+        text: "Explain two threats to a business of using ecommerce. Which threat is likely to be the most important? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "OTK is a small jewellery shop in the centre of Main City. The business does not currently use ecommerce. OTK buys its jewellery from local suppliers. It pays for the jewellery 30 days later.",
+        ms: "General question - no application marks. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified evaluation. Threats: Increased competition [k] so may have to set lower prices/spend more on advertising [an]; Need to design/build website [k] increasing costs [an]; Maintenance/updating of website [k] may need to employ someone [an]; No face-to-face contact [k] difficult to gain feedback/build customer loyalty [an]; Need to deliver products [k] increasing transport/postage costs [an]/lower profit margin [an]; Technical problems [k] losing potential sales [an]; Security threats/hacking/data theft [k] damaging reputation [an]/reducing customer loyalty [an]; Risk of bad reviews [k] lowering sales [an]; High level of returns [k]. Points must focus on business not customers. Evaluation capped at 4/6 without justified conclusion comparing both threats."
+      },
+      {
+        q: '3(a)',
+        text: "Define 'partnership'.",
+        marks: 2,
+        part: 'a',
+        context: "Miguel plans to start up a gym (sports club). It will offer a range of fitness classes including yoga. The business will be a partnership with his sister. Miguel thinks the size of the business will remain small. Secondary market research will be used to help make decisions including which pricing method to use. Miguel knows it is important for a new business to select a suitable location.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: Two (or more) people agree to jointly own a business together; OR a business formed by two or more people. Partial: A business run/operated/managed/controlled/led by two or more people. For two marks need: owned/formed AND at least two people."
+      },
+      {
+        q: '3(b)',
+        text: "Identify two ways to measure the size of a business.",
+        marks: 2,
+        part: 'b',
+        context: "Miguel plans to start up a gym (sports club). The business will be a partnership with his sister. Miguel thinks the size of the business will remain small.",
+        ms: "1 mark per way (max 2). Only award first two. Accept: Number of employees/size of workforce; Value of sales/revenue; Number/amount of customers/volume of output/number of sales; Value of output; Value of capital employed. Do NOT award: Profit; Capital on its own."
+      },
+      {
+        q: '3(c)',
+        text: "Outline two pricing methods Miguel could use.",
+        marks: 4,
+        part: 'c',
+        context: "Miguel plans to start up a gym (sports club). It will offer a range of fitness classes including yoga. The business will be a partnership with his sister. Miguel thinks the size of the business will remain small. Secondary market research will be used. Miguel knows it is important for a new business to select a suitable location.",
+        ms: "Award 1 mark per method (max 2), 1 mark per application (max 2). Methods: Cost-plus pricing [k] to cover costs of the gym [app]; Penetration pricing [k] as it is a new business [app]; Competitive/competition pricing [k] based on the location [app]; Price skimming [k] for some of the classes [app]; Promotional pricing [k] based on market research results [app]. App words: gym/sports club, fitness/classes/yoga, partnership/sister, remain small, new/start-up business, secondary/market research, suitable location."
+      },
+      {
+        q: '3(d)',
+        text: "Explain one advantage and one disadvantage to Miguel of using secondary market research.",
+        marks: 6,
+        part: 'd',
+        context: "Miguel plans to start up a gym (sports club). It will offer a range of fitness classes including yoga. The business will be a partnership with his sister. Miguel thinks the size of the business will remain small. Secondary market research will be used to help make decisions including which pricing method to use.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Advantages: Low cost/free [k] important for a new business [app] so has funds for other activities [an]; Readily available [k] saves time [an] such as deciding a pricing method [app]; More/wider range of information [k] about classes/yoga [app] could help increase demand/sales [an]. Disadvantages: Out-of-date information [k] for the gym [app] leading to wrong decisions [an]; Available to all businesses [k] so may not help create competitive advantage [an] for the partnership [app]; May not be relevant/specific [k] for this small business [app] so customer needs not met reducing loyalty [an]; May not be reliable [k] as not up to date [an]. App words: gym/sports club, fitness/classes/yoga, partnership/sister, remain small, method of pricing, suitable location, new/start-up business."
+      },
+      {
+        q: '3(e)',
+        text: "Do you think access to employees is the most important factor for a new business to consider when deciding on a suitable location? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "Miguel plans to start up a gym (sports club). It will offer a range of fitness classes including yoga. The business will be a partnership with his sister. Miguel thinks the size of the business will remain small. Secondary market research will be used. Miguel knows it is important for a new business to select a suitable location.",
+        ms: "General question - no application marks. Evaluation only if candidate discusses access to employees. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision. Access to employees: Availability/number of employees [k] if high employment hard to find staff/if many available could pay lower wages [an] lowering costs [an]; Distance from workers [k] if far may increase transport costs/if nearby easier to recruit [an]; May need skilled workers [k] to provide good service/higher output [an]; Level of wages in local area [k] if high wages increase costs [an]. Other factors: Access to customers/proximity to market [k] to increase sales/revenue [an]; Availability of premises/rent [k] high rent increases fixed costs [an]; Number of competitors [k] may lead to high/low footfall [an]; Distance to suppliers [k] increasing transport costs [an]; Raw materials [k]; Legal controls [k]; Government grants [k]; Local infrastructure [k]; Personal preference [k]. Answers must be from business viewpoint. Evaluation capped at 4/6 without justified conclusion."
+      },
+      {
+        q: '4(a)',
+        text: "Define 'fixed costs'.",
+        marks: 2,
+        part: 'a',
+        context: "DJU manufactures clothing including jeans and trousers. There are 90 employees working in its factory. DJU uses specialisation when making its products. Fixed costs: $400,000. Total costs: $595,000. Total output: 85,000 units per week. DJU's directors are considering different ways a business could grow including taking over a competitor.",
+        ms: "Award 2 marks for full definition, 1 mark for partial. Full: Costs that do not change with the level of output/sales; OR costs that do not vary in the short run with number of items sold/produced. Partial: Costs that do not change. Do NOT award: answers confusing with variable costs; examples only."
+      },
+      {
+        q: '4(b)',
+        text: "Calculate DJU's average cost per unit per week. Show your working.",
+        marks: 2,
+        part: 'b',
+        context: "DJU manufactures clothing. Fixed costs: $400,000 per week. Total costs: $595,000 per week. Total output: 85,000 units per week.",
+        ms: "Award 2 marks for correct answer, 1 mark for correct method but incorrect answer. Correct answer: $7 (or 7). Method: Total cost divided by total output = $595,000 divided by 85,000 = $7 per unit. If correct answer given with no working, award 2 marks. Dollar sign not required. Max 1 if answer refers to 7 units."
+      },
+      {
+        q: '4(c)',
+        text: "Outline two ways lower interest rates might affect DJU.",
+        marks: 4,
+        part: 'c',
+        context: "DJU manufactures clothing including jeans and trousers. There are 90 employees. DJU uses specialisation. Fixed costs: $400,000. Total costs: $595,000. Total output: 85,000 units per week. DJU's directors are considering ways to grow including taking over a competitor.",
+        ms: "Award 1 mark per way (max 2), 1 mark per application (max 2). Ways: Increased demand/sales [k] for its clothing [app]; Lower costs/cheaper to borrow [k] for the factory [app]; Encourage DJU to invest more/more likely to apply for loan [k] as considering ways to grow [app]. App words: clothing/jeans/trousers, 90 employees, factory, specialisation, grow/takeover competitor, $595,000 total costs, $400,000 fixed costs, 85,000 units, $7 average cost."
+      },
+      {
+        q: '4(d)',
+        text: "Explain one advantage and one disadvantage to DJU of using specialisation when making its products.",
+        marks: 6,
+        part: 'd',
+        context: "DJU manufactures clothing including jeans and trousers. There are 90 employees in its factory. DJU uses specialisation. Fixed costs: $400,000. Total costs: $595,000. Total output: 85,000 units per week. DJU's directors are considering taking over a competitor.",
+        ms: "Award 1 mark per identification (max 2), 1 mark per application (max 2), 1 mark per analysis (max 2). Advantages: Higher output [k] of clothing [app] so able to meet orders on time [an]; Quicker/cheaper to train employees [k] not increasing costs above $595,000 [app] [an]; Increased efficiency [k] increasing output/less waste [an] in the factory [app]; Employee becomes skilled/expert [k] more efficient in that task [an]; Easier to use machinery [k] speeding up production [an]; Fewer mistakes/better quality [k] fewer complaints/lower costs/better reputation [an]. Disadvantages: Workers less motivated [k] of the 90 employees [app] more likely to leave/more errors [an]; Workers cannot cover absent colleagues [k] manufacturing may stop/slow down [an]; Need to train employees [k] increasing training costs [an]; Not spread risk [k]. Note: more sales/customers is [an] only. App words: clothing/jeans/trousers, 90 employees, factory, $595,000 total costs, $400,000 fixed costs, 85,000 units, takeover competitor, $7 average cost."
+      },
+      {
+        q: '4(e)',
+        text: "Do you think the advantages of taking over a competitor are greater than the disadvantages? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "DJU manufactures clothing including jeans and trousers. There are 90 employees in its factory. DJU uses specialisation. DJU's directors are considering different ways a business could grow including taking over a competitor.",
+        ms: "General question - no application marks. Must refer to both advantage and disadvantage to access evaluation. Award up to 2 marks identification, up to 2 marks analysis, up to 2 marks justified decision. Advantages: Reduced competition [k] increasing sales/revenue [an]; Gain brand name/better reputation [k] increasing customer loyalty/more sales [an]; Economies of scale [k] lower average costs [an]; Access new skills/expertise/resources [k]; More capacity/output [k] possible economies of scale [an]. Disadvantages: Increased costs [k] business might not afford [an]; Clash of management styles [k] leading to wrong decisions [an]; Could demotivate employees [k] lowering efficiency [an]; Difficult to coordinate [k] could lead to mistakes [an]; Poor communication [k] demotivating employees [an]; Less choice for customers [k]. Do NOT award: answers about monopolies; forward/backward integration. Evaluation capped at 4/6 without justified conclusion comparing advantages and disadvantages."
       }
     ]
   },
