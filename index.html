@@ -1068,11 +1068,28 @@ footer {
       </div>
     </div>
 
-    <!-- Paper 2 placeholder -->
-    <div id="fp2-content" style="display:none;padding:40px;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:14px">
-      <div style="font-size:32px;margin-bottom:12px">🚧</div>
-      <div style="font-size:15px;font-weight:600;color:var(--text2)">Paper 2 coming soon</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:6px">We're adding past Paper 2s — check back soon!</div>
+    <!-- Paper 2 content -->
+    <div id="fp2-content" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label style="font-size:13px;font-weight:600;color:var(--text2);letter-spacing:0.03em;text-transform:uppercase">Select Paper</label>
+          <select id="fp2-paper-select" onchange="loadFPPaper2()" style="padding:12px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;width:100%;max-width:420px;cursor:pointer;transition:border-color 0.2s;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236b7280%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 14px center;padding-right:40px">
+            <option value="">— Choose a paper —</option>
+            <optgroup label="━━  2025  ━━━━━━━━━━━━━━━━━━━━━━">
+              <option value="p2_w25_21">  🔵  Oct/Nov · Variant 1</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="fp2-paper-info" style="display:none;background:rgba(37,99,235,.07);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--text2);line-height:1.7">
+          <strong style="color:var(--text)">How to use:</strong> The case study is shown above each question group. Write your answers in the boxes. For (b) questions, write as much as you can — these are 12-mark evaluate/justify questions. Click <strong>Mark full paper</strong> when done.
+        </div>
+        <div id="fp2-questions-list" style="display:flex;flex-direction:column;gap:12px"></div>
+        <button id="fp2-btn" onclick="markFullPaperP2()" style="display:none;align-self:flex-start;padding:14px 28px;background:linear-gradient(135deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(59,130,246,.35);transition:opacity .2s">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+          Mark full paper
+        </button>
+        <div id="fp2-results"></div>
+      </div>
     </div>
 
   </div>
@@ -3784,6 +3801,237 @@ function setFP(p) {
   document.getElementById('fp2-content').style.display = p===2 ? 'block' : 'none';
 }
 
+
+const PAST_PAPERS_DATA_P2 = {
+  'p2_w25_21': {
+    label: '2025 Oct/Nov Paper 2 Variant 1',
+    caseStudy: `Luxury Bathrooms (LB) — Case Study Summary
+
+LB is a large private limited company started 20 years ago in country X. It manufactures luxury bathroom products (baths, showers, basins) sold to specialist retail shops. LB has recently introduced new machinery. It has grown each year benefiting from financial, purchasing, and managerial economies of scale. The luxury bathroom market in country X is very competitive.
+
+LB plans to produce a new range of bathroom products and is using primary market research to decide which to manufacture. It must also choose a distribution channel: specialist retail shops (existing) or directly via its website. LB currently only uses its website for information, not sales.
+
+LB wants to enter the luxury bathroom market in country Y, planning to build a factory there in 2026, likely financed by a bank loan. It needs to communicate expansion plans to all employees.
+
+Appendix 2 — Redundancy email data:
+Redundancy payment = 1 week's wages per year employed at LB.
+- Naga: Supervisor 15 years, employed 20 years, $400/week. Understands all production tasks.
+- Reeta: Supervisor 2 years, employed 2 years, $350/week. 10 yrs competitor experience, already knows new machinery.
+- Amy: Supervisor 5 years, employed 14 years, $375/week. Loyal, worked hard for promotion, can repair machinery.
+
+Appendix 3 — Country Y context (City News, Sept 2025):
+Economy in country Y is growing, consumer incomes rising, increasing demand for luxury home products forecast to continue. Many local businesses manufacture bathroom products. Government aware multinational companies considering locating in country Y — both benefits and drawbacks exist.`,
+    questions: [
+      {
+        q: '1(a)',
+        text: 'Explain two advantages and two disadvantages of a business being a private limited company.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'LB is a large private limited company started 20 years ago in country X. It manufactures luxury bathroom products sold to specialist retail shops.',
+        ms: `8 marks total. Award 1 mark per advantage/disadvantage (max 2 advantages, max 2 disadvantages) + 1 additional mark per explanation. No application marks for this question.
+
+Advantages (award any two):
+- Separate legal identity: company can be sued but not usually the owners personally
+- Can sell shares to family/friends to raise capital — larger amounts than sole trader/partnership possible
+- Limited liability: owners will not lose personal possessions if business cannot pay debts
+- Cannot be taken over without shareholder consent
+- Continuity on death of owner
+
+Disadvantages (award any two):
+- Accounts not private: competitors may access them
+- Cannot sell shares to public/stock exchange — not easy to transfer shares so family/friends may be less willing to buy
+- Legal formalities to operate: accounts must be audited and registered with government — takes time and increases costs
+- Legal formalities setting up: must complete paperwork to register — takes time and money
+
+Example full answer (2 marks): 'Cannot sell shares to the public on the stock exchange (1) as it is not easy to transfer/sell shares so family and friends may be less willing to buy shares in the first place (1).'`
+      },
+      {
+        q: '1(b)',
+        text: 'Consider the following three economies of scale for LB. Which economy of scale is likely to have benefited LB the most? Justify your answer.
+• Financial
+• Purchasing
+• Managerial',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'LB is a large private limited company that manufactures luxury bathroom products (baths, showers, basins). It has grown every year and has benefited from economies of scale including financial, purchasing, and managerial. LB plans to expand and build a new factory in another country, likely financed by a bank loan.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9–12 marks): Sound application, detailed discussion of TWO OR MORE economies of scale, well-justified conclusion. Top marks if all three discussed in context with justified conclusion explaining why alternatives were rejected.
+Level 2 (5–8 marks): Sound application, detailed discussion of at least one economy, judgement with some justification. Top marks if two or more discussed in detail with context.
+Level 1 (1–4 marks): Limited knowledge, little discussion/explanation, simple judgement. Top marks if all three outlined in context.
+
+Financial economies: Can raise finance more easily/cheaply as lower risk — banks may offer lower interest rates — reduces borrowing costs for expansion (e.g. new factory).
+Purchasing economies: Bulk buy components at discounted prices — reduces average/unit cost — may lower prices — more competitive — increases sales/revenue.
+Managerial economies: Specialist managers employed — more knowledgeable/efficient — e.g. marketing manager knows best advertising channels — more cost efficient.
+
+Valid justified conclusions (any one):
+- Financial best: LB plans to expand and build a new factory needing borrowed finance — lower interest rates reduce repayment costs significantly. Purchasing/managerial benefits may already be largely realised at current scale.
+- Purchasing best: LB produces on large scale so bulk discounts on components reduce unit costs substantially, increasing gross profit.
+- Managerial best: All specialist managers experienced in luxury bathroom products, efficiencies across all departments reduce unit costs most.
+
+Cap at Level 2 if no justified conclusion. Cap at Level 1 if no explanation — just identification.`
+      },
+      {
+        q: '2(a)',
+        text: 'Explain two advantages and two disadvantages to LB of using primary market research.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'LB manufactures luxury bathroom products (baths, showers, basins) and operates in a very competitive market in country X. It plans to produce a new range of bathroom products and is using primary market research to decide which products to manufacture.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 2 advantages, max 2 disadvantages) + max 1 additional mark per explanation in context.
+
+Advantages (any two):
+- Up to date information — finds out about current trends in bathroom products (app)
+- Relevant to the business as direct contact with potential customers — about basins/showers specifically
+- First-hand information planned and carried out by those who want it — about this competitive market
+- Effective at gathering information about a specific problem — which new designs to produce
+- Not available to competitor businesses
+
+Disadvantages (any two):
+- Can be expensive to collect — e.g. surveys about sales through specialist retail shops
+- May take time to collect / not immediately available
+- May not be accurate if not experienced / interviewer bias possible
+- Less accurate results if sample does not represent target market
+
+Application words: luxury bathroom products; baths/basins/showers; plan to produce new range; started 20 years ago; sells in specialist retail shops; website for information only; very competitive market; need to decide which new designs to produce.
+
+Example: 'The information is up to date (1) so LB will be aware of current trends in designs of bathroom products (app).'`
+      },
+      {
+        q: '2(b)',
+        text: 'Consider the advantages and disadvantages of the two options LB could use to distribute its new product range in country X. Which channel of distribution should LB use? Justify your answer.
+• Selling to specialist retail shops
+• Selling directly to customers through LB's website',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'LB manufactures luxury bathroom products (baths, showers, basins) sold to specialist retail shops. It plans to produce a new range of bathroom products for country X. LB currently uses its website only for product information and does not sell through it. The market is very competitive.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9–12): Sound application, detailed discussion of BOTH options, well-justified recommendation. Top marks if both discussed in detail in context with justified recommendation explaining why alternative was rejected.
+Level 2 (5–8): Sound application, detailed discussion of at least one option, judgement with some justification. Top marks if one option discussed in detail with application.
+Level 1 (1–4): Limited knowledge, little discussion, simple judgement. Top marks if both options outlined in context.
+
+Specialist retail shops — Advantages: sell in larger quantities improving cash flow; reduces distribution costs (fewer deliveries); existing relationship — staff familiar with product quality and can advise customers; lower inventory levels; retailer may pay some advertising costs; customers already familiar with LB products in these shops.
+Specialist retail shops — Disadvantages: less control over how products displayed; displayed alongside competitors; price higher after retail margin — fewer sales; no direct customer contact to emphasise luxury nature.
+
+Website direct — Advantages: lower price as no retail margin — may increase demand/revenue; direct customer contact — useful feedback on showers/baths; LB controls product descriptions and information.
+Website direct — Disadvantages: high delivery costs (baths large/heavy) — may reduce sales; damage during delivery increases costs; luxury nature cannot be appreciated online — customers unwilling to pay premium; higher storage costs (products stored before dispatch); increased website development and maintenance costs.
+
+Valid recommendations:
+- Specialist retail shops: existing relationship, staff can advise on luxury nature encouraging customers to pay higher price. Website sales would be new/untested with risks of high delivery costs for heavy items.
+- Website direct: reaches wider customer base across wider area than current specialist shops, potentially higher sales.
+
+Cap at Level 2 if no justified recommendation. Must reject alternative option for top of Level 3.`
+      },
+      {
+        q: '3(a)',
+        text: 'Explain two reasons why working capital is important to LB.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'LB is a large private limited company manufacturing luxury bathroom products. The Managing Director knows that working capital is important. LB plans to build a new factory in country Y in 2026 financed by a bank loan.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation (at least 1 must be applied to context).
+
+Reasons and explanations (any two):
+1. To pay day-to-day expenses/fixed costs/variable costs/overheads — without working capital LB cannot buy components to manufacture bathroom equipment — if insufficient, cannot pay wages and other expenses — difficult to continue trading.
+2. To prevent cash flow problems — ensures LB does not lack liquidity — prevents insolvency/ceasing to trade.
+3. To support a bank loan application — having sufficient working capital shows ability to repay the loan (relevant as LB plans a bank loan for the new factory).
+4. To offer customers credit terms to encourage sales.
+5. To pay for unexpected expenses.
+
+Application words: luxury bathroom products; baths/basins/showers; plan to produce new range; sells in specialist retail shops; website for information; very competitive market.
+
+Example: 'Needed to pay day-to-day expenses (1) as LB will need to buy components to manufacture the bathroom equipment (app). If there is insufficient working capital, LB may not have cash to pay wages (1) making it difficult to continue trading (1).'`
+      },
+      {
+        q: '3(b)',
+        text: 'Using Appendix 2 and other information, consider the three employees that LB could make redundant. Which employee should LB choose? Justify your answer.
+• Naga
+• Reeta
+• Amy',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'LB has introduced new machinery and can reduce the number of supervisors. Redundancy payment = 1 week's wages per year employed. Naga: supervisor 15 years, employed 20 years, $400/week, understands all production tasks. Reeta: supervisor 2 years, employed 2 years, $350/week, 10 years competitor experience, already knows new machinery. Amy: supervisor 5 years, employed 14 years, $375/week, loyal, worked hard for promotion, can repair machinery.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9–12): Sound application, detailed discussion of TWO OR MORE employees, well-justified recommendation. Top marks if all three discussed in context with justified recommendation explaining why alternatives were rejected.
+Level 2 (5–8): Sound application, detailed discussion of at least one employee, judgement with some justification. Top marks if two or more discussed in detail.
+Level 1 (1–4): Limited knowledge, little discussion, simple judgement. Top marks if all three outlined in context.
+
+Naga: Most expensive ($400/week) — highest wage cost saving; highest redundancy payment ($8,000 = 20 × $400) — one-off cost; longest serving (20 years) — most loyal, unlikely to leave; understands all production tasks — flexible across factory.
+Reeta: Lowest wages ($350/week); lowest redundancy payment ($700 = 2 × $350); least experience at LB (2 years); 10 years competitor experience — may bring new ideas; already familiar with new machinery — could train others.
+Amy: 14 years experience — more experienced than Reeta at LB; loyal and worked hard for promotion; can repair machinery — reduces repair costs; redundancy payment $5,250 (14 × $375) — less than Naga.
+
+Valid recommendations:
+- Make Naga redundant: highest wages so greatest weekly cost saving. Reeta cheapest to employ, Amy loyal/hardworking.
+- Make Reeta redundant: least time at LB (2 years), least experienced in LB's processes.
+- Make Amy redundant: less experienced as supervisor than Naga (5 vs 15 years), less time employed than Naga.
+
+Cap at Level 2 without justified recommendation. Must compare employees and reject alternatives for top Level 3.`
+      },
+      {
+        q: '4(a)',
+        text: 'Explain two factors LB's managers should consider when deciding which method of communication to use to inform employees about the expansion plans.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'LB is a large private limited company with many employees across its factory. It plans to build a new factory in country Y in 2026. LB needs to communicate these expansion plans to all employees. Choosing the most suitable method of communication is important.',
+        ms: `8 marks. Award 1 mark per factor (max 2) + max 3 additional marks per explanation (at least 1 must be applied to context).
+
+Factors and explanations (any two):
+1. Number of employees needing information — a large number of employees all affected by expansion — needs method reaching everyone in the factory.
+2. Whether feedback is needed — managers will know message received and understood — ensures all employees understand impact on their job role.
+3. Amount/complexity of information — a lot of information about the factory in country Y — written communication (email/letter) more suitable for complex messages.
+4. Need for written record — legal requirement for certain communications with employees — provides record to refer to in future.
+5. Speed/urgency — employees need to be told quickly before rumours spread around the factory.
+6. Cost of communication methods chosen.
+
+Application: factory expansion; building factory in country Y; all employees affected; large number of employees.
+
+Example: 'How many employees need to be informed (1). A large number of employees will need to see the information (1) as everyone will be affected by the expansion plans (1) when building the new factory in country Y (app).'`
+      },
+      {
+        q: '4(b)',
+        text: 'Using Appendix 3 and other information, consider the benefits and drawbacks for country Y of LB building its new factory there. Do you think the benefits for country Y are greater than the drawbacks? Justify your answer.',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'Country Y has a growing economy with rising consumer incomes and increasing demand for luxury home products. Many local businesses manufacture bathroom products. The government is aware multinational companies are considering locating factories in country Y. LB plans to build a luxury bathroom factory there in 2026.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9–12): Sound application, detailed discussion of BOTH benefits AND drawbacks for country Y, well-justified conclusion. Top marks if both discussed in detail in context with justified conclusion explaining why benefits outweigh drawbacks or vice versa.
+Level 2 (5–8): Sound application, detailed discussion of one benefit or drawback, judgement with some justification.
+Level 1 (1–4): Limited knowledge, little discussion, simple judgement. Top marks if benefits and drawbacks outlined in context.
+
+Benefits for country Y:
+- Creates jobs — lowers unemployment — raises incomes — increases economic growth/GDP
+- Increased investment — new factory infrastructure may benefit local businesses
+- LB could export from country Y — improves balance of payments — earns foreign currency
+- LB pays taxes to government — increases tax revenue for public services
+- Increased consumer choice — more competition — more luxury bathroom products available as incomes rise
+
+Drawbacks for country Y:
+- Jobs created may be unskilled and low paid — harder for local businesses to meet labour needs
+- Reduced sales for local bathroom manufacturers — LB's scale may mean lower costs/prices
+- Profits sent back to country X — loss of government tax revenue in country Y
+- Scarce/non-renewable resources used up — future economic growth may slow
+- LB may gain political influence / grants that could have gone to local businesses
+- Noise and air pollution during factory construction — damage to environment and health of local population
+
+Valid justified conclusions:
+- Benefits greater: jobs created help country Y develop; technology transfer to local bathroom producers increases their efficiency; many local businesses benefit — outweighs short-term pollution from construction.
+- Drawbacks greater: government may not gain tax revenue if had to offer grants to attract LB; LB's economies of scale may cause local bathroom manufacturers to close if they cannot compete.
+
+Cap at Level 2 without a justified conclusion. Must weigh benefits against drawbacks for top Level 3.`
+      }
+    ]
+  }
+};
+
 function loadFPPaper() {
   const key = document.getElementById('fp-paper-select').value;
   const paper = PAST_PAPERS_DATA[key];
@@ -3963,6 +4211,205 @@ function showFPResults(r) {
               <td style="padding:10px 20px;font-size:13px;font-weight:700;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
               <td style="padding:10px 20px;font-size:13px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
               <td style="padding:10px 20px;font-size:13px;color:#f87171;max-width:180px">${q.missed||'—'}</td>
+            </tr>`;
+          }).join('')}
+        </table>
+      </div>
+    </div>`;
+}
+
+
+// ── Paper 2 Full Paper Marking ─────────────────────────────────────────────
+let currentFPPaper2 = null;
+
+function loadFPPaper2() {
+  const key = document.getElementById('fp2-paper-select').value;
+  const paper = PAST_PAPERS_DATA_P2[key];
+  const list = document.getElementById('fp2-questions-list');
+  const info = document.getElementById('fp2-paper-info');
+  const btn = document.getElementById('fp2-btn');
+
+  if (!paper) {
+    list.innerHTML = '';
+    info.style.display = 'none';
+    btn.style.display = 'none';
+    currentFPPaper2 = null;
+    return;
+  }
+
+  currentFPPaper2 = paper;
+  info.style.display = 'block';
+  btn.style.display = 'inline-flex';
+  document.getElementById('fp2-results').innerHTML = '';
+
+  // Group by question number
+  const groups = {};
+  paper.questions.forEach(q => {
+    const num = q.q[0];
+    if (!groups[num]) groups[num] = [];
+    groups[num].push(q);
+  });
+
+  list.innerHTML = Object.entries(groups).map(([num, qs]) => `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+      <div style="padding:16px 20px;background:rgba(37,99,235,.06);border-bottom:1px solid var(--border)">
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--blue-400);margin-bottom:6px">Question ${num}</div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.6;font-style:italic;white-space:pre-line">${qs[0].context}</div>
+      </div>
+      ${qs.map(q => `
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+            <span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:32px">${q.q}</span>
+            <span style="font-size:13px;color:var(--text);flex:1;white-space:pre-line">${q.text}</span>
+            <span style="font-size:11px;color:var(--text3);white-space:nowrap">[${q.marks} marks]</span>
+          </div>
+          <textarea id="fp2ans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.part === 'b' ? 10 : 5}" placeholder="${q.part === 'b' ? 'Write a detailed evaluate/justify answer — discuss all options, weigh them up, and give a justified conclusion...' : 'Your answer for ' + q.q + '...'}" style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+async function markFullPaperP2() {
+  if (!currentFPPaper2) return;
+
+  const btn = document.getElementById('fp2-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking — this may take 30–60 seconds…';
+
+  document.getElementById('fp2-results').innerHTML = `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
+      <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking Paper 2 — 8 questions including 4 x 12-mark evaluate questions…</div>
+      <div style="font-size:13px;color:var(--text3)">Please don't close this tab</div>
+    </div>`;
+
+  const questions = currentFPPaper2.questions;
+  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
+  const caseStudy = currentFPPaper2.caseStudy;
+
+  const answers = questions.map(q => {
+    const key = q.q.replace(/[^a-z0-9]/gi,'_');
+    const ans = document.getElementById('fp2ans-' + key)?.value?.trim() || '';
+    return { ...q, answer: ans };
+  });
+
+  function buildP2BatchPrompt(batch) {
+    const qList = batch.map(q => {
+      const isB = q.part === 'b';
+      return [
+        q.q + ' [' + q.marks + ' marks — ' + (isB ? 'EVALUATE/JUSTIFY levels-based' : 'EXPLAIN point-based') + ']:',
+        q.text,
+        'Context: ' + q.context,
+        'Mark scheme: ' + q.ms,
+        'Student answer: ' + (q.answer || '(no answer provided)')
+      ].join('\n');
+    }).join('\n\n---\n\n');
+
+    return [
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark each question strictly.',
+      '',
+      'CASE STUDY CONTEXT (refer to this for application marks):',
+      caseStudy,
+      '',
+      'MARKING RULES:',
+      '- (a) questions [8 marks]: Point-based. Award marks for knowledge (k), explanation (exp), and application (app) as per mark scheme.',
+      '- (b) questions [12 marks]: Levels-based (L1=1-4, L2=5-8, L3=9-12). Award level based on quality of discussion, evaluation, and justification.',
+      '  * Cap at L2 (max 8) if no justified conclusion/recommendation.',
+      '  * Award L3 (9-12) only if student discusses multiple options AND gives a well-justified conclusion rejecting alternatives.',
+      '  * Top of L3 (11-12) requires all options discussed in context with fully justified conclusion.',
+      '- Be strict but fair. Do not award marks for vague or unsupported statements.',
+      '',
+      'QUESTIONS TO MARK:',
+      qList,
+      '',
+      'Respond ONLY with a valid JSON array, no markdown, no extra text:',
+      '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"...","missed":"..."}]',
+      'For (b) questions include the level awarded (e.g. "level":"L2"). For (a) questions set level to null.'
+    ].join('\n');
+  }
+
+  async function markP2Batch(batch) {
+    const prompt = buildP2BatchPrompt(batch);
+    const res = await fetch('/.netlify/functions/mark', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    const text = data.text || '';
+    const bt3 = String.fromCharCode(96,96,96);
+    const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
+    return JSON.parse(cleaned);
+  }
+
+  try {
+    // Split into batches of 4 (smaller batches because (b) answers are long)
+    const batchSize = 4;
+    const batches = [];
+    for (let i = 0; i < answers.length; i += batchSize) {
+      batches.push(answers.slice(i, i + batchSize));
+    }
+
+    const batchResults = await Promise.all(batches.map(b => markP2Batch(b)));
+    const allQuestions = batchResults.flat();
+
+    const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
+    const pct = Math.round((totalScore/totalMax)*100);
+    const grade = pct>=90?'A*':pct>=75?'A':pct>=60?'B':pct>=45?'C':pct>=30?'D':'U';
+
+    const r = { total_score: totalScore, total_max: totalMax, grade, questions: allQuestions };
+    showFPResultsP2(r);
+    saveMarking(2, currentFPPaper2.label, r.total_score, r.total_max, 'Paper 2 full paper marked.');
+  } catch(e) {
+    document.getElementById('fp2-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — ' + (e.message || 'Unknown error') + '</div>';
+    console.error('Paper 2 marking error:', e);
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg> Mark again';
+}
+
+function showFPResultsP2(r) {
+  const pct = Math.round((r.total_score / r.total_max) * 100);
+  const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
+
+  document.getElementById('fp2-results').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
+        <div style="width:80px;height:80px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:24px;font-weight:700">${r.total_score}</span>
+          <span style="font-size:11px;opacity:.7">/ ${r.total_max}</span>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:22px;font-weight:700;color:var(--text)">${currentFPPaper2.label}</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">Full paper marked — 4 questions (a+b each)</div>
+        </div>
+        <div style="text-align:center">
+          <div style="padding:10px 24px;border-radius:10px;font-size:28px;font-weight:700;background:${sc.bg};color:${sc.c}">${r.grade}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">${pct}%</div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;font-weight:600;color:var(--text)">Question by question breakdown</div>
+        <table style="width:100%;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Q</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Score</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Level</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Feedback</th>
+            <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Missed</th>
+          </tr>
+          ${(r.questions||[]).map(q => {
+            const qpct = Math.round((q.score/q.max)*100);
+            const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
+            return `<tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:10px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
+              <td style="padding:10px 20px;font-size:13px;font-weight:700;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
+              <td style="padding:10px 20px;font-size:12px;color:var(--text3)">${q.level || '—'}</td>
+              <td style="padding:10px 20px;font-size:13px;color:var(--text2);max-width:240px">${q.feedback||''}</td>
+              <td style="padding:10px 20px;font-size:13px;color:#f87171;max-width:160px">${q.missed||'—'}</td>
             </tr>`;
           }).join('')}
         </table>
