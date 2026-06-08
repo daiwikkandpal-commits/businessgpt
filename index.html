@@ -1034,6 +1034,8 @@ footer {
           <label style="font-size:13px;font-weight:500;color:var(--text2)">Select paper</label>
           <select id="fp-paper-select" onchange="loadFPPaper()" style="padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;outline:none;max-width:340px">
             <option value="">— Choose a paper —</option>
+            <option value="s25_12">2025 May/June Variant 2</option>
+            <option value="s25_11">2025 May/June Variant 1</option>
             <option value="w25_13">2025 Oct/Nov Variant 3</option>
             <option value="w25_12">2025 Oct/Nov Variant 2</option>
             <option value="w25_11">2025 Oct/Nov Variant 1</option>
@@ -3075,6 +3077,336 @@ const PAST_PAPERS_DATA = {
         part: 'e',
         context: "This is a general question so there are no marks for application.",
         ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Methods: Television - expensive/can include moving images to attract attention; Magazines - able to target specific types of customers; Discount offers/promotional pricing/coupons/loyalty cards - makes products more affordable; Social media/internet/influencers - reach large numbers of people; Leaflets - low-cost method; Posters/billboards - seen by everyone passing by; Point of sale displays/demonstrations - customer shown how it is used; Radio advertising - target specific regions; Newspapers; Gifts; Sponsorship; Competitions - encourage customer to buy to receive reward; Free samples; BOGOF; After-sales service. Justification must compare two methods and explain why one is BETTER for a large business than the other - e.g. television is best because a large business can afford the cost and is likely to reach far more people than a poster."
+      }
+    ]
+  },
+  's25_11': {
+    label: '2025 May/June Variant 1',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Define 'business partnership'.",
+        marks: 2,
+        part: 'a',
+        context: "Brendan wants to be a successful entrepreneur. He plans to start up a flower shop using government support. Brendan's brother has offered to form a business partnership with him. Brendan knows it is important for a new business to use a suitable pricing method. He has already identified ways the business can increase added value. Brendan wants to know how an economic boom might affect his business.",
+        ms: "Full definition (2 marks): Two or more people who agree to jointly own a business, usually sharing responsibility for day-to-day running. An unincorporated business that has more than one owner. Partial definition (1 mark): Business run by two or more people. Must convey BOTH the idea of shared ownership AND that it involves at least two people for full marks."
+      },
+      {
+        q: '1(b)',
+        text: "Identify two ways a government can support business start-ups.",
+        marks: 2,
+        part: 'a',
+        context: "Brendan plans to start up a flower shop using government support.",
+        ms: "1 mark per way (max 2). Only award first two responses. Acceptable answers: grants/subsidies; low-interest loans; low-cost or rent-free premises; training provision; tax relief/holiday; advice or help with research; help promoting/advertising the business; provision of mentors."
+      },
+      {
+        q: '1(c)',
+        text: "Outline two ways an economic boom might affect Brendan's business.",
+        marks: 4,
+        part: 'c',
+        context: "Brendan wants to start a flower shop as an entrepreneur, forming a business partnership with his brother, using government support. He is aware of how an economic boom might affect his business.",
+        ms: "1 mark per point + 1 mark per application (max 2 points = 4 marks). Points: High demand/sales/revenue for flowers; Difficulty finding employees for the shop; Ability to raise prices increasing added value; Higher costs/wages may need more government support; High business confidence for this entrepreneur; Increased competition; Harder to access materials; Harder to find a location. Application words: entrepreneur, start-up/new business, flowers, shop, government support, increase added value, business partnership, pricing method."
+      },
+      {
+        q: '1(d)',
+        text: "Explain two ways Brendan could increase added value for his business.",
+        marks: 6,
+        part: 'd',
+        context: "Brendan is starting a flower shop business partnership with his brother. He wants to increase added value. Added value = selling price minus cost of inputs.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 ways = 6 marks). Ways: Set high prices - widens gap between cost and price - for the flowers; Lower input costs by buying cheaper materials for this new business; Branding/marketing/packaging to give perception of higher quality; Unique design/products making more desirable than rivals which could influence pricing method; Improve convenience so products immediately available in the shop; Improve quality/service. Analysis: explaining why price/costs are higher/lower, or how the method increases added value. Do not award same analysis point twice. Application words: start-up/new business, flowers, shop, government support, brother, business partnership, pricing method, entrepreneur."
+      },
+      {
+        q: '1(e)',
+        text: "Explain two pricing methods a new business might use. Which is likely to be the best method to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application. Candidates must name the pricing method to access knowledge marks.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Must NAME the pricing method. Methods: Cost-plus - add % onto production costs - easy to calculate; Penetration pricing - set lower price than competitors - attracts customers; Competitive pricing - price similar to/just below competitors - may not cover costs; Price skimming - recover development costs quicker - may lead to low sales; Promotional pricing; Dynamic pricing; Psychological pricing. Evaluation must discuss TWO relevant methods and make a justified recommendation explaining why one is better for a new business."
+      },
+      {
+        q: '2(a)',
+        text: "Identify one way each of the following changes in country X's exchange rate might affect businesses which import raw materials. (i) Depreciation (ii) Appreciation",
+        marks: 2,
+        part: 'a',
+        context: "NSL is a business based in country X. It manufactures food products including bread and breakfast cereals. NSL imports 15% of its raw materials. Changes in country X's exchange rate can affect businesses which import raw materials.",
+        ms: "1 mark each. Do NOT award answers about exports. Depreciation: imports become dearer/more expensive. Appreciation: imports become cheaper."
+      },
+      {
+        q: '2(b)',
+        text: "Identify two reasons why consumer spending patterns might change.",
+        marks: 2,
+        part: 'a',
+        context: "NSL's Marketing Manager knows the business should respond to changes in consumer spending patterns.",
+        ms: "1 mark per reason (max 2). Only award first two. Acceptable: change in price of product; change in competitor prices; changes in incomes/wages/unemployment/business cycle; changes in population size/structure/life stage; change in taste/fashion/preferences; advertising/promotion; technology; taxation; interest rates; exchange rates; weather/season."
+      },
+      {
+        q: '2(c)',
+        text: "Outline two reasons why maintaining quality is important for NSL.",
+        marks: 4,
+        part: 'c',
+        context: "NSL manufactures food products including bread and breakfast cereals. It uses lean production in its factory. Maintaining quality is important. NSL imports 15% of its raw materials.",
+        ms: "1 mark per point + 1 mark per application (max 2 points = 4 marks). Points: Develop strong brand/reputation for its food; Keep customer loyalty as spending patterns change; Charge premium prices helping offset exchange rate effects; Lower costs/less wastage at the factory; Fewer complaints/returns; Attract new customers/increase sales; Meet legal requirements such as food standards; Adds value. Application words: food/ingredients/breakfast cereal/bread, manufacture, consumer spending patterns change, factory, exchange rates, 15% imported materials, lean production."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two benefits to NSL of using lean production.",
+        marks: 6,
+        part: 'd',
+        context: "NSL manufactures food products including bread and breakfast cereals. It uses lean production in its factory. Maintaining quality is important. NSL imports 15% of its raw materials.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 benefits = 6 marks). Benefits: Fewer mistakes/errors - less rework/lower costs/improved reputation - maintaining quality is important; Less inventory held of imported materials lowering storage costs/working capital; Cut out processes when making food which speeds up production/increases productivity; Increased motivation leading to lower absenteeism/reduced labour turnover at the factory; Less waste of time/materials/improved efficiency leading to quicker/increased output; Lower unit costs improving competitiveness. Some points can be knowledge OR analysis but only award once. Application words: food/ingredients/breakfast cereal/bread, manufacture, consumer spending patterns change, factory, exchange rates, 15% imported materials, maintaining quality."
+      },
+      {
+        q: '2(e)',
+        text: "Explain two methods of market research a business could use to help make business decisions. Which is likely to be the best method for a manufacturing business to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application. Candidates must identify the specific method, not just state primary/secondary.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Must identify the specific method. Methods: Government statistics - wide sample; Internet/online sources - free/low cost/immediate; Trade associations/journals - industry-specific; Market research agency reports - detailed but expensive; Questionnaire - up-to-date, specific to business; Interviews - in-depth opinions; Survey - reaches large numbers; Focus group - detailed, allows follow-up; Test marketing - limits cost of problems; Observation - low cost; Newspapers/magazines. Evaluation: must discuss at least two methods and justify recommendation for a manufacturing business specifically."
+      },
+      {
+        q: '3(a)',
+        text: "Define 'dismissal'.",
+        marks: 2,
+        part: 'a',
+        context: "LFK is a coal-mining business. It has 135 employees. After the dismissal of one of LFK's employees there is a job vacancy for a new supervisor. External recruitment will be used.",
+        ms: "Full definition (2 marks): When employment is ended against the will of the employee, usually for not working in accordance with the employment contract. Terminated by employer because employee broke company rules or failed to perform to required standard. Partial definition (1 mark): When someone/employee is told to leave a business / lose job because of bad behaviour. Do NOT award on its own: lose job / let go. Accept fired/sacked."
+      },
+      {
+        q: '3(b)',
+        text: "Calculate the value of X and Y from LFK's cash flow forecast (July–September 2025, $000). July: Inflow 600, Outflow 720, Net (120), Opening 40, Closing (80). August: Inflow 400, Outflow X, Net (100), Opening (80), Closing (180). September: Inflow 730, Outflow 590, Net 140, Opening (180), Closing Y.",
+        marks: 2,
+        part: 'a',
+        context: "LFK is a coal-mining business. The Managing Director is preparing a cash flow forecast.",
+        ms: "1 mark each. X = 500 ($000) — Net cash flow = Inflow minus Outflow: (100) = 400 minus X, so X = 500. Y = (40) i.e. negative 40 ($000) — Closing = Opening plus Net: (180) + 140 = (40). Y must be shown as a negative number using brackets or minus sign."
+      },
+      {
+        q: '3(c)',
+        text: "Identify four reasons why a cash flow forecast might be useful to a business.",
+        marks: 4,
+        part: 'a',
+        context: "LFK is a coal-mining business. The Managing Director is preparing a cash flow forecast.",
+        ms: "1 mark per reason (max 4). Only award first four. Acceptable: help support a loan application/attract investors; identify possible cash flow problems; help financial planning/budgeting/manage cash flow/avoid insolvency; identify how much to borrow/size of overdraft; identify if too much idle cash; help with decision-making/decide if expansion is possible."
+      },
+      {
+        q: '3(d)',
+        text: "Explain two advantages of LFK training its employees.",
+        marks: 6,
+        part: 'd',
+        context: "LFK is a coal-mining business with 135 employees who are all provided with training. External recruitment will be used to fill a supervisor vacancy.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 advantages = 6 marks). Advantages: Motivate employees - reduce absenteeism/lower labour turnover - among its 135 employees; Help retain/attract employees/lower labour turnover; Increase skills/knowledge - more workers suitable for promotion - so may not need external recruitment; Reduce mistakes/errors/better quality; Reduce accidents increasing worker safety; Increase efficiency/productivity/reduced waste - helps reduce average costs - reducing cash outflows; Increase output; Improve competitiveness of the mine; Improve customer service; Management training improves decisions. Application words: coal, mining/mine, 135 employees, dismissal, new supervisor, external recruitment, cash flow data from table. Analysis only (not knowledge): reduce costs, better reputation, increase sales."
+      },
+      {
+        q: '3(e)',
+        text: "Do you think the advantages of external recruitment for a business are greater than the disadvantages? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Advantages: brings new skills/ideas improving productivity/efficiency; wider choice of applicants increases chance of finding best person; valuable knowledge of competition could give competitive advantage; avoids creating internal vacancy; avoids upsetting employees when internal candidate promoted. Disadvantages: higher recruitment costs increasing cash outflows; no knowledge of how business works so may need induction training; more time to fill vacancy. Award 'avoids upsetting employees' OR 'demotivates existing employees' only once. Evaluation must discuss both advantages and disadvantages and justify why one side outweighs the other."
+      },
+      {
+        q: '4(a)',
+        text: "Identify two methods of external growth a business might use.",
+        marks: 2,
+        part: 'a',
+        context: "PKN manufactures glass. PKN has factories in 30 countries. It has 27,000 employees. The Managing Director plans to expand the business using external growth.",
+        ms: "1 mark each (max 2). Only award first two. Preferred: Horizontal integration; Forward vertical integration; Backward vertical integration; Conglomerate/diversification; Joint venture. Also accept if no specific type given: Merger; Takeover/acquisition; Vertical integration."
+      },
+      {
+        q: '4(b)',
+        text: "Identify two reasons for globalisation.",
+        marks: 2,
+        part: 'a',
+        context: "PKN manufactures glass and has benefited from globalisation.",
+        ms: "1 mark each (max 2). Only award first two. Acceptable: Free trade agreements/economic trading blocs/reduction in trade barriers; improved/cheaper transport/travel links; improved communication networks/technology; emerging/new markets expanding rapidly/rising incomes; governments allow foreign companies to set up in own country."
+      },
+      {
+        q: '4(c)',
+        text: "Outline two ways PKN could contribute to sustainable development.",
+        marks: 4,
+        part: 'c',
+        context: "PKN manufactures glass and contributes to sustainable development. PKN has factories in 30 countries and 27,000 employees.",
+        ms: "1 mark per way + 1 mark application (max 2 ways = 4 marks). Ways: Use renewable energy in each of the 30 countries; use energy-efficient/environmentally friendly methods to make glass; use fewer resources/reduce output in its factories; recycle waste; develop environmentally friendly products; avoid/reduce use of toxic chemicals; use packaging made of recycled material; use recyclable/reusable packaging; avoid unnecessary travel; use local suppliers; replant trees; switch to environmentally friendly transport. Application words: glass, factory/factories, manufacturer, 30 countries, 27,000 employees, globalisation, expand/external growth, source of finance, diseconomies of scale."
+      },
+      {
+        q: '4(d)',
+        text: "Explain two diseconomies of scale which might affect PKN as it grows.",
+        marks: 6,
+        part: 'd',
+        context: "PKN manufactures glass. PKN has factories in 30 countries and 27,000 employees. Some directors are concerned about possible diseconomies of scale as the business grows.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 diseconomies = 6 marks). Diseconomies: Low morale/motivation/lack of loyalty - leading to higher labour turnover - among its 27,000 employees; Poor communication - leading to mistakes - when making glass; Weak coordination - leading to wrong decisions - at the factories; Lack of control - leading to higher average costs. Application words: glass, factory/factories, manufacturer, 30 countries, 27,000 employees, globalisation, sustainable development, source of finance. Analysis points can apply to any diseconomy but only award once (e.g. higher average/unit costs)."
+      },
+      {
+        q: '4(e)',
+        text: "Do you think the advantages of using retained profits to fund business expansion are greater than the disadvantages? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Advantages: No need to repay so does not increase debt/liabilities; no interest to pay so no additional cash outflows; easy/quick to obtain. Disadvantages: Takes time to generate sufficient funds which could delay expansion; may not have sufficient/any funds which limits expansion size; reduces payment/reward to owners which may deter further investment. Evaluation must discuss at least one advantage and one disadvantage and make a justified recommendation explaining why one side outweighs the other."
+      }
+    ]
+  },
+  's25_12': {
+    label: '2025 May/June Variant 2',
+    questions: [
+      {
+        q: '1(a)',
+        text: "Define 'batch production'.",
+        marks: 2,
+        part: 'a',
+        context: "NFC manufactures shoes using batch production. Quality assurance is used to maintain quality. NFC uses market segmentation. The Marketing Director is reviewing NFC's product range and knows there are both benefits and limitations to developing new products. The promotion of products is important.",
+        ms: "Full definition (2 marks): Where a quantity/group of one product is made then a quantity of another product is produced. A whole batch/group moves through the different stages of production together. Partial definition (1 mark): Similar items made together / items made in a group or set / moving together through different stages of production. Requires both the idea of a group of products AND the production process."
+      },
+      {
+        q: '1(b)',
+        text: "Identify two aims of promotion.",
+        marks: 2,
+        part: 'a',
+        context: "NFC manufactures shoes. The promotion of products is important.",
+        ms: "1 mark each (max 2). Only award first two. Acceptable: raise awareness/inform/remind people about products or services; persuade/attract new consumers/increase sales/revenue; create/maintain brand or company image/reputation; build customer loyalty/encourage repeat purchases; introduce new products to market; differentiate from/compete with competitors."
+      },
+      {
+        q: '1(c)',
+        text: "Outline one advantage and one disadvantage to NFC of using quality assurance.",
+        marks: 4,
+        part: 'c',
+        context: "NFC manufactures shoes using batch production. Quality assurance is used to maintain quality. NFC plans to develop new products.",
+        ms: "1 mark advantage + 1 mark application + 1 mark disadvantage + 1 mark application = 4 marks. Advantages: errors spotted earlier/during production of the shoes; can motivate employees so may offer ideas for the product range; no need to recruit quality inspectors. Disadvantages: all workers need training - time and cost - may take funds from developing new products; not all workers willing/able to spot problems during batch production; may slow down production. Application words: shoes, batch production, promotion of products, developing new products, product range, market segmentation."
+      },
+      {
+        q: '1(d)',
+        text: "Explain two benefits to NFC of using market segmentation.",
+        marks: 6,
+        part: 'd',
+        context: "NFC manufactures shoes using batch production. Quality assurance is used. NFC uses market segmentation and plans to develop new products. The promotion of products is important.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 benefits = 6 marks). Do NOT award answers about benefits of market research. Benefits: Design/produce goods to meet specific consumer needs - costs/materials not wasted on wrong products - especially as NFC plans to develop new products; Help target advertising/marketing strategies - ensures maximum reach - which is an aim of promotion; Identify gaps in the market/new opportunities for its shoes which can help spread risk; Make marketing expenditure more effective so do not waste money/resources. Application words: shoes, batch production, quality assurance, promotion of products, develop new products."
+      },
+      {
+        q: '1(e)',
+        text: "Do you think the benefits for a business of developing new products are greater than the limitations? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Benefits: increase demand/customer base/sales increasing revenue/market share; spread risk/diversification so sales fall in one product offset by another; competitive advantage/USP increasing customer/brand loyalty; enter new markets; improve brand recognition. Limitations: must produce trial products/more raw materials increasing costs; need to carry out market research increasing cash outflows; need to launch/promote/market new product; large capital expenditure/new machinery costs; may need to recruit/train additional employees. Evaluation: must discuss at least one benefit and one limitation with justified conclusion."
+      },
+      {
+        q: '2(a)',
+        text: "Define 'profit'.",
+        marks: 2,
+        part: 'a',
+        context: "FLD is a furniture retailer. It has 460 shops and 20,000 employees. The Finance Director is reviewing FLD's income statement: Revenue $400m, Gross profit $200m, Expenses $60m, Profit $140m. She is concerned that FLD's gross profit is decreasing.",
+        ms: "Full definition (2 marks): Total income/revenue less total costs. Total revenue minus total costs. Difference between revenue and total cost. Gross profit minus expenses. Partial definition (1 mark): Revenue minus costs. Max 1 mark if candidate uses 'money' rather than revenue/income."
+      },
+      {
+        q: '2(b)',
+        text: "Identify two expenses a business might have.",
+        marks: 2,
+        part: 'a',
+        context: "FLD is a furniture retailer. The Finance Director is reviewing FLD's income statement which shows expenses of $60 million.",
+        ms: "1 mark each (max 2). Only award first two. Acceptable: rent; rates; electricity/gas/heating/lighting/water/utilities; insurance; interest; storage; marketing/advertising; salaries; maintenance/repairs; phone/internet."
+      },
+      {
+        q: '2(c)',
+        text: "Outline two possible reasons why FLD's gross profit is decreasing.",
+        marks: 4,
+        part: 'c',
+        context: "FLD is a furniture retailer with 460 shops and 20,000 employees. Revenue is $400m, Gross profit is $200m (decreasing), Expenses are $60m, Profit is $140m.",
+        ms: "1 mark per point + 1 mark per application (max 2 points = 4 marks). Points: low/falling sales/demand/customers at its 460 shops; change in/increase or decrease in selling price for the retailer; increase in cost of sales/variable cost/cost of inventory so gross profit is at $200 million. Application words: furniture, 460 locations/shops, large business, retailer, 20,000 employees, $400 million revenue, $200 million gross profit. Accept 'decreased revenue' where no specific examples given."
+      },
+      {
+        q: '2(d)',
+        text: "Explain two advantages to FLD of using internal recruitment when recruiting new managers.",
+        marks: 6,
+        part: 'd',
+        context: "FLD is a furniture retailer with 460 shops and 20,000 employees. Internal recruitment is used when recruiting new shop managers. Revenue $400m, Gross profit $200m, Expenses $60m, Profit $140m.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 advantages = 6 marks). Advantages: Cheaper/lower advertising costs - lower/maintain expenses - of $60 million; Already knows the business - can be productive sooner - to help sell furniture; Less/no induction training needed; Can motivate employees at 460 locations reducing labour turnover/increasing loyalty/sales; Business knows the person's ability/reliability reducing chance of selecting wrong person; Recruitment is quicker - able to focus on other tasks - such as increasing revenue above $400 million. Application words: furniture, 460 locations, large business, retailers, 20,000 employees, $60 million expenses, $400 million revenue, $200 million gross profit."
+      },
+      {
+        q: '2(e)',
+        text: "Do you think job rotation is the best method for a large business to use to motivate its employees? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application. Candidates must name the motivation method to access knowledge marks.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Must NAME the motivation method. Job rotation: more flexible/gain new skills leading to higher productivity; can cover absent workers so meet orders on time; work more interesting/less boring leading to lower absenteeism/turnover; increased training needed increasing costs; workers may not be willing/able leading to lower quality/more waste; time to switch tasks. Other methods: Job enrichment - more responsibilities/valued/trusted; Bonus - only paid if target met; Praise - no additional cost; Training - new skills; Promotion opportunities. Evaluation: must name and compare at least two methods; justify why one is better for a LARGE business specifically."
+      },
+      {
+        q: '3(a)',
+        text: "Define 'private sector'.",
+        marks: 2,
+        part: 'a',
+        context: "Hal wants to be a successful entrepreneur. He plans to leave his job to start up a bakery. The bakery will operate in the private sector.",
+        ms: "Full definition (2 marks): The part of the economy controlled by individuals/companies for profit. Business activities owned by individuals/group of individuals. Partial definition (1 mark): Not government/state controlled. Run/controlled by individuals."
+      },
+      {
+        q: '3(b)',
+        text: "Identify two reasons why new businesses are at a greater risk of failure.",
+        marks: 2,
+        part: 'a',
+        context: "Hal knows new businesses are at a greater risk of failure.",
+        ms: "1 mark each (max 2). Only award first two. Acceptable: lack of finance/start-up capital; cash flow problems/lack of liquidity; level of competition/market already saturated; lack of customers/demand/sales/customer loyalty; poor planning/no business plan; lack of managerial/business experience/skills; inadequate market research/poor marketing; no/low reputation/brand awareness."
+      },
+      {
+        q: '3(c)',
+        text: "Identify four stakeholder groups a business might have.",
+        marks: 4,
+        part: 'a',
+        context: "Hal's bakery will have many stakeholder groups.",
+        ms: "1 mark each (max 4). Only award first four. Acceptable: employees/workers; managers/directors; owners/shareholders; suppliers; lenders/banks; government; local community; customers."
+      },
+      {
+        q: '3(d)',
+        text: "Explain two characteristics Hal will need to become a successful entrepreneur.",
+        marks: 6,
+        part: 'd',
+        context: "Hal wants to be a successful entrepreneur. He plans to leave his job to start up a bakery in the private sector. The business will have many stakeholder groups.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 characteristics = 6 marks). Must identify a recognised entrepreneurial characteristic. Characteristics: Risk-taking - especially as plans to leave his job - owner may lose investment; Hard-working - must do everything on own/work long hours - to set up the bakery; Creative - new ideas can help gain customers - for his private sector business; Effective communicator/persuasive - with stakeholders - convince banks/suppliers/customers; Perseverance/determination/resilience/self-motivated - prepared to keep going when facing problems; Optimistic - always believes they can succeed; Self-confident - convince people/banks to invest; Independent - able to work without help; Innovative. Application words: leave his job, start-up/new business, bakery/cakes/recipes, private sector, stakeholder groups."
+      },
+      {
+        q: '3(e)',
+        text: "Do you think a bank loan is the best source of start-up capital for a new business? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Bank loan: quick to arrange so does not delay plans; must pay interest increasing costs/cash outflows; must repay; able to obtain large/full amount; may need collateral - not available for start-up/personal assets at risk. Other sources: Own savings - no need to repay; Borrow from friends/family - may give long repayment time; Overdraft - arrange quickly/only pay interest when used; Government grant - no interest; Crowdfunding - no guarantee of raising full amount. Evaluation: compare bank loan against at least one other source; justify conclusion for a NEW business specifically."
+      },
+      {
+        q: '4(a)',
+        text: "Define 'average cost'.",
+        marks: 2,
+        part: 'a',
+        context: "MHL manufactures tyres for large vehicles. It has factories in 6 countries. She is reviewing data: output 200,000 units/month, fixed costs $500,000/month, variable cost $25/unit.",
+        ms: "Full definition (2 marks): Total cost divided by total output. Total cost divided by number of items produced. The cost of producing a single unit of output. Partial definition (1 mark): Cost divided by output. Total cost divided by number of units."
+      },
+      {
+        q: '4(b)',
+        text: "Calculate total variable cost per month. Show your working. (Output: 200,000 units/month; Variable cost per unit: $25)",
+        marks: 2,
+        part: 'a',
+        context: "MHL manufactures tyres. Output per month: 200,000 units. Variable cost per unit: $25.",
+        ms: "Correct answer (2 marks): $5,000,000 / $5 million. Method (1 mark): Output times variable cost per unit = 200,000 times $25. Must have correct number of zeros — $500,000 scores 0. $ sign not required but 'million' or full zeros needed. If correct answer given with no working shown, award 2 marks."
+      },
+      {
+        q: '4(c)',
+        text: "Outline two external costs MHL might create when producing its products.",
+        marks: 4,
+        part: 'c',
+        context: "MHL manufactures tyres for large vehicles. It has factories in 6 countries. The business creates external costs when producing its products.",
+        ms: "1 mark per external cost + 1 mark per application (max 2 external costs = 4 marks). External costs: loss of space/land/deforestation for the factories; pollution such as smoke/fumes/noise/chemicals in air when making tyres; depletion of natural resources to make 200,000 units; loss of wildlife in the 6 countries. Application words: tyres/rubber, factories/factory, 6 countries, globalisation, 200,000 units, $25 variable cost per unit, $500,000 fixed costs. Max 1 mark for examples of pollution (all treated as same point)."
+      },
+      {
+        q: '4(d)',
+        text: "Explain two opportunities of globalisation for MHL.",
+        marks: 6,
+        part: 'd',
+        context: "MHL manufactures tyres for large vehicles. It has factories in 6 countries. The Managing Director knows globalisation provides many opportunities for MHL.",
+        ms: "1 mark identification + 1 mark application + 1 mark explanation (max 2 opportunities = 6 marks). Opportunities: Increase potential sales/access more markets for its tyres increasing revenue/market share; cheaper/better quality raw materials from other countries for its factories improving profit margin; lower wages/cheaper labour in the 6 countries reducing labour costs; avoid/fewer quotas which could limit quantity sold; avoid/lower tariffs so products not made more expensive; access new technologies improving efficiency/new product development; access to government grants in other countries. Application words: tyres/rubber, factories/factory, 6 countries, 200,000 units, $25 variable cost, $500,000 fixed costs."
+      },
+      {
+        q: '4(e)',
+        text: "Explain two methods of communication a business could use to communicate with its suppliers. Which is likely to be the best method to use? Justify your answer.",
+        marks: 6,
+        part: 'e',
+        context: "This is a general question so there are no marks for application. Candidates must name the specific communication method.",
+        ms: "Up to 2 marks identification + up to 2 marks development + up to 2 marks justified decision. No marks for application. Must NAME the specific method (not just 'written' or 'verbal'). Methods: Email - can be saved for future reference; Phone/telephone - allows immediate feedback; Online meeting - allows everyone to discuss/ask questions; Video conference/Zoom/Teams/Google Meet/FaceTime - people do not have to travel; Text/SMS/WhatsApp/WeChat/Messenger - but limited information; Letter - but time-consuming/expensive; Websites - but no feedback/one-way. Evaluation: must discuss TWO valid methods and justify which is best for communicating with SUPPLIERS specifically."
       }
     ]
   }
