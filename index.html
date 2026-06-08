@@ -2697,6 +2697,13 @@ async function markFullPaper() {
     '\nStudent answer: ' + (q.answer || '(no answer provided)')
   ).join('\n\n---\n\n');
 
+  // Trim mark schemes if prompt is too long
+  const trimmedAnswers = questions.map(q => {
+    const key = q.q.replace(/[^a-z0-9]/gi,'_');
+    const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
+    return { ...q, answer: ans };
+  });
+
   const promptParts = [
     'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark all 20 questions for the paper below.',
     '',
@@ -2736,7 +2743,8 @@ async function markFullPaper() {
     showFPResults(r);
     saveMarking(1, currentFPPaper.label, r.total_score, r.total_max, r.overall_comment);
   } catch(e) {
-    document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — please try again. Error: ${e.message}</div>`;
+    document.getElementById('fp-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — ' + (e.message || 'Unknown error. The paper may be too large for one request.') + '</div>';
+    console.error('Full paper marking error:', e);
   }
 
   btn.disabled = false;
