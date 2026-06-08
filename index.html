@@ -1342,7 +1342,7 @@ Each array 1-3 items. Be specific and reference the student answer directly.`;
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     const text = data.text || '';
-    const r = JSON.parse(text.replace(/```json|```/g,'').trim());
+    const r = JSON.parse(text.replace(new RegExp(String.fromCharCode(96,96,96)+'json|'+String.fromCharCode(96,96,96),'g'),'').trim());
     showMarkResult(r, marks);
   } catch(e) {
     document.getElementById('m-result').innerHTML = `<div style="padding:14px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed: ${e.message}. Try clearing your API key by running: localStorage.removeItem('bgpt_api_key') in the browser console.</div>`;
@@ -2691,38 +2691,37 @@ async function markFullPaper() {
 
   // Build a single comprehensive prompt
   const qList = answers.map(q =>
-    `${q.q} [${q.marks} marks]: ${q.text}
-Context: ${q.context}
-Mark scheme: ${q.ms}
-Student answer: ${q.answer || '(no answer provided)'}`
-  ).join('
+    q.q + ' [' + q.marks + ' marks]: ' + q.text +
+    '\nContext: ' + q.context +
+    '\nMark scheme: ' + q.ms +
+    '\nStudent answer: ' + (q.answer || '(no answer provided)')
+  ).join('\n\n---\n\n');
 
----
-
-');
-
-  const prompt = `You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark all 20 questions for the paper below.
-
-${qList}
-
-Mark each question strictly according to its mark scheme. Total paper is ${totalMax} marks.
-
-For each question:
-- Apply the exact mark scheme provided
-- Award marks for correct knowledge (k), relevant application to the business (app), and analysis/explanation (an)
-- Part (e) questions: reserve up to 2 marks for justified evaluation/conclusion - cap at 4/6 without it
-- Be strict but fair
-
-Respond ONLY with valid JSON, no markdown:
-{
-  "total_score": integer,
-  "total_max": ${totalMax},
-  "grade": "A*/A/B/C/D/U",
-  "overall_comment": "one sentence",
-  "questions": [
-    {"label": "1(a)", "score": integer, "max": integer, "feedback": "specific feedback", "missed": "key missed point or empty string"}
-  ]
-}`;
+  const promptParts = [
+    'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark all 20 questions for the paper below.',
+    '',
+    qList,
+    '',
+    'Mark each question strictly according to its mark scheme. Total paper is ' + totalMax + ' marks.',
+    '',
+    'For each question:',
+    '- Apply the exact mark scheme provided',
+    '- Award marks for correct knowledge (k), relevant application to the business (app), and analysis/explanation (an)',
+    '- Part (e) questions: reserve up to 2 marks for justified evaluation/conclusion - cap at 4/6 without it',
+    '- Be strict but fair',
+    '',
+    'Respond ONLY with valid JSON, no markdown:',
+    '{',
+    '  "total_score": integer,',
+    '  "total_max": ' + totalMax + ',',
+    '  "grade": "A*/A/B/C/D/U",',
+    '  "overall_comment": "one sentence",',
+    '  "questions": [',
+    '    {"label": "1(a)", "score": integer, "max": integer, "feedback": "specific feedback", "missed": "key missed point or empty string"}',
+    '  ]',
+    '}'
+  ];
+  const prompt = promptParts.join('\n');
 
   try {
     const res = await fetch('/.netlify/functions/mark', {
@@ -2732,7 +2731,8 @@ Respond ONLY with valid JSON, no markdown:
     });
     const data = await res.json();
     const text = data.text || '';
-    const r = JSON.parse(text.replace(/```json|```/g,'').trim());
+    const bt3 = String.fromCharCode(96,96,96); const cleaned = text.replace(bt3+'json','').replace(bt3,'').trim();
+    const r = JSON.parse(cleaned);
     showFPResults(r);
     saveMarking(1, currentFPPaper.label, r.total_score, r.total_max, r.overall_comment);
   } catch(e) {
@@ -2964,13 +2964,7 @@ async function renderDash() {
     </table>`;
 }
 
-// ── Patch runMark to save results ────────────────────
-const _origShowMarkResult = showMarkResult;
-function showMarkResult(r, maxMarks) {
-  _origShowMarkResult(r, maxMarks);
-  const q = document.getElementById('m-q')?.value?.trim()?.slice(0, 80) || 'Question';
-  saveMarking(markerPaper, q, r.score, maxMarks, r.summary || '');
-}
+// Marking results saved via saveMarking() calls in each marker function
 
 // init
 document.addEventListener('DOMContentLoaded', function() {
