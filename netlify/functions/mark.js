@@ -9,13 +9,13 @@ exports.handler = async (event) => {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "HTTP-Referer": "https://businessgpt.netlify.app",
+        "HTTP-Referer": "https://fancy-biscotti-d244de.netlify.app",
         "X-Title": "BusinessGPT"
       },
       body: JSON.stringify({
         model: "openrouter/auto",
         messages: [{ role: "user", content: prompt }],
-        max_tokens: 800
+        max_tokens: 4000
       })
     });
     const data = await res.json();
@@ -27,6 +27,9 @@ exports.handler = async (event) => {
       body: JSON.stringify({ text })
     };
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+    return { 
+      statusCode: 500, 
+      body: JSON.stringify({ error: err.message }) 
+    };
   }
 };
