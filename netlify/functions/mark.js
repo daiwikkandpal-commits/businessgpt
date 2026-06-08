@@ -13,9 +13,10 @@ exports.handler = async (event) => {
         "X-Title": "BusinessGPT"
       },
       body: JSON.stringify({
-        model: "openrouter/auto",
+        model: "anthropic/claude-sonnet-4-5",
         messages: [{ role: "user", content: prompt }],
-        max_tokens: 4000
+        max_tokens: 4000,
+        temperature: 0
       })
     });
     const data = await res.json();
@@ -33,3 +34,4 @@ exports.handler = async (event) => {
     };
   }
 };
+ 
