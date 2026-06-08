@@ -13,7 +13,7 @@ exports.handler = async (event) => {
         "X-Title": "BusinessGPT"
       },
       body: JSON.stringify({
-        model: "google/gemma-3-27b-it:free",
+        model: "google/gemma-4-31b:free",
         messages: [{ role: "user", content: prompt }],
         max_tokens: 8000,
         temperature: 0
