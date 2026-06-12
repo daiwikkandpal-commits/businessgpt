@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -1272,6 +1272,13 @@ function setPart(part) {
 
 let markerPaper = 1;
 
+function resetNavLinks() {
+  ['navDash','navMarker','navFullPaper','navPapers','navNotes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
+  });
+}
+
 function showHome() {
   document.getElementById('markerPage').style.display = 'none';
   document.getElementById('pastPapersPage').style.display = 'none';
@@ -1281,9 +1288,7 @@ function showHome() {
   document.querySelector('.hero').style.display = '';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = '');
   document.querySelector('footer').style.display = '';
-  document.getElementById('navMarker').style.color = 'var(--text2)';
-  document.getElementById('navMarker').style.fontWeight = '500';
-  if(document.getElementById('navPapers')){document.getElementById('navPapers').style.color='var(--text2)';document.getElementById('navPapers').style.fontWeight='500';}
+  resetNavLinks();
   document.title = 'BusinessGPT — AI IGCSE Business Studies Marker';
 }
 
@@ -1296,6 +1301,7 @@ function showMarker() {
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
+  resetNavLinks();
   document.getElementById('navMarker').style.color = '#60a5fa';
   document.getElementById('navMarker').style.fontWeight = '600';
   window.scrollTo(0,0);
@@ -1669,7 +1675,10 @@ function showPastPapers() {
   document.getElementById('navPapers').style.fontWeight = '600';
   window.scrollTo(0,0);
   document.title = 'Past Papers — BusinessGPT';
-  renderPastPapers();
+  resetNavLinks();
+  document.getElementById('navPapers').style.color = '#60a5fa';
+  document.getElementById('navPapers').style.fontWeight = '600';
+  filterPP(ppFilter);
 }
 
 let ppFilter = 'all';
@@ -2400,12 +2409,12 @@ function showNotes() {
   document.getElementById('notesPage').style.display = 'block';
   document.getElementById('markerPage').style.display = 'none';
   document.getElementById('pastPapersPage').style.display = 'none';
+  document.getElementById('fullPaperPage').style.display = 'none';
+  document.getElementById('dashPage').style.display = 'none';
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
-  document.getElementById('navMarker').style.color = 'var(--text2)';
-  document.getElementById('navMarker').style.fontWeight = '500';
-  if(document.getElementById('navPapers')){document.getElementById('navPapers').style.color='var(--text2)';document.getElementById('navPapers').style.fontWeight='500';}
+  resetNavLinks();
   if(document.getElementById('navNotes')){document.getElementById('navNotes').style.color='#60a5fa';document.getElementById('navNotes').style.fontWeight='600';}
   window.scrollTo(0,0);
   document.title = 'Notes — BusinessGPT';
@@ -3794,10 +3803,7 @@ function showFullPaper() {
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
-  ['navMarker','navPapers','navNotes','navDash','navFullPaper'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
-  });
+  resetNavLinks();
   const fp = document.getElementById('navFullPaper');
   if (fp) { fp.style.color = '#60a5fa'; fp.style.fontWeight = '600'; }
   window.scrollTo(0,0);
@@ -4731,10 +4737,7 @@ function showDash() {
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
-  ['navMarker','navPapers','navNotes','navDash'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
-  });
+  resetNavLinks();
   const dash = document.getElementById('navDash');
   if (dash) { dash.style.color = '#60a5fa'; dash.style.fontWeight = '600'; }
   window.scrollTo(0,0);
