@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -1706,6 +1706,13 @@ function renderPastPapers() {
     y.sessions.forEach(s => {
       cards.push({ year: y.year, session: s.session, ...s });
     });
+  });
+
+  // Sort: Oct/Nov first, then May/June, then Feb/March
+  const sessionOrder = { 'Oct/Nov': 0, 'May/June': 1, 'Feb/March': 2 };
+  cards.sort((a, b) => {
+    if (a.year !== b.year) return 0;
+    return (sessionOrder[a.session] ?? 3) - (sessionOrder[b.session] ?? 3);
   });
 
   // Filter
