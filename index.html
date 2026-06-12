@@ -1085,6 +1085,7 @@ footer {
             <optgroup label="━━  2025  ━━━━━━━━━━━━━━━━━━━━━━">
               <option value="p2_w25_21">  🔵  Oct/Nov · Variant 1</option>
               <option value="p2_w25_22">  🔵  Oct/Nov · Variant 2</option>
+              <option value="p2_w25_23">  🔵  Oct/Nov · Variant 3</option>
             </optgroup>
           </select>
         </div>
@@ -1708,10 +1709,10 @@ function renderPastPapers() {
     });
   });
 
-  // Sort: Oct/Nov first, then May/June, then Feb/March
+  // Sort: by year desc, then Oct/Nov first, then May/June, then Feb/March
   const sessionOrder = { 'Oct/Nov': 0, 'May/June': 1, 'Feb/March': 2 };
   cards.sort((a, b) => {
-    if (a.year !== b.year) return 0;
+    if (a.year !== b.year) return b.year - a.year;
     return (sessionOrder[a.session] ?? 3) - (sessionOrder[b.session] ?? 3);
   });
 
@@ -3831,6 +3832,215 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_w25_23': {
+    label: '2025 Oct/Nov Paper 2 Variant 3',
+    caseStudy: `Exceptional Sailing (ES) — Case Study Summary
+
+Tim worked at a large boat manufacturer in country X for 20 years. He is highly skilled in building boats. Tim decided to start his own business, called ES, 4 years ago. He currently operates as a sole trader.
+
+ES only makes and sells boats in country X. It has become established as a well-known brand with a reputation for high quality. ES has 12 skilled employees including an assistant who helps Tim to run the business. ES has a flat organisational structure with a short chain of command.
+
+ES has grown quickly and Tim plans to expand the business further by selling his boats to customers in other countries. He is aware that there are opportunities and threats of globalisation, especially as tariffs and quotas on boats and their component parts have been removed both in country X and in other countries.
+
+Tim plans to take out a bank loan to help fund the expansion. His two brothers will also invest in the business. One brother has experience of financial management, the other is skilled in IT. Tim will need to decide whether ES should become a partnership or a private limited company.
+
+Tim wants to manufacture a new boat and needs to choose between Product A and Product B. ES currently promotes its boats in sailing magazines. Tim is considering using social media to promote his new boat to a wider market. Tim will need to recruit 4 new employees who will require training — either on-the-job at ES or off-the-job at college two days a week.
+
+Appendix 1 — Advertisement for ES:
+"Choose ES to build your boat. Excellent quality workmanship and boats built to your design. We have been voted the third best boat builder in country X. You could use a larger company to build your boat, but we offer so much more! Contact us for further information."
+
+Appendix 2 — Two new products ES could produce:
+Product A (large boat): Price $500,000; Additional fixed costs $400,000/year; Variable costs $450,000/boat; Forecast sales year 1: 9 boats; Sales forecast: growth in other countries.
+Product B (small boat): Price $200,000; Additional fixed costs $400,000/year; Variable costs $180,000/boat; Forecast sales year 1: 24 boats; Sales forecast: growth in country X.
+
+Key calculations:
+Product A: Contribution = $50,000/boat; Break-even = 8 boats; Margin of safety = 1 boat; Profit (9 boats) = $50,000.
+Product B: Contribution = $20,000/boat; Break-even = 20 boats; Margin of safety = 4 boats; Profit (24 boats) = $80,000.
+
+Appendix 3 — Financial information for 2024 (from Tim's email to brothers):
+- Revenue increased by 50%
+- Gross profit margin: 65%
+- Profit: $100,000
+- Current ratio: 2
+- Acid test ratio: 0.5`,
+    questions: [
+      {
+        q: '1(a)',
+        text: 'Explain two reasons why customers might buy from ES rather than from one of its competitors.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'ES is a sole trader boat manufacturer in country X with 12 skilled employees. It has a well-known brand and a reputation for high quality. ES has been voted 3rd best boat builder in country X. It promotes in sailing magazines and is considering social media. ES has a flat organisational structure with a short chain of command.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation — at least one must be applied to context.
+
+Reasons (any two):
+- ES has a well-known brand name — easy for customers to identify — stands out from competitors — more likely to choose ES over less well-known ones
+- Customers assured of the quality they expect — attracts more customers — boat less likely to have faults
+- Customers may think quality higher than unbranded products — more willing to pay higher price — confident boats manufactured by skilled employees
+- ES has a good reputation — customers confident ES is reliable — reassured ES will meet their needs
+- ES products may be cheaper than competitors
+
+Application: boats; 20 years experience; sole trader; sailing; 12 skilled employees; 4 new employees; high quality; well-known brand; voted 3rd best; promotion in sailing magazines; information from Appendix 2 or 3.
+
+Example: 'ES has a brand name that is well-known so makes it easy for customers to identify it (1) as its brand name makes the business stand out from competitors (1) so customers more likely to choose ES over less well-known competitors (1) when buying a new boat (app).'`
+      },
+      {
+        q: '1(b)',
+        text: 'Consider the advantages and disadvantages of the following two types of business organisation that Tim could use when his brothers join the business. Which would be the best type for Tim to choose? Justify your answer.\n• Partnership\n• Private limited company',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'Tim currently operates ES as a sole trader. His two brothers will invest in the business — one has financial management experience, the other is skilled in IT. Tim needs to decide whether ES should become a partnership or a private limited company. Tim plans a bank loan to fund expansion.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH types, well-justified recommendation including why alternative rejected. Top marks if both discussed in context with justified conclusion.
+Level 2 (5-8): Sound application, detailed discussion of at least one type, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+Partnership — Advantages: easy to set up — few legal requirements — reducing costs; more capital invested — three partners investing own money; share responsibilities — one brother has financial management experience; more new ideas from three partners; complete privacy — no need to share financial details; all owners motivated as their business.
+Partnership — Disadvantages: unlimited liability — personal possessions at risk; no continuity — business ends if partner leaves; partners may disagree — slower decisions; one partner's actions bind all others.
+
+Private limited company — Advantages: separate legal identity — company can be sued not owners; can sell shares to family/friends — larger capital for boat expansion; limited liability — will not lose personal possessions; cannot be taken over without shareholder consent.
+Private limited company — Disadvantages: accounts not private — competitors may access; not easy to transfer shares; legal formalities to operate — accounts audited and registered — increases costs for ES; legal formalities setting up — takes time and money.
+
+Valid recommendations:
+- Partnership: brothers have complete control, keep all profit, full privacy. Should not become Ltd as competitors could access accounts and audit costs increase.
+- Private limited company: three brothers have protection of limited liability — if ES goes bankrupt will not lose personal possessions, only money invested.
+
+Cap at Level 2 without justified recommendation.`
+      },
+      {
+        q: '2(a)',
+        text: 'Explain two benefits of ES having a short chain of command.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'ES is a sole trader boat manufacturer with 12 skilled employees and a flat organisational structure with a short chain of command. Tim plans to expand by selling to other countries and will recruit 4 new employees.',
+        ms: `8 marks. Award 1 mark per benefit (max 2) + max 3 additional marks per explanation — at least one must be applied to context.
+
+Benefits (any two):
+- Communication is quick — few levels for messages to pass through — queries answered straight away
+- Owners not remote from employees — more in touch with opinions — easier to solve problems and maintain motivation
+- Span of control may be wider — more delegation — employees feel motivated as trusted
+- Decision-making may be faster
+- Messages less likely to get distorted
+
+Application: boats; 20 years experience; sole trader; sailing; 12 skilled employees; 4 new employees; high quality; well-known brand; flat organisational structure; information from Appendix 2 or 3.
+
+Example: 'Communication in the business is quick (1) as there are few levels of hierarchy for messages to pass through (1). Queries can be answered straight away (1) as passed on from the one owner of ES (app).'`
+      },
+      {
+        q: '2(b)',
+        text: 'Using Appendix 2 and other information, consider the two new products ES could produce. Which product should Tim choose? Justify your answer using break-even calculations.\n• Product A\n• Product B',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'ES is a boat manufacturer. Product A (large boat): Price $500,000; Fixed costs $400,000/yr; Variable costs $450,000/boat; Forecast sales year 1: 9 boats; Sales forecast: growth in other countries. Product B (small boat): Price $200,000; Fixed costs $400,000/yr; Variable costs $180,000/boat; Forecast sales year 1: 24 boats; Sales forecast: growth in country X. Key figures — Product A: contribution $50,000/boat, break-even 8 boats, margin of safety 1 boat, profit $50,000. Product B: contribution $20,000/boat, break-even 20 boats, margin of safety 4 boats, profit $80,000.',
+        ms: `12 marks. Levels-based marking. Students MUST use break-even calculations to access higher marks.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH products with calculations, well-justified recommendation including why alternative rejected.
+Level 2 (5-8): Sound application, detailed discussion of at least one product, some calculations, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little/no calculations, simple judgement.
+
+Product A: Contribution = $500,000 - $450,000 = $50,000/boat; Break-even = $400,000 ÷ $50,000 = 8 boats; Margin of safety = 9 - 8 = 1 boat; Total revenue (9 boats) = $4,500,000; Total cost = $400,000 + (9 × $450,000) = $4,450,000; Profit = $50,000. Has potential to export — higher revenue if sales grow in other countries. Price $300,000 higher than Product B.
+Product B: Contribution = $200,000 - $180,000 = $20,000/boat; Break-even = $400,000 ÷ $20,000 = 20 boats; Margin of safety = 24 - 20 = 4 boats; Total revenue (24 boats) = $4,800,000; Total cost = $400,000 + (24 × $180,000) = $4,720,000; Profit = $80,000. Sales forecast to grow in country X — ES familiar with this market. Higher profit by $30,000 in first year. Higher margin of safety by 3 boats.
+
+Valid recommendations:
+- Product A: higher contribution per boat ($50,000 vs $20,000), potential to export, breaks even with fewer boats. ES already familiar with larger boats given 20 years experience.
+- Product B: higher profit by $30,000 in first year, higher margin of safety (4 vs 1 boat) — less risky, familiar market in country X.
+
+Cap at Level 2 without justified recommendation. Reward correct calculations even if recommendation differs.`
+      },
+      {
+        q: '3(a)',
+        text: 'Explain four benefits to a business of using social media as its method of promotion.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'ES currently promotes its boats in sailing magazines. Tim is considering using social media to promote his new boat to a wider market including customers in other countries. No application marks for this question.',
+        ms: `8 marks. Award 1 mark per benefit (max 4) + max 1 additional mark per explanation. NO application marks.
+
+Benefits (any four):
+- Can target specific demographic groups who can share information on social media with friends — at no cost to the business
+- Can target customers who will see advert when they log on — reaches existing customers for repeat sales
+- Information can be updated quickly — can change in response to market changes
+- Low or no cost to advertise — if not paying for specific sites
+- Can reach groups difficult to reach in other ways — particularly in other countries
+- Can be interactive — possibly leading to higher sales
+- Can provide more information than some other forms of advertising
+- Links can take customers to other products
+- May link to website where product can be easily ordered
+
+Example: 'Can target specific demographic groups who may be interested in your products (1). They can then share the information on social media with friends at no cost to the business (1).'`
+      },
+      {
+        q: '3(b)',
+        text: 'Consider the advantages and disadvantages of ES using on-the-job or off-the-job training for its new employees. Which method should Tim use? Justify your answer.\n• On-the-job training\n• Off-the-job training',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'ES is a boat manufacturer with 12 skilled employees and a well-known brand reputation for high quality. Tim needs to recruit 4 new employees. He has to decide whether to train them at ES (on-the-job) or send them to college two days a week (off-the-job).',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH methods, well-justified recommendation including why alternative rejected.
+Level 2 (5-8): Sound application, detailed discussion of at least one method, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+On-the-job — Advantages: individual tuition tailored to specific tasks of manufacturing boats in exact way ES wants; ensures some production takes place — helps supply high-quality boats when ordered; relatively cheap — no course fees for two days a week training.
+On-the-job — Disadvantages: trainer may pass on bad habits — more errors in boat manufacturing — damaging well-known brand image; trainer not as productive whilst training — slows output; employees may not learn most up-to-date methods — less competitive; employees may make mistakes — faulty products — increases costs; reputation damaged if mistakes made.
+
+Off-the-job — Advantages: broad range of skills taught for boat production; expert trainers — better training for 4 new employees; most up-to-date techniques learnt — more competitive than large boat manufacturers.
+Off-the-job — Disadvantages: no output of boats whilst training — wages paid but no work done; easier for employee to find alternative employment with recognised qualification — leaves and increases recruitment/training costs; costs usually higher than on-the-job.
+
+Valid recommendations:
+- On-the-job: workers keep producing while training — saves costs using existing 12 skilled workers. May not afford to send all 4 workers to college — expensive and may not be specific to ES needs.
+- Off-the-job: higher quality training for 4 new employees. These are skilled jobs and employees need to maintain brand image of high-quality workmanship.
+
+Cap at Level 2 without justified recommendation.`
+      },
+      {
+        q: '4(a)',
+        text: 'Explain one way each of the following ES stakeholder groups might find the financial information in Appendix 3 useful.\n• Owners\n• Employees\n• Suppliers\n• Bank',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'Financial information from Appendix 3 (2024): Revenue increased by 50%; Gross profit margin 65%; Profit $100,000; Current ratio 2; Acid test ratio 0.5. ES is a boat manufacturer planning to expand with a bank loan.',
+        ms: `8 marks. Award 1 mark per way (max 4 — one per stakeholder) + max 1 additional mark per explanation in context.
+
+Owners: To be reassured they would receive a share of the profit — ES made $100,000 profit last year; To measure success against previous years; To see liquidity and if changes needed.
+Employees: To see if they can ask for a wage increase — from last year's 50% revenue increase; To see how secure their job is.
+Suppliers: To see if ES will have enough liquidity to pay for materials — current ratio 2 is safe; To decide whether to allow trade credit for ES.
+Bank: To see if ES could pay back a loan — acid test ratio 0.5 may concern the bank; To see whether to offer overdraft facility if ES needs one.
+
+Application: boats; 20 years experience; sole trader; 12 skilled employees; 2 brothers; 4 new employees; high quality; well-known brand; expand by selling in other countries; Appendix 2 or 3 data.
+
+Example: 'To see how much profit is likely to be paid to them (1) out of the $100,000 profit from last year (app).'`
+      },
+      {
+        q: '4(b)',
+        text: 'Consider the opportunities and threats of globalisation for ES. Are the threats likely to be greater than the opportunities for ES? Justify your answer.',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'ES is a sole trader boat manufacturer in country X planning to expand by selling to customers in other countries. Tariffs and quotas on boats and component parts have been removed in country X and other countries. ES has 12 skilled employees, a well-known brand, and has been voted 3rd best boat builder in country X.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH opportunities AND threats, well-justified conclusion including why alternative was rejected.
+Level 2 (5-8): Sound application, detailed discussion of either opportunities or threats, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+Opportunities: Can increase number of markets — Tim wants to sell to customers in other countries — easier to communicate using social media — increases sales/revenue; Easier to export as tariffs/quotas removed — ES boats more competitive in other countries; Easier to import component parts into country X — no trade restrictions — lower unit costs — more competitive; May become cheaper to produce in another country — lower labour costs; Spreads risk; Economies of scale; Access to resources and new technologies.
+
+Threats: Increasing imports of competitors' boats — increases competition — may reduce market share in country X; Lack of knowledge of new markets — difficult to successfully export; Increased investment from MNCs in country X — setting up factories — more competition at home; Employees may leave to work for MNCs — higher wages attractive — higher labour turnover — increased recruitment/training costs for ES; Supply chain problems; Exchange rate fluctuations; Differences in legal controls.
+
+Valid conclusions:
+- Threats greater: ES new to selling abroad — difficult to compete with multinationals — threats from MNCs may be greater — lower market share — may no longer be voted number 3.
+- Opportunities greater: may benefit from lower unit costs using cheaper imported components — no tariffs — more competitive in home and export markets — opportunities to expand and increase revenue greater than threats.
+
+Cap at Level 2 without justified conclusion. Must address the specific question of whether threats are GREATER than opportunities.`
+      }
+    ]
+  },
   'p2_w25_22': {
     label: '2025 Oct/Nov Paper 2 Variant 2',
     caseStudy: `Fun Florals (FF) — Case Study Summary
@@ -4487,7 +4697,8 @@ function loadFPPaper2() {
   // Update insert link based on selected paper
   const insertLinks = {
     'p2_w25_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_21.pdf',
-    'p2_w25_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_22.pdf'
+    'p2_w25_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_22.pdf',
+    'p2_w25_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_23.pdf'
   };
   const insertEl = document.getElementById('fp2-insert-link');
   if (insertEl && insertLinks[key]) insertEl.href = insertLinks[key];
