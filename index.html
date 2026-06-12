@@ -1110,7 +1110,7 @@ footer {
     <!-- Header -->
     <div style="margin-bottom:32px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">My Progress</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Dashboard</div>
+      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="dashWelcome">Dashboard</div>
     </div>
 
     <!-- Stats row -->
@@ -4485,6 +4485,10 @@ function showDash() {
 }
 
 async function renderDash() {
+  const user = (await _supabase?.auth?.getUser())?.data?.user;
+  const name = user?.user_metadata?.full_name || user?.email?.split('@')[0] || '';
+  if (name) document.getElementById('dashWelcome').textContent = 'Welcome back, ' + name + ' 👋';
+
   const markings = await loadMarkings();
 
   if (markings.length === 0) {
