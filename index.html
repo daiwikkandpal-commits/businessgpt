@@ -4596,8 +4596,41 @@ async function renderDash() {
 // Marking results saved via saveMarking() calls in each marker function
 
 // init
+// init
 document.addEventListener('DOMContentLoaded', function() {
+  initSupabase();
+
+  if (window.supabase) {
+    const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session) updateNavForUser(session.user);
+    });
+    sb.auth.onAuthStateChange((event, session) => {
+      if (session) updateNavForUser(session.user);
+      else resetNav();
+    });
+  }
 });
+
+function updateNavForUser(user) {
+  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+  const initial = name[0].toUpperCase();
+  document.getElementById('navCta').style.display = 'none';
+  document.getElementById('navUser').style.display = 'flex';
+  document.getElementById('navAvatar').textContent = initial;
+  document.getElementById('navName').textContent = name;
+  _userId = user.id;
+}
+
+function resetNav() {
+  document.getElementById('navCta').style.display = 'flex';
+  document.getElementById('navUser').style.display = 'none';
+  _userId = null;
+}
+
+function doNavSignOut() {
+  if (_supabase) _supabase.auth.signOut().then(() => { resetNav(); showHome(); });
+}
 </script>
 </body>
 </html>
