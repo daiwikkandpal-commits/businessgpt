@@ -1084,12 +1084,13 @@ footer {
             <option value="">— Choose a paper —</option>
             <optgroup label="━━  2025  ━━━━━━━━━━━━━━━━━━━━━━">
               <option value="p2_w25_21">  🔵  Oct/Nov · Variant 1</option>
+              <option value="p2_w25_22">  🔵  Oct/Nov · Variant 2</option>
             </optgroup>
           </select>
         </div>
         <div id="fp2-paper-info" style="display:none;background:rgba(37,99,235,.07);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--text2);line-height:1.7;flex-direction:row;align-items:center;justify-content:space-between;gap:16px">
           <div><strong style="color:var(--text)">How to use:</strong> The case study is shown above each question group. Write your answers in the boxes. For (b) questions, write as much as you can — these are 12-mark evaluate/justify questions. Click <strong>Mark full paper</strong> when done.</div>
-          <a id="fp2-insert-link" href="https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450-w25-in-21.php" target="_blank" style="white-space:nowrap;padding:8px 16px;background:var(--blue-500);color:#fff;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;flex-shrink:0">📄 View Insert</a>
+          <a id="fp2-insert-link" href="https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_21.pdf" target="_blank" style="white-space:nowrap;padding:8px 16px;background:var(--blue-500);color:#fff;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;flex-shrink:0">📄 View Insert</a>
         </div>
         <div id="fp2-questions-list" style="display:flex;flex-direction:column;gap:12px"></div>
         <button id="fp2-btn" onclick="markFullPaperP2()" style="display:none;align-self:flex-start;padding:14px 28px;background:linear-gradient(135deg,var(--blue-500),var(--blue-600));color:#fff;border:none;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:none;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(59,130,246,.35);transition:opacity .2s">
@@ -3813,6 +3814,228 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_w25_22': {
+    label: '2025 Oct/Nov Paper 2 Variant 2',
+    caseStudy: `Fun Florals (FF) — Case Study Summary
+
+FF is a small business owned by Kathryn. It has 2 small shops in Main City which sell wedding flowers. Each shop has 4 employees. FF has a good reputation for providing high-quality flower arrangements. FF operates in a niche market as it only provides flowers for weddings. The average price customers pay for FF's wedding flowers is $2000.
+
+Kathryn buys flowers from her suppliers every day to ensure freshness. She has a good relationship with her suppliers who provide flowers and other items such as ribbons and packaging materials. Communication with suppliers is important. She uses job production for each customer's order.
+
+Kathryn wants to open a larger third shop in the centre of Main City and has written a business plan. She is considering which marketing mix to use for this new shop. FF will need finance for working capital — either a bank overdraft or trade credit.
+
+Kathryn wants FF to contribute to sustainable development. Many customers are concerned about global warming.
+
+Appendix 1 — Advertisement for FF's wedding flowers:
+"Choose FF's flowers for your special day – we can make your wedding day memorable. See our social media pages for reviews from customers who have been very happy with our service. Guaranteed delivery at a time of your choice. We will not let you down."
+
+Appendix 2 — Email from Marketing Assistant to Kathryn (1 October 2025):
+Proposed marketing mix for the new larger shop in the centre of Main City:
+- Price: cost-plus pricing for the wedding flowers as not all flowers cost the same.
+- Place: selling some flowers through wedding planners (businesses which plan weddings for customers).
+- Promotion: television advertising.
+
+Appendix 3 — Two options for sustainable development:
+Option 1 — Buying all flowers from sustainable sources:
+- Suppliers from sustainable sources are available in Main City
+- Cost of flowers for each wedding will increase by 25%
+
+Option 2 — Using electricity from renewable sources:
+- Cost $6000 to install solar panels at each shop
+- Electricity costs will reduce by 50% from current cost of $200 per week for each shop`,
+    questions: [
+      {
+        q: '1(a)',
+        text: 'Explain four ways a business plan could help Kathryn.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'FF is a small business owned by Kathryn. It has 2 small shops in Main City selling wedding flowers with 4 employees each. FF operates in a niche market. Kathryn wants to open a third shop and has written a business plan. FF will need finance for working capital — either a bank overdraft or trade credit.',
+        ms: `8 marks. Award 1 mark per way (max 4) + 1 mark per explanation applied to context.
+
+Ways (any four):
+- Help gain a bank loan/overdraft — to open the new shop
+- Give the business a sense of purpose and direction — selling wedding flowers
+- Calculate the costs of setting up — in this niche market
+- Predict cash flow problems — when deciding the source of finance for working capital
+- Help identify if there is sufficient demand for the product
+- Help set prices — for the high-quality products
+- Help identify skills/type of employees needed — to prepare the flowers
+- Help choose promotional methods to use
+- Help allocate resources
+
+Application words: new shop/third shop; 2 shops; flowers; source of finance for working capital; weddings; bride/groom; ribbons; reputation for high quality; contribute to sustainable development; niche market; 4/8 employees; average price $2000; supplies purchased each day; supplies are fresh; job production; small business; marketing mix for new shop.
+
+Example: 'To help with an application for a bank loan (1) in order to open the new flower shop (app).'`
+      },
+      {
+        q: '1(b)',
+        text: 'Consider the following two methods Kathryn could use to communicate with her suppliers. Which method should Kathryn use if an order is needed quickly? Justify your answer.\n• Telephone calls\n• Emails',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'FF is a small business owned by Kathryn selling wedding flowers. She buys flowers from suppliers every day and has a good relationship with them. Suppliers provide flowers, ribbons and packaging materials. Communication with suppliers is important.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH methods, well-justified recommendation including why alternative was rejected. Top marks if all discussed in context.
+Level 2 (5-8): Sound application, detailed discussion of at least one method, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement. Top marks if both outlined in context.
+
+Telephone calls — Advantages: speaks directly to each supplier of ribbons — gets immediate feedback — knows message received; can verify order of fresh flowers understood — answer questions — ensure correct flowers delivered; good relationship means supplier will answer.
+Telephone calls — Disadvantages: suppliers may not answer — delivery of flowers delayed; poor connection may distort message — wrong order; could take long time — may need to call several times; no permanent record — if incorrect order no proof.
+
+Emails — Advantages: provides written record — if suppliers do not meet order correctly; can be referred to at different times to check perishable supplies; Kathryn does not have to be in office — can send out of hours — convenient for small business.
+Emails — Disadvantages: some suppliers may not have reliable internet — FF may not know order not received; order may not be seen if too many emails; may go into junk — supplier unaware of order.
+
+Valid recommendations:
+- Telephone call if order needed quickly — immediate feedback confirms message received; email may get lost and urgency not realised, delivery delayed.
+- Email — sent straight away and supplier can reply confirming order received and can dispatch.
+
+Cap at Level 2 without justified recommendation.`
+      },
+      {
+        q: '2(a)',
+        text: 'Explain two benefits and two limitations of a business operating in a niche market.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'FF is a small business owned by Kathryn. It operates in a niche market as it only provides flowers for weddings. The average price customers pay for FF\'s wedding flowers is $2000.',
+        ms: `8 marks. Award 1 mark per benefit/limitation (max 2 benefits, max 2 limitations) + max 1 additional mark per explanation. No application marks.
+
+Benefits (any two):
+- Fewer competitor businesses — less need to spend on marketing
+- Consumer needs more closely focused on — higher consumer satisfaction
+- Increased sales and revenue as product meets customer needs
+- Higher price can be charged — product seen as high-status or exclusive
+- Increased customer loyalty
+
+Limitations (any two):
+- Niche markets usually relatively small — sales likely smaller than mass market
+- Limits potential growth — profits may be limited
+- Specialises in one product — increased risk if demand falls
+- Small size means economies of scale unlikely — higher unit costs
+- High profits may attract competitors — prices may have to be reduced
+
+Example: 'The business can focus more closely on customer needs (1) therefore their needs will be met giving high consumer satisfaction (1).'`
+      },
+      {
+        q: '2(b)',
+        text: 'Using Appendix 2 and other information, consider the following three elements of the possible marketing mix for FF\'s new shop. Which element is likely to be the most important? Justify your answer.\n• Price – cost-plus pricing\n• Place – selling some flowers through wedding planners\n• Promotion – television advertising',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'FF is a small business selling wedding flowers in a niche market. Average price is $2000. Kathryn wants to open a third shop in the centre of Main City. Marketing mix proposal: Price = cost-plus pricing; Place = selling some flowers through wedding planners; Promotion = television advertising.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of TWO OR MORE elements, well-justified conclusion. Top marks if all three discussed in context with justified conclusion explaining why alternatives rejected.
+Level 2 (5-8): Sound application, detailed discussion of at least one element, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+Price — cost-plus: Easy to apply; different mark-ups for different brides depending on type of flowers; each product can earn higher profit. Disadvantages: need to calculate total costs accurately; price may be higher than competitors reducing sales; no incentive to reduce costs.
+
+Place — wedding planners: Larger market selling to businesses; storage costs paid by wedding planner; promotional activities carried out by wedding planner. Disadvantages: part of profit kept by wedding planner; slower to get flowers to customer — may lose freshness; no control over how business marketed; higher price including planner's margin.
+
+Promotion — TV advertising: Seen by large audience — increases target market; wedding flowers shown favourably with moving images; can target adverts to bridal/wedding programmes. Disadvantages: very expensive; FF may not afford many adverts; young consumers may not watch TV often — use social media instead.
+
+Valid conclusions:
+- Cost-plus most important: allows different mark-ups for high-income customers — higher revenue and profit. TV advertising too expensive for small business. Wedding planners reduce freshness quality.
+- Wedding planners most important: increases customer numbers and word-of-mouth — higher sales.
+- TV advertising most important: customers across city see adverts — visit new shop in centre of Main City.
+
+Cap at Level 2 without justified conclusion.`
+      },
+      {
+        q: '3(a)',
+        text: 'Explain two reasons why FF uses job production.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'FF is a small business owned by Kathryn selling wedding flowers. She uses job production for each customer\'s order. FF has a good reputation for high-quality flower arrangements. Average price is $2000.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation — at least one must be applied to context.
+
+Reasons (any two):
+- Suitable for individual/unique products — more competitive — higher revenue/sales
+- Meets exact needs of customers — increases customer satisfaction — increases reputation and word of mouth
+- Employees have more varied jobs — may carry out all tasks — increasing motivation
+- Higher price can be charged — product is one-off for customer — willing to pay higher price
+- Production can be of higher quality — each product individually made
+
+Application: new shop/third shop; 2 shops; flowers; weddings; bride/groom; ribbons; reputation for high quality; niche market; 4/8 employees; average price $2000; supplies purchased each day; fresh supplies; small business; marketing mix; social media reviews.
+
+Example: 'The flower shop will produce wedding flower arrangements (app) that are specially designed for customers (1) more closely meeting exact needs (1) so more likely to increase customer recommendations (1).'`
+      },
+      {
+        q: '3(b)',
+        text: 'Consider the following two sources of finance which could be used for working capital when FF\'s new shop opens. Which would be the best source for Kathryn to use? Justify your answer.\n• Bank overdraft\n• Trade credit',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'FF is a small business owned by Kathryn. She wants to open a third shop in the centre of Main City. FF will need finance for working capital. Kathryn has the choice of a bank overdraft or trade credit. She buys flowers from suppliers every day and has a good relationship with them.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH sources, well-justified recommendation including why alternative rejected.
+Level 2 (5-8): Sound application, detailed discussion of one or more sources, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+Bank overdraft — Advantages: quick to arrange — finance available straight away; varying repayment lengths — longer time to pay back from wedding flower sales; helps avoid cash flow problems.
+Bank overdraft — Disadvantages: must repay with interest — increases expenses — may lead to higher prices or reduced profits; may need collateral; high interest rate as small business seen as high risk; variable interest rate — increased risk.
+
+Trade credit — Advantages: effectively interest-free loan unless late payment penalties; can receive revenue from sales before paying supplier — good relationship helps; improves cash flow.
+Trade credit — Disadvantages: supplier may refuse to supply if payment not made — damages relationship — unable to meet orders — harms FF's reputation; supplier may refuse discounts if payment late — increases costs — may lead to higher prices as uses cost-plus pricing.
+
+Valid recommendations:
+- Bank overdraft: sufficient capital arranged to pay all operating costs for new shop. Some suppliers may not offer trade credit.
+- Trade credit: can purchase flowers and sell them before payment due — interest-free source for day-to-day running of third shop.
+
+Cap at Level 2 without justified recommendation.`
+      },
+      {
+        q: '4(a)',
+        text: 'Explain two reasons why high quality is important for FF.',
+        marks: 8,
+        part: 'a',
+        type: 'explain',
+        context: 'FF is a small business owned by Kathryn selling wedding flowers in a niche market. FF has a good reputation for providing high-quality flower arrangements. The average price customers pay is $2000. FF uses job production.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation — at least one must be applied to context.
+
+Reasons (any two):
+- To establish a brand image — customers encouraged to buy — new customers attracted
+- To maintain good reputation — friends and family tell others — increasing/decreasing sales
+- To increase sales/attract more customers — customer needs satisfied
+- Faulty products do not have to be replaced — reduces waste/ensures safety/avoids legal action
+- Able to charge high price — higher profit margin/increases added value
+
+Application: new shop/third shop; 2 shops; flowers; weddings; bride/groom; ribbons; sustainable development; niche market; 4/8 employees; average price $2000; supplies purchased each day; fresh supplies; job production; small business; marketing mix; social media reviews.
+
+Example: 'To maintain a good reputation (1) because if quality is not good then friends and family will tell others about the product which may lead to a bad reputation (1) and sales will be lower (1) for the new flower shop (app).'`
+      },
+      {
+        q: '4(b)',
+        text: 'Using Appendix 3 and other information, consider the following two ways FF could contribute to sustainable development. Which way should Kathryn choose? Justify your answer.\n• Buying all flowers from sustainable sources\n• Using electricity from renewable sources',
+        marks: 12,
+        part: 'b',
+        type: 'evaluate',
+        context: 'FF is a small business owned by Kathryn with 2 shops (and planning a third) in Main City. Customers are concerned about global warming. Option 1: Buy all flowers from sustainable sources — suppliers available in Main City, cost increases by 25% per wedding. Option 2: Use electricity from renewable sources — costs $6000 to install solar panels per shop, electricity costs reduce by 50% from current $200/week per shop.',
+        ms: `12 marks. Levels-based marking.
+
+Level 3 (9-12): Sound application, detailed discussion of BOTH ways, well-justified recommendation including why alternative rejected.
+Level 2 (5-8): Sound application, detailed discussion of at least one way, judgement with some justification.
+Level 1 (1-4): Limited knowledge, little discussion, simple judgement.
+
+Buying from sustainable sources — Advantages: attract customers concerned about environment if included in advertising — increasing sales; future sustainable sources will still supply flowers — more secure supply; sustainable sources nearby in Main City — lower transport costs and less polluting.
+Buying from sustainable sources — Disadvantages: average price $2000 — customers may not pay more for sustainably produced flowers — profit margins may need to be lower; costs increase 25% — if prices raised may make FF less competitive — losing sales.
+
+Using renewable electricity — Advantages: savings of $100 per week per shop after solar panels; $5200 per year savings per shop / $15,600 per year for all 3 shops; cost savings continue into future after installation costs repaid; may be able to reduce prices as power costs reduced — more competitive.
+Using renewable electricity — Disadvantages: high cost to install — $6000 per shop; $18,000 for all 3 shops; may need loan — interest costs increase — increase cash outflow; relies on sunlight — lower at different times of year; maintenance costs for solar panels.
+
+Valid recommendations:
+- Buy from sustainable sources: may attract many more customers concerned about environment willing to pay higher price if 25% cost increase passed on. Solar panels require bank loan increasing expenses which FF may not afford given opening new shop and needing working capital finance.
+- Use renewable energy: investment saves $300/week for 3 shops continuing into future and may help FF be more competitive. 25% increase in flower costs would significantly raise prices and reduce competitiveness.
+
+Cap at Level 2 without justified recommendation.`
+      }
+    ]
+  },
   'p2_w25_21': {
     label: '2025 Oct/Nov Paper 2 Variant 1',
     caseStudy: `Luxury Bathrooms (LB) — Case Study Summary
@@ -4243,6 +4466,14 @@ function loadFPPaper2() {
   info.style.display = 'flex';
   btn.style.display = 'inline-flex';
   document.getElementById('fp2-results').innerHTML = '';
+
+  // Update insert link based on selected paper
+  const insertLinks = {
+    'p2_w25_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_21.pdf',
+    'p2_w25_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_22.pdf'
+  };
+  const insertEl = document.getElementById('fp2-insert-link');
+  if (insertEl && insertLinks[key]) insertEl.href = insertLinks[key];
 
   // Group by question number
   const groups = {};
