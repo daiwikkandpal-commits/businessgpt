@@ -1289,6 +1289,10 @@ function showHome() {
 
 function showMarker() {
   document.getElementById('markerPage').style.display = 'block';
+  document.getElementById('fullPaperPage').style.display = 'none';
+  document.getElementById('pastPapersPage').style.display = 'none';
+  document.getElementById('notesPage').style.display = 'none';
+  document.getElementById('dashPage').style.display = 'none';
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
@@ -4539,25 +4543,46 @@ async function markFullPaperP2() {
     }).join('\n\n---\n\n');
 
     return [
-      'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark each question strictly.',
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark each question strictly and consistently.',
       '',
       'CASE STUDY CONTEXT (refer to this for application marks):',
       caseStudy,
       '',
-      'MARKING RULES:',
-      '- (a) questions [8 marks]: Point-based. Award marks for knowledge (k), explanation (exp), and application (app) as per mark scheme.',
-      '- (b) questions [12 marks]: Levels-based (L1=1-4, L2=5-8, L3=9-12). Award level based on quality of discussion, evaluation, and justification.',
-      '  * Cap at L2 (max 8) if no justified conclusion/recommendation.',
-      '  * Award L3 (9-12) only if student discusses multiple options AND gives a well-justified conclusion rejecting alternatives.',
-      '  * Top of L3 (11-12) requires all options discussed in context with fully justified conclusion.',
-      '- Be strict but fair. Do not award marks for vague or unsupported statements.',
+      'MARKING RULES FOR (a) QUESTIONS [8 marks — point-based]:',
+      '- Award marks only for clear knowledge (k), explanation (exp), and application (app) as per mark scheme.',
+      '- Do not award marks for vague, unsupported, or repeated points.',
+      '- Maximum 8 marks total.',
+      '',
+      'MARKING RULES FOR (b) QUESTIONS [12 marks — levels-based]:',
+      'You MUST use these exact level definitions. Do not deviate:',
+      '',
+      'LEVEL 1 (1-4 marks):',
+      '- Limited knowledge with little or no explanation.',
+      '- Only one option discussed OR both options just identified with no development.',
+      '- No justified conclusion, or conclusion with no reasoning.',
+      '- Award 3-4 if both options are at least outlined in context.',
+      '',
+      'LEVEL 2 (5-8 marks):',
+      '- At least one option discussed in detail with explanation AND application to context.',
+      '- Some attempt at evaluation/judgement but conclusion is weak or only partially justified.',
+      '- Award 7-8 if two or more options discussed in detail with context and some justification.',
+      '- HARD RULE: If there is NO justified conclusion at all, maximum score is 8.',
+      '',
+      'LEVEL 3 (9-12 marks):',
+      '- REQUIRES: detailed discussion of TWO OR MORE options with context AND a well-justified conclusion that explicitly states why the chosen option is better than the alternative.',
+      '- Award 9-10 if two options discussed in detail with justified conclusion but alternative not explicitly rejected.',
+      '- Award 11-12 ONLY if all options discussed thoroughly in context AND conclusion explicitly rejects alternatives with clear reasoning.',
+      '- HARD RULE: If the conclusion does not explain why the alternative was rejected, maximum is 10.',
+      '- HARD RULE: If only one option is discussed in detail, maximum is 8 (Level 2).',
+      '',
+      'CONSISTENCY RULE: For borderline responses, always round DOWN to the lower mark. Do not give benefit of the doubt.',
       '',
       'QUESTIONS TO MARK:',
       qList,
       '',
       'Respond ONLY with a valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"...","missed":"..."}]',
-      'For (b) questions include the level awarded (e.g. "level":"L2"). For (a) questions set level to null.'
+      '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"one sentence explaining the level/score awarded","missed":"key point missed or null"}]',
+      'For (b) questions include level awarded (e.g. "level":"L2 — 7/12"). For (a) questions set level to null.'
     ].join('\n');
   }
 
