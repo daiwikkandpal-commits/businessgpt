@@ -1374,11 +1374,45 @@ async function runMark() {
     </div>`;
 
     const partGuidance = markerPaper === 1 ? {
-    a: 'Part A (2 marks): Usually "define" or "state/identify". Award 1 mark per valid point. No explanation required.',
-    b: 'Part B (2 marks): Usually "state" or "identify". Award 1 mark per valid point. No explanation required.',
-    c: 'Part C (4 marks): Usually "explain". Award 1 mark for identification + 1 mark for linked explanation, for up to 2 reasons (1+1+1+1).',
-    d: 'Part D (6 marks): Usually "explain" or "analyse". Award 1+1 for up to 3 reasons (identification + explanation each).',
-    e: 'Part E (6 marks): ALWAYS an evaluation/judgement question. CRITICAL RULE: 2 of the 6 marks are reserved for evaluation — the student MUST make a justified final recommendation or overall judgement to earn these marks. Award up to 4 marks for explained points. If the student does not include a clear evaluative conclusion, cap the score at 4/6 maximum.'
+    a: `PART A MARKING RULES (2 marks):
+- Check against the mark scheme. If all main points are present, award full marks.
+- If partially correct, award 1 mark.
+- For definitions: greater precision is needed but answers do not need to match the coursebook word for word — if the meaning is clear, award the mark.`,
+    b: `PART B MARKING RULES (2 marks):
+- Similar to Part A — normally knowledge points.
+- The answer should convey the correct meaning even if not worded exactly as the mark scheme.
+- If the meaning is clear and correct, award the mark.`,
+    c: `PART C MARKING RULES (4 marks) — determine which structure applies from the mark scheme:
+
+STRUCTURE 1 — 4 knowledge points:
+- All 4 knowledge points must be different and not repeated.
+- If a point is repeated in different words, do NOT award a mark for it.
+
+STRUCTURE 2 — 2 knowledge + 2 analysis:
+- Analysis must be a cause-and-effect of its paired knowledge point.
+- Analysis must be relevant to that specific knowledge point, not generalised.
+
+STRUCTURE 3 — 2 knowledge + 2 application:
+- Application must come from the case/context given in the question.
+- Mentioning the business name or owner's name alone is NOT valid application.
+- Refer to the mark scheme for examples of valid application points.`,
+    d: `PART D MARKING RULES (6 marks) — ONLY ONE STRUCTURE: 2 knowledge + 2 analysis + 2 application
+- Split into TWO parts of 3 marks each: each part = 1 knowledge + 1 analysis + 1 application.
+- The 2 application points MUST be different from each other.
+- Analysis must be cause-and-effect of the knowledge and relevant to the answer.
+CRITICAL DEPENDENCY RULES:
+- If knowledge is WRONG → award 0 for that entire 3-mark part (all 3 marks lost).
+- If analysis is irrelevant but knowledge + application are correct → award 2 marks only.
+- If application is incorrect but knowledge + analysis are correct → award 2 marks only.`,
+    e: `PART E MARKING RULES (6 marks) — 2 knowledge + 2 analysis + 2 evaluation
+Knowledge + analysis rules (same as Part D):
+- Analysis must be cause-and-effect of the knowledge point.
+- Analysis must be relevant and not generalised.
+EVALUATION RULES (2 marks):
+- The same knowledge point from the answer can be used as a basis for evaluation.
+- Evaluation MUST consider BOTH sides — advantages AND disadvantages, or strengths AND weaknesses.
+- A balanced argument covering both sides is essential to earn evaluation marks.
+- Without a clear balanced evaluative conclusion, cap the score at 4/6 maximum.`
   }[currentPart] || '' : '';
 
   const p2Guidance = currentP2Part === 'a'
@@ -5329,11 +5363,30 @@ async function markFullPaper() {
     ).join('\n\n---\n\n');
 
     return [
-      'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner.',
-      'Mark each question strictly using its mark scheme.',
-      '- Award marks for correct knowledge (k), application (app), and analysis/explanation (an)',
-      '- Part (e) questions: cap at 4/6 without a justified evaluative conclusion',
-      '- Be strict but fair',
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark each question strictly using its mark scheme and the following rules:',
+      '',
+      'PART A (2 marks): Award full marks if all main points are present. Award 1 mark if partially correct. For definitions, meaning must be clear but need not be word-for-word from the coursebook.',
+      '',
+      'PART B (2 marks): Same as Part A — knowledge points. Award marks if the meaning is correct even if not worded exactly as the mark scheme.',
+      '',
+      'PART C (4 marks) — check which structure applies from the mark scheme:',
+      '  STRUCTURE 1 (4 knowledge): All 4 must be different. Repeated points in different words = no mark.',
+      '  STRUCTURE 2 (2 knowledge + 2 analysis): Analysis must be cause-and-effect of its knowledge point. Must not be generalised.',
+      '  STRUCTURE 3 (2 knowledge + 2 application): Application must come from the case context. Business name alone is NOT application.',
+      '',
+      'PART D (6 marks) — ONLY structure: 2k + 2an + 2app, split into two 3-mark parts (k+an+app each):',
+      '  - The 2 application points must be different from each other.',
+      '  - Analysis must be cause-and-effect of the knowledge and relevant.',
+      '  - If knowledge is WRONG → 0 for entire 3-mark part.',
+      '  - If analysis irrelevant but k+app correct → 2 marks.',
+      '  - If application wrong but k+an correct → 2 marks.',
+      '',
+      'PART E (6 marks) — 2 knowledge + 2 analysis + 2 evaluation:',
+      '  - Same k+an rules as Part D.',
+      '  - Evaluation MUST cover BOTH sides (advantages AND disadvantages / strengths AND weaknesses).',
+      '  - Without a clear balanced evaluative conclusion, cap at 4/6.',
+      '',
+      'Questions to mark:',
       '',
       qList,
       '',
