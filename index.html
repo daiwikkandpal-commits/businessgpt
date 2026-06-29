@@ -44,6 +44,197 @@ body {
   --radius-lg: 20px;
 }
 
+/* ─── Dark Mode ─────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:       #0a0f1e;
+  --bg2:      #111827;
+  --bg3:      #1a2236;
+  --border:   rgba(99,130,246,0.15);
+  --border2:  rgba(99,130,246,0.35);
+  --text:     #f1f5f9;
+  --text2:    #94a3b8;
+  --text3:    #64748b;
+  color-scheme: dark;
+}
+[data-theme="dark"] body { background: #0a0f1e; }
+[data-theme="dark"] nav { background: rgba(10,15,30,0.92); border-bottom: 1px solid rgba(99,130,246,0.12); }
+[data-theme="dark"] .hero { background: transparent; }
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .paper-card,
+[data-theme="dark"] .step,
+[data-theme="dark"] .topic-card,
+[data-theme="dark"] .faq-item { background: #111827; border-color: rgba(99,130,246,0.15); }
+[data-theme="dark"] .stat-card { background: rgba(17,24,39,0.8); border-color: rgba(99,130,246,0.2); }
+[data-theme="dark"] .hero-badge { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.3); }
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] input { background: #1a2236 !important; color: #f1f5f9 !important; border-color: rgba(99,130,246,0.2) !important; }
+[data-theme="dark"] .mark-tool-inner { background: #111827; border-color: rgba(99,130,246,0.15); }
+[data-theme="dark"] #dashPage,
+[data-theme="dark"] #markerPage,
+[data-theme="dark"] #pastPapersPage,
+[data-theme="dark"] #notesPage,
+[data-theme="dark"] #fullPaperPage { background: #0a0f1e; }
+[data-theme="dark"] .sk { background: linear-gradient(90deg,#1e293b 25%,#2a3a52 50%,#1e293b 75%); background-size:600px 100%; }
+
+/* ─── Animations ────────────────────────────────────── */
+@keyframes heroFadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes countUp {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position:-600px 0; }
+  100% { background-position:600px 0; }
+}
+@keyframes confettiFall {
+  0%   { transform:translateY(-10px) rotate(0deg); opacity:1; }
+  100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
+}
+@keyframes ringFill {
+  from { stroke-dashoffset: 283; }
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow:0 0 20px rgba(37,99,235,0.3); }
+  50%      { box-shadow:0 0 40px rgba(37,99,235,0.6); }
+}
+@keyframes gradientShift {
+  0%,100% { background-position:0% 50%; }
+  50%      { background-position:100% 50%; }
+}
+
+.hero h1 { animation: heroFadeUp 0.7s ease both; }
+.hero .hero-sub { animation: heroFadeUp 0.7s 0.15s ease both; }
+.hero .hero-actions { animation: heroFadeUp 0.7s 0.25s ease both; }
+.hero .hero-stats { animation: heroFadeUp 0.7s 0.38s ease both; }
+
+/* ─── Skeleton ──────────────────────────────────────── */
+.sk {
+  background: linear-gradient(90deg,#e8edf5 25%,#d0d8e8 50%,#e8edf5 75%);
+  background-size:600px 100%;
+  animation:shimmer 1.4s infinite;
+  border-radius:6px;
+  display:block;
+}
+.skeleton-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+}
+
+/* ─── Progress Ring ─────────────────────────────────── */
+.progress-ring-wrap {
+  position:relative;
+  width:90px;height:90px;
+  flex-shrink:0;
+}
+.progress-ring-wrap svg { transform:rotate(-90deg); }
+.progress-ring-bg { fill:none; stroke:rgba(0,0,0,0.06); stroke-width:6; }
+.progress-ring-fill {
+  fill:none; stroke-width:6; stroke-linecap:round;
+  stroke-dasharray:283;
+  animation:ringFill 0.8s ease both;
+  transition:stroke-dashoffset 0.6s ease;
+}
+.progress-ring-text {
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;
+}
+.progress-ring-score { font-size:18px;font-weight:700;color:var(--text);line-height:1; }
+.progress-ring-max { font-size:11px;color:var(--text3); }
+
+/* ─── Hover lift on cards ───────────────────────────── */
+.feature-card, .paper-card, .topic-card {
+  transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.feature-card:hover, .paper-card:hover, .topic-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(37,99,235,0.1);
+  border-color:var(--border2);
+}
+
+/* ─── Dark mode toggle button ───────────────────────── */
+.dark-toggle {
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;
+  border:1px solid var(--border2);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+  transition:all 0.2s;
+  font-family:'Sora',sans-serif;
+}
+.dark-toggle:hover { background:var(--bg3); }
+
+/* ─── Animated hero gradient ────────────────────────── */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4, #3b82f6);
+  background-size:300% 300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 4s ease infinite;
+}
+
+/* ─── Glassmorphism result card ─────────────────────── */
+.glass-card {
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.5);
+  border-radius:16px;
+}
+[data-theme="dark"] .glass-card {
+  background:rgba(17,24,39,0.8);
+  border:1px solid rgba(99,130,246,0.2);
+}
+
+/* ─── Confetti ──────────────────────────────────────── */
+.confetti-piece {
+  position:fixed;
+  width:10px;height:10px;
+  border-radius:2px;
+  pointer-events:none;
+  z-index:9999;
+  animation:confettiFall linear forwards;
+}
+
+/* ─── Button ripple ─────────────────────────────────── */
+.btn-ripple {
+  position:relative;overflow:hidden;
+}
+.btn-ripple::after {
+  content:'';position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.35);
+  width:100px;height:100px;
+  transform:scale(0);
+  animation:none;
+  pointer-events:none;
+}
+@keyframes rippleAnim {
+  to { transform:scale(4); opacity:0; }
+}
+
+/* ─── Animated gradient hero bg ─────────────────────── */
+.hero-animated-bg {
+  position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.hero-blob {
+  position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;
+  animation:blobFloat 8s ease-in-out infinite;
+}
+@keyframes blobFloat {
+  0%,100% { transform:translateY(0) scale(1); }
+  50%      { transform:translateY(-30px) scale(1.05); }
+}
+
+
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -619,9 +810,12 @@ footer {
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#faq" onclick="showHome()">FAQ</a></li>
     </ul>
-    <div class="nav-cta" id="navCta" style="display:none">
-      <a href="auth.html" class="btn-ghost" id="navSignin">Sign in</a>
-      <a href="auth.html?mode=signup" class="btn-primary" id="navSignup">Try free</a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+      <div class="nav-cta" id="navCta" style="display:none">
+        <a href="auth.html" class="btn-ghost" id="navSignin">Sign in</a>
+        <a href="auth.html?mode=signup" class="btn-primary" id="navSignup">Try free</a>
+      </div>
     </div>
     <!-- shown when signed in -->
     <div class="nav-user" id="navUser" style="display:none;align-items:center;gap:12px">
@@ -647,22 +841,27 @@ footer {
 
 
 <!-- HERO -->
-<section class="hero" id="home">
-  <div class="container">
-    <div class="hero-badge">
+<section class="hero" id="home" style="position:relative;overflow:hidden">
+  <!-- Animated blobs -->
+  <div class="hero-animated-bg">
+    <div class="hero-blob" style="width:500px;height:500px;background:#3b82f6;top:-100px;left:-100px;animation-delay:0s"></div>
+    <div class="hero-blob" style="width:400px;height:400px;background:#8b5cf6;top:50px;right:-50px;animation-delay:2s"></div>
+    <div class="hero-blob" style="width:300px;height:300px;background:#06b6d4;bottom:0;left:30%;animation-delay:4s"></div>
+  </div>
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-badge" style="animation:heroFadeUp 0.6s ease both">
       <div class="hero-badge-dot"></div>
       Cambridge IGCSE Business Studies 0450
     </div>
-    <h1>
-      Ace your Business<br/>
-      exam with <span class="accent">AI marking</span>
+    <h1 style="font-size:clamp(38px,6vw,68px);font-weight:700;line-height:1.08;letter-spacing:-0.03em;margin-bottom:20px">
+      Ace your Business exam<br/>with <span class="hero-gradient-text">AI marking</span>
     </h1>
-    <p class="hero-sub">
-      Get instant, Cambridge-accurate feedback on your answers.
+    <p class="hero-sub" style="font-size:18px;max-width:540px;margin:0 auto 36px">
+      Instant, Cambridge-accurate feedback on your answers.
       Practice with real mark schemes and level-by-level guidance.
     </p>
-    <div class="hero-actions">
-      <a href="#" onclick="showMarker();return false" class="btn-hero btn-hero-primary">
+    <div class="hero-actions" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px">
+      <a href="#" onclick="showMarker();return false" class="btn-hero btn-hero-primary btn-ripple" onclick="addRipple(event,this)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
         Start marking free
       </a>
@@ -670,25 +869,23 @@ footer {
         See how it works →
       </a>
     </div>
-    <div class="hero-stats">
-      <div class="stat-card">
-        <div class="stat-card-icon">📝</div>
-        <div class="stat-num">10<span>k+</span></div>
+
+    <!-- Stats with animated counters -->
+    <div class="hero-stats" id="heroStats">
+      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.4s ease both">
+        <div class="stat-num" id="statAnswers">0<span>k+</span></div>
         <div class="stat-label">answers marked</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">✅</div>
-        <div class="stat-num">98<span>%</span></div>
+      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.5s ease both">
+        <div class="stat-num" id="statAccuracy">0<span>%</span></div>
         <div class="stat-label">accuracy vs Cambridge</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">⏱️</div>
+      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.6s ease both">
         <div class="stat-num"><span>&lt;</span>5s</div>
         <div class="stat-label">marking time</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">📚</div>
-        <div class="stat-num">6</div>
+      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.7s ease both">
+        <div class="stat-num" id="statTopics">0</div>
         <div class="stat-label">Cambridge topics</div>
       </div>
     </div>
@@ -1485,18 +1682,34 @@ function showMarkResult(r, maxMarks) {
   const sc = pct>=75?{bg:'rgba(74,222,128,.12)',c:'#4ade80'}:pct>=50?{bg:'rgba(251,191,36,.12)',c:'#fbbf24'}:{bg:'rgba(248,113,113,.12)',c:'#f87171'};
   const grade = pct>=90?'A*':pct>=80?'A':pct>=70?'B':pct>=60?'C':pct>=50?'D':'U';
   const rows = (arr,col) => (arr||[]).map(s=>`<div style="display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--text2);line-height:1.6;padding:3px 0"><div style="width:7px;height:7px;border-radius:50%;background:${col};flex-shrink:0;margin-top:5px"></div><span>${s}</span></div>`).join('');
+  
+  const ringCircIndiv = 283;
+  const ringOffsetIndiv = ringCircIndiv - (ringCircIndiv * pct / 100);
+  
+  if (pct >= 75) launchConfetti();
+
   document.getElementById('m-result').innerHTML = `
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;animation:fadeUp .25s ease">
-      <div style="padding:16px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border)">
-        <div style="width:58px;height:58px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:20px;font-weight:700">${r.score}</span>
-          <span style="font-size:10px;opacity:.7">/ ${maxMarks}</span>
+    <div class="glass-card" style="overflow:hidden;animation:pageSlideIn .25s ease">
+      <div style="padding:18px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border)">
+        <div class="progress-ring-wrap" style="width:76px;height:76px">
+          <svg width="76" height="76" viewBox="0 0 76 76">
+            <circle fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="6" cx="38" cy="38" r="32"/>
+            <circle fill="none" stroke="${sc.c}" stroke-width="6" stroke-linecap="round"
+              cx="38" cy="38" r="32"
+              stroke-dasharray="201"
+              stroke-dashoffset="${201 - (201 * pct / 100)}"
+              style="transform:rotate(-90deg);transform-origin:50% 50%;animation:ringFill 0.7s ease both"/>
+          </svg>
+          <div class="progress-ring-text">
+            <span class="progress-ring-score" id="indivScoreCounter" style="color:${sc.c};font-size:16px">0</span>
+            <span class="progress-ring-max" style="font-size:10px">/${maxMarks}</span>
+          </div>
         </div>
         <div style="flex:1">
-          <div style="font-size:14px;font-weight:500;color:var(--text)">${r.summary||''}</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:3px">${r.level||''}</div>
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.5">${r.summary||''}</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:4px">${r.level||''}</div>
         </div>
-        <span style="padding:6px 16px;border-radius:8px;font-size:16px;font-weight:700;background:${sc.bg};color:${sc.c}">${grade}</span>
+        <span style="padding:6px 16px;border-radius:8px;font-size:16px;font-weight:700;background:${sc.bg};color:${sc.c};flex-shrink:0">${grade}</span>
       </div>
       <div style="padding:18px 20px;display:flex;flex-direction:column;gap:14px">
         ${r.strengths?.length?`<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px">Strengths</div>${rows(r.strengths,'#4ade80')}</div>`:''}
@@ -1504,6 +1717,8 @@ function showMarkResult(r, maxMarks) {
         ${r.missed?.length?`<div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px">Missed mark points</div>${rows(r.missed,'#f87171')}</div>`:''}
       </div>
     </div>`;
+  
+  setTimeout(() => animateCounter('indivScoreCounter', r.score, 600), 80);
 }
 
 function toggleFaq(btn) {
@@ -5474,15 +5689,30 @@ function showFPResults(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
   const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
 
+  // Confetti for good scores
+  if (pct >= 75) launchConfetti();
+
+  const ringCirc = 283;
+  const ringOffset = ringCirc - (ringCirc * pct / 100);
+
   document.getElementById('fp-results').innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
-        <div style="width:80px;height:80px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:24px;font-weight:700">${r.total_score}</span>
-          <span style="font-size:11px;opacity:.7">/ ${r.total_max}</span>
+    <div style="display:flex;flex-direction:column;gap:14px;animation:pageSlideIn .3s ease">
+      <div class="glass-card" style="padding:24px;display:flex;align-items:center;gap:20px">
+        <div class="progress-ring-wrap">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle class="progress-ring-bg" cx="45" cy="45" r="38"/>
+            <circle class="progress-ring-fill" cx="45" cy="45" r="38"
+              stroke="${sc.c}"
+              stroke-dashoffset="${ringOffset}"
+              style="animation:ringFill 0.8s ease both"/>
+          </svg>
+          <div class="progress-ring-text">
+            <span class="progress-ring-score" id="scoreCounter" style="color:${sc.c}">0</span>
+            <span class="progress-ring-max">/${r.total_max}</span>
+          </div>
         </div>
         <div style="flex:1">
-          <div style="font-size:22px;font-weight:700;color:var(--text)">${currentFPPaper.label}</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text)">${currentFPPaper.label}</div>
           <div style="font-size:14px;color:var(--text2);margin-top:4px">${r.overall_comment}</div>
         </div>
         <div style="text-align:center">
@@ -5587,9 +5817,26 @@ async function markFullPaperP2() {
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking — this may take 30–60 seconds…';
 
   document.getElementById('fp2-results').innerHTML = `
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
-      <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking Paper 2 — 8 questions including 4 x 12-mark evaluate questions…</div>
-      <div style="font-size:13px;color:var(--text3)">Please don't close this tab</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="skeleton-card" style="display:flex;align-items:center;gap:16px">
+        <span class="sk" style="width:90px;height:90px;border-radius:50%;flex-shrink:0"></span>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px">
+          <span class="sk" style="height:20px;width:55%"></span>
+          <span class="sk" style="height:14px;width:35%"></span>
+        </div>
+        <span class="sk" style="width:70px;height:60px;border-radius:10px;flex-shrink:0"></span>
+      </div>
+      <div class="skeleton-card" style="display:flex;flex-direction:column;gap:8px">
+        <span class="sk" style="height:13px;width:30%"></span>
+        <span class="sk" style="height:13px;width:88%"></span>
+        <span class="sk" style="height:13px;width:72%"></span>
+        <span class="sk" style="height:13px;width:80%"></span>
+      </div>
+      <div class="skeleton-card" style="display:flex;flex-direction:column;gap:8px">
+        <span class="sk" style="height:13px;width:22%"></span>
+        <span class="sk" style="height:13px;width:90%"></span>
+        <span class="sk" style="height:13px;width:65%"></span>
+      </div>
     </div>`;
 
   const questions = currentFPPaper2.questions;
@@ -5704,15 +5951,29 @@ function showFPResultsP2(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
   const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
 
+  if (pct >= 75) launchConfetti();
+
+  const ringCirc2 = 283;
+  const ringOffset2 = ringCirc2 - (ringCirc2 * pct / 100);
+
   document.getElementById('fp2-results').innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
-        <div style="width:80px;height:80px;border-radius:50%;background:${sc.bg};color:${sc.c};display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:24px;font-weight:700">${r.total_score}</span>
-          <span style="font-size:11px;opacity:.7">/ ${r.total_max}</span>
+    <div style="display:flex;flex-direction:column;gap:14px;animation:pageSlideIn .3s ease">
+      <div class="glass-card" style="padding:24px;display:flex;align-items:center;gap:20px">
+        <div class="progress-ring-wrap">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle class="progress-ring-bg" cx="45" cy="45" r="38"/>
+            <circle class="progress-ring-fill" cx="45" cy="45" r="38"
+              stroke="${sc.c}"
+              stroke-dashoffset="${ringOffset2}"
+              style="animation:ringFill 0.8s ease both"/>
+          </svg>
+          <div class="progress-ring-text">
+            <span class="progress-ring-score" id="scoreCounter2" style="color:${sc.c}">0</span>
+            <span class="progress-ring-max">/${r.total_max}</span>
+          </div>
         </div>
         <div style="flex:1">
-          <div style="font-size:22px;font-weight:700;color:var(--text)">${currentFPPaper2.label}</div>
+          <div style="font-size:20px;font-weight:700;color:var(--text)">${currentFPPaper2.label}</div>
           <div style="font-size:14px;color:var(--text2);margin-top:4px">Full paper marked — 4 questions (a+b each)</div>
         </div>
         <div style="text-align:center">
@@ -5968,5 +6229,113 @@ function doNavSignOut() {
   if (_supabase) _supabase.auth.signOut().then(() => { resetNav(); showHome(); });
 }
 </script>
+
+// ── Dark Mode ──────────────────────────────────────────────────────────────
+function toggleDark() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('darkToggle').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('bgpt-theme', isDark ? 'light' : 'dark');
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('bgpt-theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', saved);
+  const btn = document.getElementById('darkToggle');
+  if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+})();
+
+// ── Confetti ────────────────────────────────────────────────────────────────
+function launchConfetti() {
+  const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444','#06b6d4'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-20px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.width = (Math.random() * 8 + 6) + 'px';
+    el.style.height = (Math.random() * 8 + 6) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    el.style.animationDelay = (Math.random() * 0.8) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+// ── Score Counter ───────────────────────────────────────────────────────────
+function animateCounter(id, target, duration) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(ease * target);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── Ripple effect on buttons ────────────────────────────────────────────────
+function addRipple(e, btn) {
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.style.cssText = `
+    position:absolute;border-radius:50%;
+    background:rgba(255,255,255,0.35);
+    width:100px;height:100px;
+    left:${e.clientX - rect.left - 50}px;
+    top:${e.clientY - rect.top - 50}px;
+    transform:scale(0);
+    animation:rippleAnim 0.5s ease forwards;
+    pointer-events:none;
+  `;
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+}
+
+// ── Hero stat counters (run once on load) ───────────────────────────────────
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    animateCounter('statAnswers', 10, 1200);
+    animateCounter('statAccuracy', 98, 1400);
+    animateCounter('statTopics', 6, 800);
+  }, 600);
+});
+
+// ── Intercept showFPResults to run score counter ────────────────────────────
+const _origShowFPResults = showFPResults;
+showFPResults = function(r) {
+  _origShowFPResults(r);
+  const pct = Math.round((r.total_score / r.total_max) * 100);
+  setTimeout(() => animateCounter('scoreCounter', r.total_score, 800), 100);
+};
+
+const _origShowFPResultsP2 = showFPResultsP2;
+showFPResultsP2 = function(r) {
+  _origShowFPResultsP2(r);
+  setTimeout(() => animateCounter('scoreCounter2', r.total_score, 800), 100);
+};
+
+// ── Intersection observer for section fade-ins ──────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .step, .paper-card, .topic-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
 </body>
 </html>
