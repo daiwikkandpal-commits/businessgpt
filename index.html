@@ -5451,6 +5451,40 @@ function showFPResults(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
   const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
 
+  // Group questions by question number (e.g. "1", "2", "3", "4")
+  const groups = {};
+  (r.questions||[]).forEach(q => {
+    const num = q.label ? q.label[0] : '?';
+    if (!groups[num]) groups[num] = [];
+    groups[num].push(q);
+  });
+
+  const tableRows = Object.entries(groups).map(([num, qs]) => {
+    const groupScore = qs.reduce((s,q) => s + (q.score||0), 0);
+    const groupMax = qs.reduce((s,q) => s + (q.max||0), 0);
+    const gpct = Math.round((groupScore/groupMax)*100);
+    const gc = gpct>=75?'#4ade80':gpct>=50?'#fbbf24':'#f87171';
+
+    const subRows = qs.map(q => {
+      const qpct = Math.round((q.score/q.max)*100);
+      const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
+      return `<tr style="border-bottom:1px solid var(--border);background:var(--bg3)">
+        <td style="padding:8px 20px 8px 36px;font-size:12px;color:var(--text2)">${q.label}</td>
+        <td style="padding:8px 20px;font-size:12px;font-weight:600;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
+        <td style="padding:8px 20px;font-size:12px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
+        <td style="padding:8px 20px;font-size:12px;color:#f87171;max-width:180px">${q.missed||'—'}</td>
+      </tr>`;
+    }).join('');
+
+    return `
+      <tr style="border-bottom:1px solid var(--border);background:var(--bg2)">
+        <td style="padding:11px 20px;font-size:13px;font-weight:700;color:var(--text)">Question ${num}</td>
+        <td style="padding:11px 20px;font-size:14px;font-weight:700;color:${gc};white-space:nowrap">${groupScore}/${groupMax}</td>
+        <td style="padding:11px 20px;font-size:12px;color:var(--text3)" colspan="2">${gpct}%</td>
+      </tr>
+      ${subRows}`;
+  }).join('');
+
   document.getElementById('fp-results').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
@@ -5477,16 +5511,7 @@ function showFPResults(r) {
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Feedback</th>
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Missed</th>
           </tr>
-          ${(r.questions||[]).map(q => {
-            const qpct = Math.round((q.score/q.max)*100);
-            const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
-            return `<tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:10px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
-              <td style="padding:10px 20px;font-size:13px;font-weight:700;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
-              <td style="padding:10px 20px;font-size:13px;color:var(--text2);max-width:260px">${q.feedback||''}</td>
-              <td style="padding:10px 20px;font-size:13px;color:#f87171;max-width:180px">${q.missed||'—'}</td>
-            </tr>`;
-          }).join('')}
+          ${tableRows}
         </table>
       </div>
     </div>`;
@@ -5686,6 +5711,41 @@ function showFPResultsP2(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
   const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
 
+  // Group by question number
+  const groups = {};
+  (r.questions||[]).forEach(q => {
+    const num = q.label ? q.label[0] : '?';
+    if (!groups[num]) groups[num] = [];
+    groups[num].push(q);
+  });
+
+  const tableRows = Object.entries(groups).map(([num, qs]) => {
+    const groupScore = qs.reduce((s,q) => s + (q.score||0), 0);
+    const groupMax = qs.reduce((s,q) => s + (q.max||0), 0);
+    const gpct = Math.round((groupScore/groupMax)*100);
+    const gc = gpct>=75?'#4ade80':gpct>=50?'#fbbf24':'#f87171';
+
+    const subRows = qs.map(q => {
+      const qpct = Math.round((q.score/q.max)*100);
+      const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
+      return `<tr style="border-bottom:1px solid var(--border);background:var(--bg3)">
+        <td style="padding:8px 20px 8px 36px;font-size:12px;color:var(--text2)">${q.label}</td>
+        <td style="padding:8px 20px;font-size:12px;font-weight:600;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
+        <td style="padding:8px 20px;font-size:12px;color:var(--text3)">${q.level||'—'}</td>
+        <td style="padding:8px 20px;font-size:12px;color:var(--text2);max-width:240px">${q.feedback||''}</td>
+        <td style="padding:8px 20px;font-size:12px;color:#f87171;max-width:160px">${q.missed||'—'}</td>
+      </tr>`;
+    }).join('');
+
+    return `
+      <tr style="border-bottom:1px solid var(--border);background:var(--bg2)">
+        <td style="padding:11px 20px;font-size:13px;font-weight:700;color:var(--text)">Question ${num}</td>
+        <td style="padding:11px 20px;font-size:14px;font-weight:700;color:${gc};white-space:nowrap">${groupScore}/${groupMax}</td>
+        <td style="padding:11px 20px;font-size:12px;color:var(--text3)" colspan="3">${gpct}%</td>
+      </tr>
+      ${subRows}`;
+  }).join('');
+
   document.getElementById('fp2-results').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:14px;animation:fadeUp .3s ease">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px">
@@ -5713,17 +5773,7 @@ function showFPResultsP2(r) {
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Feedback</th>
             <th style="padding:10px 20px;text-align:left;font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Missed</th>
           </tr>
-          ${(r.questions||[]).map(q => {
-            const qpct = Math.round((q.score/q.max)*100);
-            const qc = qpct>=75?'#4ade80':qpct>=50?'#fbbf24':'#f87171';
-            return `<tr style="border-bottom:1px solid var(--border)">
-              <td style="padding:10px 20px;font-size:13px;font-weight:600;color:var(--text)">${q.label}</td>
-              <td style="padding:10px 20px;font-size:13px;font-weight:700;color:${qc};white-space:nowrap">${q.score}/${q.max}</td>
-              <td style="padding:10px 20px;font-size:12px;color:var(--text3)">${q.level || '—'}</td>
-              <td style="padding:10px 20px;font-size:13px;color:var(--text2);max-width:240px">${q.feedback||''}</td>
-              <td style="padding:10px 20px;font-size:13px;color:#f87171;max-width:160px">${q.missed||'—'}</td>
-            </tr>`;
-          }).join('')}
+          ${tableRows}
         </table>
       </div>
     </div>`;
