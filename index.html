@@ -1319,12 +1319,15 @@ function resetNavLinks() {
 }
 
 function showHome() {
-  document.getElementById('markerPage').style.display = 'none';
-  document.getElementById('pastPapersPage').style.display = 'none';
-  document.getElementById('notesPage').style.display = 'none';
-  document.getElementById('dashPage').style.display = 'none';
-  document.getElementById('fullPaperPage').style.display = 'none';
-  document.querySelector('.hero').style.display = '';
+  ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  const hero = document.querySelector('.hero');
+  hero.style.display = '';
+  hero.style.animation = 'none';
+  hero.offsetHeight;
+  hero.style.animation = 'pageSlideIn 0.3s ease';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = '');
   document.querySelector('footer').style.display = '';
   resetNavLinks();
@@ -1741,20 +1744,23 @@ const PAST_PAPERS = [
 ];
 
 function showPastPapers() {
-  document.getElementById('pastPapersPage').style.display = 'block';
-  document.getElementById('markerPage').style.display = 'none';
+  ['markerPage','fullPaperPage','dashPage','notesPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
-  document.getElementById('navMarker').style.color = 'var(--text2)';
-  document.getElementById('navMarker').style.fontWeight = '500';
+  const pp = document.getElementById('pastPapersPage');
+  pp.style.display = 'block';
+  pp.style.animation = 'none';
+  pp.offsetHeight;
+  pp.style.animation = 'pageSlideIn 0.25s ease';
+  resetNavLinks();
   document.getElementById('navPapers').style.color = '#60a5fa';
   document.getElementById('navPapers').style.fontWeight = '600';
   window.scrollTo(0,0);
   document.title = 'Past Papers — BusinessGPT';
-  resetNavLinks();
-  document.getElementById('navPapers').style.color = '#60a5fa';
-  document.getElementById('navPapers').style.fontWeight = '600';
   filterPP(ppFilter);
 }
 
@@ -2490,14 +2496,18 @@ const NOTES = {
   }
 };
 function showNotes() {
-  document.getElementById('notesPage').style.display = 'block';
-  document.getElementById('markerPage').style.display = 'none';
-  document.getElementById('pastPapersPage').style.display = 'none';
-  document.getElementById('fullPaperPage').style.display = 'none';
-  document.getElementById('dashPage').style.display = 'none';
+  ['markerPage','pastPapersPage','fullPaperPage','dashPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
   document.querySelector('.hero').style.display = 'none';
   document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
   document.querySelector('footer').style.display = 'none';
+  const np = document.getElementById('notesPage');
+  np.style.display = 'block';
+  np.style.animation = 'none';
+  np.offsetHeight;
+  np.style.animation = 'pageSlideIn 0.25s ease';
   resetNavLinks();
   if(document.getElementById('navNotes')){document.getElementById('navNotes').style.color='#60a5fa';document.getElementById('navNotes').style.fontWeight='600';}
   window.scrollTo(0,0);
