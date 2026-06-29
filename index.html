@@ -5353,17 +5353,9 @@ async function markFullPaper() {
     return { ...q, answer: ans };
   });
 
-  // Split into 4 batches of 5 questions each, run in parallel
-  function buildBatchPrompt(batch) {
-    const qList = batch.map(q =>
-      q.q + ' [' + q.marks + ' marks]: ' + q.text +
-      '\nContext: ' + q.context +
-      '\nMark scheme: ' + q.ms +
-      '\nStudent answer: ' + (q.answer || '(no answer provided)')
-    ).join('\n\n---\n\n');
-
+  function buildSinglePrompt(q) {
     return [
-      'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark each question strictly using its mark scheme and the following rules:',
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark this ONE question strictly using the mark scheme and rules below.',
       '',
       'PART A (2 marks): Award full marks if all main points are present. Award 1 mark if partially correct. For definitions, meaning must be clear but need not be word-for-word from the coursebook.',
       '',
@@ -5386,17 +5378,18 @@ async function markFullPaper() {
       '  - Evaluation MUST cover BOTH sides (advantages AND disadvantages / strengths AND weaknesses).',
       '  - Without a clear balanced evaluative conclusion, cap at 4/6.',
       '',
-      'Questions to mark:',
+      'Question: ' + q.q + ' [' + q.marks + ' marks]: ' + q.text,
+      'Context: ' + q.context,
+      'Mark scheme: ' + q.ms,
+      'Student answer: ' + (q.answer || '(no answer provided)'),
       '',
-      qList,
-      '',
-      'Respond ONLY with valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"feedback":"...","missed":"..."}]'
+      'Respond ONLY with valid JSON, no markdown, no extra text:',
+      '{"label":"' + q.q + '","score":0,"max":' + q.marks + ',"feedback":"...","missed":"..."}'
     ].join('\n');
   }
 
-  async function markBatch(batch) {
-    const prompt = buildBatchPrompt(batch);
+  async function markSingle(q) {
+    const prompt = buildSinglePrompt(q);
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5411,14 +5404,25 @@ async function markFullPaper() {
   }
 
   try {
-    const batchSize = 5;
-    const batches = [];
-    for (let i = 0; i < answers.length; i += batchSize) {
-      batches.push(answers.slice(i, i + batchSize));
-    }
+    const allQuestions = [];
+    let marked = 0;
 
-    const batchResults = await Promise.all(batches.map(b => markBatch(b)));
-    const allQuestions = batchResults.flat();
+    const groupSize = 3;
+    for (let i = 0; i < answers.length; i += groupSize) {
+      const group = answers.slice(i, i + groupSize);
+      const results = await Promise.all(group.map(q => markSingle(q)));
+      allQuestions.push(...results);
+      marked += group.length;
+
+      document.getElementById('fp-results').innerHTML = `
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
+          <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px">Marking question ${Math.min(marked, answers.length)} of ${answers.length}…</div>
+          <div style="background:var(--bg3);border-radius:8px;height:8px;overflow:hidden;max-width:300px;margin:0 auto">
+            <div style="height:100%;background:var(--blue-500);border-radius:8px;width:${Math.round((marked/answers.length)*100)}%;transition:width .3s ease"></div>
+          </div>
+          <div style="font-size:13px;color:var(--text3);margin-top:10px">Please don't close this tab</div>
+        </div>`;
+    }
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
     const pct = Math.round((totalScore/totalMax)*100);
@@ -5428,7 +5432,7 @@ async function markFullPaper() {
       total_score: totalScore,
       total_max: totalMax,
       grade,
-      overall_comment: 'Marked across all 20 questions.',
+      overall_comment: 'Marked individually across all 20 questions for maximum accuracy.',
       questions: allQuestions
     };
 
@@ -5575,64 +5579,58 @@ async function markFullPaperP2() {
     return { ...q, answer: ans };
   });
 
-  function buildP2BatchPrompt(batch) {
-    const qList = batch.map(q => {
-      const isB = q.part === 'b';
-      return [
-        q.q + ' [' + q.marks + ' marks — ' + (isB ? 'EVALUATE/JUSTIFY levels-based' : 'EXPLAIN point-based') + ']:',
-        q.text,
-        'Context: ' + q.context,
-        'Mark scheme: ' + q.ms,
-        'Student answer: ' + (q.answer || '(no answer provided)')
-      ].join('\n');
-    }).join('\n\n---\n\n');
-
+  function buildP2SinglePrompt(q) {
+    const isB = q.part === 'b';
     return [
-      'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark each question strictly and consistently.',
+      'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark this ONE question strictly.',
       '',
       'CASE STUDY CONTEXT (refer to this for application marks):',
       caseStudy,
       '',
-      'MARKING RULES FOR (a) QUESTIONS [8 marks — point-based]:',
-      '- Award marks only for clear knowledge (k), explanation (exp), and application (app) as per mark scheme.',
-      '- Do not award marks for vague, unsupported, or repeated points.',
-      '- Maximum 8 marks total.',
+      isB ? [
+        'MARKING RULES [12 marks — levels-based]:',
+        'You MUST use these exact level definitions. Do not deviate:',
+        '',
+        'LEVEL 1 (1-4 marks):',
+        '- Limited knowledge with little or no explanation.',
+        '- Only one option discussed OR both options just identified with no development.',
+        '- No justified conclusion, or conclusion with no reasoning.',
+        '- Award 3-4 if both options are at least outlined in context.',
+        '',
+        'LEVEL 2 (5-8 marks):',
+        '- At least one option discussed in detail with explanation AND application to context.',
+        '- Some attempt at evaluation/judgement but conclusion is weak or only partially justified.',
+        '- Award 7-8 if two or more options discussed in detail with context and some justification.',
+        '- HARD RULE: If there is NO justified conclusion at all, maximum score is 8.',
+        '',
+        'LEVEL 3 (9-12 marks):',
+        '- REQUIRES: detailed discussion of TWO OR MORE options with context AND a well-justified conclusion that explicitly states why the chosen option is better than the alternative.',
+        '- Award 9-10 if two options discussed in detail with justified conclusion but alternative not explicitly rejected.',
+        '- Award 11-12 ONLY if all options discussed thoroughly in context AND conclusion explicitly rejects alternatives with clear reasoning.',
+        '- HARD RULE: If the conclusion does not explain why the alternative was rejected, maximum is 10.',
+        '- HARD RULE: If only one option is discussed in detail, maximum is 8 (Level 2).',
+        '',
+        'CONSISTENCY RULE: For borderline responses, always round DOWN. Do not give benefit of the doubt.'
+      ].join('\n') : [
+        'MARKING RULES [8 marks — point-based]:',
+        '- Award marks only for clear knowledge (k), explanation (exp), and application (app) as per mark scheme.',
+        '- Do not award marks for vague, unsupported, or repeated points.',
+        '- Maximum 8 marks total.'
+      ].join('\n'),
       '',
-      'MARKING RULES FOR (b) QUESTIONS [12 marks — levels-based]:',
-      'You MUST use these exact level definitions. Do not deviate:',
+      'Question: ' + q.q + ' [' + q.marks + ' marks — ' + (isB ? 'EVALUATE/JUSTIFY levels-based' : 'EXPLAIN point-based') + ']:',
+      q.text,
+      'Context: ' + q.context,
+      'Mark scheme: ' + q.ms,
+      'Student answer: ' + (q.answer || '(no answer provided)'),
       '',
-      'LEVEL 1 (1-4 marks):',
-      '- Limited knowledge with little or no explanation.',
-      '- Only one option discussed OR both options just identified with no development.',
-      '- No justified conclusion, or conclusion with no reasoning.',
-      '- Award 3-4 if both options are at least outlined in context.',
-      '',
-      'LEVEL 2 (5-8 marks):',
-      '- At least one option discussed in detail with explanation AND application to context.',
-      '- Some attempt at evaluation/judgement but conclusion is weak or only partially justified.',
-      '- Award 7-8 if two or more options discussed in detail with context and some justification.',
-      '- HARD RULE: If there is NO justified conclusion at all, maximum score is 8.',
-      '',
-      'LEVEL 3 (9-12 marks):',
-      '- REQUIRES: detailed discussion of TWO OR MORE options with context AND a well-justified conclusion that explicitly states why the chosen option is better than the alternative.',
-      '- Award 9-10 if two options discussed in detail with justified conclusion but alternative not explicitly rejected.',
-      '- Award 11-12 ONLY if all options discussed thoroughly in context AND conclusion explicitly rejects alternatives with clear reasoning.',
-      '- HARD RULE: If the conclusion does not explain why the alternative was rejected, maximum is 10.',
-      '- HARD RULE: If only one option is discussed in detail, maximum is 8 (Level 2).',
-      '',
-      'CONSISTENCY RULE: For borderline responses, always round DOWN to the lower mark. Do not give benefit of the doubt.',
-      '',
-      'QUESTIONS TO MARK:',
-      qList,
-      '',
-      'Respond ONLY with a valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"one sentence explaining the level/score awarded","missed":"key point missed or null"}]',
-      'For (b) questions include level awarded (e.g. "level":"L2 — 7/12"). For (a) questions set level to null.'
+      'Respond ONLY with valid JSON, no markdown, no extra text:',
+      '{"label":"' + q.q + '","score":0,"max":' + q.marks + ',"level":' + (isB ? '"L?"' : 'null') + ',"feedback":"one sentence explaining score","missed":"key point missed or null"}'
     ].join('\n');
   }
 
-  async function markP2Batch(batch) {
-    const prompt = buildP2BatchPrompt(batch);
+  async function markP2Single(q) {
+    const prompt = buildP2SinglePrompt(q);
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -5647,15 +5645,26 @@ async function markFullPaperP2() {
   }
 
   try {
-    // Split into batches of 4 (smaller batches because (b) answers are long)
-    const batchSize = 4;
-    const batches = [];
-    for (let i = 0; i < answers.length; i += batchSize) {
-      batches.push(answers.slice(i, i + batchSize));
-    }
+    const allQuestions = [];
+    let marked = 0;
 
-    const batchResults = await Promise.all(batches.map(b => markP2Batch(b)));
-    const allQuestions = batchResults.flat();
+    // Mark in groups of 2 (P2 answers are long so smaller groups)
+    const groupSize = 2;
+    for (let i = 0; i < answers.length; i += groupSize) {
+      const group = answers.slice(i, i + groupSize);
+      const results = await Promise.all(group.map(q => markP2Single(q)));
+      allQuestions.push(...results);
+      marked += group.length;
+
+      document.getElementById('fp2-results').innerHTML = `
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center">
+          <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px">Marking question ${Math.min(marked, answers.length)} of ${answers.length}…</div>
+          <div style="background:var(--bg3);border-radius:8px;height:8px;overflow:hidden;max-width:300px;margin:0 auto">
+            <div style="height:100%;background:var(--blue-500);border-radius:8px;width:${Math.round((marked/answers.length)*100)}%;transition:width .3s ease"></div>
+          </div>
+          <div style="font-size:13px;color:var(--text3);margin-top:10px">Please don't close this tab</div>
+        </div>`;
+    }
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
     const pct = Math.round((totalScore/totalMax)*100);
@@ -5663,7 +5672,7 @@ async function markFullPaperP2() {
 
     const r = { total_score: totalScore, total_max: totalMax, grade, questions: allQuestions };
     showFPResultsP2(r);
-    saveMarking(2, currentFPPaper2.label, r.total_score, r.total_max, 'Paper 2 full paper marked.');
+    saveMarking(2, currentFPPaper2.label, r.total_score, r.total_max, 'Paper 2 full paper marked individually for maximum accuracy.');
   } catch(e) {
     document.getElementById('fp2-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed — ' + (e.message || 'Unknown error') + '</div>';
     console.error('Paper 2 marking error:', e);
