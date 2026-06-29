@@ -46,36 +46,66 @@ body {
 
 /* ─── Dark Mode ─────────────────────────────────────── */
 [data-theme="dark"] {
-  --bg:       #0a0f1e;
-  --bg2:      #111827;
-  --bg3:      #1a2236;
-  --border:   rgba(99,130,246,0.15);
-  --border2:  rgba(99,130,246,0.35);
-  --text:     #f1f5f9;
-  --text2:    #94a3b8;
-  --text3:    #64748b;
+  --bg:       #13151a;
+  --bg2:      #1c1f26;
+  --bg3:      #22262f;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.16);
+  --text:     #f0f2f5;
+  --text2:    #b0b8c8;
+  --text3:    #6b7a94;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
   color-scheme: dark;
 }
-[data-theme="dark"] body { background: #0a0f1e; }
-[data-theme="dark"] nav { background: rgba(10,15,30,0.92); border-bottom: 1px solid rgba(99,130,246,0.12); }
-[data-theme="dark"] .hero { background: transparent; }
+[data-theme="dark"] body { background: #13151a; color: #f0f2f5; }
+[data-theme="dark"] nav { background: rgba(19,21,26,0.95); border-bottom: 1px solid rgba(255,255,255,0.08); }
+[data-theme="dark"] .hero h1 { color: #f0f2f5; }
+[data-theme="dark"] .hero-sub { color: #b0b8c8; }
+[data-theme="dark"] .hero-badge { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.3); color: #93c5fd; }
+[data-theme="dark"] .hero-badge-dot { background: #60a5fa; }
 [data-theme="dark"] .feature-card,
 [data-theme="dark"] .paper-card,
 [data-theme="dark"] .step,
-[data-theme="dark"] .topic-card,
-[data-theme="dark"] .faq-item { background: #111827; border-color: rgba(99,130,246,0.15); }
-[data-theme="dark"] .stat-card { background: rgba(17,24,39,0.8); border-color: rgba(99,130,246,0.2); }
-[data-theme="dark"] .hero-badge { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.3); }
+[data-theme="dark"] .topic-card { background: #1c1f26; border-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .feature-card h3,
+[data-theme="dark"] .paper-card h3,
+[data-theme="dark"] .step h3,
+[data-theme="dark"] .topic-name { color: #f0f2f5; }
+[data-theme="dark"] .feature-card p,
+[data-theme="dark"] .paper-card p,
+[data-theme="dark"] .step p,
+[data-theme="dark"] .topic-sub { color: #b0b8c8; }
+[data-theme="dark"] .stat-card { background: #1c1f26; border-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .stat-num { color: #f0f2f5; }
+[data-theme="dark"] .stat-label { color: #b0b8c8; }
+[data-theme="dark"] .section-title { color: #f0f2f5; }
+[data-theme="dark"] .section-sub { color: #b0b8c8; }
+[data-theme="dark"] .section-label { color: #60a5fa; }
 [data-theme="dark"] textarea,
 [data-theme="dark"] select,
-[data-theme="dark"] input { background: #1a2236 !important; color: #f1f5f9 !important; border-color: rgba(99,130,246,0.2) !important; }
-[data-theme="dark"] .mark-tool-inner { background: #111827; border-color: rgba(99,130,246,0.15); }
+[data-theme="dark"] input { background: #22262f !important; color: #f0f2f5 !important; border-color: rgba(255,255,255,0.1) !important; }
+[data-theme="dark"] .mark-tool-inner { background: #1c1f26; border-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .mark-tool-inner label { color: #b0b8c8; }
 [data-theme="dark"] #dashPage,
 [data-theme="dark"] #markerPage,
 [data-theme="dark"] #pastPapersPage,
 [data-theme="dark"] #notesPage,
-[data-theme="dark"] #fullPaperPage { background: #0a0f1e; }
-[data-theme="dark"] .sk { background: linear-gradient(90deg,#1e293b 25%,#2a3a52 50%,#1e293b 75%); background-size:600px 100%; }
+[data-theme="dark"] #fullPaperPage { background: #13151a; }
+[data-theme="dark"] .sk { background: linear-gradient(90deg,#22262f 25%,#2a2f3a 50%,#22262f 75%); background-size:600px 100%; }
+[data-theme="dark"] .glass-card { background: rgba(28,31,38,0.9); border-color: rgba(255,255,255,0.1); }
+[data-theme="dark"] .nav-links a { color: #b0b8c8; }
+[data-theme="dark"] .nav-links a:hover { color: #f0f2f5; background: rgba(255,255,255,0.06); }
+[data-theme="dark"] .logo-name { color: #f0f2f5; }
+[data-theme="dark"] .btn-ghost { border-color: rgba(255,255,255,0.15); color: #b0b8c8; }
+[data-theme="dark"] .btn-ghost:hover { background: rgba(255,255,255,0.06); color: #f0f2f5; }
+[data-theme="dark"] .topic-num { color: #60a5fa; }
+[data-theme="dark"] .step-num { color: #60a5fa; }
+[data-theme="dark"] .paper-label { color: #60a5fa; }
+[data-theme="dark"] .paper-meta-row { color: #b0b8c8; }
+[data-theme="dark"] .paper-btn { background: rgba(59,130,246,0.15); color: #93c5fd; border-color: rgba(59,130,246,0.25); }
+[data-theme="dark"] .paper-btn:hover { background: rgba(59,130,246,0.25); }
+[data-theme="dark"] .hero-blob { opacity: 0.08; }
 
 /* ─── Animations ────────────────────────────────────── */
 @keyframes heroFadeUp {
