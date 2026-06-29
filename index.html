@@ -808,7 +808,7 @@ footer {
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
-      <li><a href="#faq" onclick="showHome()">FAQ</a></li>
+      
     </ul>
     <div style="display:flex;align-items:center;gap:10px">
       <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
@@ -1129,57 +1129,7 @@ footer {
   </div>
 </div>
 
-<!-- FAQ -->
-<section class="section" id="faq" style="padding-top:0">
-  <div class="container" style="text-align:center">
-    <div class="section-label">FAQ</div>
-    <div class="section-title">Common questions</div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          How accurate is the AI marking compared to Cambridge examiners?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">Our AI is trained on Cambridge 0450 mark schemes across multiple exam sessions. For knowledge-based questions (define, state, explain), accuracy is very high. For higher-level questions (analyse, evaluate), the AI applies Cambridge's level-descriptor approach. We recommend using the feedback alongside your teacher's guidance.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          Which syllabus does this cover?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">BusinessGPT is designed for Cambridge IGCSE Business Studies (syllabus code 0450). This covers both Paper 1 (short answer) and Paper 2 (case study). We also plan to expand to Cambridge O Level Business Studies (7115) soon.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          Can I use this to practice past paper questions?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">Yes! The questions in the tool are styled to match Cambridge past papers. You can type any answer — including answers to actual past paper questions you're practising — and the AI will mark them according to Cambridge's marking criteria.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          Is BusinessGPT free to use?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">BusinessGPT is completely free to use — but you need to create an account first. Sign up takes less than a minute and gives you full access to the AI marker, past papers, and all features. No subscription, no credit card required.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          Does this replace my teacher or tutor?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">BusinessGPT is a study tool designed to supplement your learning, not replace your teacher. It gives you instant practice feedback so you can improve between lessons, get more marking repetitions, and target weak areas with your teacher's guidance.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
-          Are the past papers on BusinessGPT accurate?
-          <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
-        <div class="faq-a">Yes — don't worry about accuracy. All past papers and mark schemes on BusinessGPT are sourced directly from <a href="https://bestexamhelp.com" target="_blank" style="color:var(--blue-400);text-decoration:none">BestExamHelp.com</a>, which hosts official Cambridge IGCSE past papers. Every question and mark scheme is taken straight from the real papers, so you can trust what you're practising with.</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- PAST PAPERS PAGE -->
 <div id="pastPapersPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:80px">
@@ -1458,7 +1408,6 @@ footer {
       </div>
       <div class="footer-col">
         <h4>Info</h4>
-        <a href="#faq">FAQ</a>
         <a href="#">Privacy policy</a>
         <a href="#">Terms of use</a>
         <a href="#">Contact</a>
@@ -6230,6 +6179,7 @@ function doNavSignOut() {
 }
 </script>
 
+<script>
 // ── Dark Mode ──────────────────────────────────────────────────────────────
 function toggleDark() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -6336,6 +6286,6 @@ document.querySelectorAll('.feature-card, .step, .paper-card, .topic-card').forE
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
 });
-
+</script>
 </body>
 </html>
