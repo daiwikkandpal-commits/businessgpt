@@ -7,7 +7,7 @@
 <meta name="description" content="Master Cambridge IGCSE Business Studies (0450) with AI-powered instant marking, Cambridge mark scheme feedback, and personalised study tools." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet" />
 <style>
 /* ─── Reset ────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1144,7 +1144,7 @@ footer {
     <!-- Answer -->
     <div style="display:flex;flex-direction:column;gap:7px">
       <label style="font-size:13px;font-weight:500;color:var(--text2)">Your answer</label>
-      <textarea id="m-ans" rows="7" placeholder="Write your answer here..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      <textarea id="m-ans" style="font-family:'Kalam',cursive;font-size:15px;line-height:1.7" rows="7" placeholder="Write your answer here..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
 
     <!-- Submit -->
@@ -5545,7 +5545,7 @@ function loadFPPaper() {
             <span style="font-size:13px;color:var(--text);flex:1">${q.text}</span>
             <span style="font-size:11px;color:var(--text3);white-space:nowrap">[${q.marks} marks]</span>
           </div>
-          <textarea id="fpans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.marks <= 2 ? 2 : q.marks <= 4 ? 3 : 5}" placeholder="Your answer for ${q.q}..." style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <textarea id="fpans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.marks <= 2 ? 2 : q.marks <= 4 ? 3 : 5}" placeholder="Your answer for ${q.q}..." style="font-family:'Kalam',cursive;font-size:15px" style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
         </div>
       `).join('')}
     </div>
@@ -5781,7 +5781,7 @@ function loadFPPaper2() {
             <span style="font-size:13px;color:var(--text);flex:1;white-space:pre-line">${q.text}</span>
             <span style="font-size:11px;color:var(--text3);white-space:nowrap">[${q.marks} marks]</span>
           </div>
-          <textarea id="fp2ans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.part === 'b' ? 10 : 5}" placeholder="${q.part === 'b' ? 'Write a detailed evaluate/justify answer — discuss all options, weigh them up, and give a justified conclusion...' : 'Your answer for ' + q.q + '...'}" style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <textarea id="fp2ans-${q.q.replace(/[^a-z0-9]/gi,'_')}" rows="${q.part === 'b' ? 10 : 5}" style="font-family:'Kalam',cursive;font-size:15px" placeholder="${q.part === 'b' ? 'Write a detailed evaluate/justify answer — discuss all options, weigh them up, and give a justified conclusion...' : 'Your answer for ' + q.q + '...'}" style="width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s;box-sizing:border-box" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
         </div>
       `).join('')}
     </div>
