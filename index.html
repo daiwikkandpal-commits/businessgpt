@@ -1548,6 +1548,10 @@ function setMP(p) {
 }
 
 async function runMark() {
+  if (!_supabase || !(await _supabase.auth.getSession()).data.session) {
+    showAuthWall();
+    return;
+  }
   const question   = document.getElementById('m-q').value.trim();
   const context    = document.getElementById('m-ctx').value.trim();
   const markscheme = document.getElementById('m-ms').value.trim();
@@ -1612,18 +1616,60 @@ EVALUATION RULES (2 marks):
   }[currentPart] || '' : '';
 
   const p2Guidance = currentP2Part === 'a'
-    ? `This is a Paper 2 Part A question worth 8 marks. It is always an ANALYSE question.
-Apply Cambridge IGCSE Business Studies 0450 level-mark scheme:
-- Level 1 (1-2 marks): Identifies basic points with little or no development. No clear link to the business context.
-- Level 2 (3-5 marks): Explains points with some development. Some reference to the business context but may be superficial.
-- Level 3 (6-8 marks): Thorough, well-developed analysis. Clear and consistent links to the case study context throughout. Multiple well-explained points.
-Award the mark at the top of the level if the response is strong for that level. The student must reference the business context to access Level 3.`
-    : `This is a Paper 2 Part B question worth 12 marks. It is always an EVALUATE and JUSTIFY question.
-Apply Cambridge IGCSE Business Studies 0450 level-mark scheme:
-- Level 1 (1-3 marks): Basic points with no evaluation or judgement. One-sided or undeveloped.
-- Level 2 (4-6 marks): Developed arguments showing some understanding. Limited evaluation. May be one-sided.
-- Level 3 (7-9 marks): Both sides of the argument considered with some development. Attempt at evaluation but conclusion may be weak or not fully justified.
-- Level 4 (10-12 marks): Balanced, well-developed evaluation of both sides. Clear, justified conclusion/recommendation tied to the specific business context. CRITICAL: Student MUST make a clear final recommendation to access Level 4. Without a justified conclusion, cap at Level 3 maximum (9 marks).`;
+    ? `This is a Cambridge IGCSE Business Studies 0450 Paper 2 Part A question worth 8 marks. It is a point-based ANALYSE question. There are NO evaluation marks — justification is NOT required.
+
+8-MARK QUESTION TYPES — identify which applies from the question:
+
+TYPE 1: Two separate points linked to the case study (application required).
+- Each point: 1 Knowledge + 2 Analysis (AN1 + AN2) + 1 Application = 4 marks each
+- The 2 analysis marks are the most important. AN1 and AN2 must be deeply developed as cause and effect — if not well developed, only award 1 analysis mark for that point.
+- Analysis must be directly linked to the knowledge — do not award analysis if it is unrelated to the knowledge point.
+- Application must reference the specific business context from the case study.
+Example structure: Knowledge (take out bank loan) → Application (business wants to buy new machine) → AN1 (machine could increase production capacity) → AN2 (business can meet higher demand, leading to increased sales and higher profits).
+
+TYPE 2: Four separate points, 2 marks each.
+- 1 mark for Knowledge + 1 mark for Analysis per point.
+- Analysis must show cause and effect. Do not award analysis mark if underdeveloped.
+
+TYPE 3: Four separate points, 2 marks each.
+- 1 mark for Knowledge + 1 mark for Application per point.
+- Application must specifically reference the case study business context.
+
+CRITICAL RULES FOR ALL 8-MARK QUESTIONS:
+- No evaluation marks — do not reward justification or conclusions.
+- Analysis must be deeply developed cause and effect — do not award analysis for vague statements.
+- Knowledge and analysis must be logically linked — analysis that contradicts or is unrelated to the knowledge gets 0 for analysis.
+- If analysis is present but not well developed, award only 1 analysis mark instead of 2.`
+
+    : `This is a Cambridge IGCSE Business Studies 0450 Paper 2 Part B question worth 12 marks. It is a levels-based EVALUATE and JUSTIFY question.
+
+LEVEL DESCRIPTORS (apply strictly):
+
+LEVEL 1 (1-4 marks):
+- Limited knowledge and understanding with little or no explanation.
+- Only one option discussed OR both options just identified with no development.
+- No justified conclusion, or conclusion with no reasoning.
+- Award 3-4 if both options are at least outlined in context.
+
+LEVEL 2 (5-8 marks):
+- At least one option discussed in detail with explanation AND application to the case study context.
+- Some attempt at evaluation/judgement but conclusion is weak or only partially justified.
+- Award 7-8 if two or more options discussed in detail with context and some justification.
+- HARD RULE: If there is NO justified conclusion at all, maximum score is 8.
+
+LEVEL 3 (9-12 marks):
+- REQUIRES: detailed discussion of TWO OR MORE options with case study context AND a well-justified conclusion that explicitly states why the chosen option is better than the alternative.
+- Award 9-10 if two options discussed in detail with justified conclusion but alternative not explicitly rejected.
+- Award 11-12 ONLY if all options discussed thoroughly in context AND conclusion explicitly rejects alternatives with clear reasoning.
+- HARD RULE: If the conclusion does not explain why the alternative was rejected, maximum is 10.
+- HARD RULE: If only one option is discussed in detail, maximum is 8 (Level 2).
+
+CRITICAL RULES FOR 12-MARK QUESTIONS:
+- You can ONLY award 9-12 if the evaluation is very strong. Even if knowledge and analysis are excellent, if evaluation is weak, cap at 8.
+- 12-mark answers do NOT follow a rigid structure — the entire response should be well-developed and make sense with the case study. Do not penalise for not following a specific format.
+- Application in the evaluation section is VERY IMPORTANT — the recommendation must be tied to the specific business context, not generic.
+- The evaluation is the hardest part — ideas must be developed from the student's own reasoning using the case study. Do not award high evaluation marks for generic statements.
+- CONSISTENCY RULE: For borderline responses, always round DOWN. Do not give benefit of the doubt.`;
 
   const prompt = `You are an experienced Cambridge IGCSE Business Studies examiner marking a Paper ${markerPaper} answer.
 
@@ -5627,6 +5673,11 @@ function loadFPPaper() {
 }
 
 async function markFullPaper() {
+  if (!_supabase || !(await _supabase.auth.getSession()).data.session) {
+    showAuthWall();
+    return;
+  }
+
   if (!currentFPPaper) return;
 
   const btn = document.getElementById('fp-btn');
@@ -5864,6 +5915,11 @@ function loadFPPaper2() {
 }
 
 async function markFullPaperP2() {
+  if (!_supabase || !(await _supabase.auth.getSession()).data.session) {
+    showAuthWall();
+    return;
+  }
+
   if (!currentFPPaper2) return;
 
   const btn = document.getElementById('fp2-btn');
@@ -5921,34 +5977,40 @@ async function markFullPaperP2() {
       'CASE STUDY CONTEXT (refer to this for application marks):',
       caseStudy,
       '',
-      'MARKING RULES FOR (a) QUESTIONS [8 marks — point-based]:',
-      '- Award marks only for clear knowledge (k), explanation (exp), and application (app) as per mark scheme.',
-      '- Do not award marks for vague, unsupported, or repeated points.',
-      '- Maximum 8 marks total.',
+      '8-MARK QUESTION RULES (Part A — point-based, NO evaluation required):',
       '',
-      'MARKING RULES FOR (b) QUESTIONS [12 marks — levels-based]:',
-      'You MUST use these exact level definitions. Do not deviate:',
+      'TYPE 1 — Two points linked to case study (4 marks each):',
+      '- Each point: 1 Knowledge + 2 Analysis (AN1+AN2) + 1 Application',
+      '- AN1 and AN2 must be deeply developed cause and effect. If not well developed, award only 1 analysis mark.',
+      '- Analysis must be directly linked to knowledge — unrelated analysis = 0 for analysis.',
+      '- Application must reference the specific case study business.',
       '',
-      'LEVEL 1 (1-4 marks):',
-      '- Limited knowledge with little or no explanation.',
-      '- Only one option discussed OR both options just identified with no development.',
-      '- No justified conclusion, or conclusion with no reasoning.',
-      '- Award 3-4 if both options are at least outlined in context.',
+      'TYPE 2 — Four separate points, 2 marks each:',
+      '- 1 Knowledge + 1 Analysis per point. Analysis must show cause and effect.',
+      '- Do not award analysis mark if underdeveloped or vague.',
       '',
-      'LEVEL 2 (5-8 marks):',
-      '- At least one option discussed in detail with explanation AND application to context.',
-      '- Some attempt at evaluation/judgement but conclusion is weak or only partially justified.',
-      '- Award 7-8 if two or more options discussed in detail with context and some justification.',
-      '- HARD RULE: If there is NO justified conclusion at all, maximum score is 8.',
+      'TYPE 3 — Four separate points, 2 marks each:',
+      '- 1 Knowledge + 1 Application per point. Application must reference case study.',
       '',
-      'LEVEL 3 (9-12 marks):',
-      '- REQUIRES: detailed discussion of TWO OR MORE options with context AND a well-justified conclusion that explicitly states why the chosen option is better than the alternative.',
-      '- Award 9-10 if two options discussed in detail with justified conclusion but alternative not explicitly rejected.',
-      '- Award 11-12 ONLY if all options discussed thoroughly in context AND conclusion explicitly rejects alternatives with clear reasoning.',
-      '- HARD RULE: If the conclusion does not explain why the alternative was rejected, maximum is 10.',
-      '- HARD RULE: If only one option is discussed in detail, maximum is 8 (Level 2).',
+      'CRITICAL 8-MARK RULES:',
+      '- No evaluation marks — do not reward justification or conclusions.',
+      '- Analysis must be deeply developed — do not award for vague cause and effect.',
+      '- Knowledge and analysis must be logically linked.',
       '',
-      'CONSISTENCY RULE: For borderline responses, always round DOWN to the lower mark. Do not give benefit of the doubt.',
+      '12-MARK QUESTION RULES (Part B — levels-based, evaluation REQUIRED):',
+      '',
+      'LEVEL 1 (1-4 marks): Limited knowledge, little explanation. Only one option or both just identified. No justified conclusion. Award 3-4 if both options outlined in context.',
+      '',
+      'LEVEL 2 (5-8 marks): At least one option in detail with explanation AND application. Weak or partial conclusion. Award 7-8 if two options in detail with some justification. HARD RULE: No justified conclusion = maximum 8.',
+      '',
+      'LEVEL 3 (9-12 marks): Detailed discussion of TWO OR MORE options with context AND well-justified conclusion explaining why alternative rejected. Award 9-10 if justified conclusion but alternative not explicitly rejected. Award 11-12 ONLY if alternatives explicitly rejected with reasoning. HARD RULE: No explicit rejection of alternative = maximum 10. Only one option discussed in detail = maximum 8.',
+      '',
+      'CRITICAL 12-MARK RULES:',
+      '- You can ONLY award 9-12 if evaluation is very strong. Even with excellent knowledge/analysis, weak evaluation = cap at 8.',
+      '- Application in evaluation is VERY IMPORTANT — recommendation must be tied to specific case study context, not generic.',
+      '- 12-mark answers do NOT follow rigid structure — entire response should be well-developed and make sense with case study.',
+      '- The evaluation must be developed from student own reasoning using the case study. Generic evaluation statements = do not award high marks.',
+      '- CONSISTENCY RULE: For borderline responses, always round DOWN. Do not give benefit of the doubt.',
       '',
       'QUESTIONS TO MARK:',
       qList,
@@ -6391,6 +6453,32 @@ document.querySelectorAll('.feature-card, .step, .paper-card, .topic-card').forE
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
   observer.observe(el);
 });
+function showAuthWall() {
+  const overlay = document.createElement('div');
+  overlay.id = 'auth-wall';
+  overlay.style.cssText = `
+    position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    animation:fadeIn .2s ease;
+  `;
+  overlay.innerHTML = `
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:40px 36px;max-width:400px;width:90%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.3)">
+      <div style="width:56px;height:56px;background:rgba(59,130,246,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:24px">🔒</div>
+      <h2 style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:10px">Sign in to mark answers</h2>
+      <p style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:28px">Create a free account to start marking your IGCSE Business answers with AI-powered Cambridge feedback.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="auth.html?mode=signup" style="display:block;padding:12px;background:var(--blue-500);color:#fff;border-radius:10px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:background .15s" onmouseover="this.style.background='var(--blue-600)'" onmouseout="this.style.background='var(--blue-500)'">Create free account</a>
+        <a href="auth.html" style="display:block;padding:12px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:10px;font-family:'Sora',sans-serif;font-size:14px;font-weight:500;text-decoration:none">Sign in</a>
+      </div>
+      <button onclick="document.getElementById('auth-wall').remove()" style="margin-top:16px;background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Maybe later</button>
+    </div>
+  `;
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
 </script>
 </body>
 </html>
