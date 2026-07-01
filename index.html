@@ -1712,8 +1712,20 @@ Each array 1-3 items. Be specific and reference the student answer directly.`;
 
 function showMarkResult(r, maxMarks) {
   const pct = Math.round(r.score / maxMarks * 100);
-  const sc = pct>=75?{bg:'rgba(74,222,128,.12)',c:'#4ade80'}:pct>=50?{bg:'rgba(251,191,36,.12)',c:'#fbbf24'}:{bg:'rgba(248,113,113,.12)',c:'#f87171'};
-  const grade = pct>=90?'A*':pct>=80?'A':pct>=70?'B':pct>=60?'C':pct>=50?'D':'U';
+  // Individual questions aren't a full 80-mark paper, so no real per-question
+  // Cambridge boundary exists — scale the same generic A-G threshold table
+  // proportionally to this question's max marks, for a consistent scheme.
+  const scaled = {};
+  for (const g in GENERIC_GRADE_THRESHOLD) scaled[g] = GENERIC_GRADE_THRESHOLD[g] * maxMarks / 80;
+  let grade = 'U';
+  if (r.score >= scaled.A) grade = 'A';
+  else if (r.score >= scaled.B) grade = 'B';
+  else if (r.score >= scaled.C) grade = 'C';
+  else if (r.score >= scaled.D) grade = 'D';
+  else if (r.score >= scaled.E) grade = 'E';
+  else if (r.score >= scaled.F) grade = 'F';
+  else if (r.score >= scaled.G) grade = 'G';
+  const sc = gradeColor(grade);
   const rows = (arr,col) => (arr||[]).map(s=>`<div style="display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--text2);line-height:1.6;padding:3px 0"><div style="width:7px;height:7px;border-radius:50%;background:${col};flex-shrink:0;margin-top:5px"></div><span>${s}</span></div>`).join('');
   
   const ringCircIndiv = 283;
@@ -6071,6 +6083,69 @@ Cap at Level 2 without a justified conclusion.`
   }
 };
 
+// ── Real Cambridge IGCSE 0450 grade thresholds, per paper/component/series ──
+// Sourced from official Cambridge International grade threshold tables.
+// Note: Grade A* does not exist at individual component level per Cambridge's own
+// documentation — it only applies to the combined syllabus grade across both papers.
+const PAPER_GRADE_THRESHOLDS = {
+  // Paper 1 (component 11/12/13)
+  'w24_13': { A:44, B:34, C:23, D:19, E:15, F:12, G:9 },  // Nov 2024, comp 13
+  'w25_13': { A:44, B:34, C:23, D:19, E:15, F:12, G:9 },  // Nov 2025, comp 13
+  'w25_12': { A:48, B:38, C:27, D:22, E:17, F:13, G:9 },  // Nov 2025, comp 12
+  'w25_11': { A:45, B:36, C:27, D:22, E:17, F:13, G:9 },  // Nov 2025, comp 11
+  's25_11': { A:44, B:35, C:27, D:22, E:17, F:13, G:9 },  // June 2025, comp 11
+  'm25_12': { A:50, B:41, C:32, D:27, E:22, F:18, G:14 }, // March 2025, comp 12
+  's25_13': { A:45, B:36, C:28, D:23, E:19, F:14, G:9 },  // June 2025, comp 13
+  's25_12': { A:47, B:38, C:30, D:25, E:20, F:14, G:8 },  // June 2025, comp 12
+
+  // Paper 2 (component 21/22/23)
+  'p2_w25_23': { A:43, B:34, C:26, D:21, E:17, F:12, G:7 },  // Nov 2025, comp 23
+  'p2_w25_22': { A:39, B:32, C:25, D:20, E:16, F:12, G:8 },  // Nov 2025, comp 22
+  'p2_s25_23': { A:42, B:34, C:26, D:22, E:18, F:14, G:10 }, // June 2025, comp 23
+  'p2_w25_21': { A:36, B:27, C:19, D:16, E:14, F:11, G:8 },  // Nov 2025, comp 21
+  'p2_s25_21': { A:37, B:30, C:22, D:18, E:15, F:12, G:9 },  // June 2025, comp 21
+  'p2_s25_22': { A:42, B:34, C:26, D:22, E:18, F:14, G:10 }, // June 2025, comp 22
+  'p2_s24_21': { A:39, B:32, C:25, D:21, E:17, F:13, G:9 },  // June 2024, comp 21
+  'p2_w23_23': { A:44, B:35, C:26, D:22, E:18, F:15, G:12 }, // Nov 2023, comp 23
+  'p2_w23_21': { A:40, B:30, C:21, D:18, E:15, F:11, G:7 },  // Nov 2023, comp 21
+};
+
+// Generic fallback (rough average of real component thresholds) — used only if
+// a paper is marked that isn't in PAPER_GRADE_THRESHOLDS yet.
+const GENERIC_GRADE_THRESHOLD = { A:42, B:33, C:25, D:20, E:17, F:13, G:9 };
+
+// Look up a paper's specific threshold table by matching paper number + label
+// back to its key in PAST_PAPERS_DATA / PAST_PAPERS_DATA_P2.
+function findPaperKeyByLabel(paperNum, label) {
+  const dataSet = paperNum === 2 ? PAST_PAPERS_DATA_P2 : PAST_PAPERS_DATA;
+  for (const key in dataSet) {
+    if (dataSet[key].label === label) return key;
+  }
+  return null;
+}
+
+// Returns a real Cambridge grade letter (A/B/C/D/E/F/G/U) for a raw score out of 80
+// on a specific paper, or null if no threshold data exists for that specific paper.
+function getPaperGrade(paperNum, label, score) {
+  const key = findPaperKeyByLabel(paperNum, label);
+  const t = (key && PAPER_GRADE_THRESHOLDS[key]) || GENERIC_GRADE_THRESHOLD;
+  if (score >= t.A) return 'A';
+  if (score >= t.B) return 'B';
+  if (score >= t.C) return 'C';
+  if (score >= t.D) return 'D';
+  if (score >= t.E) return 'E';
+  if (score >= t.F) return 'F';
+  if (score >= t.G) return 'G';
+  return 'U';
+}
+
+// Colour styling for a real A–G/U grade (used in place of percentage banding)
+function gradeColor(grade) {
+  if (grade === 'A' || grade === 'B') return { c:'#4ade80', bg:'rgba(74,222,128,.12)' };
+  if (grade === 'C' || grade === 'D') return { c:'#fbbf24', bg:'rgba(251,191,36,.12)' };
+  return { c:'#f87171', bg:'rgba(248,113,113,.12)' };
+}
+
 function loadFPPaper() {
   const key = document.getElementById('fp-paper-select').value;
   const paper = PAST_PAPERS_DATA[key];
@@ -6214,8 +6289,7 @@ async function markFullPaper() {
     const allQuestions = batchResults.flat();
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
-    const pct = Math.round((totalScore/totalMax)*100);
-    const grade = pct>=90?'A*':pct>=75?'A':pct>=60?'B':pct>=45?'C':pct>=30?'D':'U';
+    const grade = getPaperGrade(1, currentFPPaper.label, totalScore);
 
     const r = {
       total_score: totalScore,
@@ -6238,7 +6312,7 @@ async function markFullPaper() {
 
 function showFPResults(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
-  const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
+  const sc = gradeColor(r.grade);
 
   // Confetti for good scores
   if (pct >= 75) launchConfetti();
@@ -6497,8 +6571,7 @@ async function markFullPaperP2() {
     const allQuestions = batchResults.flat();
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
-    const pct = Math.round((totalScore/totalMax)*100);
-    const grade = pct>=90?'A*':pct>=75?'A':pct>=60?'B':pct>=45?'C':pct>=30?'D':'U';
+    const grade = getPaperGrade(2, currentFPPaper2.label, totalScore);
 
     const r = { total_score: totalScore, total_max: totalMax, grade, questions: allQuestions };
     showFPResultsP2(r);
@@ -6514,7 +6587,7 @@ async function markFullPaperP2() {
 
 function showFPResultsP2(r) {
   const pct = Math.round((r.total_score / r.total_max) * 100);
-  const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.12)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.12)'}:{c:'#f87171',bg:'rgba(248,113,113,.12)'};
+  const sc = gradeColor(r.grade);
 
   if (pct >= 75) launchConfetti();
 
@@ -6740,8 +6813,8 @@ async function renderDash() {
       </tr>
       ${markings.slice(0,10).map(m => {
         const pct = m.percentage;
-        const sc = pct>=75?{c:'#4ade80',bg:'rgba(74,222,128,.1)'}:pct>=50?{c:'#fbbf24',bg:'rgba(251,191,36,.1)'}:{c:'#f87171',bg:'rgba(248,113,113,.1)'};
-        const grade = pct>=90?'A*':pct>=80?'A':pct>=70?'B':pct>=60?'C':pct>=50?'D':'U';
+        const grade = getPaperGrade(m.paper, m.question, m.score);
+        const sc = gradeColor(grade);
         const date = new Date(m.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short'});
         return `<tr style="border-bottom:1px solid var(--border)">
           <td style="padding:12px 22px;font-size:13px;color:var(--text);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.question || 'Question'}</td>
