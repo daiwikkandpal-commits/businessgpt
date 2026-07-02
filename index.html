@@ -810,7 +810,46 @@ footer {
   .step-connector { display: none; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .features-grid { grid-template-columns: 1fr; }
+}/* ─── Custom Paper Selector Dropdown ────────────────── */
+.paper-dd-wrap { position:relative; width:100%; max-width:420px; font-family:'Sora',sans-serif; }
+.paper-dd-trigger {
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:12px 16px; background:var(--bg2); border:1.5px solid var(--border);
+  border-radius:12px; color:var(--text); font-family:'Sora',sans-serif; font-size:14px;
+  cursor:pointer; transition:border-color .2s, box-shadow .2s; text-align:left;
 }
+.paper-dd-trigger:hover { border-color:var(--border2); }
+.paper-dd-trigger.open { border-color:var(--blue-400); box-shadow:0 0 0 3px rgba(59,130,246,.12); }
+.paper-dd-trigger-label { display:flex; align-items:center; gap:9px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); }
+.paper-dd-trigger-label.placeholder { color:var(--text3); }
+.paper-dd-trigger svg { color:var(--text3); flex-shrink:0; transition:transform .2s ease; }
+.paper-dd-trigger.open svg { transform:rotate(180deg); color:var(--blue-400); }
+.paper-dd-panel {
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  max-height:320px; overflow-y:auto;
+  background:var(--bg2); border:1px solid var(--border); border-radius:14px;
+  box-shadow:0 20px 48px rgba(15,23,42,.18), 0 4px 14px rgba(15,23,42,.08);
+  padding:8px; z-index:80;
+  opacity:0; visibility:hidden; transform:translateY(-6px) scale(.98);
+  transition:opacity .16s ease, transform .16s ease, visibility .16s;
+}
+[data-theme="dark"] .paper-dd-panel { box-shadow:0 20px 48px rgba(0,0,0,.5), 0 4px 14px rgba(0,0,0,.3); }
+.paper-dd-panel.open { opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+.paper-dd-group {
+  padding:12px 10px 6px; font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--blue-400); position:sticky; top:0; background:var(--bg2); z-index:1;
+}
+.paper-dd-group:first-child { padding-top:6px; }
+.paper-dd-option {
+  display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:9px;
+  cursor:pointer; font-size:14px; color:var(--text2); transition:background .12s, color .12s;
+}
+.paper-dd-option:hover { background:rgba(59,130,246,.1); color:var(--text); }
+.paper-dd-option.selected { background:var(--blue-500); color:#fff; font-weight:500; }
+.paper-dd-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.paper-dd-panel::-webkit-scrollbar { width:7px; }
+.paper-dd-panel::-webkit-scrollbar-track { background:transparent; }
+.paper-dd-panel::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
 </style>
 
 
@@ -12521,6 +12560,106 @@ async function renderDash() {
 
 // init
 // init
+// ── Custom themed dropdown for paper selection ──────────────────────────────
+function enhancePaperDropdown(selectId) {
+  const select = document.getElementById(selectId);
+  if (!select || select.dataset.enhanced) return;
+  select.dataset.enhanced = '1';
+  select.style.display = 'none';
+
+  function dotColor(text) {
+    if (text.includes('🟢')) return '#4ade80';
+    if (text.includes('🔵')) return '#60a5fa';
+    if (text.includes('🟣')) return '#a78bfa';
+    return null;
+  }
+  function cleanLabel(text) {
+    const cleaned = text.replace(/[🟢🔵🟣]/g, '').replace(/\s+/g, ' ').trim();
+    return cleaned || text.trim();
+  }
+  function cleanGroupLabel(text) {
+    return text.replace(/[━\s]+/g, ' ').trim();
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'paper-dd-wrap';
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'paper-dd-trigger';
+  trigger.innerHTML = '<span class="paper-dd-trigger-label placeholder">— Choose a paper —</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+
+  const panel = document.createElement('div');
+  panel.className = 'paper-dd-panel';
+
+  function setTriggerLabel(opt) {
+    const labelEl = trigger.querySelector('.paper-dd-trigger-label');
+    if (!opt || !opt.value) {
+      labelEl.className = 'paper-dd-trigger-label placeholder';
+      labelEl.textContent = '— Choose a paper —';
+      return;
+    }
+    labelEl.className = 'paper-dd-trigger-label';
+    const color = dotColor(opt.textContent);
+    labelEl.innerHTML = (color ? `<span class="paper-dd-dot" style="background:${color}"></span>` : '') + cleanLabel(opt.textContent);
+  }
+
+  function buildOption(opt) {
+    const item = document.createElement('div');
+    item.className = 'paper-dd-option';
+    if (opt.value === select.value) item.classList.add('selected');
+    const color = dotColor(opt.textContent);
+    item.innerHTML = (color ? `<span class="paper-dd-dot" style="background:${color}"></span>` : '') + `<span>${cleanLabel(opt.textContent)}</span>`;
+    item.addEventListener('click', () => {
+      select.value = opt.value;
+      setTriggerLabel(opt);
+      panel.querySelectorAll('.paper-dd-option').forEach(o => o.classList.remove('selected'));
+      item.classList.add('selected');
+      closePanel();
+      select.dispatchEvent(new Event('change'));
+    });
+    return item;
+  }
+
+  Array.from(select.children).forEach(child => {
+    if (child.tagName === 'OPTGROUP') {
+      const groupLabel = document.createElement('div');
+      groupLabel.className = 'paper-dd-group';
+      groupLabel.textContent = cleanGroupLabel(child.label);
+      panel.appendChild(groupLabel);
+      Array.from(child.children).forEach(opt => panel.appendChild(buildOption(opt)));
+    } else if (child.tagName === 'OPTION') {
+      panel.appendChild(buildOption(child));
+    }
+  });
+
+  function openPanel() {
+    document.querySelectorAll('.paper-dd-panel.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.paper-dd-trigger.open').forEach(t => t.classList.remove('open'));
+    panel.classList.add('open');
+    trigger.classList.add('open');
+  }
+  function closePanel() {
+    panel.classList.remove('open');
+    trigger.classList.remove('open');
+  }
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (panel.classList.contains('open')) closePanel(); else openPanel();
+  });
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) closePanel();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePanel();
+  });
+
+  wrap.appendChild(trigger);
+  wrap.appendChild(panel);
+  select.parentNode.insertBefore(wrap, select.nextSibling);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   initSupabase();
 
@@ -12534,6 +12673,9 @@ document.addEventListener('DOMContentLoaded', function() {
       else resetNav();
     });
   }
+
+  enhancePaperDropdown('fp-paper-select');
+  enhancePaperDropdown('fp2-paper-select');
 });
 
 function updateNavForUser(user) {
