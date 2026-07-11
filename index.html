@@ -316,6 +316,19 @@ nav {
 }
 .nav-links a:hover { color: var(--blue-500); background: rgba(59,130,246,0.08); }
 
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 36px; height: 36px; background: transparent; border: none;
+  cursor: pointer; padding: 0; margin-left: 4px;
+}
+.nav-hamburger span {
+  display: block; height: 2px; width: 22px; border-radius: 2px;
+  background: var(--text); transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 .nav-cta {
   display: flex; align-items: center; gap: 12px;
 }
@@ -801,7 +814,20 @@ footer {
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
 @media(max-width:768px){
-  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-links {
+    display: none; position: absolute; top: 64px; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 2px;
+    background: var(--bg); border-bottom: 1px solid rgba(59,130,246,0.12);
+    padding: 10px 16px 16px; box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a { padding: 12px 14px; font-size: 15px; }
+  .nav-cta { display: none !important; }
+  .nav-cta-mobile { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 4px; margin-top: 4px; border-top: 1px solid var(--border); }
+  .nav-cta-mobile a { text-align: center; }
+  #navName { display: none; }
+  .nav-user button { padding: 6px 10px; font-size: 12px; }
   .hero { padding: 120px 0 64px; }
   .hero-stats { gap: 28px; }
   .steps { grid-template-columns: 1fr; }
@@ -880,7 +906,10 @@ footer {
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
-      
+      <li class="nav-cta-mobile" id="navCtaMobile" style="display:none">
+        <a href="auth.html" class="btn-ghost" id="navSigninMobile">Sign in</a>
+        <a href="auth.html?mode=signup" class="btn-primary" id="navSignupMobile">Try free</a>
+      </li>
     </ul>
     <div style="display:flex;align-items:center;gap:10px">
       <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
@@ -888,6 +917,9 @@ footer {
         <a href="auth.html" class="btn-ghost" id="navSignin">Sign in</a>
         <a href="auth.html?mode=signup" class="btn-primary" id="navSignup">Try free</a>
       </div>
+      <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
     <!-- shown when signed in -->
     <div class="nav-user" id="navUser" style="display:none;align-items:center;gap:12px">
@@ -12684,6 +12716,7 @@ function updateNavForUser(user) {
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
   const initial = name[0].toUpperCase();
   document.getElementById('navCta').style.display = 'none';
+  document.getElementById('navCtaMobile').style.display = 'none';
   document.getElementById('navUser').style.display = 'flex';
   document.getElementById('navAvatar').textContent = initial;
   document.getElementById('navName').textContent = name;
@@ -12692,6 +12725,7 @@ function updateNavForUser(user) {
 
 function resetNav() {
   document.getElementById('navCta').style.display = 'flex';
+  document.getElementById('navCtaMobile').style.display = 'flex';
   document.getElementById('navUser').style.display = 'none';
   _userId = null;
 }
@@ -12699,6 +12733,30 @@ function resetNav() {
 function doNavSignOut() {
   if (_supabase) _supabase.auth.signOut().then(() => { resetNav(); showHome(); });
 }
+</script>
+
+<script>
+// ── Mobile Nav ─────────────────────────────────────────────────────────────
+function toggleMobileNav() {
+  const links = document.getElementById('navLinks');
+  const burger = document.getElementById('navHamburger');
+  const open = links.classList.toggle('mobile-open');
+  burger.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+function closeMobileNav() {
+  const links = document.getElementById('navLinks');
+  const burger = document.getElementById('navHamburger');
+  links.classList.remove('mobile-open');
+  burger.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+}
+document.addEventListener('DOMContentLoaded', function () {
+  const links = document.getElementById('navLinks');
+  if (links) links.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') closeMobileNav();
+  });
+});
 </script>
 
 <script>
