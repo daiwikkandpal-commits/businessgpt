@@ -317,7 +317,7 @@ nav {
 .nav-links a:hover { color: var(--blue-500); background: rgba(59,130,246,0.08); }
 
 .nav-hamburger {
-  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  display: none !important; flex-direction: column; justify-content: center; gap: 5px;
   width: 36px; height: 36px; background: transparent; border: none;
   cursor: pointer; padding: 0; margin-left: 4px;
 }
@@ -328,6 +328,7 @@ nav {
 .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-cta-mobile { display: none; }
 
 .nav-cta {
   display: flex; align-items: center; gap: 12px;
@@ -814,7 +815,7 @@ footer {
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
 @media(max-width:768px){
-  .nav-hamburger { display: flex; }
+  .nav-hamburger { display: flex !important; }
   .nav-links {
     display: none; position: absolute; top: 64px; left: 0; right: 0;
     flex-direction: column; align-items: stretch; gap: 2px;
@@ -826,6 +827,7 @@ footer {
   .nav-cta { display: none !important; }
   .nav-cta-mobile { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 4px; margin-top: 4px; border-top: 1px solid var(--border); }
   .nav-cta-mobile a { text-align: center; }
+  body.is-signed-in .nav-cta-mobile { display: none; }
   #navName { display: none; }
   .nav-user button { padding: 6px 10px; font-size: 12px; }
   .hero { padding: 120px 0 64px; }
@@ -906,7 +908,7 @@ footer {
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
-      <li class="nav-cta-mobile" id="navCtaMobile" style="display:none">
+      <li class="nav-cta-mobile" id="navCtaMobile">
         <a href="auth.html" class="btn-ghost" id="navSigninMobile">Sign in</a>
         <a href="auth.html?mode=signup" class="btn-primary" id="navSignupMobile">Try free</a>
       </li>
@@ -12716,7 +12718,7 @@ function updateNavForUser(user) {
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
   const initial = name[0].toUpperCase();
   document.getElementById('navCta').style.display = 'none';
-  document.getElementById('navCtaMobile').style.display = 'none';
+  document.body.classList.add('is-signed-in');
   document.getElementById('navUser').style.display = 'flex';
   document.getElementById('navAvatar').textContent = initial;
   document.getElementById('navName').textContent = name;
@@ -12725,7 +12727,7 @@ function updateNavForUser(user) {
 
 function resetNav() {
   document.getElementById('navCta').style.display = 'flex';
-  document.getElementById('navCtaMobile').style.display = 'flex';
+  document.body.classList.remove('is-signed-in');
   document.getElementById('navUser').style.display = 'none';
   _userId = null;
 }
