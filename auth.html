@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Sign in — BusinessGPT</title>
+<title>Sign in — IGCSE Mark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -42,7 +42,7 @@ nav{position:relative;z-index:10;background:rgba(5,13,26,.92);backdrop-filter:bl
 @media(max-width:860px){.wrap{grid-template-columns:1fr}.panel{display:none}}
  
 /* left panel */
-.panel{background:var(--bg2);border-right:1px solid var(--br);padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}
+.panel{background:var(--bg2);border-right:1px solid var(--br);padding:56px 52px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative}
 .panel::after{content:'';position:absolute;bottom:-100px;right:-100px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.1) 0%,transparent 70%)}
 .panel-tag{font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.15;letter-spacing:-.6px;margin-bottom:14px}
 .panel-tag .ac{background:linear-gradient(90deg,var(--b4),#60a5fa,#a5c4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -202,7 +202,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
         </svg>
       </div>
-      <div class="logo-name">Business<span>GPT</span></div>
+      <div class="logo-name">IGCSE<span>Mark</span></div>
     </a>
     <a href="index.html" class="nav-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -217,7 +217,7 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
   <div class="panel">
     <div>
       <div class="panel-tag">Your AI study partner<br/>for <span class="ac">better grades</span></div>
-      <p class="panel-desc">Join thousands of IGCSE students using BusinessGPT to get instant Cambridge-quality marking on every answer they write.</p>
+      <p class="panel-desc">Get instant, Cambridge-accurate feedback on every Business Studies answer you write — marked against real 0450 mark schemes.</p>
       <div class="feats">
         <div class="feat">
           <div class="feat-ic">⚡</div>
@@ -231,13 +231,6 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
           <div class="feat-ic">📈</div>
           <div><h4>Track your progress</h4><p>See your scores improve across topics over time.</p></div>
         </div>
-      </div>
-    </div>
-    <div class="quote">
-      <div class="quote-txt">"I went from 5/8 on evaluate questions to full marks after two weeks on BusinessGPT. The feedback is incredibly specific."</div>
-      <div class="quote-by">
-        <div class="q-av">SA</div>
-        <div><div class="q-name">Sara A.</div><div class="q-sub">IGCSE Year 11 · Dubai</div></div>
       </div>
     </div>
   </div>
@@ -386,6 +379,44 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
         <div class="sw">Already have an account? <a href="#" onclick="go('in');return false">Sign in →</a></div>
       </div>
  
+      <!-- RESET PASSWORD (recovery flow) -->
+      <div id="f-reset" style="display:none">
+        <div class="head">Set a new password</div>
+        <div class="sub">Choose a new password for your account below.</div>
+ 
+        <div class="field">
+          <label for="rp-p1">New password</label>
+          <div class="iw">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <input type="password" id="rp-p1" placeholder="At least 8 characters" autocomplete="new-password" oninput="strength(this.value,'r')"/>
+            <button class="eye" type="button" onclick="eye('rp-p1',this)" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pws" id="rpws">
+            <div class="pw-bars"><div class="pw-bar" id="rpb1"></div><div class="pw-bar" id="rpb2"></div><div class="pw-bar" id="rpb3"></div><div class="pw-bar" id="rpb4"></div></div>
+            <div class="pw-lbl" id="rpwl"></div>
+          </div>
+          <div class="ferr" id="rp-p1e">Password must be at least 8 characters.</div>
+        </div>
+ 
+        <div class="field">
+          <label for="rp-p2">Confirm new password</label>
+          <div class="iw">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <input type="password" id="rp-p2" placeholder="Re-enter your new password" autocomplete="new-password"/>
+            <button class="eye" type="button" onclick="eye('rp-p2',this)" aria-label="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="ferr" id="rp-p2e">Passwords do not match.</div>
+        </div>
+ 
+        <button class="sub-btn" id="rp-btn" onclick="updatePassword()">
+          <span class="bt">Update password</span><div class="sp"></div>
+        </button>
+      </div>
+ 
       <!-- SUCCESS -->
       <div class="suc" id="suc">
         <div class="suc-ring" id="suc-ring">✓</div>
@@ -428,6 +459,7 @@ const CFG = 'bgpt_cfg';
 const SES = 'bgpt_user';
 let sb = null;
 let mode = 'in';
+let recoveryMode = false;
  
 /* ── config ── */
 function init(){
@@ -437,10 +469,17 @@ function init(){
 /* ── boot ── */
 window.addEventListener('DOMContentLoaded',async()=>{
   init();
+  sb.auth.onAuthStateChange((event,session)=>{
+    if(event==='PASSWORD_RECOVERY'){
+      recoveryMode=true;
+      showResetForm();
+      return;
+    }
+    if(event==='SIGNED_IN'&&session&&!recoveryMode)showLoggedIn(session.user);
+  });
   if(location.search.includes('signup'))go('up');
   const {data:{session}}=await sb.auth.getSession();
-  if(session)showLoggedIn(session.user);
-  sb.auth.onAuthStateChange((_,session)=>{if(session)showLoggedIn(session.user)});
+  if(session&&!recoveryMode)showLoggedIn(session.user);
 });
  
 /* ── helpers ── */
@@ -472,15 +511,16 @@ function go(m){
 }
  
 /* ── password strength ── */
-function strength(v){
-  const el=document.getElementById('pws');
+function strength(v,prefix){
+  prefix=prefix||'';
+  const el=document.getElementById(prefix+'pws');
   if(!v){el.classList.remove('on');return}
   el.classList.add('on');
   let s=0;
   if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
   const cls=['bw','bf','bg2c','bs'],labs=['Weak','Fair','Good','Strong'],cols=['#f87171','#fbbf24','#60a5fa','#4ade80'];
-  for(let i=1;i<=4;i++){const b=document.getElementById('pb'+i);b.className='pw-bar'+(i<=s?' '+cls[s-1]:'');}
-  const l=document.getElementById('pwl');l.textContent=labs[s-1]||'';l.style.color=cols[s-1]||'var(--t3)';
+  for(let i=1;i<=4;i++){const b=document.getElementById(prefix+'pb'+i);b.className='pw-bar'+(i<=s?' '+cls[s-1]:'');}
+  const l=document.getElementById(prefix+'pwl');l.textContent=labs[s-1]||'';l.style.color=cols[s-1]||'var(--t3)';
 }
  
 /* ── eye toggle ── */
@@ -494,7 +534,7 @@ function eye(id,btn){
 /* ── Google ── */
 async function googleAuth(){
   if(!sb){init();}
-  const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href}});
+  const{error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+'/auth.html'}});
   if(error)toast('bad',error.message);
 }
  
@@ -595,11 +635,46 @@ async function resetPw(){
   const e=document.getElementById('fp-e').value.trim();
   if(!vEmail(e)){toast('bad','Please enter a valid email address.');return}
   setLoad('fp-btn',true);
-  const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:window.location.href});
+  const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:window.location.origin+'/auth.html'});
   setLoad('fp-btn',false);
   closeModal();
   if(error)toast('bad',error.message);
   else toast('ok','Reset link sent — check your inbox!');
+}
+ 
+/* ── Set new password (after clicking email reset link) ── */
+function showResetForm(){
+  document.getElementById('tabs').style.display='none';
+  document.getElementById('f-in').style.display='none';
+  document.getElementById('f-up').style.display='none';
+  document.getElementById('ubar').classList.remove('on');
+  document.getElementById('suc').classList.remove('on');
+  document.getElementById('f-reset').style.display='';
+}
+async function updatePassword(){
+  clrErr();
+  const p1=document.getElementById('rp-p1').value;
+  const p2=document.getElementById('rp-p2').value;
+  let ok=true;
+  if(p1.length<8){showErr('rp-p1e');markErr('rp-p1');ok=false}
+  if(p1!==p2){showErr('rp-p2e');markErr('rp-p2');ok=false}
+  if(!ok)return;
+  setLoad('rp-btn',true);
+  const{error}=await sb.auth.updateUser({password:p1});
+  setLoad('rp-btn',false);
+  if(error){toast('bad',error.message);return}
+  recoveryMode=false;
+  document.getElementById('f-reset').style.display='none';
+  document.getElementById('suc-ring').textContent='✓';
+  document.getElementById('suc-ring').className='suc-ring green';
+  document.getElementById('suc-title').textContent='Password updated';
+  document.getElementById('suc-sub').textContent="Your password has been changed. Head back to start marking.";
+  const btn=document.getElementById('suc-btn');
+  btn.onclick=null;
+  btn.textContent='Go to marker →';
+  btn.href='index.html';
+  document.getElementById('suc').classList.add('on');
+  toast('ok','Password updated!');
 }
  
 /* ── events ── */
