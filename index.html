@@ -1582,6 +1582,7 @@ let currentP2Part = 'a';
 
 function setP2Part(part) {
   currentP2Part = part;
+  clearMarkerFields();
   ['a','b'].forEach(p => {
     const btn = document.getElementById('p2-part-' + p);
     if (!btn) return;
@@ -1595,6 +1596,7 @@ function setP2Part(part) {
 
 function setPart(part) {
   currentPart = part;
+  clearMarkerFields();
   ['a','b','c','d','e'].forEach(p => {
     const btn = document.getElementById('part-' + p);
     if (!btn) return;
@@ -1607,6 +1609,15 @@ function setPart(part) {
 }
 
 let markerPaper = 1;
+
+function clearMarkerFields() {
+  ['m-q', 'm-ctx', 'm-ms', 'm-ans'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; el.style.borderColor = 'var(--border)'; }
+  });
+  const result = document.getElementById('m-result');
+  if (result) result.innerHTML = '';
+}
 
 function resetNavLinks() {
   ['navDash','navMarker','navFullPaper','navPapers','navNotes'].forEach(id => {
@@ -1653,6 +1664,7 @@ function showMarker() {
 
 function setMP(p) {
   markerPaper = p;
+  clearMarkerFields();
   document.getElementById('mpt1').style.background = p===1 ? 'var(--blue-500)' : 'transparent';
   document.getElementById('mpt1').style.color = p===1 ? '#fff' : 'var(--text2)';
   document.getElementById('mpt1').style.boxShadow = p===1 ? '0 2px 12px rgba(59,130,246,.3)' : 'none';
