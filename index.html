@@ -1205,11 +1205,11 @@ footer {
     </div>
 
     <!-- Context -->
-    <div style="display:flex;flex-direction:column;gap:7px">
+    <div id="m-ctx-wrap" style="display:flex;flex-direction:column;gap:7px">
       <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study context <span style="color:var(--text3);font-weight:400">— optional, paste the business scenario</span></label>
-      <div id="m-ctx-note" style="display:none;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px">Part E doesn't require application, so a case study context isn't needed here.</div>
       <textarea id="m-ctx" rows="3" placeholder="e.g. FreshBrew Ltd is a coffee chain with 12 branches. Revenue last year was $2.4m..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:none;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
+    <div id="m-ctx-note" style="display:none;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">Part E doesn't require application, so a case study context isn't needed here.</div>
 
     <!-- Mark scheme -->
     <div style="display:flex;flex-direction:column;gap:7px">
@@ -1612,8 +1612,10 @@ function setPart(part) {
 
 function updateCtxNote() {
   const note = document.getElementById('m-ctx-note');
-  if (!note) return;
-  note.style.display = (markerPaper === 1 && currentPart === 'e') ? 'block' : 'none';
+  const wrap = document.getElementById('m-ctx-wrap');
+  const isPartE = (markerPaper === 1 && currentPart === 'e');
+  if (note) note.style.display = isPartE ? 'block' : 'none';
+  if (wrap) wrap.style.display = isPartE ? 'none' : 'flex';
 }
 
 let markerPaper = 1;
