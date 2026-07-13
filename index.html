@@ -889,6 +889,7 @@ footer {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 <div class="bg-glow" aria-hidden="true"></div>
@@ -1206,7 +1207,16 @@ footer {
 
     <!-- Context -->
     <div id="m-ctx-wrap" style="display:flex;flex-direction:column;gap:7px">
-      <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study context <span style="color:var(--text3);font-weight:400">— optional, paste the business scenario</span></label>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+        <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study context <span style="color:var(--text3);font-weight:400">— optional, paste the business scenario</span></label>
+        <label for="m-ctx-pdf" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--blue-500);cursor:pointer;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);white-space:nowrap">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload PDF
+        </label>
+        <input type="file" id="m-ctx-pdf" accept="application/pdf" style="display:none" onchange="handleCtxPdfUpload(this.files[0])"/>
+      </div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.5">Use BestExamHelp to download the insert — you can also find it in the <a href="#" onclick="showPastPapers();return false" style="color:var(--blue-500);text-decoration:underline">Past Papers</a> section of this site.</div>
+      <div id="m-ctx-pdf-status" style="display:none;font-size:12px;color:var(--text3)"></div>
       <textarea id="m-ctx" rows="3" placeholder="e.g. FreshBrew Ltd is a coffee chain with 12 branches. Revenue last year was $2.4m..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:none;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
     <div id="m-ctx-note" style="display:none;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">Part E doesn't require application, so a case study context isn't needed here.</div>
@@ -1608,6 +1618,36 @@ function setPart(part) {
     btn.style.boxShadow = active ? '0 2px 10px rgba(59,130,246,.3)' : 'none';
   });
   updateCtxNote();
+}
+
+async function handleCtxPdfUpload(file) {
+  if (!file) return;
+  const status = document.getElementById('m-ctx-pdf-status');
+  const ctx = document.getElementById('m-ctx');
+  status.style.display = 'block';
+  status.style.color = 'var(--text3)';
+  status.textContent = `Reading ${file.name}…`;
+  try {
+    if (typeof pdfjsLib === 'undefined') throw new Error('PDF reader failed to load. Please refresh and try again.');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const buffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map(item => item.str).join(' ');
+      fullText += (fullText ? '\n\n' : '') + pageText;
+    }
+    fullText = fullText.trim();
+    if (!fullText) throw new Error('No readable text found in this PDF — it may be a scanned image. Try pasting the text manually.');
+    ctx.value = fullText;
+    status.style.color = '#4ade80';
+    status.textContent = `✓ Extracted text from ${file.name} (${pdf.numPages} page${pdf.numPages > 1 ? 's' : ''})`;
+  } catch (e) {
+    status.style.color = '#f87171';
+    status.textContent = e.message || 'Could not read that PDF. Try pasting the text manually instead.';
+  }
 }
 
 function updateCtxNote() {
