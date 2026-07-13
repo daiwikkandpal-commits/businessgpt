@@ -351,6 +351,15 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
         </div>
  
         <div class="field">
+          <label for="su-sc">School name</label>
+          <div class="iw">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg></span>
+            <input type="text" id="su-sc" placeholder="e.g. Dubai College" autocomplete="organization"/>
+          </div>
+          <div class="ferr" id="su-sce">Please enter your school name.</div>
+        </div>
+ 
+        <div class="field">
           <label for="su-p">Password</label>
           <div class="iw">
             <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
@@ -413,6 +422,25 @@ input.err:focus{box-shadow:0 0 0 3px rgba(248,113,113,.08)}
  
         <button class="sub-btn" id="rp-btn" onclick="updatePassword()">
           <span class="bt">Update password</span><div class="sp"></div>
+        </button>
+      </div>
+ 
+      <!-- SCHOOL PROMPT (catches every sign-in method missing a school) -->
+      <div id="f-school" style="display:none">
+        <div class="head">One more thing<span id="sch-name-suffix"></span></div>
+        <div class="sub">Which school are you studying at? This helps us understand who's using IGCSE Mark.</div>
+ 
+        <div class="field">
+          <label for="sch-input">School name</label>
+          <div class="iw">
+            <span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg></span>
+            <input type="text" id="sch-input" placeholder="e.g. Dubai College" autocomplete="organization"/>
+          </div>
+          <div class="ferr" id="sch-erre">Please enter your school name.</div>
+        </div>
+ 
+        <button class="sub-btn" id="sch-btn" onclick="saveSchool()">
+          <span class="bt">Continue</span><div class="sp"></div>
         </button>
       </div>
  
@@ -548,11 +576,15 @@ async function signIn(){
   if(!p){showErr('si-pe','Please enter your password.');markErr('si-p');ok=false}
   if(!ok)return;
   setLoad('si-btn',true);
-  const{error}=await sb.auth.signInWithPassword({email:e,password:p});
+  const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});
   setLoad('si-btn',false);
   if(error){
     const m=error.message.toLowerCase().includes('invalid')?'Incorrect email or password.':error.message;
     showErr('si-pe',m);markErr('si-e');markErr('si-p');toast('bad',m);return;
+  }
+  if(!data.user.user_metadata?.school){
+    showSchoolPrompt(data.user);
+    return;
   }
   toast('ok','Signed in!');
   await delay(800);
@@ -566,17 +598,19 @@ async function signUp(){
   const fn=document.getElementById('su-fn').value.trim();
   const ln=document.getElementById('su-ln').value.trim();
   const e=document.getElementById('su-e').value.trim();
+  const sc=document.getElementById('su-sc').value.trim();
   const p=document.getElementById('su-p').value;
   const t=document.getElementById('terms').checked;
   let ok=true;
   if(!fn){showErr('su-fne');markErr('su-fn');ok=false}
   if(!ln){showErr('su-lne');markErr('su-ln');ok=false}
   if(!vEmail(e)){showErr('su-ee');markErr('su-e');ok=false}
+  if(!sc){showErr('su-sce');markErr('su-sc');ok=false}
   if(p.length<8){showErr('su-pe');markErr('su-p');ok=false}
   if(!t){showErr('terms-e');ok=false}
   if(!ok)return;
   setLoad('su-btn',true);
-  const{data,error}=await sb.auth.signUp({email:e,password:p,options:{data:{full_name:fn+' '+ln,first_name:fn,last_name:ln}}});
+  const{data,error}=await sb.auth.signUp({email:e,password:p,options:{data:{full_name:fn+' '+ln,first_name:fn,last_name:ln,school:sc}}});
   setLoad('su-btn',false);
   if(error){
     const m=error.message.toLowerCase().includes('already')?'An account with this email already exists.':error.message;
@@ -601,6 +635,10 @@ async function signUp(){
  
 /* ── Show logged-in ── */
 function showLoggedIn(user){
+  if(!user.user_metadata?.school){
+    showSchoolPrompt(user);
+    return;
+  }
   const name=user.user_metadata?.full_name||user.email.split('@')[0];
   const av=name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
   document.getElementById('tabs').style.display='none';
@@ -646,9 +684,35 @@ function showResetForm(){
   document.getElementById('tabs').style.display='none';
   document.getElementById('f-in').style.display='none';
   document.getElementById('f-up').style.display='none';
+  document.getElementById('f-school').style.display='none';
   document.getElementById('ubar').classList.remove('on');
   document.getElementById('suc').classList.remove('on');
   document.getElementById('f-reset').style.display='';
+}
+ 
+function showSchoolPrompt(user){
+  document.getElementById('tabs').style.display='none';
+  document.getElementById('f-in').style.display='none';
+  document.getElementById('f-up').style.display='none';
+  document.getElementById('f-reset').style.display='none';
+  document.getElementById('ubar').classList.remove('on');
+  document.getElementById('suc').classList.remove('on');
+  document.getElementById('f-school').style.display='';
+  const fn=user.user_metadata?.first_name||user.user_metadata?.full_name?.split(' ')[0];
+  document.getElementById('sch-name-suffix').textContent=fn?`, ${fn}`:'';
+}
+async function saveSchool(){
+  clrErr();
+  const sc=document.getElementById('sch-input').value.trim();
+  if(!sc){showErr('sch-erre');markErr('sch-input');return}
+  setLoad('sch-btn',true);
+  const{data,error}=await sb.auth.updateUser({data:{school:sc}});
+  setLoad('sch-btn',false);
+  if(error){toast('bad',error.message);return}
+  document.getElementById('f-school').style.display='none';
+  toast('ok','Signed in!');
+  await delay(800);
+  location.href='index.html';
 }
 async function updatePassword(){
   clrErr();
