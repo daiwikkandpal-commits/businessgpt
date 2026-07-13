@@ -1458,11 +1458,15 @@ footer {
             </optgroup>
             <optgroup label="━━  2024  ━━━━━━━━━━━━━━━━━━━━━━">
               <option value="p2_s24_21">  🟢  May/Jun · Variant 1</option>
+              <option value="p2_s24_22">  🟢  May/Jun · Variant 2</option>
+              <option value="p2_s24_23">  🟢  May/Jun · Variant 3</option>
               <option value="p2_w24_21">  🔵  Oct/Nov · Variant 1</option>
               <option value="p2_w24_22">  🔵  Oct/Nov · Variant 2</option>
               <option value="p2_w24_23">  🔵  Oct/Nov · Variant 3</option>
+              <option value="p2_m24_22">  🟣  Feb/Mar · Variant 2</option>
             </optgroup>
             <optgroup label="━━  2023  ━━━━━━━━━━━━━━━━━━━━━━">
+              <option value="p2_s23_21">  🟢  May/Jun · Variant 1</option>
               <option value="p2_w23_23">  🔵  Oct/Nov · Variant 3</option>
               <option value="p2_w23_21">  🔵  Oct/Nov · Variant 1</option>
             </optgroup>
@@ -10001,6 +10005,260 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_s23_21': {
+    label: '2023 May/Jun Paper 2 Variant 1',
+    caseStudy: `Vegetable Palace (VP)
+
+VP was started 10 years ago in country Z. It is a public limited company. VP has a chain of 500 fast-food restaurants that operate across country Z. The VP brand is famous for its vegetarian food, meaning none of its meals contain meat.
+
+VP has a head office in Main City where all the directors and senior managers work. There are many barriers to communication. Each VP restaurant has a Manager, an Assistant Manager and 50 employees who cook and serve the meals. Restaurant Managers are often very busy and are considering delegating some of their tasks to the Assistant Managers.
+
+The ingredients for the restaurants are ordered in bulk by head office and distributed from its warehouse to each restaurant. However, some senior managers think Restaurant Managers should purchase their own ingredients from local suppliers instead — meaning fresher ingredients and more variation in meals.
+
+VP wants to expand into another country, choosing between two countries shown in Appendix 2. It also needs to decide how to enter the new market — a joint venture with another business, or franchising the VP brand. The choice of finance will depend on the option chosen.
+
+Appendix 1 — Advertisement for VP's restaurants:
+"Choose VP for the finest vegetarian meals. Our service is the fastest possible! You will receive your meal in less than 5 minutes — guaranteed! Delicious and varied meals for even the biggest of appetites and all at competitive prices."
+
+Appendix 2 — Two possible countries for new restaurants:
+Country A: variable cost $2/meal; high unemployment, $5/hour wages; few competitors; average price $10/meal.
+Country B: variable cost $6/meal; low unemployment, $10/hour wages; many competitors; average price $20/meal.
+
+Appendix 3 — Email from Managing Director to Marketing Director, 31 March 2023:
+Interest rates will be raised from 3% to 5%. The exchange rate in country Z has depreciated — relevant since VP imports 30% of its ingredients. New legal controls will require listing all ingredients on menus (VP already reprints menus regularly when meals change).`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four barriers to communication for a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'VP has a head office in Main City with directors/senior managers, and 500 restaurants each with a Manager, Assistant Manager, and 50 employees.',
+        ms: `8 marks. Award 1 mark per barrier (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nBarriers: sender uses unclear language/jargon; message too long, losing its main point in the detail; wrong medium used (e.g. urgent message on a noticeboard, easily missed); technology/connection failure means the message isn't received; no feedback given so the sender doesn't know it failed; receiver stops listening in a long meeting; too many people in the chain of command distorts the message; language differences hinder understanding.\n\nExample: "Problems with the sender (1) — they may use jargon or technical terms so the instructions aren't understood (1)."`
+      },
+      {
+        q: '1(b)', text: 'Consider the following two ways VP can purchase its inventory. Which way should it use? Justify your answer.\\n• Head Office purchases the inventory for all the restaurants.\\n• Restaurant Managers purchase their own inventory from local suppliers.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Currently head office bulk-orders and distributes ingredients from a warehouse; some managers propose letting each Restaurant Manager buy locally instead.',
+        ms: `12 marks. Levels-based marking.\n\nHead office purchasing: bulk-purchase discounts lower unit costs, possibly lower prices/higher profit; easier to standardise quality/quantity across restaurants, protecting reputation; but higher transport costs to each restaurant, and warehouse storage costs.\nLocal purchasing by managers: can tailor ingredients to local tastes, boosting demand/competitiveness; local suppliers deliver faster and fresher, improving reputation; managers may feel more trusted/motivated; but risk of being unable to meet sudden demand spikes if local stock runs out, managers are already very busy, and some ingredients may not be locally available everywhere.\n\nValid recommendations: head office purchasing — bulk discounts and consistency keep VP competitive on price; OR local purchasing — better matches local demand and improves freshness/reputation.`
+      },
+      {
+        q: '2(a)', text: 'Explain two advantages and two disadvantages of VP\'s Restaurant Managers delegating tasks to their Assistant Managers.', marks: 8, part: 'a', type: 'explain',
+        context: 'Each restaurant has a Manager and an Assistant Manager; Restaurant Managers are very busy and considering delegating tasks.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 2 each) + 1 additional mark per explanation in context.\n\nAdvantages: Managers can't do everything — delegating frees them to focus on important tasks and better decisions; fewer mistakes as Managers focus on key tasks; gives Managers time to assess employee performance/training needs; may motivate Assistant Managers who feel trusted; Assistant Managers develop new skills.\nDisadvantages: Managers may lose control over subordinates, risking mistakes that hurt reputation (e.g. missing the 5-minute service promise); Managers may be reluctant to relinquish control; Assistant Managers may lack the skills/training needed, leading to poor decisions; Assistant Managers may feel overloaded or resent extra tasks.\n\nApplication: fast food; restaurant; vegetarian; meals; public limited company; food outlets across the country; menus; recipes; cooking; serving; ingredients; 50 employees; meal served in under 5 minutes.`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 2 and other information, consider the two countries VP could choose to locate its new restaurants. Which country should VP choose? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Country A: variable cost $2, high unemployment, $5/hr wages, few competitors, price $10. Country B: variable cost $6, low unemployment, $10/hr wages, many competitors, price $20.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nCountry A: gross profit $8/meal ($10-$2); low competition may signal lower demand, forcing price cuts or higher marketing spend; low wage cost ($5/hr) reduces overall labour costs; easier recruitment given high unemployment, lowering recruitment/training costs.\nCountry B: gross profit $14/meal ($20-$6), higher than A; highest price could mean higher revenue if demand holds; many competitors may signal strong existing demand, but also mean price pressure and higher marketing costs to compete; higher wage costs (double Country A) and harder recruitment given low unemployment.\n\nValid recommendations: Country B — higher gross profit per meal and evidence of demand from many competitors; OR Country A — much lower wage costs and easier recruitment given high unemployment.`
+      },
+      {
+        q: '3(a)', text: 'Explain two possible reasons why VP wants to expand.', marks: 8, part: 'a', type: 'explain',
+        context: 'VP is a public limited company with 500 restaurants in country Z, now planning international expansion.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation, one applied to context.\n\nReasons: higher profits for owners as new markets boost sales/revenue; lower average/unit costs from economies of scale (e.g. bulk ingredient buying); larger market share, stronger brand image, more customer loyalty; more status/prestige for owners, possibly listing on other stock exchanges; access to new markets spreads/reduces risk.\n\nApplication: fast food; restaurant; vegetarian; meals; food outlets across the country; shareholders/public limited company; ingredients.`
+      },
+      {
+        q: '3(b)', text: 'Consider the benefits and limitations of the following two ways VP can enter a new market in another country. Which way should VP choose? Justify your answer.\\n• Joint venture\\n• Franchising', marks: 12, part: 'b', type: 'evaluate',
+        context: 'VP needs to decide how to enter a new international market as part of its expansion plans.',
+        ms: `12 marks. Levels-based marking.\n\nJoint venture: shares risk/costs and reduces borrowing needs; gains valuable local market knowledge, easing adaptation to local tastes; reduces need for costly market research; but finding the right partner takes time, risk of management conflict, profits must be shared, and workload/resources may be unequally split.\nFranchising: saves time as the franchisee invests their own capital; franchise fees flow back to VP boosting profit for low investment; requires little capital from VP, no need to raise finance; but poor franchisee management could damage VP's brand reputation, VP has low control over operations, and a franchisee could later become a competitor using VP's recipes.\n\nValid recommendations: joint venture — best way to learn an unfamiliar market through a local partner; OR franchising — cheaper, faster expansion while still earning fee revenue.`
+      },
+      {
+        q: '4(a)', text: 'Explain, using an example, one reason why VP might need:\\n• short-term finance\\n• long-term finance.', marks: 8, part: 'a', type: 'explain',
+        context: 'VP is planning international expansion requiring both ongoing working capital and major long-term investment.',
+        ms: `8 marks. Award 1 mark for each reason (max 1 each for short/long-term) + max 3 additional marks per explanation, one in context and one with an example.\n\nShort-term finance: provides working capital for day-to-day expenses — an overdraft suits this since it's only used as needed, reducing interest paid; OR prevents cash-flow problems via a short-term loan, improving liquidity.\nLong-term finance: to purchase expensive non-current assets — a long-term loan spreads repayments over time, reducing monthly outflows; OR to fund expansion, where issuing shares avoids interest payments; OR to update technology via a lease spreading costs over time.\n\nApplication: fast food; restaurant; vegetarian; meals; public limited company/shareholders; food outlets across the country; 500 restaurants; 25,000 employees; ingredients; expanding into another country.`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider how the following three changes in country Z may affect VP. Which change is likely to have the greatest effect on VP\'s profits? Justify your answer.\\n• Increase in interest rates.\\n• Depreciation of country Z\'s exchange rate.\\n• New legal controls which require all restaurants to list the ingredients in their meals.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 3: interest rates rising 3%→5%; country Z\'s currency has depreciated (VP imports 30% of ingredients); new legal requirement to list all ingredients on menus.',
+        ms: `12 marks. Levels-based marking.\n\nInterest rate increase: higher fixed loan-interest costs if borrowing for expansion, likely reducing profit; customers may spend less on eating out; but VP, as a large plc, may benefit from lower relative rates via financial economies of scale; more interest income on any cash reserves held.\nExchange rate depreciation: imported ingredients (30%) cost more, raising variable costs and possibly squeezing margins or raising prices; might push VP toward (lower-quality) local suppliers instead; repatriated profits from new foreign restaurants would convert favourably, though expansion capital would cost more to convert.\nNew ingredient-listing law: costs of reworking all menus, repeated every time a new meal is added; may need to raise prices to protect margins, risking lower demand; affects all competitors equally so relative competitiveness may not change; could attract new customers who value ingredient transparency.\n\nValid conclusions: interest rates — largest effect given expansion will likely need bank borrowing; OR exchange rate depreciation — meaningful since 30% of ingredients are imported; OR the new law — repeated reprinting costs add up given how often VP already changes its menu.`
+      }
+    ]
+  },
+  'p2_s24_22': {
+    label: '2024 May/Jun Paper 2 Variant 2',
+    caseStudy: `Jems Jewellery (JJ)
+
+JJ is a large manufacturer of jewellery such as bracelets, earrings and rings. JJ was set up 25 years ago in country X and is a public limited company. One of JJ's objectives is for the business to expand and another objective is to increase profit each year.
+
+JJ manufactures all its jewellery in a factory in country X. All raw materials are purchased from local suppliers. JJ has 60 full-time and 25 part-time employees to make the jewellery. Most of these employees are skilled.
+
+JJ's jewellery is beautiful but not expensive and therefore affordable for many people. The business has many competitors. JJ currently sells 70% of its products in country X through jewellery shops. The other 30% are sold using ecommerce and sold directly to customers in other countries. Demand for JJ's jewellery is continuing to increase.
+
+JJ's Marketing Manager is planning to launch a new item of jewellery in country X and needs to choose between two products.
+
+Appendix 1 — Information to calculate break-even for Product A and Product B:
+Product A (Bracelet): Fixed cost $50,000/week; Selling price $50; Variable cost $25; Forecast sales 2500/week.
+Product B (Ring): Fixed cost $50,000/week; Selling price $120; Variable cost $40; Forecast sales 750/week.
+
+Appendix 2 — Newspaper article from Main City News:
+After several years of economic growth the government is predicting a change in the economy this year. Unemployment is forecast to increase from 3% to 6% by the end of the year, expected to continue for the next two years.
+
+Appendix 3 — Email from Managing Director to Operations Director, 1 May 2024:
+Pressure groups have identified two environmental issues: (1) JJ uses coal for fuel in its factory, contributing to global warming — coal prices are rising, but the government offers a 25% grant for solar panel investment; (2) the gem stones come from local mines whose land cannot be returned to agricultural use, though alternative suppliers use less damaging mining methods further away. JJ needs to respond or risk sales and profit.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain two reasons why setting business objectives is important to JJ.', marks: 8, part: 'a', type: 'explain',
+        context: 'JJ is a public limited company set up 25 years ago with objectives to increase profit every year and expand the business.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation, one applied to context.\n\nReasons: gives a clear target/aim to work towards, avoiding loss of focus; focuses decision-making, leading to better decisions/efficiency; helps motivate employees toward a shared goal; allows comparison of performance across departments; allows measurement of success/progress; helps produce a plan/strategy to achieve objectives.\n\nApplication: jewellery; set up 25 years ago; public limited company; objective to increase profit every year; expand the business; 30% sold via ecommerce; 70% sold in jewellery shops; raw materials purchased locally; 60 full-time + 25 part-time employees; bracelets; rings; earrings.`
+      },
+      {
+        q: '1(b)', text: 'Using Appendix 1 and other information, consider the two new products JJ could produce. Which product should JJ choose? Justify your answer using break-even calculations.\\n• Product A\\n• Product B', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Product A (bracelet): fixed cost $50,000/week, price $50, variable cost $25, forecast sales 2500/week. Product B (ring): fixed cost $50,000/week, price $120, variable cost $40, forecast sales 750/week.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nProduct A: break-even = 2000 bracelets/week; margin of safety = 500; profit at forecast sales = $12,500/week; much lower price than Product B, needing more sales to break even; higher forecast sales may be easier to meet if demand is high.\nProduct B: break-even = 625 rings/week (lower than A); margin of safety = 125 (lower than A, riskier); profit at forecast sales = $10,000/week (lower than A); much higher price per unit; fewer units to produce/sell each week, may be easier to manage.\n\nValid recommendations: Product A — higher margin of safety, lower risk of missing break-even; OR Product B — much lower break-even output, easier to achieve.`
+      },
+      {
+        q: '2(a)', text: 'Explain two benefits and two limitations for JJ of employing part-time workers in its factory.', marks: 8, part: 'a', type: 'explain',
+        context: 'JJ has 60 full-time and 25 part-time employees manufacturing jewellery.',
+        ms: `8 marks. Award 1 mark per benefit/limitation (max 4) + 1 additional mark per explanation in context.\n\nBenefits: more flexible hours than full-time workers; more likely to increase hours during busy periods to meet demand; fewer appointments causing disruption; may attract skilled employees wanting reduced hours; may reduce costs via lower wage rates; easier to make redundant if needed.\nLimitations: may feel less committed if job seen as temporary — produce less; takes longer to recruit two part-timers than one full-timer; increased induction/training costs; harder to communicate with; less likely to receive training if seen as temporary.`
+      },
+      {
+        q: '2(b)', text: 'Consider the advantages and disadvantages of the following three ways JJ could promote its new product in country X. Which way should JJ use? Justify your answer.\\n• Advertising in fashion magazines\\n• Handing out leaflets in Main City\\n• Point-of-sale displays in shops', marks: 12, part: 'b', type: 'evaluate',
+        context: 'JJ is launching a new jewellery item and needs to choose the most effective promotion method for country X.',
+        ms: `12 marks. Levels-based marking.\n\nFashion magazines: read directly by target market, can show colour/images making jewellery attractive; but expensive, published infrequently, may not reach the true target market.\nLeaflets in Main City: cheap, reaches a wide range of people, can include discount coupons; but often unread/discarded as junk.\nPoint-of-sale displays: seen by customers already in the shop, makes products stand out; but may go unnoticed, costs to produce/incentivise retailers, small items easily missed.\n\nValid recommendations: fashion magazines — reaches genuinely interested buyers directly; OR leaflets — reaches the widest new-customer base cheaply; OR point-of-sale — targets people already primed to buy jewellery.`
+      },
+      {
+        q: '3(a)', text: 'Explain four reasons why profit is important to a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'JJ is a public limited company with an objective to increase profit every year.',
+        ms: `8 marks. Award 1 mark per reason (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nReasons: reward to entrepreneur/owners/shareholders for their skills; a source of finance for non-current assets/new products; may attract investors during expansion; indicator/measure of success; can signal a product should be withdrawn if unprofitable; measures manager performance.`
+      },
+      {
+        q: '3(b)', text: 'Consider the opportunities and threats of ecommerce for JJ. Which is likely to have the most effect on JJ? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'JJ sells 30% of its jewellery via ecommerce directly to customers in other countries, with many competitors in the wider market.',
+        ms: `12 marks. Levels-based marking.\n\nOpportunities: websites promote jewellery cheaply to foreign customers; direct orders skip intermediaries, protecting profit margins; encourages linked/matching-set purchases; easier/cheaper ordering of raw materials; easier to update prices vs reprinting brochures.\nThreats: high competition from other jewellery websites; website maintenance/update costs; customers can't try on rings to check fit; delivery/return costs; hacking/data security risk.\n\nValid conclusions: more opportunities than threats — low-cost way to reach the 30% overseas customer base; OR more threats than opportunities — heavy competition online makes it hard to be found by new customers.`
+      },
+      {
+        q: '4(a)', text: 'Using Appendix 2 and other information, explain two ways JJ may be affected by the forecast increase in unemployment in country X.', marks: 8, part: 'a', type: 'explain',
+        context: 'Unemployment in country X is forecast to rise from 3% to 6% by year end, continuing for two more years (Appendix 2).',
+        ms: `8 marks. Award 1 mark per way (max 2) + max 3 additional marks per explanation, one applied to context.\n\nWays: easier recruitment from a larger unemployed pool, possibly more skilled candidates; easier to resist demands for higher wages; lower consumer spending/demand for JJ's products as incomes fall; possible increased demand for lower-priced items as budgets tighten; JJ may invest less cautiously given uncertain future sales; may push JJ to export more to spread risk.\n\nApplication: jewellery; set up 25 years ago; public limited company; objective to increase profit/expand; 30% ecommerce, 70% shops; local raw materials; 60 full-time + 25 part-time employees; bracelets, rings, earrings; unemployment rising 3%→6%.`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider the following two environmental issues when JJ manufactures its products. Which issue should JJ choose to solve first? Justify your answer.\\n• Using coal for fuel in its factory\\n• Buying from suppliers that damage the environment', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 3: JJ uses coal for fuel (rising prices, but a 25% government grant is available for solar); JJ\'s gem suppliers use mining methods that prevent land being returned to agricultural use, though alternative less-damaging suppliers exist further away.',
+        ms: `12 marks. Levels-based marking.\n\nCoal for fuel: causes global warming, bad publicity from pressure groups; rising coal prices raise ongoing costs; 25% government grant makes switching to solar attractive and could improve JJ's image; competitors face the same coal cost rises, so switching may not change competitiveness much.\nSuppliers damaging environment: reputational risk if consumers learn of supplier practices; some price-focused consumers may not care, limiting sales impact; switching suppliers may raise raw material costs (further away); could improve reputation but at higher cost.\n\nValid conclusions: coal issue first — rising costs make this urgent and the grant offsets investment; OR supplier issue first — reputational damage could be harder to recover from than rising fuel costs.`
+      }
+    ]
+  },
+  'p2_s24_23': {
+    label: '2024 May/Jun Paper 2 Variant 3',
+    caseStudy: `Recycled Furniture (RF)
+
+Santhosh is a skilled carpenter. He wants to be an entrepreneur and start up a small business called RF. Santhosh will repair and recycle furniture which people no longer want, such as tables and chairs. Santhosh will operate RF as a sole trader.
+
+Santhosh has produced a business plan which includes the business objectives and a forecast break-even chart for RF's first month of trading. Santhosh has calculated he will need $5000 start-up capital for new tools, to rent a workshop and for promotional activities. Santhosh wants to sell the recycled furniture to RF's target market of low-income families. It will be important to keep costs low so the furniture can be sold at a low price.
+
+Santhosh has already employed a Marketing Manager. He will also need to recruit 9 other employees: 3 skilled carpenters and 6 unskilled school leavers. Santhosh and the skilled carpenters will train the unskilled school leavers to repair and recycle the furniture. At the start of each day Santhosh will communicate with his employees to ensure they know their daily work tasks. Santhosh knows that having a well-motivated workforce will be important to RF.
+
+Appendix 1 — Email from Santhosh to Marketing Manager, 31 March 2024:
+I know we will need to spend some of my start-up capital on promotional activities to raise awareness and encourage purchases. I am considering: (1) a 10% discount on a customer's first purchase, or (2) free delivery on all products purchased, transported directly to customers' homes.
+
+Appendix 2 — Forecast break-even chart for RF's first month:
+Break-even output = 10 items; Fixed costs = $50/month; Total revenue at break-even = $180; Total cost at break-even = $130; forecast sales = 20 items/month.
+
+Appendix 3 — Extract from Main News: "Country goes into a recession"
+Recent economic data shows the economy is now in a recession. Unemployment is likely to increase, though availability of skilled vs unskilled workers may differ. The recession is also likely to affect sales for many businesses.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four characteristics of a successful entrepreneur.', marks: 8, part: 'a', type: 'explain',
+        context: 'Santhosh is a skilled carpenter starting RF as a sole trader, a completely new business.',
+        ms: `8 marks. Award 1 mark per characteristic (max 4) + 1 additional mark per explanation.\n\nCharacteristics: self-confident — to convince investors to provide finance; creative — to develop ideas different from existing products/services; hard-working — long hours needed for success; risk-taker — prepared to lose invested capital; also valid: innovative, effective communicator, independent, determined/perseverance.\n\nExample: "Hard-working (1) — many entrepreneurs need to work long hours to make their business successful (1)."`
+      },
+      {
+        q: '1(b)', text: 'Using Appendix 1 and other information, consider the advantages and disadvantages to RF of the following two methods of promotion. Which method should Santhosh use to attract customers to RF? Justify your answer.\\n• 10% discount on a customer\'s first purchase\\n• Free delivery on all products purchased', marks: 12, part: 'b', type: 'evaluate',
+        context: 'RF targets low-income families and needs to decide between a 10% first-purchase discount or free delivery as its promotion method.',
+        ms: `12 marks. Levels-based marking.\n\n10% discount: reduces price, may boost demand from the low-income target market and sales revenue; customers may buy more than one item, improving working capital; but reduces revenue/profit margin per item and raises the number of sales needed to break even.\nFree delivery: may encourage bigger/more purchases since transport isn't a worry; builds loyalty/repeat sales; helps RF stand out from competitors; but RF bears fuel costs, may need to buy/lease a vehicle, and hire delivery drivers, raising costs and possibly prices.\n\nValid recommendations: discount — most effective for a price-sensitive low-income market; OR free delivery — furniture is bulky/heavy, so removing the delivery barrier may drive more purchases despite the added cost.`
+      },
+      {
+        q: '2(a)', text: 'Explain two business objectives Santhosh might have for RF.', marks: 8, part: 'a', type: 'explain',
+        context: 'RF is a brand-new sole-trader start-up needing $5000 in start-up capital, launching during a recession.',
+        ms: `8 marks. Award 1 mark per objective (max 2) + max 3 additional marks per explanation, one applied to context.\n\nObjectives: business survival — new businesses face greater risk of failing, risking Santhosh's personal possessions as a sole trader; profit — funds reinvestment, avoids interest payments unlike loans; service to community/social — providing jobs/support for disadvantaged groups (school leavers); increase market share.\n\nApplication: new/start-up business; carpenter; school leavers; small business; sole trader; $5000 start-up capital; furniture; low-income families; 10% discount; free delivery; recession.`
+      },
+      {
+        q: '2(b)', text: 'Consider the advantages and disadvantages of the following three sources of finance Santhosh could use when starting up RF. Which source should Santhosh use? Justify your answer.\\n• Owner\'s savings\\n• Microfinance\\n• Crowdfunding', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Santhosh needs $5000 start-up capital for tools, workshop rent, and promotion.',
+        ms: `12 marks. Levels-based marking.\n\nOwner's savings: immediately available, no interest, no repayment needed; but Santhosh may not have $5000 saved, loses potential bank interest, and risks losing all his own money.\nMicrofinance: suits small amounts like $5000, no collateral needed; accessible when banks would see a new business as high risk; but may have harsh/short repayment terms and restrictive conditions.\nCrowdfunding: no initial fees, tests public demand for recycled furniture, can raise substantial sums; but must repay if the $5000 target isn't reached, publicises the idea to potential copycats, and the platform can reject it.\n\nValid recommendations: owner's savings — no interest keeps costs low, matching RF's low-cost positioning; OR microfinance — suits the small amount needed with lower personal risk; OR crowdfunding — no fees and could test community interest given the social angle of training school leavers.`
+      },
+      {
+        q: '3(a)', text: 'Using Appendix 2 and other information, explain two benefits and two limitations to Santhosh of using break-even analysis.', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 2: break-even output = 10 items; fixed costs $50/month; total revenue $180 and total cost $130 at break-even; forecast sales 20 items/month.',
+        ms: `8 marks. Award 1 mark per benefit/limitation (max 4) + 1 additional mark per explanation in context.\n\nBenefits: gives a target output (10 items) needed before profit is made; shows the impact of decisions by redrawing the chart (e.g. if variable costs rise); shows a margin of safety protecting against a sales fall.\nLimitations: assumes all goods produced are sold (forecast is 20 items); fixed costs ($50) stay fixed only if scale of production doesn't change; revenue may vary if a 10% discount is offered; only works for a single product, but RF sells a range of furniture; assumes costs are straight lines.\n\nApplication: new/start-up business; carpenter; school leavers; sole trader; $5000 start-up capital; furniture; low-income families; recession; break-even output 10; fixed costs $50; total revenue $180; total cost $130.`
+      },
+      {
+        q: '3(b)', text: 'Using Appendix 3 and other information, consider how the recession might affect RF\'s forecast sales and the availability of potential employees. Which is likely to have the most effect on RF? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 3: the country is in recession; unemployment likely to rise; availability of skilled vs unskilled workers may differ; sales for many businesses likely affected.',
+        ms: `12 marks. Levels-based marking.\n\nForecast sales: recession may increase the pool of low-income families, potentially raising demand for recycled furniture; but reduced supply of old furniture as people delay buying new; higher unemployment could reduce overall demand too.\nAvailability of employees: greater availability of workers as unemployment rises, easing recruitment of RF's 10 staff; workers, especially school leavers, may accept lower wages; availability of skilled carpenters may not change much if other businesses retain their skilled staff.\n\nValid conclusions: forecast sales matter most — cash inflow is critical to cover RF's high start-up costs, and the target market may grow; OR employee availability matters most — RF specifically needs a mix of skilled and unskilled workers to operate at all.`
+      },
+      {
+        q: '4(a)', text: 'Explain two benefits to RF of having a well-motivated workforce.', marks: 8, part: 'a', type: 'explain',
+        context: 'RF will have 10 employees (Santhosh, 3 skilled carpenters, 6 unskilled school leavers, plus a Marketing Manager).',
+        ms: `8 marks. Award 1 mark per benefit (max 2) + max 3 additional marks per explanation, one applied to context.\n\nBenefits: low labour turnover — reduces recruitment costs; low absenteeism — less disruption, better able to meet demand; low industrial action risk — protects reputation/customer relations; increases productivity — fewer employees needed for the same output; higher quality goods/services — increases customer loyalty and revenue; more competitive, potentially increasing market share.\n\nApplication: new/start-up business; carpenter; school leavers; sole trader; $5000 start-up capital; furniture; low-income families; 10% discount; free delivery; recession.`
+      },
+      {
+        q: '4(b)', text: 'Consider the following three methods Santhosh could use to communicate the daily work tasks to his employees. Which method should he use? Justify your answer.\\n• Telephone calls\\n• Face-to-face meetings\\n• Text messages', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Santhosh communicates daily work tasks each morning to his 10 employees, a mix of skilled carpenters and school leavers.',
+        ms: `12 marks. Levels-based marking.\n\nTelephone calls: direct/personal, immediate feedback possible; but employees may not answer, poor connection can distort messages, time-consuming to call everyone, no permanent record.\nFace-to-face meetings: builds team feeling, allows immediate clarification and idea contribution; but time-consuming versus training, and school leavers may lack confidence to speak up.\nText messages: written record to refer back to, can be read any time without needing to be present; but relies on phone/internet access, may get lost among other messages, and can distract with social messaging.\n\nValid recommendations: phone calls — best for immediate two-way clarification with a small team; OR face-to-face — suits a small business wanting full team involvement; OR text messages — reliable written record accessible any time of day.`
+      }
+    ]
+  },
+  'p2_m24_22': {
+    label: '2024 Feb/Mar Paper 2 Variant 2',
+    caseStudy: `Authentic Foods (AF)
+
+Sam started up his own business, AF, 6 years ago in country X. He received government support. Sam used to live in country A. When he moved to country X he could not find meals from his original country. Sam decided to use recipes from country A to make meals in his kitchen and sell them to people in the local area.
+
+As demand increased Sam set up 5 street market stalls across Main City. Many customers buy his meals because they are traditional and of high quality. There are no other businesses in country X that produce these meals.
+
+Two years ago Sam formed a business partnership with his brother. They used retained profit from the business to invest in a factory to produce meals on a larger scale. AF now has 10 skilled production employees to make the meals in the factory.
+
+AF imports 90% of the ingredients for its meals from country A. AF could buy some ingredients locally at a cheaper price but this may change the taste of the meals. Food production businesses in country X usually buy their ingredients locally. However, most manufactured consumer products in country X are imported, so changes in the exchange rate affect their prices.
+
+AF's factory has operated profitably since it opened. There is high demand for AF's meals, especially in Main City where many workers used to live in country A. Sam wants to expand the factory and must decide whether to increase output by investing in new technology ($50,000) or buying more of their existing equipment ($25,000). Sam is also considering introducing a new meal to the AF range.
+
+Appendix 1 — Three legal controls being introduced in country X: increase in minimum wage (AF already pays above minimum); additional health and safety regulations (requiring training/equipment); employees limited to a maximum of 50 hours/week (production employees currently work 40, sometimes up to 60, hours/week when busy).
+
+Appendix 2 — Email from Sam to his brother, 6 January 2024:
+There are 100,000 people from country A currently employed in country X; 60% earn a high income. Our traditional meals make customers feel at home, which should keep this segment loyal. Proposed marketing mix for the new meal: penetration pricing; sold through food retailers in Main City; advertised via social media.
+
+Appendix 3 — Cost and revenue data for two new meals:
+Meal 1: ingredient cost $4/meal; additional fixed costs $6000/month; price $10/meal; forecast sales 2000/month.
+Meal 2: ingredient cost $3/meal; additional fixed costs $2000/month; price $5/meal; forecast sales 5000/month.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four reasons why governments support the start-up of new businesses.', marks: 8, part: 'a', type: 'explain',
+        context: 'Sam received government support when starting AF 6 years ago.',
+        ms: `8 marks. Award 1 mark per reason (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nReasons: reduces unemployment via new jobs; increases competition, encouraging efficiency; provides social benefits (some start-ups become social enterprises); provides specialist/niche goods larger businesses don't offer; increases output/GDP; increases variety of goods/services; increases tax revenue; small businesses may grow into large ones.`
+      },
+      {
+        q: '1(b)', text: 'Using Appendix 1 and other information, consider how AF may be affected by the following three changes in legal controls over employment issues in country X. Which legal control will have the most effect on AF? Justify your answer.\\n• Increase in the legal minimum wage\\n• Additional health and safety regulations\\n• Employees can only work a maximum of 50 hours each week', marks: 12, part: 'b', type: 'evaluate',
+        context: 'AF already pays above minimum wage; production employees currently work 40 hours/week, sometimes up to 60 when busy.',
+        ms: `12 marks. Levels-based marking.\n\nMinimum wage increase: may not raise AF's costs much since AF already pays above minimum; could still raise costs if differential pay needs preserving to retain staff; higher wages could increase disposable income and demand for AF's meals.\nHealth & safety regulations: training and safety equipment costs rise; fewer accidents/absences could raise output; workers may feel safer and more motivated.\nMax 50-hour week: AF's employees sometimes work up to 60 hours when busy — this cap could force AF to hire more staff or turn away demand at peak times, risking lost sales, though workers may be less tired and make fewer errors.\n\nValid conclusions: minimum wage — ongoing, compounding cost even if increase is modest; OR health & safety — one-off equipment costs adding to AF's existing expansion borrowing needs; OR the 50-hour cap — most disruptive since AF currently relies on staff exceeding 50 hours during busy periods.`
+      },
+      {
+        q: '2(a)', text: 'Explain two benefits to AF of segmenting its market.', marks: 8, part: 'a', type: 'explain',
+        context: 'AF\'s meals target people from country A living in country X — a specific market segment with no direct local competition.',
+        ms: `8 marks. Award 1 mark per benefit (max 2) + max 3 additional marks per explanation, one applied to context.\n\nBenefits: sales may increase by tailoring products to a specific segment's exact needs; identifies gaps in the market not met by larger businesses; makes a small business more competitive by serving a niche larger firms ignore; may allow higher prices in a niche segment with fewer competitors; makes marketing spend more targeted and cost-effective.\n\nApplication: meals; workers from another country; food recipes; 90% ingredients imported; partnership; 100,000 workers from country A; produced in own kitchen originally; new technology being considered; high demand; no other businesses producing similar food; 60% of target market high-income.`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 2 and other information, consider each of the following elements of the marketing mix for AF\'s new meal. Would this be a suitable marketing mix for the new meal? Justify your answer.\\n• Price - using penetration pricing\\n• Place - selling to food retailers in Main City\\n• Advertising - using social media', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 2: 100,000 people from country A live in country X, 60% high-income; proposed mix is penetration pricing, sale through food retailers, and social media advertising.',
+        ms: `12 marks. Levels-based marking.\n\nPenetration pricing: attracts trial with low prices, boosting initial sales; but may signal low quality for a "traditional/high-quality" brand, risk selling below cost given imported ingredients, and may be unnecessary since 60% of the target market is high-income and has no local competition.\nSelling through food retailers: reaches a wider market beyond country-A customers, point-of-sale displays raise awareness; but lowers AF's margin per meal, and retailers stock competing meals, risking customer loyalty elsewhere; may not reach country-A communities if retailers aren't near them.\nSocial media advertising: reaches many people cheaply, can target the 100,000-strong country-A community directly, allows cultural/language-specific ads, enables direct customer interaction; but not everyone uses social media, and negative comments are hard to counter.\n\nValid conclusions: the mix is broadly suitable — low price plus wide reach could successfully launch the meal to a broad market; OR the mix is only partly suitable — penetration pricing specifically is questionable given the affluent, loyal target segment, and price skimming may suit better.`
+      },
+      {
+        q: '3(a)', text: 'Explain two ways an appreciation in the exchange rate of country X might affect AF.', marks: 8, part: 'a', type: 'explain',
+        context: 'AF imports 90% of its ingredients from country A, so exchange rate movements significantly affect its costs.',
+        ms: `8 marks. Award 1 mark per way (max 2) + max 3 additional marks per explanation, one applied to context.\n\nWays: decreases the cost of imports, allowing lower prices and more competitive/higher sales; may free up more consumer income for AF's meals as other imported goods get cheaper too; AF may gain a competitive edge over local competitors who don't import (unaffected by the appreciation); profit margins may rise due to lower raw material costs.\n\nApplication: meals; workers from another country; food recipes; 90% ingredients imported; partnership; 100,000 workers; produced in own kitchen originally; new technology under consideration; high demand; no similar local competitors.`
+      },
+      {
+        q: '3(b)', text: 'Consider the following two ways AF could increase output in its factory. Which would be the best way to use? Justify your answer.\\n• Investing in new technology\\n• Buying more of their existing equipment', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Sam is choosing between investing $50,000 in new technology or $25,000 in more of AF\'s existing equipment to expand factory output.',
+        ms: `12 marks. Levels-based marking — calculations/figures expected for top marks.\n\nNew technology ($50,000): raises productivity and output; more motivated/trained staff; more consistent, higher-quality mixing of ingredients; better production monitoring; but may not suit traditional recipes, losing authentic taste and demand; expensive, may need a loan with interest; risk of becoming outdated; retraining and possible redundancy costs.\nExisting equipment ($25,000): maintains the traditional taste, protecting sales; little/no retraining needed; much cheaper, less need for a loan; on-the-job training suffices for new hires; but less efficient than new technology, may need a factory layout change, and may require hiring more staff, raising wage costs.\n\nValid recommendations: new technology — boosts productivity and can lower unit costs long-term; OR existing equipment — protects the authentic taste central to AF's brand and is far cheaper at $25,000 vs $50,000.`
+      },
+      {
+        q: '4(a)', text: 'Explain two advantages and two disadvantages for AF of using retained profit as a source of finance for the investment in the factory.', marks: 8, part: 'a', type: 'explain',
+        context: 'AF has operated as a partnership between Sam and his brother for 2 years, funded partly by retained profit already invested in the factory.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 4) + 1 additional mark per explanation applied to context.\n\nAdvantages: doesn't need to be repaid, unlike a bank loan; available immediately, no delay for the partners; no interest payments, keeping meal prices stable; no collateral/security needed.\nDisadvantages: may not have sufficient retained profit after only 2 years as a partnership; reduces payments/returns to the owners; money isn't available for other uses in the business.\n\nApplication: meals; workers from another country; food recipes; 90% ingredients imported; 2 years as a partnership; 100,000 workers; produced in own kitchen originally; new technology under consideration; high demand; existing equipment; brother; 10 skilled production workers.`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider the advantages and disadvantages of the two new meals AF could choose to produce. Which meal should AF choose? Justify your answer using suitable calculations.\\n• Meal 1\\n• Meal 2', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Meal 1: ingredient cost $4, fixed costs $6000/month, price $10, forecast sales 2000/month. Meal 2: ingredient cost $3, fixed costs $2000/month, price $5, forecast sales 5000/month.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nMeal 1: total revenue $20,000/month; total cost $14,000 ($6000 + 2000×$4); gross profit $12,000/month, gross profit margin 60%; profit $6000/month, profit margin 30%; higher price, benefits more from an exchange-rate appreciation given its higher import-cost share.\nMeal 2: total revenue $25,000/month; total cost $17,000 ($2000 + 5000×$3); gross profit $10,000/month, gross profit margin 40% (lower than Meal 1); profit $8000/month, profit margin 32% (higher than Meal 1); higher forecast sales volume; same break-even output as Meal 1 at 1000/month.\n\nValid recommendations: Meal 1 — higher gross profit margin, benefits more from favourable exchange rate movement, and the affluent target market can bear the higher price; OR Meal 2 — higher total monthly profit ($8000 vs $6000) and higher profit margin.`
+      }
+    ]
+  },
   'p2_w24_21': {
     label: '2024 Oct/Nov Paper 2 Variant 1',
     caseStudy: `Chosen Cookies (CC)
@@ -12447,6 +12705,10 @@ function loadFPPaper2() {
     'p2_w25_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_22.pdf',
     'p2_w25_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_w25_in_23.pdf',
     'p2_s24_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_s24_in_21.pdf',
+    'p2_s23_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_s23_in_21.pdf',
+    'p2_s24_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_s24_in_22.pdf',
+    'p2_s24_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_s24_in_23.pdf',
+    'p2_m24_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_m24_in_22.pdf',
     'p2_w24_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_w24_in_21.pdf',
     'p2_w24_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_w24_in_22.pdf',
     'p2_w24_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_w24_in_23.pdf',
