@@ -1207,16 +1207,18 @@ footer {
 
     <!-- Context -->
     <div id="m-ctx-wrap" style="display:flex;flex-direction:column;gap:7px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study context <span style="color:var(--text3);font-weight:400">— optional, paste the business scenario</span></label>
-        <label for="m-ctx-pdf" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--blue-500);cursor:pointer;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);white-space:nowrap">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Upload PDF
-        </label>
-        <input type="file" id="m-ctx-pdf" accept="application/pdf" style="display:none" onchange="handleCtxPdfUpload(this.files[0])"/>
+      <label style="font-size:13px;font-weight:500;color:var(--text2)">Case study context <span style="color:var(--text3);font-weight:400">— optional, paste the business scenario</span></label>
+      <div id="m-ctx-pdf-area" style="display:none;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap">
+          <label for="m-ctx-pdf" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--blue-500);cursor:pointer;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:var(--bg2);white-space:nowrap">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload PDF
+          </label>
+          <input type="file" id="m-ctx-pdf" accept="application/pdf" style="display:none" onchange="handleCtxPdfUpload(this.files[0])"/>
+        </div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.5">Use <strong>BestExamHelp</strong> to download the insert — you can also find it in the <a href="#" onclick="showPastPapers();return false" style="color:var(--blue-500);text-decoration:underline">Past Papers</a> section of this site. PDFs from BestExamHelp are typeset cleanly, so the AI reads them accurately with no formatting issues.</div>
+        <div id="m-ctx-pdf-status" style="display:none;font-size:12px;color:var(--text3)"></div>
       </div>
-      <div style="font-size:12px;color:var(--text3);line-height:1.5">Use BestExamHelp to download the insert — you can also find it in the <a href="#" onclick="showPastPapers();return false" style="color:var(--blue-500);text-decoration:underline">Past Papers</a> section of this site.</div>
-      <div id="m-ctx-pdf-status" style="display:none;font-size:12px;color:var(--text3)"></div>
       <textarea id="m-ctx" rows="3" placeholder="e.g. FreshBrew Ltd is a coffee chain with 12 branches. Revenue last year was $2.4m..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:none;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
     <div id="m-ctx-note" style="display:none;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px">Part E doesn't require application, so a case study context isn't needed here.</div>
@@ -1653,9 +1655,11 @@ async function handleCtxPdfUpload(file) {
 function updateCtxNote() {
   const note = document.getElementById('m-ctx-note');
   const wrap = document.getElementById('m-ctx-wrap');
+  const pdfArea = document.getElementById('m-ctx-pdf-area');
   const isPartE = (markerPaper === 1 && currentPart === 'e');
   if (note) note.style.display = isPartE ? 'block' : 'none';
   if (wrap) wrap.style.display = isPartE ? 'none' : 'flex';
+  if (pdfArea) pdfArea.style.display = (markerPaper === 2) ? 'flex' : 'none';
 }
 
 let markerPaper = 1;
