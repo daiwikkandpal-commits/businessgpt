@@ -12630,6 +12630,20 @@ async function markFullPaper() {
 
   if (!currentFPPaper) return;
 
+  const questions = currentFPPaper.questions;
+  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
+
+  const answers = questions.map(q => {
+    const key = q.q.replace(/[^a-z0-9]/gi,'_');
+    const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
+    return { ...q, answer: ans };
+  });
+
+  if (answers.every(q => !q.answer)) {
+    document.getElementById('fp-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Please answer at least one question before marking — empty answers are not sent to the AI.</div>';
+    return;
+  }
+
   const btn = document.getElementById('fp-btn');
   btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking all 20 questions…';
@@ -12639,15 +12653,6 @@ async function markFullPaper() {
       <div style="font-size:14px;color:var(--text2);margin-bottom:8px">Marking in batches — this may take 20–40 seconds…</div>
       <div style="font-size:13px;color:var(--text3)">Please don't close this tab</div>
     </div>`;
-
-  const questions = currentFPPaper.questions;
-  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
-
-  const answers = questions.map(q => {
-    const key = q.q.replace(/[^a-z0-9]/gi,'_');
-    const ans = document.getElementById('fpans-' + key)?.value?.trim() || '';
-    return { ...q, answer: ans };
-  });
 
   // Split into 4 batches of 5 questions each, run in parallel
   function buildBatchPrompt(batch) {
@@ -12707,14 +12712,22 @@ async function markFullPaper() {
   }
 
   try {
+    const answeredQuestions = answers.filter(q => q.answer);
+    const blankResults = answers.filter(q => !q.answer).map(q => ({
+      label: q.q, score: 0, max: q.marks,
+      feedback: 'No answer provided — not sent to the AI.',
+      missed: 'Attempt this question to receive feedback.'
+    }));
+
     const batchSize = 5;
     const batches = [];
-    for (let i = 0; i < answers.length; i += batchSize) {
-      batches.push(answers.slice(i, i + batchSize));
+    for (let i = 0; i < answeredQuestions.length; i += batchSize) {
+      batches.push(answeredQuestions.slice(i, i + batchSize));
     }
 
-    const batchResults = await Promise.all(batches.map(b => markBatch(b)));
-    const allQuestions = batchResults.flat();
+    const batchResults = batches.length ? await Promise.all(batches.map(b => markBatch(b))) : [];
+    const allQuestions = [...batchResults.flat(), ...blankResults]
+      .sort((a,b) => questions.findIndex(q=>q.q===a.label) - questions.findIndex(q=>q.q===b.label));
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
     const grade = getPaperGrade(1, currentFPPaper.label, totalScore);
@@ -12882,6 +12895,21 @@ async function markFullPaperP2() {
 
   if (!currentFPPaper2) return;
 
+  const questions = currentFPPaper2.questions;
+  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
+  const caseStudy = currentFPPaper2.caseStudy;
+
+  const answers = questions.map(q => {
+    const key = q.q.replace(/[^a-z0-9]/gi,'_');
+    const ans = document.getElementById('fp2ans-' + key)?.value?.trim() || '';
+    return { ...q, answer: ans };
+  });
+
+  if (answers.every(q => !q.answer)) {
+    document.getElementById('fp2-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Please answer at least one question before marking — empty answers are not sent to the AI.</div>';
+    return;
+  }
+
   const btn = document.getElementById('fp2-btn');
   btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking — this may take 30–60 seconds…';
@@ -12908,16 +12936,6 @@ async function markFullPaperP2() {
         <span class="sk" style="height:13px;width:65%"></span>
       </div>
     </div>`;
-
-  const questions = currentFPPaper2.questions;
-  const totalMax = questions.reduce((s,q) => s + q.marks, 0);
-  const caseStudy = currentFPPaper2.caseStudy;
-
-  const answers = questions.map(q => {
-    const key = q.q.replace(/[^a-z0-9]/gi,'_');
-    const ans = document.getElementById('fp2ans-' + key)?.value?.trim() || '';
-    return { ...q, answer: ans };
-  });
 
   function buildP2BatchPrompt(batch) {
     const qList = batch.map(q => {
@@ -12997,15 +13015,23 @@ async function markFullPaperP2() {
   }
 
   try {
+    const answeredQuestions = answers.filter(q => q.answer);
+    const blankResults = answers.filter(q => !q.answer).map(q => ({
+      label: q.q, score: 0, max: q.marks, level: null,
+      feedback: 'No answer provided — not sent to the AI.',
+      missed: 'Attempt this question to receive feedback.'
+    }));
+
     // Split into batches of 4 (smaller batches because (b) answers are long)
     const batchSize = 4;
     const batches = [];
-    for (let i = 0; i < answers.length; i += batchSize) {
-      batches.push(answers.slice(i, i + batchSize));
+    for (let i = 0; i < answeredQuestions.length; i += batchSize) {
+      batches.push(answeredQuestions.slice(i, i + batchSize));
     }
 
-    const batchResults = await Promise.all(batches.map(b => markP2Batch(b)));
-    const allQuestions = batchResults.flat();
+    const batchResults = batches.length ? await Promise.all(batches.map(b => markP2Batch(b))) : [];
+    const allQuestions = [...batchResults.flat(), ...blankResults]
+      .sort((a,b) => questions.findIndex(q=>q.q===a.label) - questions.findIndex(q=>q.q===b.label));
 
     const totalScore = allQuestions.reduce((s,q) => s + (q.score||0), 0);
     const grade = getPaperGrade(2, currentFPPaper2.label, totalScore);
