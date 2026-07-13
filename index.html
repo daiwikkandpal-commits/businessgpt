@@ -334,6 +334,20 @@ nav {
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .nav-cta-mobile { display: none; }
 
+/* School prompt modal */
+.school-modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(15,23,42,0.55);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+.school-modal-overlay.show{display:flex}
+.school-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:32px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.25)}
+.school-modal h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.school-modal p{font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.6}
+.school-modal input{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:14px;outline:none;margin-bottom:6px;font-family:inherit;box-sizing:border-box}
+.school-modal input:focus{border-color:var(--blue-400);box-shadow:0 0 0 3px rgba(59,130,246,0.12)}
+.school-modal .err-msg{font-size:12px;color:#ef4444;margin-bottom:10px;display:none}
+.school-modal .err-msg.show{display:block}
+.school-modal button{width:100%;padding:12px;background:var(--blue-500);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s}
+.school-modal button:hover{background:var(--blue-600)}
+.school-modal button:disabled{opacity:0.6;cursor:not-allowed}
+
 .nav-cta {
   display: flex; align-items: center; gap: 12px;
 }
@@ -945,6 +959,16 @@ footer {
   </div>
 </nav>
 
+<!-- School prompt modal (catches every sign-in method missing a school) -->
+<div class="school-modal-overlay" id="schoolModalOverlay">
+  <div class="school-modal">
+    <h3>One more thing<span id="smSuffix"></span></h3>
+    <p>Which school are you studying at? This helps us understand who's using IGCSE Mark.</p>
+    <input type="text" id="smInput" placeholder="e.g. Dubai College" autocomplete="organization" onkeydown="if(event.key==='Enter')submitSchoolPrompt()"/>
+    <div class="err-msg" id="smErr">Please enter your school name.</div>
+    <button id="smBtn" onclick="submitSchoolPrompt()">Continue</button>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home" style="position:relative;overflow:hidden">
@@ -12784,6 +12808,38 @@ function updateNavForUser(user) {
   document.getElementById('navAvatar').textContent = initial;
   document.getElementById('navName').textContent = name;
   _userId = user.id;
+  if (!user.user_metadata?.school) {
+    showSchoolModal(user);
+  }
+}
+
+function showSchoolModal(user) {
+  const fn = user.user_metadata?.first_name || user.user_metadata?.full_name?.split(' ')[0];
+  document.getElementById('smSuffix').textContent = fn ? `, ${fn}` : '';
+  document.getElementById('schoolModalOverlay').classList.add('show');
+}
+
+async function submitSchoolPrompt() {
+  const input = document.getElementById('smInput');
+  const err = document.getElementById('smErr');
+  const btn = document.getElementById('smBtn');
+  const sc = input.value.trim();
+  if (!sc) { err.classList.add('show'); input.style.borderColor = '#ef4444'; return; }
+  err.classList.remove('show');
+  input.style.borderColor = '';
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try {
+    const { error } = await _supabase.auth.updateUser({ data: { school: sc } });
+    if (error) throw error;
+    document.getElementById('schoolModalOverlay').classList.remove('show');
+  } catch (e) {
+    err.textContent = e.message || 'Something went wrong. Please try again.';
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Continue';
+  }
 }
 
 function resetNav() {
