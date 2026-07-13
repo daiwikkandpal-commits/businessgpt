@@ -1470,7 +1470,9 @@ footer {
               <option value="p2_s23_22">  🟢  May/Jun · Variant 2</option>
               <option value="p2_s23_23">  🟢  May/Jun · Variant 3</option>
               <option value="p2_w23_23">  🔵  Oct/Nov · Variant 3</option>
+              <option value="p2_w23_22">  🔵  Oct/Nov · Variant 2</option>
               <option value="p2_w23_21">  🔵  Oct/Nov · Variant 1</option>
+              <option value="p2_m23_22">  🟣  Feb/Mar · Variant 2</option>
             </optgroup>
           </select>
         </div>
@@ -10007,6 +10009,133 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_m23_22': {
+    label: '2023 Feb/Mar Paper 2 Variant 2',
+    caseStudy: `Romesh Woodpaints (RW)
+
+RW was set up 15 years ago in country X. It is a public limited company. RW produces paint used for all types of wood products, including wooden furniture.
+
+All RW's customers are located in Main City where consumer incomes have been increasing in recent years. RW's paint is sold through specialist shops for customers to improve their own houses, and also sells direct to businesses that make wooden furniture.
+
+RW has one factory in Main City using flow production, with 100 skilled employees who maintain the production-line machinery, protected by legal controls RW must follow. RW imports 75% of its raw materials. Waste from paint production is put into local rivers, polluting the water.
+
+RW produces 1 million tins of paint a year — the maximum output at its existing factory. It plans to expand by building an additional factory to increase production to 2 million tins/year. The new factory will cost $50 million, financed by a bank loan. The Managing Director is aware of potential growth problems from running two factories, and of external costs and benefits from paint production.
+
+The new factory will need 100 production employees. RW may move some existing employees to train the newly recruited staff. RW must choose between three suitable locations (Appendix 2).
+
+Appendix 1 — Newspaper article, Main City News, January 2023: Wooden furniture businesses operate in a competitive market and must keep prices similar to rivals. Consumer tastes have shifted — more people buy wooden outdoor furniture as they spend more time in gardens, now preferring bright colours like yellow over darker colours like brown.
+
+Appendix 2 — Three possible locations for the new factory:
+Location A (Village): high cost land, skilled labour, existing factory located here.
+Location B (Port): high unemployment, no skilled workers, paint tins produced here.
+Location C (City): government grants available, low cost land, frequent power cuts.
+
+Appendix 3 — Financial information, one year before vs. forecast one year after the new factory:
+Existing factory (actual): Revenue $10m; Cost of sales $3m; Expenses incl. interest $6m; Profit $1m.
+Both factories (forecast): Revenue $20m; Cost of sales $6m; Expenses incl. interest $12m; Profit $2m.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain one advantage and one disadvantage to RW of using flow production.', marks: 8, part: 'a', type: 'explain',
+        context: 'RW uses flow production in its factory, with 100 skilled employees maintaining the line, producing 1 million tins of paint/year.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 1 each) + max 3 additional marks per explanation, one applied to context.\n\nAdvantage: high output of a standardised product, potentially raising sales/revenue/profit; keeps unit costs low, allowing lower/more competitive prices; may use advanced technology that can run 24/7, raising output; may enable bulk-buying discounts (purchasing economies of scale); saves time moving goods around the factory versus batch production.\nDisadvantage: reduces motivation — repetitive work can lower efficiency/raise staff turnover; may require high inventory storage, raising costs; a single machine breakdown can halt the whole interconnected line, wasting paid-but-idle labour; high capital cost of machinery/technology, possibly requiring borrowing.\n\nExample: "A high level of output can be produced (1) of paint for wooden furniture manufacturers (app) leading to a potential increase in sales (1) and possibly higher revenue and profit (1)."\n\nApplication: paint; wooden furniture; furniture manufacturers; 100 skilled employees; 1 million tins produced; public limited company; specialist shops; new factory; importing raw materials; maintaining machinery.`
+      },
+      {
+        q: '1(b)', text: 'Consider how the following three changes may affect RW. Which change is likely to have the most effect on RW\'s revenue? Justify your answer.\\n• Changes in consumer tastes and fashions\\n• Increase in consumer incomes\\n• Decrease in the price of competitors\' products', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 1: consumer tastes have shifted toward wooden outdoor furniture in bright colours like yellow, as people spend more time in gardens; consumer incomes in Main City have been rising.',
+        ms: `12 marks. Levels-based marking.\n\nTastes/fashions: rising demand for bright-coloured paint may require production changes (short-term cost) but should raise long-term revenue as RW meets new demand; may need more market research spending; may need new products, raising costs.\nConsumer incomes: could raise demand for garden furniture, indirectly raising demand for RW's paint from furniture makers; OR could reduce direct retail paint sales if wealthier consumers pay others to renovate instead of DIY.\nCompetitor price cuts: could reduce RW's sales as it becomes less price-competitive, cutting revenue; but limited impact if competitors' paint is lower quality/different target market; may force RW to cut its own prices.\n\nValid conclusions: tastes/fashions — most direct effect since RW can directly respond by producing more bright-coloured paint, especially with new factory capacity; OR rising incomes — boosts garden furniture demand and so paint demand; OR competitor price cuts — most direct threat to RW's competitiveness and revenue.`
+      },
+      {
+        q: '2(a)', text: 'Explain two possible problems for RW of the business growing.', marks: 8, part: 'a', type: 'explain',
+        context: 'RW is expanding from one factory (1 million tins/year) to two factories (2 million tins/year) with a $50m bank-loan-financed new factory.',
+        ms: `8 marks. Award 1 mark per problem (max 2) + max 3 additional marks per explanation, one applied to context.\n\nProblems: harder to control a larger business — employees may feel disconnected, raising unit costs; poorer communication as instructions travel further, risking errors; management may lack experience running a larger operation, risking poor decisions; financing costs rise (loan interest, or diluted ownership from issuing shares); lower staff morale/motivation as a larger organisation feels less personal; risk of over-expanding too fast, causing liquidity problems if demand doesn't match new output, leading to unsold inventory; weaker coordination; difficulty recruiting enough skilled staff.\n\nExample: "When RW becomes larger it may be harder to control (1). Employees may feel less part of the business as they rarely see senior managers (1), reducing effectiveness and raising unit costs (1) and prices (app)."\n\nApplication: paint; wooden furniture; furniture manufacturers; 100 skilled employees; $50 million new factory; two factories; bank loan; 200 employees total; 2 million tins produced.`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 2 and other information, consider the three possible locations for RW\'s new factory. Which location should RW choose? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Location A (Village): high cost land, skilled labour, existing factory here. Location B (Port): high unemployment, no skilled workers, paint tins produced here. Location C (City): government grants, low cost land, frequent power cuts.',
+        ms: `12 marks. Levels-based marking.\n\nLocation A: close to the existing factory, easing worker transfers to train new staff and cutting training costs; near customers, cutting finished-product transport costs; faster to spot and respond to changing tastes; better communication with senior management; local skilled labour cuts training costs; but most raw materials/tins still need transporting here, likely higher wages for skilled staff, and higher land costs.\nLocation B: near the port, cutting import costs for the 75% imported raw materials; high local unemployment means lower wages; paint tins are made locally, cutting transport costs; but no local skilled workers raises training costs, and finished goods cost more to ship to Main City.\nLocation C: low land costs cut capital needs; government grants may lower overall costs; closer to market than the port; but imported materials still need transporting here, and frequent power cuts risk halting production and losing output.\n\nValid recommendations: Location A — leverages existing skilled staff and head-office links, cutting training/communication costs; OR Location B — cuts import costs significantly given 75% imported materials; OR Location C — lowest land/wage costs plus grants, with output only needing to travel to Main City.`
+      },
+      {
+        q: '3(a)', text: 'Explain four legal controls that may benefit employees.', marks: 8, part: 'a', type: 'explain',
+        context: 'RW\'s 100 skilled production employees are protected by legal controls RW must follow.',
+        ms: `8 marks. Award 1 mark per legal control (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nControls: protection against unfair dismissal, giving job security; a required employment contract, so employees know pay/hours; protection against discrimination, ensuring equal treatment; health and safety laws, protecting against workplace injury; a legal minimum wage, preventing exploitation; restrictions on maximum working hours; entitlement to redundancy payments.\n\nExample: "Should be paid at least the legal minimum wage (1), which prevents strong employers exploiting workers by paying wages that don't meet basic needs (1)."`
+      },
+      {
+        q: '3(b)', text: 'Consider the advantages and disadvantages of two methods of training, other than induction training, which RW could use for the employees in the new factory. Which of these two methods should RW choose? Justify your answer.\\n• On-the-job training\\n• Off-the-job training', marks: 12, part: 'b', type: 'evaluate',
+        context: 'RW\'s new factory needs 100 production employees; RW may move existing staff from its current factory to help train them.',
+        ms: `12 marks. Levels-based marking.\n\nOn-the-job training: tailored, individual tuition on real flow-line tasks; keeps some paint production going during training; cheaper than off-the-job (no course fees); trains exactly how RW wants tasks done; but trainers may pass on bad habits, trainer productivity drops while training, employees may miss the latest techniques, and mistakes during learning can create wasted/faulty output.\nOff-the-job training: broad skill range taught; can happen outside work hours with no output loss; expert trainers give higher-quality instruction; teaches the most up-to-date techniques, aiding competitiveness; but production may fully stop during training (wages paid, no output), trained staff may find it easier to leave for competitors, and costs are usually higher.\n\nValid recommendations: on-the-job — cheaper and keeps some output flowing during the expansion; OR off-the-job — better suited to skilled line roles where quality/reputation is critical, especially since existing staff may lack the experience to train others well.`
+      },
+      {
+        q: '4(a)', text: 'Explain two external benefits and two external costs from RW\'s factories.', marks: 8, part: 'a', type: 'explain',
+        context: 'RW\'s paint waste is put into local rivers, polluting the water; the new factory will bring 100 new jobs.',
+        ms: `8 marks. Award 1 mark per benefit/cost (max 2 each) + max 1 additional mark per explanation in context.\n\nExternal benefits: local jobs created from the new factory; increased sales for local suppliers (e.g. of paint tins at Location B); tax revenue paid to government from profits; government-funded road improvements to handle increased traffic, benefiting other local businesses too; improved infrastructure (e.g. more reliable power if Location C is chosen).\nExternal costs: river pollution from paint waste; construction noise from building the new factory; increased road congestion from more lorries transporting paint.\n\nExample: "An external benefit is the tax paid to the government (1) out of the profit RW makes from selling paint (app)."\n\nApplication: paint; wooden furniture; furniture manufacturers; 100 skilled employees; 1 million tins produced; public limited company; specialist shops; new factory; imported raw materials; maintaining machinery.`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider whether the following forecasts are likely to be accurate after the new factory has been built. Do you think RW will achieve its forecast profit? Justify your answer.\\n• Revenue forecast $20 million\\n• Cost of sales forecast $6 million\\n• Expenses forecast, including interest paid, $12 million', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Existing factory (actual): Revenue $10m, Cost of sales $3m, Expenses $6m, Profit $1m. Forecast for both factories: Revenue $20m, Cost of sales $6m, Expenses $12m, Profit $2m.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nRevenue ($20m forecast, doubled): plausible if output doubles to 2 million tins and all is sold at the same price; but prices may need to fall to sell the extra output, and it will take time to reach full new-factory capacity, so the full $20m may not be hit immediately — actual increase depends on price elasticity of demand.\nCost of sales ($6m forecast, doubled): plausible if no economies of scale apply; but bulk-buying discounts on raw materials could mean costs rise by less than double.\nExpenses ($12m forecast, doubled): likely to be higher than forecast once bank loan interest on the $50m loan is included, plus possible extra setup/training costs in the first year.\n\nValid conclusions: profit likely achieved or exceeded — economies of scale could keep cost of sales below double, and if on-the-job training keeps expenses controlled, profit could exceed the forecast $2m; OR profit unlikely to be achieved — output won't likely double in year one, so revenue underperforms, while loan interest pushes expenses above forecast, squeezing profit below $2m.`
+      }
+    ]
+  },
+  'p2_w23_22': {
+    label: '2023 Oct/Nov Paper 2 Variant 2',
+    caseStudy: `Sports Safety Equipment (SSE)
+
+SSE manufactures sports safety equipment in country Z. It is a public limited company which has been successful for over 30 years. The main product SSE manufactures is safety helmets for different sports, such as bicycle riding, cricket and skateboarding. SSE has one large factory making the safety helmets using flow production, with production workers each specialising in one task on the line. SSE's raw materials are imported.
+
+SSE sells its helmets in several other countries and is planning to expand into many more, needing market research before entering new markets — each country has different popular sports and different helmet styles.
+
+SSE plans to build its own factories in its most important foreign markets and needs a suitable source of finance. The Human Resources Director has decided to use internal recruitment for the new factory managers. Effective communication is needed between the new factory managers and SSE's head office in country Z.
+
+Most of SSE's sales in country Z are through sports equipment shops where customers can try on helmets. SSE currently sells its helmets in other countries through its website. SSE is also developing a new children's cricket helmet — a break-even chart for this product is shown in Appendix 3.
+
+Appendix 1 — Extract from SSE's website: "If you want the best protection when playing sport then buy an SSE safety helmet! We supply a wide range of safety helmets for you when playing sport... You can order directly from this website by entering your head measurements below."
+
+Appendix 2 — Email from Managing Director to Finance Director, 1 September 2023: Demand for SSE's products in country Z is forecast to increase. The government has imposed import tariffs on safety helmets — SSE may be able to raise prices. The exchange rate in country Z is expected to fall. Other countries have introduced import quotas on safety helmets.
+
+Appendix 3 — Projected weekly break-even chart for the new children's cricket helmet: fixed costs $15,000/week; total costs at 1000 units = $45,000/week; total revenue at 1000 units = $50,000/week; break-even output = 750 units/week; maximum output/sales = 1000 units/week (margin of safety = 250 units).`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain two advantages of using specialisation when producing SSE\'s products.', marks: 8, part: 'a', type: 'explain',
+        context: 'SSE uses flow production in one large factory, with production workers each specialising in one task on the line.',
+        ms: `8 marks. Award 1 mark per advantage (max 2) + max 3 additional marks per explanation, one applied to context.\n\nAdvantages: increases efficiency/productivity, allowing more machinery/technology use and higher output per worker; saves time since workers don't move between tasks, improving factory space usage; keeps unit costs low as workers get quicker at one task, allowing lower prices; cheaper to train employees in just one task; increases total output, potentially boosting sales/revenue; less waste from repeating the same task reduces mistakes; higher quality as workers become highly skilled at their one task.\n\nApplication: sports helmets; bicycle riding; cricket; skateboarding; flow production; 30 years in operation; one large factory; specialised production workers; sports safety industry.`
+      },
+      {
+        q: '1(b)', text: 'Consider the advantages and disadvantages of the following two methods of market research SSE could use when entering new markets in other countries. Which method of market research should SSE use? Justify your answer.\\n• Primary market research\\n• Secondary market research', marks: 12, part: 'b', type: 'evaluate',
+        context: 'SSE needs market research before entering new countries, since popular sports and helmet styles vary by country.',
+        ms: `12 marks. Levels-based marking.\n\nPrimary research: up-to-date on locally popular sports/styles (e.g. cricket helmets adapted per country); focused on specific customer needs and current trends; not available to competitors; but can be biased/leading, expensive (focus groups/interviews need specialist staff), and slow to gather and analyse across spread-out populations.\nSecondary research: usually much cheaper since data is already collected; can help assess total market size for cricket helmets in a country; can reveal a country's economic outlook via sources like newspapers; usually gathered quickly; but data may be outdated, available to competitors too, and may not fit SSE's specific research needs since it was collected for another purpose.\n\nValid recommendations: primary — gives accurate, market-specific data on true demand potential; OR secondary — keeps research costs low while expanding into many new markets at once, and is faster to obtain.`
+      },
+      {
+        q: '2(a)', text: 'Explain four factors a business should consider when choosing which source of finance to use for expansion.', marks: 8, part: 'a', type: 'explain',
+        context: 'SSE, a public limited company, needs finance to build new factories in its most important foreign markets.',
+        ms: `8 marks. Award 1 mark per factor (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nFactors: legal form of business — companies can issue shares, unincorporated businesses cannot; amount required — large expansion needs may suit bank loans or share issues; purpose — large amounts should be repayable over a long period to keep repayments manageable; existing loans — high existing debt/interest may rule out further borrowing; control — issuing more shares risks diluting existing shareholders' control; cost of finance (interest rate); repayment time needed; size of business.\n\nExample: "Legal form of business (1) — if unincorporated, owner's capital or borrowing may be the only option since shares can't be issued (1)."`
+      },
+      {
+        q: '2(b)', text: 'Consider the advantages and disadvantages of the following two options for SSE to distribute its products in the new markets in other countries. Which option should SSE choose? Justify your answer.\\n• Sell direct to customers using SSE\'s website\\n• Sell to large sports retailers in other countries', marks: 12, part: 'b', type: 'evaluate',
+        context: 'SSE currently sells internationally through its own website; domestically it mostly sells through sports equipment shops.',
+        ms: `12 marks. Levels-based marking.\n\nDirect website sales: no retail margin, so prices can be lower and profit potentially higher; direct customer relationship/feedback improves loyalty and word-of-mouth; reaches a wide global market; SSE controls the entire marketing mix; but higher returns-processing costs since customers can't try helmets on first, higher individual-shipping/admin/storage costs, higher website/advertising costs, and not all customers have internet access.\nSelling to large retailers: bulk shipping cuts distribution costs; retailers know local markets, likely to order well-selling products; retailers may advertise for SSE, cutting marketing costs; customers can try on helmets, improving fit/satisfaction; storage costs shift partly to the retailer; but competes directly against rival brands on the shelf, no direct customer feedback, and margins may shrink if retailers demand a discount.\n\nValid recommendations: direct website — full marketing control and better customer feedback loop; OR large retailers — lower distribution/admin/storage costs and in-person try-on boosts fit satisfaction and sales.`
+      },
+      {
+        q: '3(a)', text: 'Explain one advantage and one disadvantage to SSE of using internal recruitment for its new managers.', marks: 8, part: 'a', type: 'explain',
+        context: 'SSE\'s HR Director has decided to use internal recruitment to staff the new overseas factory managers.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 2, one each) + max 3 additional marks per explanation, one applied to context.\n\nAdvantage: quicker (fewer applicants to process) and cheaper (no expensive advertising); candidate is already known — their skills/reliability are proven; candidate already understands the organisation, cutting induction training costs; motivates other staff by showing a visible progression route.\nDisadvantage: no fresh ideas/methods enter the business; may cause rivalry/jealousy among staff passed over for promotion; may be no suitable internal candidate even though a better one exists externally; still leaves the original role vacant.\n\nApplication: bicycle riding; cricket; skateboarding; flow production; 30 years in operation; new overseas factories; communication between head office and new factories; specialised production workers.`
+      },
+      {
+        q: '3(b)', text: 'Consider how the following three barriers could make communication less effective between SSE\'s head office in country Z and its new factories in other countries. Which barrier would be the easiest to overcome? Justify your choice.\\n• Problem with the medium used\\n• Problem with the sender\\n• Problem with the receiver', marks: 12, part: 'b', type: 'evaluate',
+        context: 'SSE needs effective communication between its head office in country Z and managers at its new overseas factories.',
+        ms: `12 marks. Levels-based marking.\n\nMedium problems: too many people in the chain risks message distortion; a message may get lost entirely (e.g. buried in junk mail); wrong channel chosen for urgency (e.g. letter instead of a call); technical failures like internet or phone outages.\nSender problems: unclear language/jargon/speaking too fast; overly long messages burying the key point; message sent to the wrong person entirely.\nReceiver problems: not listening properly on a call; lack of trust in the sender delaying action; casual attitude with no urgency; language barriers preventing clear understanding.\n\nValid conclusions: medium — easiest to fix since simply requiring confirmation/feedback reveals when a message hasn't arrived; OR sender — easiest to fix via clear instructions to keep messages short and simple; OR receiver — easiest to fix by flagging message importance so it isn't ignored.`
+      },
+      {
+        q: '4(a)', text: 'Explain four ways the break-even chart in Appendix 3 might be helpful to SSE.', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 3: fixed costs $15,000/week; total costs at max output $45,000; total revenue at max output $50,000; break-even output 750 units; max output 1000 units/week.',
+        ms: `8 marks. Award 1 mark per use (max 4) + 1 additional mark per applied explanation.\n\nUses: shows total costs ($45,000), revenue ($50,000), and fixed costs ($15,000) at a glance; shows the break-even output (750 helmets/week) needed before profit starts; shows the margin of safety (250 units above break-even at max output); helps pricing decisions (e.g. whether to change the $50 price); shows the impact of cost changes (e.g. if fixed costs rise above $15,000); shows profit/loss areas directly, e.g. reading off the ~$5,000/week profit at max output; helps decide whether the new product is worth producing at all.\n\nApplication: public limited company; cricket; new overseas factory; children's cricket helmets; total costs $45,000; total revenue $50,000; fixed costs $15,000; margin of safety 250 units; break-even output 750 units.`
+      },
+      {
+        q: '4(b)', text: 'Consider how each of the following three changes may affect SSE. Which change is likely to have the greatest effect on SSE\'s profit? Justify your answer.\\n• A depreciation in the currency of country Z\\n• An import tariff introduced on sports helmets imported into country Z\\n• Quotas introduced on sports helmets in countries where SSE sells its products', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 2: country Z\'s exchange rate is expected to fall (depreciate); the government has imposed import tariffs on helmets entering country Z; other countries have introduced import quotas on helmets.',
+        ms: `12 marks. Levels-based marking.\n\nCurrency depreciation: SSE's exports look cheaper abroad, boosting competitiveness/sales; but imported raw materials become more expensive, possibly forcing price rises; competitors' imported helmets become pricier in country Z, boosting SSE's domestic sales.\nImport tariff (into country Z): raises competitors' import prices, making SSE more competitive domestically, likely boosting sales/revenue; SSE could also raise its own prices if demand holds, boosting profit.\nExport quotas (in other countries): caps how much SSE can sell abroad, directly limiting sales — this is exactly why SSE is building its own overseas factories; may raise prices in those markets, though revenue impact depends on price elasticity of demand.\n\nValid conclusions: depreciation — likely biggest effect via a large export demand boost with limited cost impact if materials can be sourced locally; OR the tariff — boosts SSE's domestic competitiveness and pricing power; OR the quota — directly restricts SSE's ability to sell in its planned growth markets, capping revenue regardless of other factors.`
+      }
+    ]
+  },
   'p2_s23_23': {
     label: '2023 May/Jun Paper 2 Variant 3',
     caseStudy: `Regency Rugs (RR)
@@ -12854,6 +12983,8 @@ function loadFPPaper2() {
     'p2_w24_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_w24_in_22.pdf',
     'p2_w24_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2024/0450_w24_in_23.pdf',
     'p2_w23_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_23.pdf',
+    'p2_w23_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_22.pdf',
+    'p2_m23_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_m23_in_22.pdf',
     'p2_w23_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_21.pdf'
   };
   const insertEl = document.getElementById('fp2-insert-link');
