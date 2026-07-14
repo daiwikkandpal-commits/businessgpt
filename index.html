@@ -1481,6 +1481,7 @@ footer {
               <option value="p2_w22_21">  🔵  Oct/Nov · Variant 1</option>
               <option value="p2_w22_22">  🔵  Oct/Nov · Variant 2</option>
               <option value="p2_w22_23">  🔵  Oct/Nov · Variant 3</option>
+              <option value="p2_m22_22">  🟣  Feb/Mar · Variant 2</option>
             </optgroup>
           </select>
         </div>
@@ -10017,6 +10018,70 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_m22_22': {
+    label: '2022 Feb/Mar Paper 2 Variant 2',
+    caseStudy: `Mainstreet Hotel (MH)
+
+MH is a hotel owned and managed by Sadiq. He is currently a sole trader but is considering changing the business to a partnership. The hotel has 80 rooms. On average, 50 of the rooms are occupied each night. The total revenue from these 50 rooms is $3000 per night.
+
+MH has 40 employees as shown in the organisational chart in Appendix 1. Most of them have worked for MH for many years. Sadiq works between 60-90 hours a week and currently does not delegate any management tasks. He is experienced at making marketing decisions but he has few financial skills. Sadiq communicates with all MH employees every morning to give them their jobs for that day.
+
+Sadiq wants to improve the quality of customer service in all parts of the hotel. He knows that he could use quality control or quality assurance. He is considering how he could use these methods in his hotel.
+
+Sadiq also wants to increase MH's revenue and is considering the following two options:
+Option 1: The price of the rooms could be reduced to $50 per night. He thinks that if the price per room is reduced, MH will have 75 hotel rooms occupied each night. The target market — consumers who want low-price hotel accommodation — would not change. Many hotel guests return each year to stay at MH.
+Option 2: Redecorate the hotel rooms and upgrade them to a much higher standard. Sadiq thinks that the price per room could be increased by 50%. The target market would be high-income tourists. He estimates 50 rooms per night are still likely to be occupied. The estimated cost of upgrading each hotel room is $10,000.
+
+Appendix 1 — Organisational chart for MH: Hotel Owner (Sadiq) → Room cleaning supervisors (2), Restaurant supervisor (1), Reception supervisor (1), Finance supervisor (1) → Chefs (4), Room cleaners (10), Serving staff (14), Receptionists (5), Office employees (2).
+
+Appendix 2 — Reviews on MH from a tourist hotel website:
+"Quite good but not perfect" (3/5): The restaurant was excellent but my partner cannot eat certain foods — the menus didn't list ingredients. Our room wasn't cleaned well and the bed was uncomfortable, though staff were very friendly and helpful.
+"Boring website – room ok" (2/5): Very few photographs of the hotel on the website, limited facility information, unable to book a restaurant table online. Rooms were basic and prices slightly high for the standard. Drinking water was provided in plastic bottles which were thrown away — would have preferred recyclable glass bottles.
+
+Appendix 3 — Email from the Finance Supervisor to Sadiq, re: cash flow improvements: Three problems identified — MH has no savings; MH doesn't ask for a deposit when rooms are booked (other local hotels require a 30% deposit); MH doesn't have trade credit from its food suppliers.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four methods a business could use to communicate with its employees.', marks: 8, part: 'a', type: 'explain',
+        context: 'Sadiq communicates with all 40 MH employees every morning to give them their jobs for the day.',
+        ms: `8 marks. Award 1 mark per method (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nMethods: memo — short written message, paper or email; letter — for formal matters like dismissal; report — detailed document on an issue; notice/poster — displayed for all employees to read; text message — quick, rereadable; PowerPoint presentation — visual information in meetings; meeting/briefing/video conferencing — informs many at once; face-to-face conversation — allows two-way discussion; phone call — two-way, allows explanation; email — detailed, referable later; tannoy/PA system; newsletter; social media.\n\nExample: "Phone call using mobile phone (1) allows discussion of any issues so questions can be answered straight away (1)."`
+      },
+      {
+        q: '1(b)', text: 'Consider the following three ways the internet could be used to improve the promotion of MH. Which is the best way for Sadiq to choose? Justify your answer.\\n• Improve its existing website\\n• Advertise using social media\\n• Email special offers to existing customers', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 2 review: "Boring website... very few photographs... limited information about the facilities... unable to book a restaurant table in advance."',
+        ms: `12 marks. Levels-based marking.\n\nImprove website: makes hotel info more accessible, more photos could fix the "boring" complaint; full control over presentation; prices updatable instantly; interactive content; but costs to hire a specialist and maintain, and search ranking may need paid promotion to be found at all.\nSocial media: can target specific demographics like high earners; viral sharing spreads recommendations fast; wide exposure where people already browse; but easily ignored among many ads, can be costly for guaranteed visibility, and bad reviews can spread just as fast.\nEmail existing customers: cheap, reaches loyal returning guests directly, can reach tourists back in their home countries, drives traffic to the website; but may land in spam, addresses may be outdated, and existing customers might find it annoying.\n\nValid recommendations: website — fixes the specific "boring website" complaint directly and gives full control over the hotel's presentation; OR social media — most immediate visibility and free viral potential from happy past guests; OR email — cheapest, most targeted at guests already likely to return.`
+      },
+      {
+        q: '2(a)', text: 'Explain one advantage and one disadvantage to Sadiq of delegating tasks to his employees.', marks: 8, part: 'a', type: 'explain',
+        context: 'Sadiq works 60-90 hours a week and currently delegates no management tasks at all.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 1 each) + max 3 additional marks per explanation, one applied to context.\n\nAdvantage: frees Sadiq's time for other tasks, reducing rushed mistakes and improving hotel success; helps him retain overall control by freeing time to check on and communicate with staff; employees feel trusted and more motivated, raising efficiency; easier to monitor employee success; staff may become more productive as skills develop.\nDisadvantage: Sadiq could lose control if untrained employees make wrong decisions; training costs rise in the short term; subordinate mistakes could cause customer complaints and reputational damage.\n\nExample: "Sadiq may have more time to spend on his own tasks (1) such as marketing the hotel (app), so he'll be less likely to make mistakes (1), improving the hotel's reputation and potentially increasing sales (1)."\n\nApplication: Sadiq works 60-90 hours/week; organisational chart in Appendix 1; 40 employees; hotel; sole trader.`
+      },
+      {
+        q: '2(b)', text: 'Consider the following three ways Sadiq could achieve a high-quality service at MH. Which is the most effective way? Justify your answer.\\n• Only buying food ingredients from suppliers that guarantee good quality\\n• The room cleaners made responsible for checking their own work\\n• Chefs regularly sampling food before it is served to guests', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 2 reviews mention "the room was not cleaned well" but "the restaurant was excellent," highlighting quality issues in different departments.',
+        ms: `12 marks. Levels-based marking.\n\nQuality-guaranteed suppliers: ensures high-quality meals, less wasted food from poor ingredients; but likely higher ingredient costs, possibly raising menu prices, and may restrict ingredient choice.\nSelf-checking room cleaners (quality assurance): removes need for a supervisor, motivates cleaners who feel trusted, should reduce complaints; but standards may slip without training, raising training costs, and cleaners may want higher pay for the added responsibility.\nChefs sampling food (quality control): ensures consistent meal standard, fewer complaints leading to recommendations; but wastes chef time and is costly if a meal must be scrapped, and doesn't identify where the original fault occurred.\n\nValid conclusions: quality ingredients most important — a poor meal directly damages restaurant reputation regardless of other checks; OR clean rooms most important — guests always use their room even if they skip the restaurant, so poor cleaning directly risks losing guests to competitors; OR chef sampling most important — directly catches problems before they reach paying guests, protecting the restaurant's already-strong reputation.`
+      },
+      {
+        q: '3(a)', text: 'Explain four advantages to Sadiq of changing his business to a partnership.', marks: 8, part: 'a', type: 'explain',
+        context: 'Sadiq is a sole trader considering a partnership; he has few financial skills and Option 2 would need $10,000 per room to redecorate.',
+        ms: `8 marks. Award 1 mark per advantage (max 4) + 1 additional mark per explanation applied to context.\n\nAdvantages: raises more capital from partners — relevant given the $10,000-per-room cost of Option 2; responsibilities/decisions can be shared; new partners bring fresh ideas, e.g. on new hotel facilities; partners can specialise in areas of strength, e.g. taking over finance since Sadiq lacks financial skills; a partner can cover for Sadiq, reducing his 60-90 hour weeks; shared costs and risk.\n\nExample: "Partners can specialise in a particular task (1) because Sadiq currently handles finance himself despite lacking the skills for it (app)."\n\nApplication: Sadiq works 60-90 hours/week; organisational chart; 40 employees; $10,000 per room; redecoration; hotel guests; wants to increase revenue; sole trader; improve customer service quality; no savings; improve cash flow.`
+      },
+      {
+        q: '3(b)', text: 'Consider the two options for Sadiq to increase MH\'s revenue. Which option should he choose? Justify your answer using suitable calculations.\\n• Option 1: reduce room price\\n• Option 2: upgrade rooms and raise price', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Option 1: price cut to $50/night, forecast 75 rooms occupied. Option 2: price up 50%, forecast 50 rooms occupied, $10,000/room upgrade cost. Current: 50 rooms occupied, $3000/night revenue ($60/room average).',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nOption 1: new revenue = 75 × $50 = $3750/night, an increase of $750/night with no capital cost; keeps the same familiar target market; but doesn't address the room-quality complaints, so the forecast 75 rooms may not materialise, and a lower price may signal lower quality.\nOption 2: new revenue = 50 × $90 = $4500/night, an increase of $1500/night — $750 more than Option 1; but total upgrade cost is $800,000 (80 rooms × $10,000), which at $1500 extra/night would take roughly 534 nights to recoup; targets an unfamiliar high-income segment, and other hotel facilities may need upgrading too.\n\nValid recommendations: Option 1 — lower risk, no capital outlay, and keeps the already-familiar target market; OR Option 2 — larger revenue increase per night despite the big upfront cost, appealing to a segment willing to pay more.`
+      },
+      {
+        q: '4(a)', text: 'Referring to Appendix 2 and other information, explain how the following two new legal controls could affect MH.\\n• Restaurant menus must list all ingredients in the food served\\n• Single-use plastic bottles cannot be used', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 2: a review mentions a guest\'s partner couldn\'t eat certain foods because menus didn\'t list ingredients, and that plastic water bottles were provided and thrown away.',
+        ms: `8 marks. Award up to 1 mark per legal control (max 2) + max 3 additional marks per explanation, one applied to context.\n\nMenu ingredient listing: costs may rise from reprinting menus and possibly sourcing new ingredients/suppliers, maybe requiring price increases; but improved consumer knowledge (e.g. for allergies, as noted in the review) could increase restaurant demand and revenue; competitors also gain visibility into MH's ingredients.\nPlastic bottle ban: alternatives like glass bottles may cost more short-term but are cheaper long-term since recyclable; reduces litter, potentially improving MH's reputation, addressing the exact complaint raised in the Appendix 2 review.\n\nExample: "MH's costs might increase (1) because the hotel restaurant (app) will need new menus printed, with old ones discarded (1), possibly lowering short-term profit (1)."\n\nApplication: 4 chefs needing ingredient changes; waiters/kitchen assistants possibly needing training; Appendix 2 review details; glass bottles; avoiding bad reviews.`
+      },
+      {
+        q: '4(b)', text: 'Consider the following three ways Sadiq could improve MH\'s cash flow. Which would be the most effective way for MH to improve its cash flow? Justify your answer.\\n• Arrange a bank loan\\n• Ask customers to pay a deposit of 20% when they book a room\\n• Ask for trade credit from food suppliers', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 3: MH has no savings, doesn\'t currently take room deposits (unlike local competitors who require 30%), and has no trade credit from food suppliers.',
+        ms: `12 marks. Levels-based marking.\n\nBank loan: injects working capital quickly, offsetting negative cash flow at one time; but interest and repayments become an ongoing monthly outflow, potentially worsening long-run cash flow, and approval can take time.\n20% deposit: improves cash inflow timing at booking; reduces cancellation risk if non-refundable; MH's 20% is lower than local competitors' 30%, so may still attract bookings; but risks losing guests preferring no deposit, and existing customers may resent a new charge.\nTrade credit: reduces/delays cash outflows, letting MH receive restaurant payment before paying ingredient suppliers; but suppliers may refuse, offer worse prices, and arranging it takes time Sadiq (working 60-90 hrs/week) may lack.\n\nValid recommendations: bank loan — doesn't risk upsetting any guests and doesn't take Sadiq's scarce time to arrange, and MH's track record should support approval; OR deposit — directly boosts cash inflow at a lower rate than competitors already charge, likely without losing many bookings; OR trade credit — best long-term fix since it doesn't risk losing customers like a deposit might.`
+      }
+    ]
+  },
   'p2_w22_23': {
     label: '2022 Oct/Nov Paper 2 Variant 3',
     caseStudy: `Daisy Dairy (DD)
@@ -13404,6 +13469,7 @@ function loadFPPaper2() {
     'p2_w22_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_21.pdf',
     'p2_w22_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_22.pdf',
     'p2_w22_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_23.pdf',
+    'p2_m22_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_m22_in_22.pdf',
     'p2_w23_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_21.pdf'
   };
   const insertEl = document.getElementById('fp2-insert-link');
