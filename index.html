@@ -1474,6 +1474,14 @@ footer {
               <option value="p2_w23_21">  🔵  Oct/Nov · Variant 1</option>
               <option value="p2_m23_22">  🟣  Feb/Mar · Variant 2</option>
             </optgroup>
+            <optgroup label="━━  2022  ━━━━━━━━━━━━━━━━━━━━━━">
+              <option value="p2_s22_21">  🟢  May/Jun · Variant 1</option>
+              <option value="p2_s22_22">  🟢  May/Jun · Variant 2</option>
+              <option value="p2_s22_23">  🟢  May/Jun · Variant 3</option>
+              <option value="p2_w22_21">  🔵  Oct/Nov · Variant 1</option>
+              <option value="p2_w22_22">  🔵  Oct/Nov · Variant 2</option>
+              <option value="p2_w22_23">  🔵  Oct/Nov · Variant 3</option>
+            </optgroup>
           </select>
         </div>
         <div id="fp2-paper-info" style="display:none;background:rgba(37,99,235,.07);border:1px solid rgba(59,130,246,.15);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--text2);line-height:1.7;flex-direction:row;align-items:center;justify-content:space-between;gap:16px">
@@ -10009,6 +10017,411 @@ function setFP(p) {
 
 
 const PAST_PAPERS_DATA_P2 = {
+  'p2_w22_23': {
+    label: '2022 Oct/Nov Paper 2 Variant 3',
+    caseStudy: `Daisy Dairy (DD)
+
+DD is a private limited company owned by Duncan and his family. It is located 30 miles away from Main City in country X. DD started as a dairy farm, supplying cows' milk to local shops. It diversified 10 years ago into processing the milk into cream, butter, cheese and ice-cream.
+
+Duncan wants to increase the added value of DD's products. He thinks the high-quality imported ingredients, such as various fruits for the production of ice-cream at the dairy, are important for the success of DD.
+
+DD has 120 full-time employees. DD's employees produce the same product every day and do not move between jobs in the dairy production area. DD's employees are unhappy about their wages compared to those paid by other dairies and many employees say their job is boring. Recently, several employees have left DD to work for a competitor. Duncan knows he needs to increase motivation at the dairy. He currently uses a noticeboard or email to inform employees of their tasks for each day.
+
+The dairy only supplies local shops. Duncan is considering a change in the way DD distributes its products to increase sales. He has to decide which channel of distribution to use. Duncan is considering the following three options:
+• setting up a shop at the dairy selling directly to customers
+• selling to a number of large supermarkets in country X
+• selling to a wholesaler that supplies small shops in Main City
+
+Appendix 1 — Tweet from Government Minister in country X: "Interest rates have gone down — good news for businesses and consumers. The reduced interest rates might affect economic growth. Unemployment rates have been high but they are starting to fall."
+
+Appendix 2 — Email from the Marketing Manager to Duncan (10 October 2022): Suggests creating a brand name for DD's products to build customer loyalty, since several competitors already use brand names. DD has developed a specialist cheese and new fruit-flavoured ice-cream that could be marketed under this brand, raising recognition across a wider market. An efficient distribution channel is needed since products can't be stored long without quality reducing — more expensive refrigerators may be needed, possibly requiring an additional bank loan.
+
+Appendix 3 — Selected data from the financial statements of DD and its main competitor, 2021 (figures in $000):
+DD: Inventories $2; Trade receivables $78; Cash $0; Trade payables $39; Bank overdraft $1; Long-term bank loan $5; Revenue $1000. Current ratio and acid test ratio not given (to be calculated).
+Competitor: Inventories $20; Trade receivables $58; Cash $2; Trade payables $80; Bank overdraft $0; Long-term bank loan $50; Revenue $2000. Current ratio and acid test ratio not given (to be calculated).`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four factors Duncan should consider when choosing which method of communication to use with DD\'s employees.', marks: 8, part: 'a', type: 'explain',
+        context: 'Duncan currently uses a noticeboard or email to inform DD\'s 120 employees of their daily tasks.',
+        ms: `8 marks. Award 1 mark per factor (max 4) + 1 additional mark per explanation applied to context.\n\nFactors: how many employees need informing — with 120 employees, a noticeboard suits mass communication; whether feedback is needed — telephone calls allow discussion; how much information needs including — lengthy information (e.g. about a new distribution channel) suits written communication; whether a written record is needed — email, which DD already uses; speed needed — face-to-face for urgent production issues; cost across DD's different departments (cheese, ice cream, etc.) — a noticeboard may be cheapest.\n\nExample: "If feedback is needed (1), the dairy manager could use telephone calls to discuss points with employees (app)."\n\nApplication: dairy; dairy products; cheese; high-quality imported ingredients; 120 employees; noticeboard; currently uses email; farm; milk; butter; cream; ice cream; only supplies local shops; fruit-flavoured ice cream; employees unhappy about wages; employees left for a competitor; figures from Appendix 3.`
+      },
+      {
+        q: '1(b)', text: 'Consider two ways DD can increase added value. Which is the best way for DD to choose? Justify your answer.\\n• Increasing price\\n• Reducing input costs', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Duncan wants to increase added value and believes high-quality imported ingredients are key to DD\'s success.',
+        ms: `12 marks. Levels-based marking.\n\nIncrease price: improve quality further so customers pay more, though competitor pricing could limit this; build a brand image (per Appendix 2) so customers pay a premium for recognised products; add extra services like gift-wrapped cheese to justify higher prices.\nReduce input costs: switch to a cheaper supplier or negotiate bulk discounts, though quality/reputation risk if noticed; source ingredients locally instead of importing, cutting costs but potentially lowering quality.\n\nValid recommendations: increase price via quality/branding — DD's existing reputation for good quality makes this the safer route versus risking a quality drop from cheaper inputs; OR reduce input costs — if done carefully (e.g. only switching non-critical ingredients), customers may not notice, avoiding the risk of losing price-sensitive customers to competitors.`
+      },
+      {
+        q: '2(a)', text: 'Explain four roles of marketing for a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'DD is considering a new distribution strategy and possibly a new brand name to market its dairy products more widely.',
+        ms: `8 marks. Award 1 mark per role (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nRoles: identifies customer needs — finding out what goods/services consumers want before producing them; satisfies customer needs — ensures goods/services sold at a profit; maintains customer loyalty — keeps meeting changing needs so customers return; builds long-term customer relationships — understanding changing needs over time.\n\nExample: "Identifies customer needs (1) so the business can find out exactly what goods or services consumers want before producing them (1)."`
+      },
+      {
+        q: '2(b)', text: 'Consider the advantages and disadvantages of the following three channels of distribution DD could use for its products. Which channel should DD choose? Justify your answer.\\n• Setting up a shop at the dairy\\n• Selling to a number of large supermarkets\\n• Selling to a wholesaler', marks: 12, part: 'b', type: 'evaluate',
+        context: 'DD currently only supplies local shops and is considering a distribution change to grow sales.',
+        ms: `12 marks. Levels-based marking.\n\nDairy shop: simple to set up, freshest produce with no intermediaries, lower prices without added mark-ups; but customers 30 miles from Main City may not travel regularly, limiting sales, plus setup costs.\nLarge supermarkets: can sell large quantities, lowering admin costs, reaching more customers over a wider area, possibly raising ice cream revenue; but no direct customer contact for feedback, and supermarket mark-ups raise prices, competing against many other brands.\nWholesaler: lower distribution costs, buys in bulk and resells to many small retailers, can offer storage reducing DD's warehouse costs, small retailers buy fresh stock regularly; but wholesaler mark-ups raise prices, may not stock DD's full range, and the extra step delays freshness to consumers.\n\nValid recommendations: dairy shop — keeps prices lowest and freshest, protecting DD's quality reputation; OR supermarkets — reaches the widest customer base, boosting sales volume; OR wholesaler — spreads DD's products to many small local shops with lower distribution costs for DD itself.`
+      },
+      {
+        q: '3(a)', text: 'Explain two possible reasons why DD might hold low levels of inventory.', marks: 8, part: 'a', type: 'explain',
+        context: 'DD produces perishable dairy products (milk, butter, cream, cheese, ice cream) that cannot be stored for long.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation, one applied to context.\n\nReasons: dairy products are perishable and can't easily be stored, or quality drops if held too long, risking customer dissatisfaction/reputation damage; products sell quickly and require costly refrigeration, adding to costs if over-stocked; milk/butter are bought regularly by consumers so DD doesn't need large inventory; reduces working capital tied up, improving cash flow; needs less storage space, lowering costs.\n\nExample: "Dairy products are perishable (app) and so cannot easily be stored (1) or may be of lower quality if stored too long (1). Not storing these products means customers are satisfied and won't give DD a bad reputation (1)."\n\nApplication: dairy; dairy products; cheese; high-quality imported ingredients; 120 employees; noticeboard; email; farm; milk; butter; cream; ice cream; only supplies local shops; fruit-flavoured ice cream; wage dissatisfaction; employees leaving; Appendix 3 figures; new refrigerators; overdraft of $1000.`
+      },
+      {
+        q: '3(b)', text: 'Consider the following three methods DD could use to motivate its employees. Which is the best method to use? Justify your answer.\\n• Give employees a 50% discount on all DD products\\n• Introduce profit sharing\\n• Introduce job rotation', marks: 12, part: 'b', type: 'evaluate',
+        context: 'DD\'s 120 employees are unhappy about wages, find their jobs boring since they don\'t move between tasks, and several have left for a competitor.',
+        ms: `12 marks. Levels-based marking.\n\n50% discount: effectively raises take-home value on essential food purchases; but of limited value if employees buy dairy products only in small quantities; unlikely to cost DD much since the selling price already includes profit margin.\nProfit sharing: extra payment may raise motivation and productivity, lowering unit costs; but as a private limited company, may dilute existing shareholder control if done via share issue; employees may see little link between daily effort and year-end shared profit; other factors outside employees' control affect profit too.\nJob rotation: makes work more interesting/less boring, directly tackling the stated boredom complaint; but raises training costs since workers currently specialise in one task, and quality (e.g. of ice cream) may dip if staff are less specialised; may only motivate short-term.\n\nValid recommendations: discount — cheapest option, effectively a wage rise at minimal real cost to DD; OR profit sharing — directly ties reward to DD's success, potentially offsetting its cost through higher productivity; OR job rotation — directly addresses the boredom complaint at no cost if no formal training is needed, and could reduce the labour turnover DD is currently losing staff to.`
+      },
+      {
+        q: '4(a)', text: 'Explain two ways a reduction in interest rates might affect DD.', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 1: interest rates have fallen in country X; DD currently has a $1000 overdraft and a $5000 long-term bank loan.',
+        ms: `8 marks. Award 1 mark per way (max 2) + max 3 additional marks per explanation, one applied to context.\n\nWays: cheaper new bank loan interest may encourage Duncan to invest, e.g. in new refrigerators; may also lower interest on DD's existing $5000 long-term loan; reduces the cost of DD's $1000 overdraft, cutting interest expenses and potentially raising profit; may boost economic growth and lower unemployment, raising consumer incomes and demand for dairy products; freed-up consumer income (e.g. from lower mortgage repayments) could increase demand for DD's products.\n\nExample: "Decrease the cost of the overdraft (1) as DD has an overdraft of $1000 in 2021 (app). This lowers DD's interest expenses (1), meaning lower total costs and possibly higher profit (1)."\n\nApplication: dairy; dairy products; cheese; high-quality imported ingredients; 120 employees; noticeboard; email; farm; milk; butter; cream; ice cream; only supplies local shops; fruit-flavoured ice cream; wage dissatisfaction; employees leaving; Appendix 3 figures; new refrigerators; $1000 overdraft.`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider the financial position of DD and its main competitor. Which company is in a better financial position? Justify your answer using suitable calculations.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'DD: inventories $2k, receivables $78k, cash $0, payables $39k, overdraft $1k, loan $5k, revenue $1000k. Competitor: inventories $20k, receivables $58k, cash $2k, payables $80k, loan $50k, revenue $2000k.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nDD: current assets $80k, current liabilities $40k → current ratio 2; acid test ratio (excluding $2k inventory) 1.95. Much lower debt than competitor ($5k vs $50k loan).\nCompetitor: current assets $80k, current liabilities $80k → current ratio 1; acid test ratio (excluding $20k inventory) 0.75. Double DD's revenue ($2000k vs $1000k), showing stronger sales.\n\nValid conclusions: DD is in the better financial position — both liquidity ratios are stronger (current ratio 2 vs 1, acid test 1.95 vs 0.75), meaning DD can far more easily cover its $40k current liabilities and carries much less debt, putting it at lower insolvency risk; OR the competitor is in the better position — double the revenue shows much stronger sales performance, and its ratios, while lower, are still just about acceptable (1 and 0.75), especially since inventory likely sells quickly in this sector.`
+      }
+    ]
+  },
+  'p2_w22_22': {
+    label: '2022 Oct/Nov Paper 2 Variant 2',
+    caseStudy: `Cherished Chocolates (CC)
+
+CC is a public limited company. It employs 4000 workers in country X and many are members of a trade union. CC has manufactured chocolate bars in country X for 50 years. It imports most of its raw materials, such as cocoa beans. Over the last 10 years CC has expanded and now sells in other countries. Many of these countries have no trade restrictions. The Directors of CC know that globalisation has opportunities and threats for CC.
+
+CC produces a number of brands of chocolate bars, such as Tiabar, in country X. Its most popular chocolate bar, Choco, has the highest market share. The total market for chocolate bars is no longer growing in country X. CC plans to reduce the number of brands it sells in country X. It has to decide which of the two brands shown in Appendix 1 to stop selling.
+
+NM operates in country Z and sells its own brands of chocolate bars, including Nuttybar. NM employs 500 workers. In country Z chocolate bars are distributed through small retail outlets. The wage rates in country Z are lower than in country X. However, incomes in country Z are starting to rise.
+
+The Directors of CC are planning to take over NM to expand into this market rather than setting up a factory. The takeover will cost $35 million, some of which will be financed by a bank loan. The shareholders of NM are being offered CC shares in exchange for NM shares.
+
+The Directors of CC know there might be diseconomies of scale after the takeover. They also have to decide who will be the Operations Manager for NM's factory in country Z. They could keep NM's existing Operations Manager or move CC's Operations Manager from country X. Information about the two managers is shown in Appendix 2.
+
+Appendix 1 — The product life cycles of CC's two brands:
+Option 1 — stop producing Tiabar: aimed at young children, a new target market for CC. Test marketing at development stage showed positive results and sales have grown steadily. Many multinational chocolate companies target this age group.
+Option 2 — stop producing Choco: the market leader in country X, a well-established brand targeting adults. Sales are high but haven't increased for several years. No new competitors have entered this market in the last two years.
+
+Appendix 2 — The two candidates for Operations Manager of NM's factory in country Z:
+Ritesh (NM's current Operations Manager): 5 IGCSEs and 2 A levels, degree in Business Management; 2 years as NM's Operations Manager, previously purchased all NM's ingredients including nuts; previously worked 5 years for a chocolate bar manufacturer in country Z, and 5 years for a small retailer in country Z.
+Samuel (CC's current Operations Manager): 8 IGCSEs, on-the-job training in chocolate bar production; 10 years as CC's Operations Manager, worked for CC 20 years total, knows CC's production and warehouse requirements for all brands, has links with all CC's suppliers of high-quality ingredients like cocoa beans and milk.
+
+Appendix 3 — Selected financial information for CC and NM, 2021:
+CC: long-term bank loan $10m; total shareholders' equity $200m; current ratio 2; acid test ratio 1.2; profit for the year $42m; profit margin 25%; ROCE 20%.
+NM: long-term bank loan $5m; total shareholders' equity $30m; current ratio 1; acid test ratio 0.33; profit for the year $3.5m; profit margin 15%; ROCE 10%.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain two reasons why the owners of CC might want to expand the business.', marks: 8, part: 'a', type: 'explain',
+        context: 'CC is planning to take over NM in country Z to expand internationally, at a cost of $35 million.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation, one applied to context.\n\nReasons: higher profit for owners — expansion raises revenue/sales in new markets, possibly higher dividends/share price; lower average/unit costs from economies of scale, e.g. bulk-buying cocoa beans; larger market share — the home market is saturated with limited growth potential; more status/prestige for owners, possibly listing on other exchanges; spreading risk by diversifying markets.\n\nExample: "To possibly gain higher profits for the owners (1) because expansion is likely to increase revenue (1) as CC will sell its products in more markets (1). The higher profits should allow CC's shareholders to be paid higher dividends (app)."\n\nApplication: chocolate bars; CC's shareholders; low wage costs in country Z; CC's plan to take over NM; 500 NM employees; 4000 CC employees; public limited company; imports most raw materials; cocoa beans; no trade restrictions in export markets; takeover costs $35 million.`
+      },
+      {
+        q: '1(b)', text: 'Consider the opportunities and threats of globalisation for CC. Which is likely to have the greatest effect on CC? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'CC has expanded internationally over the last 10 years into countries with no trade restrictions, and is now planning the NM takeover.',
+        ms: `12 marks. Levels-based marking.\n\nOpportunities: exporting to more countries raises revenue; may become cheaper to produce in country Z given lower wage costs there; easier to import ingredients like cocoa beans with no trade restrictions, possibly lowering costs even at home.\nThreats: increased imports of chocolate from multinationals raises competition and could cut CC's home market share; multinationals investing/building factories at home raises competition further; employees may leave for higher-paying multinational rivals, raising labour turnover and recruitment costs; unfamiliarity with new markets/tastes/competition makes successful exporting harder.\n\nValid conclusions: more opportunities — lower production costs in country Z via the takeover could make CC more competitive both at home and abroad; OR more threats — as a relative newcomer to being multinational, CC may struggle against established rivals already operating in and importing to country X, risking its home market share.`
+      },
+      {
+        q: '2(a)', text: 'Explain four roles of packaging for CC\'s products.', marks: 8, part: 'a', type: 'explain',
+        context: 'CC sells chocolate bar brands including Tiabar (aimed at young children) and Choco (the adult market leader).',
+        ms: `8 marks. Award 1 mark per role (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nRoles: protects the product, since chocolate bars can break; eases transport from factory to small retailers; promotes brand image, e.g. for the market-leading Choco; makes the product eye-catching versus rivals like Nuttybar; carries product information, e.g. nut allergy warnings; makes the product easy to open/consume, important for young children eating Tiabar; suits fitting the product for internal factory movement.\n\nExample: "Protects the product from getting damaged (1), otherwise the chocolate bar could break into pieces, leading to customer dissatisfaction (app)."`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 1 and other information, consider the advantages and disadvantages of the two CC brands. Which brand should CC stop producing? Justify your answer.\\n• Option 1: Stop producing Tiabar\\n• Option 2: Stop producing Choco', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Tiabar: new children\'s brand with steadily growing sales, positive early test marketing. Choco: market leader with high but flat sales for several years, no new competitors recently.',
+        ms: `12 marks. Levels-based marking.\n\nTiabar: in the growth stage of its product life cycle with strong future potential; diversifies CC's risk; CC's existing reputation may help it grow; but may still be recovering development costs, faces heavy competition from established children's-market multinationals, and is a newer, less familiar target market for CC.\nChoco: the market leader, highest sales, likely highly profitable, funding new product development; established brand needs less promotional spend; but it's at the maturity/saturation stage, likely to decline without extension strategies, and may need price cuts to retain sales.\n\nValid recommendations: stop Tiabar, keep Choco — Choco is the reliable, high-revenue market leader with brand loyalty, and extension strategies can be used if sales start falling; OR stop Choco, keep Tiabar — Tiabar is a genuinely growing new brand with more future upside than an already-maturing Choco.`
+      },
+      {
+        q: '3(a)', text: 'Explain two diseconomies of scale CC might experience as it expands.', marks: 8, part: 'a', type: 'explain',
+        context: 'CC is planning to take over NM, growing from 4000 to potentially 4500 employees across two countries.',
+        ms: `8 marks. Award 1 mark per diseconomy (max 2) + max 3 additional marks per explanation, one applied to context.\n\nDiseconomies: poorer communication — more hierarchy layers after the takeover risk message distortion; lack of employee commitment — a larger organisation can make staff feel unimportant, lowering morale, raising absenteeism/turnover and costs; weaker coordination — decisions in country X may not fit well with NM's operations, reducing efficiency; less managerial control over a larger, more dispersed workforce, raising unit costs from needing more supervisors.\n\nExample: "There may be poor morale among employees (1) because a larger business can make employees feel unimportant given the sheer number of staff (1). Many of the 4500 employees may lack commitment after the takeover (app), leading to lower efficiency and higher unit costs (1)."\n\nApplication: chocolate bars; CC's shareholders; low wage costs in country Z; CC's plan to take over NM; 500 NM employees; 4000 CC employees; public limited company; imported raw materials; cocoa beans; no trade restrictions; $35 million takeover.`
+      },
+      {
+        q: '3(b)', text: 'Consider the information about the two managers outlined in Appendix 2. Who should be chosen as the Operations Manager for the NM factory? Justify your answer.\\n• Samuel\\n• Ritesh', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Ritesh: NM\'s current Operations Manager, 2 years experience, degree in Business Management, based in country Z. Samuel: CC\'s Operations Manager for 10 years, 20 years at CC total, deep supplier links in country X.',
+        ms: `12 marks. Levels-based marking.\n\nSamuel: 20 years' CC experience makes transferring CC's production methods to NM easier, and he already knows CC's brands and supplier relationships; but he's the less formally qualified of the two, unfamiliar with country Z's market and NM's brands, only had on-the-job training, and may be reluctant to relocate.\nRitesh: best formally qualified, already based in and understands country Z's market and NM's business; has relevant retail/competitor experience and existing local supplier links; already familiar with NM's employees, aiding the takeover transition; but has limited NM tenure, is unfamiliar with CC's own working practices/brands, and may resist changes CC introduces.\n\nValid recommendations: Samuel — his deep familiarity with CC's own production standards ensures consistency after the takeover; OR Ritesh — his local market knowledge and existing NM relationships are hard to replace and critical for a smooth takeover.`
+      },
+      {
+        q: '4(a)', text: 'Explain four benefits to employees of being members of a trade union.', marks: 8, part: 'a', type: 'explain',
+        context: 'CC employs 4000 workers in country X, many of whom are members of a trade union.',
+        ms: `8 marks. Award 1 mark per benefit (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nBenefits: improved pay via collective wage negotiation; improved working conditions via representation; grievances represented with more weight through numbers; advice on unfair treatment/dismissal claims; better employer-employee communication channel; discounted member services like insurance; improved job satisfaction via encouraged training; improved job security, especially in closed-shop arrangements; influence on government policy, e.g. minimum wage.\n\nExample: "A trade union will give advice to employees (1), such as if they feel unfairly treated, representing them in meetings with employers (1)."`
+      },
+      {
+        q: '4(b)', text: 'Using Appendix 3 and other information, consider how the financial statements might be useful to the following three stakeholder groups. Which stakeholder group will find the financial information most useful? Justify your answer.\\n• NM\'s shareholders\\n• CC\'s managers\\n• CC\'s bank manager', marks: 12, part: 'b', type: 'evaluate',
+        context: 'CC: profit $42m, profit margin 25%, ROCE 20%, current ratio 2, acid test 1.2. NM: profit $3.5m, profit margin 15%, ROCE 10%, current ratio 1, acid test 0.33.',
+        ms: `12 marks. Levels-based marking — calculations/figures expected for top marks.\n\nNM's shareholders: CC's much higher profit ($42m vs $3.5m) and ROCE (20% vs 10%) suggest better returns if they accept CC shares in exchange; NM's weaker liquidity (acid test 0.33) makes CC's offer more attractive.\nCC's managers: CC's higher 25% profit margin (vs NM's 15%) shows better cost control, suggesting CC's working practices could be applied to improve NM's efficiency; NM's low acid test (0.33) suggests high inventory that could be reduced to cut warehousing costs.\nCC's bank manager: needs to assess whether the $35m takeover loan (on top of CC's existing $10m loan) is repayable — CC's strong $42m profit and NM's own $3.5m profit both support loan approval confidence.\n\nValid conclusions: NM's shareholders — most directly need this data to decide whether to accept the share-exchange offer; OR CC's managers — need it to plan how to integrate and improve NM post-takeover; OR CC's bank manager — solely focused on repayment ability before granting the loan.`
+      }
+    ]
+  },
+  'p2_w22_21': {
+    label: '2022 Oct/Nov Paper 2 Variant 1',
+    caseStudy: `Safari Adventures (SA)
+
+Tokumbo is a sole trader. He started SA 2 years ago in country X. Tokumbo had previously worked for a company selling holidays. SA organises safari tours which take tourists to view wild animals on a game reserve. Most of SA's customers are tourists from other countries. Tokumbo did not have any objectives when he started SA but knows they are important for his business.
+
+SA uses its own vehicles for the 7 day safari tours and provides accommodation in small local hotels. Tokumbo employs 4 safari guides, 1 for each of the 4 vehicles. The safari guides drive the tourists around the game reserve. There is 1 additional employee who helps Tokumbo in the office with administration. Tokumbo thinks SA needs a website so tourists can book directly with them rather than booking through holiday companies that charge SA a fee.
+
+Tokumbo is considering the following three options for the future growth of SA safari tours:
+Option 1 — increasing the number of safari guides and vehicles to increase the number of customers from the existing target market.
+Option 2 — targeting young people who want to camp and sleep in a tent on their safari.
+Option 3 — targeting high-income tourists who prefer to stay in luxury hotels.
+Information about these three options is outlined in Appendix 3.
+
+Tokumbo plans to provide more training for his employees whichever option he chooses. He wants his existing employees to have a wider knowledge of the wild animals on the game reserve and to be able to provide high-quality customer service. Tokumbo has to decide which method of training to use.
+
+Appendix 1 — Newspaper article in Main News, September 2022 ("Tourism takes off"): Country X is becoming a popular holiday destination. There is increased demand from high-income tourists who want luxury hotels while on safari and are willing to pay high prices. There is also a new trend for younger people wanting cheaper camping holidays instead of hotels. E-commerce for booking safari tours offers both opportunities and threats. The inflation rate in country X has risen to 4%.
+
+Appendix 2 — Email from Tokumbo's accountant re: source of finance for new vehicles: New vehicles will be needed for any growth option. Interest rates on bank loans have fallen to 2%, while interest rates on savings are 3%. Suggested sources: leasing, bank loan, or retained profit.
+
+Appendix 3 — SA's three options for a 7 day safari tour:
+Option 1 (More existing safari tours): forecast 16 tourists/week; total costs $12,000/week; average cost per tourist $750; price per tourist $1000.
+Option 2 (Camping safari tours): forecast 32 tourists/week; total costs $8,000/week; average cost per tourist not given; price per tourist $400.
+Option 3 (Luxury safari tours): forecast 10 tourists/week; total costs $20,000/week; average cost per tourist not given; price per tourist $2400.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four business objectives Tokumbo could set for SA.', marks: 8, part: 'a', type: 'explain',
+        context: 'Tokumbo started SA 2 years ago as a sole trader but never set formal objectives, though he knows they are important.',
+        ms: `8 marks. Award 1 mark per objective (max 4) + 1 additional mark per explanation applied to context.\n\nObjectives: profit — to fund the new website; increase sales/customers — raising safari tour revenue; return on investment for the sole-trader owner; growth/expansion — to capture the growing camping trend; market share — increased tourist awareness; survival — since SA is only 2 years old; service to the community; good customer service; reducing environmental impact.\n\nExample: "Tokumbo will want to make a profit (1) as he has invested his own money into the sole trader business (app)."\n\nApplication: safari holidays; increase in tourists from other countries; high-income tourists; luxury safari holidays; 5 employees; only operating 2 years; sole trader; game reserve; camping/tent; wild animals; 4 safari guides; 4 vehicles; local/luxury hotel accommodation; fuel.`
+      },
+      {
+        q: '1(b)', text: 'Consider the opportunities and threats of e-commerce for SA. Which is likely to have the greatest effect on SA? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 1: e-commerce for booking safari tours by international tourists offers both opportunities and threats to SA.',
+        ms: `12 marks. Levels-based marking.\n\nOpportunities: a website promotes SA worldwide, cheaper than other promotion; direct bookings cut out intermediary holiday companies, avoiding their fee; easier to upsell additional services; easier/cheaper to book hotel rooms; prices can be updated instantly instead of costly brochure reprints.\nThreats: heavy competition from other safari businesses' websites; website design/maintenance costs, especially if Tokumbo lacks the skills himself; no face-to-face contact; unfamiliar new businesses may be less trusted by customers.\n\nValid conclusions: more opportunities — a website is a low-cost way to reach SA's core customer base of international tourists directly, cutting out intermediary fees entirely; OR more threats — heavy competition from established rivals' websites means SA may simply not be found by searching tourists, limiting the benefit.`
+      },
+      {
+        q: '2(a)', text: 'Explain four reasons why quality is important to a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'SA relies on customer satisfaction and reputation among international tourists booking safari tours.',
+        ms: `8 marks. Award 1 mark per reason (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nReasons: establishes brand image, encouraging purchases; builds brand/customer loyalty for repeat business; maintains good reputation via word-of-mouth; increases sales by meeting customer needs; avoids the cost/waste of replacing faulty products, protecting customer safety; allows higher prices to be charged, raising profit.\n\nExample: "To maintain a good reputation (1) because if quality is not good, friends and family will tell others about the product, leading to a bad reputation and lower sales (1)."`
+      },
+      {
+        q: '2(b)', text: 'Consider the following three sources of finance Tokumbo could use for the new vehicles. Which source should he choose? Justify your answer.\\n• Leasing\\n• Bank loan\\n• Retained profit', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 2: interest rates on bank loans have fallen to 2%, savings interest is 3%; SA needs new vehicles for whichever growth option is chosen.',
+        ms: `12 marks. Levels-based marking.\n\nLeasing: no large upfront capital needed; monthly payments ease cash flow; maintenance often covered by the lease company; easier to upgrade vehicles regularly; but total cost is usually higher than buying outright, and the vehicle isn't owned as an asset.\nBank loan: relatively quick to arrange; can be repaid over a longer period at the current low 2% rate, keeping monthly repayments manageable; but interest still raises costs, a small business like SA may face a higher relative rate, and as a sole trader Tokumbo's personal assets are at risk if unpaid.\nRetained profit: no repayment or interest needed, cheaper than the 2% loan rate; no security/collateral risk; but SA has only traded 2 years and may lack sufficient retained profit, and using it up removes any emergency reserve, plus loses the 3% savings interest it could otherwise earn.\n\nValid recommendations: leasing — best suited to a 2-year-old business unlikely to have much retained profit or loan-worthy credit history; OR bank loan — spreads cost at a historically low 2% rate given SA's established 2-year trading record; OR retained profit — cheapest option overall if SA has accumulated enough reserves, avoiding all interest costs.`
+      },
+      {
+        q: '3(a)', text: 'Explain one advantage and one disadvantage to Tokumbo of being a sole trader.', marks: 8, part: 'a', type: 'explain',
+        context: 'Tokumbo runs SA as a sole trader, having previously worked for a holiday company before starting his own business.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 1 each) + max 3 additional marks per explanation, one applied to context.\n\nAdvantage: full control over all decisions, no need to consult others; keeps all profit himself rather than sharing; easy/cheap to set up with few legal requirements; freedom over working hours/holidays unlike his previous employed role; complete privacy over financial details.\nDisadvantage: unlimited liability risks all personal possessions, not just invested capital; no one to share responsibility/decisions with, increasing stress and mistake risk; no continuity if Tokumbo dies or stops, unlike a company; limited capital/difficulty raising finance beyond his own funds/borrowing, restricting expansion.\n\nExample: "A disadvantage is that Tokumbo has unlimited liability (1), having put his own money into the business 2 years ago (app). If SA fails, he could lose all his personal possessions (1), not just his invested capital as would happen with a limited company (1)."\n\nApplication: safari holidays; increase in tourists; high-income tourists; luxury safari holidays; 5 employees; operating 2 years; game reserve; camping/tent; wild animals; 4 safari guides; 4 vehicles; local/luxury hotels; fuel.`
+      },
+      {
+        q: '3(b)', text: 'Using Appendix 3 and other information, consider the three options for the future growth of SA. Which option should Tokumbo choose? Justify your answer using appropriate calculations.\\n• Option 1\\n• Option 2\\n• Option 3', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Option 1: 16 tourists/week, $12,000 total costs, $1000 price. Option 2: 32 tourists/week, $8,000 total costs, $400 price. Option 3: 10 tourists/week, $20,000 total costs, $2400 price.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nOption 1: revenue $16,000/week; average cost/tourist $750; profit/tourist $250; total profit $4,000/week. Familiar market, existing hotel relationships.\nOption 2: revenue $12,800/week; average cost/tourist $250 (lowest of the three); total profit $4,800/week (highest); lowest total costs ($8,000), easing cash flow; but a new, unfamiliar market needing camping equipment investment and market research.\nOption 3: revenue $24,000/week (highest); average cost/tourist $2,000; profit/tourist $400 (highest); total profit $4,000/week; but much higher total costs ($20,000) and a new luxury market requiring new hotel/vehicle relationships.\n\nValid recommendations: Option 1 — safest, familiar market with equal profit to Option 3 at much lower risk; OR Option 2 — highest total weekly profit and lowest costs, and taps a genuinely growing customer trend; OR Option 3 — highest revenue and profit-per-tourist, suiting less price-sensitive high-income customers despite the higher upfront costs.`
+      },
+      {
+        q: '4(a)', text: 'Explain two possible effects on SA of the increase in the rate of inflation in country X.', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 1: the inflation rate in country X has risen to 4%.',
+        ms: `8 marks. Award 1 mark per effect (max 2) + max 3 additional marks per explanation, one applied to context.\n\nEffects: likely price rises for safari tours, reducing demand from price-sensitive tourists and potentially cutting revenue/profit; rising costs (fuel, supplies) require re-pricing and reprinting brochures; pressure to raise employee wages as living costs rise; increased cost of new vehicles/equipment, possibly delaying expansion plans.\n\nExample: "Prices of basic goods may be rising significantly in country X (1) as inflation is now 4% (app). This creates more pressure on SA to raise employee wages (1) since employees can't maintain their standard of living without a pay increase (1)."`
+      },
+      {
+        q: '4(b)', text: 'Consider the advantages and disadvantages of two methods of training Tokumbo could use for his existing employees. Which method should he use? Justify your answer.\\n• On-the-job training\\n• Off-the-job training', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Tokumbo wants his 4 safari guides and 1 admin employee to gain wider knowledge of wildlife and better customer service, whichever growth option is chosen.',
+        ms: `12 marks. Levels-based marking.\n\nOn-the-job: training specific to SA's actual tours; some output still produced while training; cheaper, delivered by existing staff; but some trainer output is lost, and bad habits could be passed on, risking reputation.\nOff-the-job: taught by experts with deeper wildlife knowledge and better technique; can be scheduled in evenings without losing tour days; teaches a wider new skill range; but more expensive, no tours run while training, and newly qualified staff may be poached by competitors.\n\nValid recommendations: on-the-job — cheaper and gives skills tailored specifically to SA's own tours and vehicles; OR off-the-job — expert-led training could give SA a real competitive edge in wildlife knowledge and customer service that justifies the higher cost.`
+      }
+    ]
+  },
+  'p2_s22_23': {
+    label: '2022 May/Jun Paper 2 Variant 3',
+    caseStudy: `Bagels & Baguettes (BB)
+
+BB is a private limited company which operates 3 sandwich shops. It sells ready-made and made-to-order sandwiches. BB has two types of customer — business customers and customers who visit its shops. BB earns 40% of its revenue from business customers. They place bulk orders each day and these orders are delivered by BB. Some of the customers who visit BB's shops give their orders and receive their sandwiches without leaving their cars. This is called a drive-through service. The drive-through service helps to differentiate BB from its competitors.
+
+The lease on one shop has finished. BB's Managing Director, Shivani, has identified two locations for a replacement shop. Details of these locations are shown in Appendix 2.
+
+BB has high labour turnover. The shop managers know that the employees have low motivation. The shop employees are paid the legal minimum wage. They do the same job every day. Shop employees either make the sandwiches or serve shop customers and drive-through customers.
+
+Shivani gives shop managers general business objectives and allows them to make all the decisions for the shop they are responsible for. Sometimes this leads to different marketing decisions when responding to changes in customer needs.
+
+Shop managers feel overworked and often work much longer hours than stated in their employment contract. There is limited opportunity for promotion in the organisational structure, as shown in Appendix 1. The shop managers have suggested that experienced shop employees could be appointed as deputy managers.
+
+BB's shops are located in busy cities in country X. Shivani wants to expand the business in addition to the replacement shop. She is considering two options for BB's growth:
+Option 1: Open a new BB shop.
+Option 2: Take over a competitor's shop. The competitor's shop does not currently provide a drive-through service.
+
+Shivani is planning to finance the growth of the business from retained profit and a long-term bank loan. Some months the company has cash-flow problems. Business customers pay at the end of each month but BB pays its suppliers in cash when food ingredients are delivered.
+
+Appendix 1 — BB's organisational chart: Managing Director (Shivani) → Shop Managers (one per shop) → Shop Employees (21 in total across the 3 shops), a short, flat structure with limited promotion opportunities.
+
+Appendix 2 — Map showing two locations for the replacement shop:
+Location A: city centre, near the cinema and bus station, close to office business customers, competitor cafe/supermarket nearby, no parking, annual rent/taxes $10,000 more than Location B.
+Location B: near a shopping centre, parking available (suitable for drive-through), annual rent $8,000 less than Location A, local taxes $200 lower than Location A.
+
+Appendix 3 — Information for the two growth options:
+Option 1 (Open a new shop): fixed cost $21,000/month; forecast monthly sales 26,000 sandwiches; average price $3; variable cost $1.50.
+Option 2 (Take over a competitor's shop): fixed cost $10,000/month; forecast monthly sales 22,000 sandwiches; average price $2; variable cost $1.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain two leadership styles that the Managing Director of BB may use.', marks: 8, part: 'a', type: 'explain',
+        context: 'Shivani, BB\'s Managing Director, gives shop managers general objectives but lets them make all decisions for their own shop.',
+        ms: `8 marks. Award 1 mark per style (max 2) + max 3 additional marks per explanation, one applied to context.\n\nStyles: autocratic — manager makes all decisions, one-way communication; democratic — employees consulted, two-way communication; laissez-faire — broad objectives set, but individuals left to make their own decisions.\n\nExample: "Laissez-faire (1) — the broad objectives are provided by the Managing Director, but the shop managers (app) are left to make individual decisions in running each shop (1). This could mean each shop is managed differently with no consistent approach (1)."\n\nApplication: sandwich shops; ready-made/made-to-order sandwiches; low motivation; shop managers; 21 shop employees; drive-through; overworked managers; limited promotion opportunities; expansion/takeover; minimum wage; business customers pay at month-end; 40% business customers; cash paid for ingredients.`
+      },
+      {
+        q: '1(b)', text: 'Explain the advantages and disadvantages to BB of using the following three methods to motivate the shop employees. Recommend which method BB should use. Justify your answer.\\n• Introduce job rotation\\n• Provide opportunities for promotion\\n• Increase wages', marks: 12, part: 'b', type: 'evaluate',
+        context: 'BB has high labour turnover and low-motivated shop employees who do the same job (making sandwiches or serving customers) every day, paid the legal minimum wage.',
+        ms: `12 marks. Levels-based marking.\n\nJob rotation: adds task variety (making sandwiches vs taking orders); easier for managers to cover absences; helps identify employee strengths; but tasks remain low-skill/repetitive, may not fix low pay as the root motivation issue, and takes time to implement.\nPromotion opportunities: makes employees feel valued, working harder; uses their existing shop knowledge; but training new deputy managers is costly, and those not promoted may become demotivated.\nHigher wages: rewards employees better than minimum wage; simple to implement uniformly; but raises costs and could worsen BB's cash-flow problems, and may feel unfair if effort levels differ.\n\nValid recommendations: job rotation — cheapest and easiest to implement, reducing boredom without restructuring the organisation; OR promotion — reduces overworked shop managers' load by creating deputy roles from existing loyal staff; OR higher wages — directly tackles the high labour turnover likely driven by minimum-wage pay, saving recruitment costs long-term.`
+      },
+      {
+        q: '2(a)', text: 'Explain four business objectives that BB might have.', marks: 8, part: 'a', type: 'explain',
+        context: 'BB is a private limited company operating 3 sandwich shops in competitive city locations, currently planning to expand.',
+        ms: `8 marks. Award 1 mark per objective (max 4) + 1 additional mark per explanation applied to context.\n\nObjectives: growth/increased sales revenue — BB is planning to open a new shop; increased market share/customer loyalty — expanding in a city; profit — needed to convince the bank for the long-term loan; survival — operating in a competitive market; return for shareholders, since BB is a private limited company; service to the community — e.g. donating unsold sandwiches to those on low incomes.\n\nExample: "Growth (1) — BB is planning to expand by taking over a competitor's shop (app)."\n\nApplication: sandwich shops; ready-made/made-to-order sandwiches; low motivation; shop managers; 21 shop employees; drive-through; overworked managers; limited promotion opportunities; expansion/takeover; minimum wage; business customers pay at month-end; 40% business customers; cash paid for ingredients.`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 2, consider the two locations for the replacement shop. Recommend which location would be most suitable for BB\'s replacement shop. Justify your answer.\\n• Location A\\n• Location B', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Location A: city centre, near cinema/bus station, near office business customers, a competitor nearby, $10,000/year more expensive than B. Location B: near a shopping centre with parking, $8,000 cheaper annual rent, $200 lower taxes.',
+        ms: `12 marks. Levels-based marking.\n\nLocation A: near the bus station brings passing footfall; city-centre office workers boost business-customer revenue; but a competitor cafe/supermarket nearby risks losing customers, and rent/taxes are $10,000/year more than B.\nLocation B: parking supports the drive-through service that differentiates BB; close to shopping-centre footfall; $8,000/year cheaper rent and lower taxes, easing BB's cash flow.\n\nValid recommendations: Location A — likely higher potential revenue from a large concentration of business customers, worth the higher cost long-term; OR Location B — cheaper, and the available parking specifically supports BB's differentiating drive-through service, which Location A cannot offer.`
+      },
+      {
+        q: '3(a)', text: 'Explain four ways to measure the size of a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'BB currently operates 3 sandwich shops and 21 employees, considering expansion via a new shop or a takeover.',
+        ms: `8 marks. Award 1 mark per way (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nWays: number of people employed; value of output/sales; number of outlets/shops; value of capital employed; market share.\n\nExample: "By the number of people employed in the business (1), which will be high if it is a labour-intensive business (1)."`
+      },
+      {
+        q: '3(b)', text: 'Using Appendix 3 and other information, consider the two options for growth. Which option should BB choose? Justify your answer using suitable calculations.\\n• Open a new shop\\n• Take over a competitor\'s shop', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Option 1 (new shop): fixed cost $21,000/month, 26,000 sandwiches forecast, $3 price, $1.50 variable cost. Option 2 (takeover): fixed cost $10,000/month, 22,000 sandwiches forecast, $2 price, $1 variable cost.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nOption 1: total revenue $78,000; total cost $60,000 ($21,000 + 26,000×$1.50); profit $18,000/month; break-even output 14,000 sandwiches/month; margin of safety 12,000.\nOption 2: total revenue $44,000; total cost $32,000 ($10,000 + 22,000×$1); profit $12,000/month; break-even output 10,000 sandwiches/month (lower risk than Option 1); margin of safety 12,000 (same as Option 1).\n\nValid recommendations: taking over a competitor — higher profit ($18,000 vs $12,000) and an already-established customer base with lower risk, since it's horizontal integration reducing a competitor; OR opening a new shop — lower break-even output (10,000 vs 14,000) means less risk, existing organisational structure makes internal growth easier to manage, and BB can extend its differentiating drive-through service to the new location, unlike the competitor's shop which lacks one.`
+      },
+      {
+        q: '4(a)', text: 'Explain two possible reasons why BB might have cash-flow problems.', marks: 8, part: 'a', type: 'explain',
+        context: 'BB earns 40% of revenue from business customers who pay at month-end, while BB pays its suppliers in cash immediately on ingredient delivery.',
+        ms: `8 marks. Award 1 mark per reason (max 2) + max 3 additional marks per explanation, one applied to context.\n\nReasons: high level of credit sales — 40% of sales are on credit, so cash leaves the business for ingredients before cash is received from business customers; no trade credit from suppliers — cash leaves immediately on delivery; expansion costs running higher than forecast could raise cash outflows/loan interest before extra cash inflows arrive; poor management decisions from overworked shop managers, e.g. ordering mistakes requiring sandwiches to be remade.\n\nExample: "BB has high levels of credit sales (1) — business customers pay at the end of the month (app), but ingredients must be bought in advance (1), creating a delay between cash out and cash in (1)."`
+      },
+      {
+        q: '4(b)', text: 'Consider how the following two changes could affect BB\'s marketing. Which change is likely to have the most effect on BB\'s marketing? Justify your answer.\\n• Customers are becoming more health conscious\\n• More people are working from home instead of in offices', marks: 12, part: 'b', type: 'evaluate',
+        context: 'BB currently delivers bulk orders to business customers daily and also serves drive-through customers at its shops.',
+        ms: `12 marks. Levels-based marking.\n\nHealth consciousness: may need a new healthier menu/salad range — costs to develop and reprint menus; may need new suppliers for healthier fillings, raising variable costs; could justify higher prices, raising revenue; needs new promotion for the healthier range.\nMore working from home: promotion could shift to local leaflets rather than office marketing; opportunity for a new home-delivery service alongside existing business deliveries; may need improved packaging for safe home delivery; could raise prices to cover delivery costs.\n\nValid conclusions: health consciousness has the bigger effect — requires a full menu, supplier, and promotional overhaul; OR working from home has the bigger effect — BB already has business-delivery infrastructure to extend, but must overhaul promotion and packaging entirely for a new customer type.`
+      }
+    ]
+  },
+  'p2_s22_22': {
+    label: '2022 May/Jun Paper 2 Variant 2',
+    caseStudy: `Titantic Toys (TT)
+
+TT is a large manufacturer of toys based in country Y. It is a public limited company and has been trading for 20 years. TT's products are designed for children up to the age of 5.
+
+TT has benefited from economies of scale as it has grown. The company has been able to buy specialist new equipment for the flow production line in its factory. TT's factory uses lean production methods, such as Kaizen and just-in-time inventory control. All of its employees are well-motivated and few leave each year. The company provides training for employees in all departments of the business whenever there are any changes such as introducing new equipment or new products.
+
+Currently, TT only sells its products in country Y but it plans to expand into country Z and become a multinational company. TT could buy a toy manufacturer located in country Z or build its own factory there. The government of country Z will need to give permission for TT to build a new factory. Either option will cost $10 million. The directors are worried about liquidity as TT expands.
+
+TT has developed a new toy for children under 5. The toy is a soft, easy to hold doll which speaks 4 different languages. The Marketing Director thinks this new toy will help TT expand into country Z, as there are no other products like it in that country. TT is recruiting a new Marketing Manager for country Z. Details of the shortlisted applicants are in Appendix 3.
+
+The marketing department has already carried out research in country Z and some results are shown in Appendix 1.
+
+Appendix 1 — Market research results for country Z (4 charts): Chart 1 shows there are around 20 million children under 5 in country Z, a large potential market. Chart 2 shows unemployment and consumer income levels. Chart 3 shows most consumers buy toys through specialist toy shops. Chart 4 shows there are only 3 main competing toy companies in country Z.
+
+Appendix 2 — Extract from TT's statement of financial position, 2021 and 2022 (at 31 March):
+2021: Inventories $5m; Accounts receivable $5m; Cash $0m; Accounts payable $4m; Bank overdraft $1m; Long-term bank loans $5m; Total shareholders' equity $40m; Current ratio 2; Acid test ratio 1.
+2022: Inventories $5m; Accounts receivable $8m; Cash $2m; Accounts payable $5m; Bank overdraft $0m; Long-term bank loans $10m; Total shareholders' equity $50m; Current ratio ? Acid test ratio ?
+
+Appendix 3 — Three applicants for Marketing Manager for country Z:
+Labiba: 8 IGCSEs, speaks 6 languages; 5 years working for TT as Assistant Marketing Manager in country Y.
+Shahin: 5 IGCSEs and 2 A levels, degree in Business Management; 2 years as Marketing Manager of a small food company in country Z.
+Samihah: 10 IGCSEs and 3 A levels, speaks 2 languages; 10 years as Marketing Manager of a large toy company in country Y.`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain two ways TT could grow.', marks: 8, part: 'a', type: 'explain',
+        context: 'TT is a public limited company manufacturing toys for under-5s, planning to expand into country Z as a multinational, either by acquiring a local manufacturer or building its own factory.',
+        ms: `8 marks. Award 1 mark per way (max 2) + max 3 additional marks per explanation, one applied to context.\n\nInternal growth: grows existing operations, often using retained profit, e.g. building a new factory abroad; developing new products to increase sales; entering new markets, e.g. a different age group; diversification.\nExternal growth: takeover of another toy manufacturer (horizontal integration) — TT could take over an existing toy manufacturer in country Z; mergers; vertical integration (supplier/retailer takeover); joint ventures; licensing.\n\nExample: "Internal growth (1) as TT decides to expand by opening its own new factory (1). This could be in country Z where TT plans to expand sales (app). This is less risky than taking over another business, though slower if using only its own funds (1)."\n\nApplication: manufactures toys; toys for under-5s; expanding into new markets abroad; existing economies of scale; toy shops; $10m cost; multinational company; specialist new equipment; flow production.`
+      },
+      {
+        q: '1(b)', text: 'Consider how TT might benefit from the following three economies of scale as it continues to grow. Which is likely to have the greatest effect on TT\'s profit? Justify your answer.\\n• Purchasing\\n• Technical\\n• Financial', marks: 12, part: 'b', type: 'evaluate',
+        context: 'TT is a large, established toy manufacturer already benefiting from some economies of scale, using specialist flow-production equipment.',
+        ms: `12 marks. Levels-based marking.\n\nPurchasing: bulk-buying components brings discounts, lowering unit costs — allows more competitive pricing and higher sales.\nTechnical: specialist machines enable easier specialisation on the flow line, speeding production and lowering unit costs via higher output per worker.\nFinancial: raises capital more cheaply, with banks offering lower interest rates to a large, lower-risk business — cuts the cost of borrowing for expansion.\n\nValid conclusions: purchasing — large-scale toy production means bulk discounts meaningfully cut unit costs and raise profit, more so than further technical gains since TT already has specialist equipment; OR technical — enables further flow-production speed-ups as TT expands, likely giving the largest unit-cost drop; OR financial — since expansion needs up to $10m, cheaper borrowing could be the biggest lever on profit, especially if TT already benefits fully from purchasing/technical economies at its current scale.`
+      },
+      {
+        q: '2(a)', text: 'Explain two benefits to TT of using lean production methods.', marks: 8, part: 'a', type: 'explain',
+        context: 'TT\'s factory uses lean production methods including Kaizen and just-in-time inventory control on its flow production line.',
+        ms: `8 marks. Award 1 mark per benefit (max 2) + max 3 additional marks per explanation, one applied to context.\n\nBenefits: employees suggest small continuous improvements (Kaizen), raising efficiency/lowering unit costs; less inventory/storage needed under JIT, reducing working capital and improving cash flow; faster production as Kaizen improves factory layout, reducing wasted time between tasks; less defective output, reducing repair/returns cost and protecting reputation; equipment used more effectively, raising efficiency; some processes removed, speeding production; improved employee health and safety from reduced repetitive motion, cutting time off work.\n\nExample: "There is less storage required for components (1). This is because just-in-time inventory control is used (app), meaning components are only ordered when required for production (1). This reduces the warehouse space required and reduces costs (1)."\n\nApplication: manufactures toys; toys for under-5s; expanding abroad; existing economies of scale; Kaizen; JIT; specialist new equipment; flow production.`
+      },
+      {
+        q: '2(b)', text: 'Using Appendix 2 and other information, consider TT\'s financial position. Do you think TT is in a good financial position to expand? Justify your answer using suitable calculations.', marks: 12, part: 'b', type: 'evaluate',
+        context: '2021: current assets/liabilities give a current ratio of 2 and acid test of 1. 2022: current ratio and acid test ratio need to be calculated from Appendix 2\'s updated figures.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\n2022 current ratio = 3 (current assets $15m ÷ current liabilities $5m), up from 2 in 2021. 2022 acid test ratio = 2, up from 1 in 2021. Accounts receivable up $3m; cash up $2m; accounts payable up $1m; the overdraft has been paid off; a further $5m bank loan taken out.\n\nBoth liquidity ratios are quite high (2 and 1 would typically be seen as more acceptable), suggesting TT may be holding too many assets in liquid, non-income-earning form — but this liquidity could reassure banks funding the $10m expansion.\n\nValid conclusions: yes, good position — both ratios improved 2021→2022, so TT could fund some of the $10m expansion from its own resources without a liquidity crisis; OR not necessarily ideal — ratios may now be too high, and current liabilities/bank loans have both risen, meaning further heavy borrowing for expansion could still strain TT going forward.`
+      },
+      {
+        q: '3(a)', text: 'Explain one way the information in each chart in Appendix 1 might be useful to TT.', marks: 8, part: 'a', type: 'explain',
+        context: 'Appendix 1 shows 4 charts of market research from country Z, covering market size, unemployment/income, retail channels, and competitors.',
+        ms: `8 marks. Award 1 mark per chart (max 4) + 1 additional mark per explanation applied to context.\n\nChart 1: estimates market size — around 20 million under-5s in country Z is a large potential market.\nChart 2: higher unemployment increases the pool of workers available to recruit for the new factory / lower consumer incomes may mean less willingness to pay higher toy prices.\nChart 3: helps choose the best distribution channel — most consumers buy toys through specialist toy shops.\nChart 4: shows the level of competition — only 3 main competitors, making it easier to monitor rival pricing.\n\nExample: "TT can estimate the size of the market (1) as the research shows there are 20 million children under 5 in country Z (app)."`
+      },
+      {
+        q: '3(b)', text: 'Using Appendix 3 and other information, consider the three applicants for the job of Marketing Manager for country Z. Who is the best applicant for the job? Justify your answer.\\n• Labiba\\n• Shahin\\n• Samihah', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Labiba: 5 years as TT\'s Assistant Marketing Manager, speaks 6 languages. Shahin: degree in Business Management, already based in country Z as a small food company\'s Marketing Manager. Samihah: 10 years as Marketing Manager of a large toy company (a competitor), speaks 2 languages.',
+        ms: `12 marks. Levels-based marking.\n\nLabiba: already understands TT and its toy products; well-trained by TT already; promoting her may motivate other TT staff; but her experience is only as an assistant, may struggle to relocate to country Z, and promotion could cause jealousy among colleagues.\nShahin: best formally qualified with a relevant degree; already a Marketing Manager based in country Z, understanding its culture without needing to relocate; but her experience is in food, not toys, and only at a small company.\nSamihah: most experienced in toys specifically, at a large company similar to TT; speaks the most languages; could bring fresh ideas from a competitor; but is the least formally qualified and may struggle to adapt to TT's culture, and would need to relocate.\n\nValid recommendations: Labiba — known quantity already familiar with TT's toy market; OR Shahin — no relocation needed and best understands country Z; OR Samihah — most directly relevant experience in the toy industry at comparable scale.`
+      },
+      {
+        q: '4(a)', text: 'Explain four effects of training on a business.', marks: 8, part: 'a', type: 'explain',
+        context: 'TT provides training for employees whenever new equipment or new products are introduced across all departments.',
+        ms: `8 marks. Award 1 mark per effect (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nEffects: greater employee motivation, working harder; more flexible workforce, able to cover different tasks; increased productivity/efficiency, lowering unit costs; improved product quality, boosting customer satisfaction/reputation; employees better able to use new technology; improved customer service; fewer mistakes, less waste/repair cost; more skilled workforce completing tasks more effectively; output lost during training raises short-term costs; employees may expect higher pay post-training; training itself costs money, possibly lowering initial profit; trained employees may leave, raising recruitment costs.\n\nExample: "The business will have a more flexible workforce (1) meaning when an employee is absent, another can cover their task without halting production (1)."`
+      },
+      {
+        q: '4(b)', text: 'Consider the benefits and drawbacks for country Z if TT builds a factory there. Do you think the government of country Z should allow TT to build this factory? Justify your answer.', marks: 12, part: 'b', type: 'evaluate',
+        context: 'TT is considering building a new $10m factory in country Z as part of its expansion, requiring government permission.',
+        ms: `12 marks. Levels-based marking.\n\nBenefits: creates jobs, lowering unemployment and raising incomes/economic growth; increased investment in infrastructure benefiting other local businesses; TT could export from country Z, improving its balance of payments; tax revenue for the government; increased consumer choice from TT's unique new toy.\nDrawbacks: jobs created may be low-skilled and low-paid; local toy businesses may lose sales to TT's lower costs; profits may be repatriated to country Y, reducing local tax benefit; scarce local resources could be used up quickly; the multinational could gain excessive political influence/concessions; construction may cause noise/air pollution.\n\nValid conclusions: allow the factory — job creation during rising unemployment and possible technology transfer to local businesses outweighs the drawbacks to just 3 existing local competitors; OR don't allow it — automated production may create few jobs, and profit repatriation plus concessions could mean little real gain for country Z's economy.`
+      }
+    ]
+  },
+  'p2_s22_21': {
+    label: '2022 May/Jun Paper 2 Variant 1',
+    caseStudy: `MainCity Bakery (MB)
+
+MB is a small bakery that produces bread. Yasin started the bakery 6 months ago with help from the government. Yasin needed a business plan to support his application for government help. An extract from the business plan Yasin produced is shown in Appendix 1. The market research was carried out by Yasin. He asked a small sample of family and friends to fill in a questionnaire. Yasin's business plan also contained forecast data.
+
+MB's bread is freshly-made every day in the bakery, which is located at the back of MB's small shop. The bread is then sold the same day. Yasin has 2 employees to help him produce the bread and 1 employee to serve customers in the shop. All employees work 5 days a week and are paid the legal minimum wage. Yasin uses a democratic leadership style.
+
+Yasin needs to keep costs low to be competitive. He uses packaging that cannot be recycled. Yasin also buys the cheapest ingredients, most of which are imported. He is planning to use lean production in the bakery but he has to decide which method to use.
+
+MB's main competitors advertise that they only use ingredients from local suppliers. Yasin is thinking of changing the suppliers he uses for ingredients and packaging. He wants MB to have a good ethical image which he could use in advertising.
+
+Yasin plans to start making cakes. He is considering two options as outlined in Appendix 2. MB's fixed costs will increase as there will be additional expenses whichever option he chooses.
+
+Appendix 1 — Extract from Yasin's business plan for MB:
+Market research: Bread is eaten by all age groups. Of the sample asked — 85% want products made using ingredients from local suppliers; 70% want to purchase cakes as well as bread from a bakery.
+Resources: $10,000 to buy bakery equipment; rent for the bakery and shop each month; $3,000 for start-up supplies and ingredients.
+
+Appendix 2 — Forecast data for MB's cake options:
+Option 1 (Small cupcakes): Monthly sales 4000; variable cost per cake $0.50; additional fixed cost per month $3000; price per cupcake $2; gross profit margin 75%; sales growth Low.
+Option 2 (Large birthday cakes): Monthly sales 100; variable cost per cake $10; additional fixed cost per month $3000; price per birthday cake $60; gross profit margin 83.33%; sales growth High.
+
+Appendix 3 — Packaging supplier advertisement: "We only supply packaging made from sustainable sources. This will keep your products fresh and protect the environment. We can deliver your packaging when you need it."`,
+    questions: [
+      {
+        q: '1(a)', text: 'Explain four reasons why governments might support business start-ups.', marks: 8, part: 'a', type: 'explain',
+        context: 'Yasin started MB 6 months ago with help from the government, needing a business plan to support his application for that help.',
+        ms: `8 marks. Award 1 mark per reason (max 4) + 1 additional mark per explanation. No application marks for this question.\n\nReasons: to reduce unemployment — new businesses create jobs, fewer welfare benefits to pay; to increase competition — more choice for consumers, may keep prices lower and quality higher; to provide a wider variety of goods and services; to increase output/improve standard of living — raises GDP; to benefit society — start-ups may support social enterprises; they may grow into larger businesses in future; earns taxation — a source of government revenue; to motivate/encourage entrepreneurs — reduces the risk of failure.\n\nExample: "To reduce unemployment (1) — as new start-up businesses often need to hire employees and these people may have been unemployed (1)."`
+      },
+      {
+        q: '1(b)', text: 'Consider the benefits to Yasin of the two sections of his business plan shown in Appendix 1. Which section do you think helped him most when starting up his business? Justify your answer.\\n• Market research\\n• Resources', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Appendix 1: market research found 85% want local-supplier ingredients and 70% want cakes too; resources section lists $10,000 equipment, rent, and $3,000 start-up supplies.',
+        ms: `12 marks. Levels-based marking.\n\nMarket research: identifies the market for bread as all age groups; shows cakes are likely to succeed since 70% of respondents want to buy them; could emphasise local ingredients in advertising if MB changes suppliers.\nResources: helps calculate the start-up capital needed to buy bakery equipment; a starting point for the purchases needed to open; helps plan more effectively; identifies costs to see if a bank loan is needed.\n\nValid conclusions: market research most important — shows real demand exists, without which the business would fail, though the small sample may be inaccurate; OR resources most important — helps Yasin work out if he has sufficient start-up finance, though the small sample means the equipment list could still be incomplete.`
+      },
+      {
+        q: '2(a)', text: 'Explain one benefit and one limitation to Yasin of using a break-even chart.', marks: 8, part: 'a', type: 'explain',
+        context: 'MB\'s fixed costs will increase once Yasin adds cakes to the bakery\'s output, per Appendix 2.',
+        ms: `8 marks. Award 1 mark per benefit/limitation (max 2) + max 3 additional marks per explanation, one applied to context.\n\nBenefit: shows the break-even output needed, helping Yasin plan the bakery and equipment required; shows the margin of safety, giving a sales target; helps decision-making — e.g. whether to raise price or cut ingredient costs; shows the area of profit or loss given the market research findings.\nLimitation: assumes all output is sold, but unsold bread is wasted and its cost isn't reflected; assumes straight-line costs, but bulk-buying at higher output could lower the variable cost per unit; fixed/variable costs may change as the bakery expands; a separate chart is needed for each product, relevant once cakes are added.\n\nExample: "The chart shows the break-even output for MB (1) so Yasin will know how many units of bread he needs to sell each month to break even (app). This will allow him to plan the equipment required (1) so he can avoid making a loss (1)."\n\nApplication: bread; bakery; cakes; data in Appendix 2; fixed costs changing with the new options.`
+      },
+      {
+        q: '2(b)', text: 'Consider the following two ways MB could achieve lean production. Which is the best way for Yasin to choose? Justify your answer.\\n• Kaizen\\n• Just-in-time inventory control', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Yasin has 2 production employees and is planning to use lean production but must choose a method.',
+        ms: `12 marks. Levels-based marking.\n\nKaizen: employees may suggest small continuous improvements to efficiency; helps eliminate wasted time/space/resources; can raise productivity from less time between processes; but the 2 employees may be unwilling to suggest ideas, may fear reduced hours, and reorganising takes time/money Yasin may lack the skill to do himself.\nJIT: reduces the cost of holding flour/ingredient inventory; less working capital tied up; less storage space needed; ensures fresh ingredients daily; but a sudden demand increase can't be met immediately, delivery delays disrupt production, and it relies on a good supplier relationship.\n\nValid recommendations: Kaizen — could speed up baking and raise bread output/revenue, though limited scope in such a small bakery; OR JIT — needs less working capital, well suited to a small, cash-constrained new business, and matches that bread is already baked fresh daily anyway.`
+      },
+      {
+        q: '3(a)', text: 'Explain four ways Yasin can advertise MB\'s products.', marks: 8, part: 'a', type: 'explain',
+        context: 'MB is a new bakery wanting to raise local awareness, with an ethical image it wants to promote and imported ingredients it currently uses.',
+        ms: `8 marks. Award 1 mark per way (max 4) + 1 additional mark per explanation applied to context.\n\nWays: local radio — reaches the local customer base; local newspaper/magazine — could include a money-off voucher; posters in the shop window — attracts passers-by; leaflets/flyers in the town centre — raises awareness of the new shop's location; social media; packaging/carrier bags — emphasise the ethical image; website — gives location/product info to searching customers; billboards in busy areas; sponsorship of a local sports team; word-of-mouth from existing customers.\n\nExample: "Leaflets (1) can be handed out in the local town centre to raise awareness of where the bakery shop is located (app)."\n\nApplication: bread; bakery; cakes; bakery shop; imported ingredients; ethical image; fresh products; sustainable packaging; consumed by all age groups.`
+      },
+      {
+        q: '3(b)', text: 'Consider the two options outlined in Appendix 2. Which option should Yasin choose? Justify your answer using appropriate calculations.\\n• Option 1: Small cupcakes\\n• Option 2: Large birthday cakes', marks: 12, part: 'b', type: 'evaluate',
+        context: 'Option 1: 4000 cupcakes/month, $0.50 variable cost, $3000 fixed costs, $2 price. Option 2: 100 cakes/month, $10 variable cost, $3000 fixed costs, $60 price.',
+        ms: `12 marks. Levels-based marking — calculations expected for top marks.\n\nOption 1: total revenue $8000/month; total cost $5000 ($3000 + 4000×$0.50); profit $3000/month ($1000 more than Option 2); break-even output 2000 cupcakes/month; margin of safety 2000 cupcakes.\nOption 2: total revenue $6000/month; total cost $4000 ($3000 + 100×$10); profit $2000/month; break-even output 60 cakes/month; margin of safety 40 cakes.\n\nValid recommendations: Option 1 — higher profit by $1000 and a larger margin of safety, a more certain outcome than Option 2's forecast growth; OR Option 2 — the higher 83.33% gross profit margin and stronger forecast sales growth could mean higher future profits.`
+      },
+      {
+        q: '4(a)', text: 'Explain one advantage and one disadvantage of Yasin using a democratic leadership style.', marks: 8, part: 'a', type: 'explain',
+        context: 'Yasin uses a democratic leadership style with his 2 production employees and 1 shop employee, all paid the legal minimum wage.',
+        ms: `8 marks. Award 1 mark per advantage/disadvantage (max 1 each) + max 3 additional marks per explanation, one applied to context.\n\nAdvantage: better decisions since employees are consulted and may add ideas from their own experience; motivating — employees feel trusted/valued, lowering labour turnover; builds a sense of belonging, raising productivity.\nDisadvantage: consulting employees takes time that could be spent producing; unpopular decisions (e.g. redundancy) are harder to make, and consulted opinions may be biased; employees may lack the experience for useful suggestions; suggestions may conflict with management's objectives.\n\nExample: "Better decisions may be made by Yasin (1) because employees are asked for their opinions before decisions are made (1). Yasin only employs 3 people (app) so it's easier for them to offer ideas from their own experience of doing the job (1)."\n\nApplication: bakery; 3 employees; work five days a week; paid legal minimum wage; produces bread; needs to stay competitive; introducing cakes; changing suppliers; ethical image.`
+      },
+      {
+        q: '4(b)', text: 'Consider the following three ways Yasin could improve the ethical image of MB. Which way would be most effective? Justify your answer.\\n• Buying all ingredients from local suppliers\\n• Using only environmentally friendly packaging\\n• Increasing wage rates to 20% above the legal minimum wage', marks: 12, part: 'b', type: 'evaluate',
+        context: 'MB currently uses imported cheap ingredients and non-recyclable packaging; 85% of surveyed customers want locally sourced ingredients; Appendix 3 shows a sustainable packaging supplier is available.',
+        ms: `12 marks. Levels-based marking.\n\nLocal suppliers: less transport pollution; supports the local community; cheaper/quicker delivery; popular — 85% of surveyed customers wanted this; helps compete with local rivals already doing this; but likely higher ingredient costs and possibly a narrower ingredient range.\nEco-friendly packaging: improves brand image with environmentally aware customers; protects against future environmental packaging laws; a reliable supplier is already available (Appendix 3); but may reduce protection quality and likely costs more, which not all customers will accept.\nHigher wages (20% above minimum): more motivated employees (Taylor); lower labour turnover; easier recruitment from a good-employer reputation; but raises total costs/lowers profit, may not differentiate MB if competitors also pay well, and customers may never even learn about it.\n\nValid conclusions: local suppliers — most visible and directly matches the 85% customer preference already measured; OR eco-friendly packaging — a ready-made supplier and clear sustainability marketing angle; OR higher wages — improves the actual working conditions for MB's 3 employees, indirectly building reputation through word-of-mouth.`
+      }
+    ]
+  },
   'p2_m23_22': {
     label: '2023 Feb/Mar Paper 2 Variant 2',
     caseStudy: `Romesh Woodpaints (RW)
@@ -12985,6 +13398,12 @@ function loadFPPaper2() {
     'p2_w23_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_23.pdf',
     'p2_w23_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_22.pdf',
     'p2_m23_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_m23_in_22.pdf',
+    'p2_s22_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_s22_in_21.pdf',
+    'p2_s22_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_s22_in_22.pdf',
+    'p2_s22_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_s22_in_23.pdf',
+    'p2_w22_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_21.pdf',
+    'p2_w22_22': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_22.pdf',
+    'p2_w22_23': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2022/0450_w22_in_23.pdf',
     'p2_w23_21': 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2023/0450_w23_in_21.pdf'
   };
   const insertEl = document.getElementById('fp2-insert-link');
