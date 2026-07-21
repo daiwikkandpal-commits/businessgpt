@@ -1052,9 +1052,9 @@ footer {
         <h3>Progress Tracking</h3>
         <p>Track your scores across sessions and topics. Identify weak areas and focus your revision where it matters most.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card" onclick="showPastPapers()" style="cursor:pointer">
         <div class="feature-icon icon-rose">📚</div>
-        <h3>Past Paper and Mark Scheme Access</h3>
+        <h3>Full Mark Scheme Access</h3>
         <p>Every past paper and mark scheme from 2020 to today, all in one place — no more hunting across five different sites for the right session.</p>
       </div>
     </div>
@@ -1112,7 +1112,7 @@ footer {
           <div class="paper-meta-row"><div class="paper-meta-dot"></div><strong>Questions:</strong> Define, state, explain, calculate, analyse, evaluate</div>
           <div class="paper-meta-row"><div class="paper-meta-dot"></div><strong>Topics:</strong> All 6 Cambridge units</div>
         </div>
-        <a href="#" onclick="showMarker();return false" class="paper-btn" onclick="switchTool(1)">
+        <a href="#" onclick="showMarker();setMP(1);return false" class="paper-btn">
           Practice Paper 1
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
         </a>
@@ -1129,7 +1129,7 @@ footer {
           <div class="paper-meta-row"><div class="paper-meta-dot"></div><strong>Questions:</strong> Analyse, evaluate & justify</div>
           <div class="paper-meta-row"><div class="paper-meta-dot"></div><strong>Context:</strong> Business case study provided</div>
         </div>
-        <a href="#" onclick="showMarker();return false" class="paper-btn" onclick="switchTool(2)">
+        <a href="#" onclick="showMarker();setMP(2);return false" class="paper-btn">
           Practice Paper 2
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
         </a>
