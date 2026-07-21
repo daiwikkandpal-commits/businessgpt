@@ -1,4 +1,3 @@
-
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method not allowed" };
@@ -14,7 +13,7 @@ exports.handler = async (event) => {
         "X-Title": "BusinessGPT"
       },
       body: JSON.stringify({
-        model: "anthropic/claude-sonnet-4-5",
+        model: "anthropic/claude-sonnet-5",
         messages: [{ role: "user", content: prompt }],
         max_tokens: 8000,
         temperature: 0
