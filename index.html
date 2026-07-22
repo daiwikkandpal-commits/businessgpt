@@ -14351,7 +14351,7 @@ async function markFullPaper() {
       missed: 'Attempt this question to receive feedback.'
     }));
 
-    const batchSize = 5;
+    const batchSize = 3;
     const batches = [];
     for (let i = 0; i < answeredQuestions.length; i += batchSize) {
       batches.push(answeredQuestions.slice(i, i + batchSize));
@@ -14681,8 +14681,11 @@ async function markFullPaperP2() {
       missed: 'Attempt this question to receive feedback.'
     }));
 
-    // Split into batches of 4 (smaller batches because (b) answers are long)
-    const batchSize = 4;
+    // Split into small batches — Netlify's real timeout limit is much lower than
+    // netlify.toml requests (10s by default, 26s max even on paid plans), so each
+    // batch call needs to reliably finish fast. Smaller batches = more parallel
+    // calls via Promise.all, not slower overall, since they run concurrently.
+    const batchSize = 2;
     const batches = [];
     for (let i = 0; i < answeredQuestions.length; i += batchSize) {
       batches.push(answeredQuestions.slice(i, i + batchSize));
