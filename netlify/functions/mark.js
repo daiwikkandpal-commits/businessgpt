@@ -3,7 +3,13 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method not allowed" };
   }
   try {
-    const { prompt } = JSON.parse(event.body);
+    const { prompt, images } = JSON.parse(event.body);
+    const content = (images && images.length)
+      ? [
+          { type: "text", text: prompt },
+          ...images.map(img => ({ type: "image_url", image_url: { url: img } }))
+        ]
+      : prompt;
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -14,7 +20,7 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         model: "anthropic/claude-sonnet-5",
-        messages: [{ role: "user", content: prompt }],
+        messages: [{ role: "user", content: content }],
         max_tokens: 8000,
         temperature: 0
       })
