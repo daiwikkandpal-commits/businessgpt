@@ -19,9 +19,9 @@ exports.handler = async (event) => {
         "X-Title": "BusinessGPT"
       },
       body: JSON.stringify({
-        model: "anthropic/claude-sonnet-5",
+        model: "anthropic/claude-sonnet-4-5",
         messages: [{ role: "user", content: content }],
-        max_tokens: 8000,
+        max_tokens: 1500,
         temperature: 0
       })
     });
