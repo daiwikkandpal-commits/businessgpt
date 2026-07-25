@@ -21,7 +21,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         model: "anthropic/claude-sonnet-4-5",
         messages: [{ role: "user", content: content }],
-        max_tokens: 3000,
+        max_tokens: 4000,
         temperature: 0
       })
     });
