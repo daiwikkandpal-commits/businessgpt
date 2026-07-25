@@ -2034,6 +2034,8 @@ ${markerPaper === 1 ? partGuidance : p2Guidance}
 
 Read the question carefully and determine the command word automatically (define/state/identify/explain/analyse/evaluate). Do not rely on the label — mark based on what the question actually asks.
 
+Cambridge IGCSE Business Studies does not assess spelling, punctuation, or grammar — never deduct marks for spelling mistakes or typos (e.g. "compny" instead of "company"). Mark purely on the content and meaning of the answer. If you notice a spelling mistake, you may briefly mention it in the feedback as a side note for the student's awareness, but it must never affect the score. Only treat a misspelling as a genuine issue if it makes a specific term so ambiguous that the intended meaning truly cannot be determined from context.
+
 Question: ${question}
 ${context ? 'Business context: ' + context : ''}
 ${markscheme ? 'Cambridge mark scheme: ' + markscheme : 'No mark scheme provided — use Cambridge IGCSE Business Studies 0450 Paper 1 marking principles.'}
@@ -14298,6 +14300,8 @@ async function markFullPaper() {
     return [
       'You are a Cambridge IGCSE Business Studies 0450 Paper 1 examiner. Mark each question strictly using its mark scheme and the following rules:',
       '',
+      'Cambridge IGCSE Business Studies does not assess spelling, punctuation, or grammar — never deduct marks for spelling mistakes or typos (e.g. "compny" instead of "company"). Mark purely on content and meaning. You may briefly note a spelling mistake in the feedback for the student\'s awareness, but it must never affect the score.',
+      '',
       'PART A (2 marks): Award full marks if all main points are present. Award 1 mark if partially correct. For definitions, meaning must be clear but need not be word-for-word from the coursebook.',
       '',
       'PART B (2 marks): Same as Part A — knowledge points. Award marks if the meaning is correct even if not worded exactly as the mark scheme.',
@@ -14617,6 +14621,8 @@ async function markFullPaperP2() {
 
     return [
       'You are a Cambridge IGCSE Business Studies 0450 Paper 2 examiner. Mark each question strictly and consistently.',
+      '',
+      'Cambridge IGCSE Business Studies does not assess spelling, punctuation, or grammar — never deduct marks for spelling mistakes or typos (e.g. "compny" instead of "company"). Mark purely on content and meaning. You may briefly note a spelling mistake in the feedback for the student\'s awareness, but it must never affect the score.',
       '',
       'CASE STUDY CONTEXT (refer to this for application marks):',
       caseStudy,
