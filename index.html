@@ -1946,6 +1946,53 @@ function setMP(p) {
   updateCtxNote();
 }
 
+async function checkUsageLimit(type) {
+  const session = (await _supabase.auth.getSession()).data.session;
+  if (!session) { showAuthWall(); return { allowed: false }; }
+  try {
+    const res = await fetch('/.netlify/functions/check-limit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+      body: JSON.stringify({ type })
+    });
+    const data = await res.json();
+    if (data.error) return { allowed: false, message: data.error };
+    if (!data.allowed) return { allowed: false, limitHit: true, type };
+    return { allowed: true, remaining: data.remaining };
+  } catch (e) {
+    return { allowed: false, message: 'Could not verify your usage limit. Please try again in a moment.' };
+  }
+}
+
+function limitPopupHtml(type) {
+  const label = type === 'full_paper' ? 'full paper markings' : 'markings';
+  return `
+    <div id="limit-survey-box" style="padding:20px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:12px">
+      <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">You've reached today's limit of ${type === 'full_paper' ? 3 : 10} ${label}</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px">This resets tomorrow. Quick question while you're here —</div>
+      <div style="font-size:14px;color:var(--text);font-weight:500;margin-bottom:14px">Would you be willing to pay $3.99 to keep marking today instead of waiting?</div>
+      <div id="limit-survey-buttons" style="display:flex;gap:10px">
+        <button onclick="submitPricingSurvey(true,'${type}')" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer">Yes, I would</button>
+        <button onclick="submitPricingSurvey(false,'${type}')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-weight:600;font-size:13px;cursor:pointer">No, I'd rather wait</button>
+      </div>
+    </div>`;
+}
+
+async function submitPricingSurvey(willing, type) {
+  const btns = document.getElementById('limit-survey-buttons');
+  if (btns) btns.innerHTML = '<div style="font-size:13px;color:var(--text3)">Saving your answer…</div>';
+  try {
+    const session = (await _supabase.auth.getSession()).data.session;
+    await fetch('/.netlify/functions/log-survey', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+      body: JSON.stringify({ willing, limitType: type })
+    });
+  } catch (e) { /* fail silently — not critical if this doesn't save */ }
+  const box = document.getElementById('limit-survey-box');
+  if (box) box.innerHTML = `<div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:4px">Thanks for letting us know! 🙌</div><div style="font-size:13px;color:var(--text2)">Your daily limit resets tomorrow — see you then.</div>`;
+}
+
 async function runMark() {
   if (!_supabase || !(await _supabase.auth.getSession()).data.session) {
     showAuthWall();
@@ -1961,8 +2008,19 @@ async function runMark() {
   if (!question) { document.getElementById('m-q').style.borderColor='rgba(248,113,113,.5)'; document.getElementById('m-q').focus(); return; }
   if (!answer)   { document.getElementById('m-ans').style.borderColor='rgba(248,113,113,.5)'; document.getElementById('m-ans').focus(); return; }
 
+  const limitCheck = await checkUsageLimit('individual');
+  if (!limitCheck.allowed) {
+    if (limitCheck.limitHit) {
+      document.getElementById('m-result').innerHTML = limitPopupHtml('individual');
+    } else if (limitCheck.message) {
+      document.getElementById('m-result').innerHTML = `<div style="padding:14px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message}</div>`;
+    }
+    return;
+  }
+
   const btn = document.getElementById('m-btn');
   btn.disabled = true;
+
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking…';
 
   document.getElementById('m-result').innerHTML = `
@@ -14325,6 +14383,16 @@ async function markFullPaper() {
     return;
   }
 
+  const limitCheck = await checkUsageLimit('full_paper');
+  if (!limitCheck.allowed) {
+    if (limitCheck.limitHit) {
+      document.getElementById('fp-results').innerHTML = limitPopupHtml('full_paper');
+    } else {
+      document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message || 'Could not verify your usage limit.'}</div>`;
+    }
+    return;
+  }
+
   const btn = document.getElementById('fp-btn');
   btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking all 20 questions…';
@@ -14624,6 +14692,16 @@ async function markFullPaperP2() {
 
   if (answers.every(q => !q.answer)) {
     document.getElementById('fp2-results').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Please answer at least one question before marking — empty answers are not sent to the AI.</div>';
+    return;
+  }
+
+  const limitCheck = await checkUsageLimit('full_paper');
+  if (!limitCheck.allowed) {
+    if (limitCheck.limitHit) {
+      document.getElementById('fp2-results').innerHTML = limitPopupHtml('full_paper');
+    } else {
+      document.getElementById('fp2-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message || 'Could not verify your usage limit.'}</div>`;
+    }
     return;
   }
 
