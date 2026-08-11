@@ -919,6 +919,7 @@ footer {
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
+      <li><a href="#" id="navPricing" onclick="showPricing();return false" style="color:var(--text2)">Pricing</a></li>
       <li class="nav-cta-mobile" id="navCtaMobile">
         <a href="auth.html" class="btn-ghost" id="navSigninMobile">Sign in</a>
         <a href="auth.html?mode=signup" class="btn-primary" id="navSignupMobile">Try free</a>
@@ -1331,6 +1332,66 @@ footer {
 </div>
 
 <!-- NOTES PAGE -->
+<!-- PRICING PAGE -->
+<div id="pricingPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding:100px 0 100px">
+  <div style="max-width:1000px;margin:0 auto;padding:0 24px">
+    <div style="text-align:center;margin-bottom:44px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Pricing</div>
+      <div style="font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:10px">Keep marking, no limits</div>
+      <div style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.6">Free gives you 3 individual markings and 1 full paper marking per paper to try it out. Upgrade any time to keep going.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" id="pricingCards">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">Basic</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px">For steady, regular practice</div>
+        </div>
+        <div style="font-size:32px;font-weight:700;color:var(--text)">$3.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
+          <div>✓ Unlimited individual question marking</div>
+          <div>✓ 3 full paper markings per day</div>
+          <div>✓ Progress dashboard</div>
+        </div>
+        <button onclick="checkoutPlan('basic')" id="pricingBtnBasic" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Get Basic</button>
+      </div>
+
+      <div style="background:var(--bg2);border:1.5px solid var(--blue-500);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;box-shadow:0 8px 30px rgba(59,130,246,.15)">
+        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue-500);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 12px;border-radius:20px">Most popular</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">Premium</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px">For exam season, no caps</div>
+        </div>
+        <div style="font-size:32px;font-weight:700;color:var(--text)">$5.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
+          <div>✓ Unlimited individual question marking</div>
+          <div>✓ Unlimited full paper marking</div>
+          <div>✓ Progress dashboard</div>
+          <div>✓ Priority support</div>
+        </div>
+        <button onclick="checkoutPlan('premium')" id="pricingBtnPremium" style="padding:12px;border-radius:10px;border:none;background:var(--blue-500);color:#fff;font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif;box-shadow:0 4px 16px rgba(59,130,246,.3)">Get Premium</button>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--text)">Season Pass</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:4px">One payment, no subscription</div>
+        </div>
+        <div style="font-size:32px;font-weight:700;color:var(--text)">$8<span style="font-size:14px;font-weight:500;color:var(--text3)"> one-time</span></div>
+        <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
+          <div>✓ Unlimited individual question marking</div>
+          <div>✓ Unlimited full paper marking</div>
+          <div>✓ Progress dashboard</div>
+          <div>✓ No recurring charge</div>
+        </div>
+        <button onclick="checkoutPlan('season_pass')" id="pricingBtnSeason" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Get Season Pass</button>
+      </div>
+    </div>
+
+    <div id="pricingMessage" style="max-width:560px;margin:24px auto 0;text-align:center;font-size:13px;color:var(--text3)"></div>
+  </div>
+</div>
+
 <div id="notesPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:88px">
   <div style="display:flex;min-height:calc(100vh - 88px)">
 
@@ -1889,14 +1950,14 @@ function clearMarkerFields() {
 }
 
 function resetNavLinks() {
-  ['navDash','navMarker','navFullPaper','navPapers','navNotes'].forEach(id => {
+  ['navDash','navMarker','navFullPaper','navPapers','navNotes','navPricing'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.style.color = 'var(--text2)'; el.style.fontWeight = '500'; }
   });
 }
 
 function showHome() {
-  ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage'].forEach(id => {
+  ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -1912,7 +1973,7 @@ function showHome() {
 }
 
 function showMarker() {
-  ['fullPaperPage','pastPapersPage','notesPage','dashPage'].forEach(id => {
+  ['fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -1931,6 +1992,50 @@ function showMarker() {
   document.title = 'AI Marker — IGCSE Mark';
 }
 
+function showPricing() {
+  ['markerPage','fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
+  document.querySelector('footer').style.display = 'none';
+  const pricingPage = document.getElementById('pricingPage');
+  pricingPage.style.display = 'block';
+  pricingPage.style.animation = 'none';
+  pricingPage.offsetHeight;
+  pricingPage.style.animation = 'pageSlideIn 0.25s ease';
+  resetNavLinks();
+  window.scrollTo(0,0);
+  document.title = 'Pricing — IGCSE Mark';
+}
+
+async function checkoutPlan(plan) {
+  const session = (await _supabase.auth.getSession()).data.session;
+  if (!session) { showAuthWall(); return; }
+
+  const btnId = plan === 'basic' ? 'pricingBtnBasic' : plan === 'premium' ? 'pricingBtnPremium' : 'pricingBtnSeason';
+  const btn = document.getElementById(btnId);
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Redirecting…';
+
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+      body: JSON.stringify({ plan })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    window.location.href = data.url;
+  } catch (e) {
+    document.getElementById('pricingMessage').innerHTML = `<span style="color:#f87171">Could not start checkout: ${e.message}</span>`;
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
+
 function setMP(p) {
   markerPaper = p;
   clearMarkerFields();
@@ -1946,34 +2051,45 @@ function setMP(p) {
   updateCtxNote();
 }
 
-async function checkUsageLimit(type) {
+async function checkUsageLimit(type, paper) {
   const session = (await _supabase.auth.getSession()).data.session;
   if (!session) { showAuthWall(); return { allowed: false }; }
   try {
     const res = await fetch('/.netlify/functions/check-limit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
-      body: JSON.stringify({ type })
+      body: JSON.stringify({ type, paper })
     });
     const data = await res.json();
     if (data.error) return { allowed: false, message: data.error };
-    if (!data.allowed) return { allowed: false, limitHit: true, type };
-    return { allowed: true, remaining: data.remaining };
+    if (!data.allowed) return { allowed: false, limitHit: true, type, paper, tier: data.tier };
+    return { allowed: true, remaining: data.remaining, unlimited: data.unlimited };
   } catch (e) {
     return { allowed: false, message: 'Could not verify your usage limit. Please try again in a moment.' };
   }
 }
 
-function limitPopupHtml(type) {
-  const label = type === 'full_paper' ? 'full paper markings' : 'markings';
+function limitPopupHtml(type, tier) {
+  if (tier === 'basic') {
+    // Basic users get 3 full paper markings per day — this resets, no need to upsell a lifetime cap message.
+    return `
+      <div id="limit-survey-box" style="padding:20px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:12px">
+        <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">You've reached today's limit of 3 full paper markings</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px">This resets tomorrow. Want unlimited full paper marking instead? Premium removes this cap entirely.</div>
+        <button onclick="showPricing()" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer">See Premium</button>
+      </div>`;
+  }
+  const label = type === 'full_paper' ? "your free full paper marking for this paper" : 'your 3 free individual markings';
   return `
     <div id="limit-survey-box" style="padding:20px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.25);border-radius:12px">
-      <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">You've reached today's limit of ${type === 'full_paper' ? 3 : 10} ${label}</div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px">This resets tomorrow. Quick question while you're here —</div>
-      <div style="font-size:14px;color:var(--text);font-weight:500;margin-bottom:14px">Would you be willing to pay $3.99 to keep marking today instead of waiting?</div>
+      <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">You've used up ${label}</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px">Upgrade to keep marking — plans start at $3.99/month, or grab the one-time Season Pass.</div>
+      <div style="display:flex;gap:10px;margin-bottom:12px">
+        <button onclick="showPricing()" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer">See plans</button>
+      </div>
       <div id="limit-survey-buttons" style="display:flex;gap:10px">
-        <button onclick="submitPricingSurvey(true,'${type}')" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer">Yes, I would</button>
-        <button onclick="submitPricingSurvey(false,'${type}')" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-weight:600;font-size:13px;cursor:pointer">No, I'd rather wait</button>
+        <button onclick="submitPricingSurvey(true,'${type}')" style="flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-weight:500;font-size:12px;cursor:pointer">I'd pay $3.99 to keep going now</button>
+        <button onclick="submitPricingSurvey(false,'${type}')" style="flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-weight:500;font-size:12px;cursor:pointer">Not right now</button>
       </div>
     </div>`;
 }
@@ -2011,7 +2127,7 @@ async function runMark() {
   const limitCheck = await checkUsageLimit('individual');
   if (!limitCheck.allowed) {
     if (limitCheck.limitHit) {
-      document.getElementById('m-result').innerHTML = limitPopupHtml('individual');
+      document.getElementById('m-result').innerHTML = limitPopupHtml('individual', limitCheck.tier);
     } else if (limitCheck.message) {
       document.getElementById('m-result').innerHTML = `<div style="padding:14px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message}</div>`;
     }
@@ -2471,7 +2587,7 @@ const PAST_PAPERS = [
 ];
 
 function showPastPapers() {
-  ['markerPage','fullPaperPage','dashPage','notesPage'].forEach(id => {
+  ['markerPage','fullPaperPage','dashPage','notesPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -3223,7 +3339,7 @@ const NOTES = {
   }
 };
 function showNotes() {
-  ['markerPage','pastPapersPage','fullPaperPage','dashPage'].forEach(id => {
+  ['markerPage','pastPapersPage','fullPaperPage','dashPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -10226,7 +10342,7 @@ let fpPaper = 1;
 let currentFPPaper = null;
 
 function showFullPaper() {
-  ['dashPage','markerPage','pastPapersPage','notesPage'].forEach(id => {
+  ['dashPage','markerPage','pastPapersPage','notesPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -14383,10 +14499,10 @@ async function markFullPaper() {
     return;
   }
 
-  const limitCheck = await checkUsageLimit('full_paper');
+  const limitCheck = await checkUsageLimit('full_paper', 1);
   if (!limitCheck.allowed) {
     if (limitCheck.limitHit) {
-      document.getElementById('fp-results').innerHTML = limitPopupHtml('full_paper');
+      document.getElementById('fp-results').innerHTML = limitPopupHtml('full_paper', limitCheck.tier);
     } else {
       document.getElementById('fp-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message || 'Could not verify your usage limit.'}</div>`;
     }
@@ -14695,10 +14811,10 @@ async function markFullPaperP2() {
     return;
   }
 
-  const limitCheck = await checkUsageLimit('full_paper');
+  const limitCheck = await checkUsageLimit('full_paper', 2);
   if (!limitCheck.allowed) {
     if (limitCheck.limitHit) {
-      document.getElementById('fp2-results').innerHTML = limitPopupHtml('full_paper');
+      document.getElementById('fp2-results').innerHTML = limitPopupHtml('full_paper', limitCheck.tier);
     } else {
       document.getElementById('fp2-results').innerHTML = `<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">${limitCheck.message || 'Could not verify your usage limit.'}</div>`;
     }
@@ -14970,7 +15086,7 @@ async function loadMarkings() {
 }
 
 function showDash() {
-  ['markerPage','pastPapersPage','notesPage','fullPaperPage'].forEach(id => {
+  ['markerPage','pastPapersPage','notesPage','fullPaperPage','pricingPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
