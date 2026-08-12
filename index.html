@@ -1338,7 +1338,7 @@ footer {
     <div style="text-align:center;margin-bottom:44px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Pricing</div>
       <div style="font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:10px">Keep marking, no limits</div>
-      <div style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.6">Free gives you 3 individual markings and 1 full paper marking to try it out. Upgrade any time to keep going.</div>
+      <div style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.6">Free gives you 3 individual markings and 1 full paper marking per paper to try it out. Upgrade any time to keep going.</div>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" id="pricingCards">
@@ -1599,6 +1599,18 @@ footer {
     <div style="margin-bottom:32px;padding-top:80px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">My Progress</div>
       <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="dashWelcome">Dashboard</div>
+    </div>
+
+    <!-- Subscription status -->
+    <div id="subStatusCard" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:4px">Your plan</div>
+        <div style="font-size:15px;color:var(--text)" id="subStatusText">—</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button onclick="showPricing()" style="padding:9px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-weight:600;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Change plan</button>
+        <button onclick="cancelSubscription()" id="cancelSubBtn" style="padding:9px 16px;border-radius:8px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.06);color:#f87171;font-weight:600;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Cancel subscription</button>
+      </div>
     </div>
 
     <!-- Stats row -->
@@ -15105,6 +15117,72 @@ function showDash() {
   window.scrollTo(0,0);
   document.title = 'Dashboard — IGCSE Mark';
   renderDash();
+  loadSubscriptionStatus();
+}
+
+async function loadSubscriptionStatus() {
+  const card = document.getElementById('subStatusCard');
+  const textEl = document.getElementById('subStatusText');
+  const cancelBtn = document.getElementById('cancelSubBtn');
+  try {
+    const session = (await _supabase.auth.getSession()).data.session;
+    if (!session) { card.style.display = 'none'; return; }
+
+    const { data, error } = await _supabase
+      .from('subscriptions')
+      .select('plan,status,cancel_at_period_end,current_period_end')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+
+    if (error || !data || data.status !== 'active') {
+      card.style.display = 'none';
+      return;
+    }
+
+    const planLabel = { basic: 'Basic', premium: 'Premium', season_pass: 'Season Pass' }[data.plan] || data.plan;
+    const dateStr = data.current_period_end
+      ? new Date(data.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : null;
+
+    if (data.plan === 'season_pass') {
+      textEl.innerHTML = `<strong>${planLabel}</strong> — active${dateStr ? ` until ${dateStr}` : ''}. No recurring charge.`;
+      cancelBtn.style.display = 'none';
+    } else if (data.cancel_at_period_end) {
+      textEl.innerHTML = `<strong>${planLabel}</strong> — cancelled. You'll keep full access until <strong>${dateStr || 'your period ends'}</strong>, then it won't renew.`;
+      cancelBtn.style.display = 'none';
+    } else {
+      textEl.innerHTML = `<strong>${planLabel}</strong> — active${dateStr ? `, renews ${dateStr}` : ''}.`;
+      cancelBtn.style.display = 'inline-block';
+    }
+
+    card.style.display = 'flex';
+  } catch (e) {
+    card.style.display = 'none';
+  }
+}
+
+async function cancelSubscription() {
+  if (!confirm("Cancel your subscription? You'll keep access until the end of your current billing period, but it won't renew after that.")) return;
+
+  const btn = document.getElementById('cancelSubBtn');
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Cancelling…';
+
+  try {
+    const session = (await _supabase.auth.getSession()).data.session;
+    const res = await fetch('/.netlify/functions/cancel-subscription', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + session.access_token }
+    });
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
+    await loadSubscriptionStatus();
+  } catch (e) {
+    alert('Could not cancel: ' + e.message);
+    btn.disabled = false;
+    btn.innerHTML = original;
+  }
 }
 
 async function renderDash() {
