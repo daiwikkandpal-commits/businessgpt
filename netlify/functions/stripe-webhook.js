@@ -86,6 +86,7 @@ exports.handler = async (event) => {
             stripe_subscription_id: obj.subscription,
             plan,
             status: sub.status,
+            cancel_at_period_end: false,
             current_period_end: sub.current_period_end
               ? new Date(sub.current_period_end * 1000).toISOString()
               : null,
@@ -116,6 +117,7 @@ exports.handler = async (event) => {
           stripe_subscription_id: obj.id,
           plan: obj.metadata?.plan,
           status: obj.status,
+          cancel_at_period_end: !!obj.cancel_at_period_end,
           current_period_end: obj.current_period_end
             ? new Date(obj.current_period_end * 1000).toISOString()
             : null,
