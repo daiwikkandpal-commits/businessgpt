@@ -2,9 +2,9 @@
 // Frontend calls this, then redirects the browser to the returned url.
 
 const PRICES = {
-  basic:       { id: 'price_1U3FNaFFGiMvEYt1RhGOqwfR', mode: 'subscription' },
-  premium:     { id: 'price_1U3FRqFFGiMvEYt18YjARw8f', mode: 'subscription' },
-  season_pass: { id: 'price_1U3FSqFFGiMvEYt1jVjBcqnQ', mode: 'payment' }
+  basic:       { id: 'price_1U3iN3FG7pAUe2A2px1vdKti', mode: 'subscription' },
+  premium:     { id: 'price_1U3iNQFG7pAUe2A2Tms6OfSo', mode: 'subscription' },
+  season_pass: { id: 'price_1U3iNrFG7pAUe2A2XqqxWaIu', mode: 'payment' }
 };
 
 const SITE_URL = 'https://igcsemark.com';
