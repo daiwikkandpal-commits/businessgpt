@@ -4,6 +4,9 @@
 
 const crypto = require('crypto');
 
+// Season Pass is a one-time purchase that expires on a fixed date rather than renewing.
+const SEASON_PASS_EXPIRY = '2026-10-16T23:59:59Z';
+
 function verifyStripeSignature(rawBody, sigHeader, secret) {
   if (!sigHeader) return false;
   const parts = Object.fromEntries(
@@ -89,16 +92,15 @@ exports.handler = async (event) => {
             updated_at: new Date().toISOString()
           });
         } else {
-          // One-time purchase (Season Pass) — no recurring subscription object.
-          // Adjust current_period_end below if you want the pass to expire on a fixed date
-          // (e.g. end of exam season) rather than staying active indefinitely.
+          // One-time purchase (Season Pass) — expires at a fixed date rather than a
+          // recurring billing cycle. Update SEASON_PASS_EXPIRY below if the date changes.
           await supabaseUpsert('subscriptions', {
             user_id: userId,
             stripe_customer_id: obj.customer,
             stripe_subscription_id: null,
             plan,
             status: 'active',
-            current_period_end: null,
+            current_period_end: SEASON_PASS_EXPIRY,
             updated_at: new Date().toISOString()
           });
         }
