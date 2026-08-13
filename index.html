@@ -2137,8 +2137,15 @@ async function runMark() {
   if (!question) { document.getElementById('m-q').style.borderColor='rgba(248,113,113,.5)'; document.getElementById('m-q').focus(); return; }
   if (!answer)   { document.getElementById('m-ans').style.borderColor='rgba(248,113,113,.5)'; document.getElementById('m-ans').focus(); return; }
 
+  const btn = document.getElementById('m-btn');
+  const btnOriginalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Checking…';
+
   const limitCheck = await checkUsageLimit('individual');
   if (!limitCheck.allowed) {
+    btn.disabled = false;
+    btn.innerHTML = btnOriginalHtml;
     if (limitCheck.limitHit) {
       document.getElementById('m-result').innerHTML = limitPopupHtml('individual', limitCheck.tier);
     } else if (limitCheck.message) {
@@ -2146,9 +2153,6 @@ async function runMark() {
     }
     return;
   }
-
-  const btn = document.getElementById('m-btn');
-  btn.disabled = true;
 
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking…';
 
@@ -14512,8 +14516,15 @@ async function markFullPaper() {
     return;
   }
 
+  const btn = document.getElementById('fp-btn');
+  const btnOriginalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Checking…';
+
   const limitCheck = await checkUsageLimit('full_paper', 1);
   if (!limitCheck.allowed) {
+    btn.disabled = false;
+    btn.innerHTML = btnOriginalHtml;
     if (limitCheck.limitHit) {
       document.getElementById('fp-results').innerHTML = limitPopupHtml('full_paper', limitCheck.tier);
     } else {
@@ -14522,8 +14533,6 @@ async function markFullPaper() {
     return;
   }
 
-  const btn = document.getElementById('fp-btn');
-  btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking all 20 questions…';
 
   document.getElementById('fp-results').innerHTML = `
@@ -14824,8 +14833,15 @@ async function markFullPaperP2() {
     return;
   }
 
+  const btn = document.getElementById('fp2-btn');
+  const btnOriginalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Checking…';
+
   const limitCheck = await checkUsageLimit('full_paper', 2);
   if (!limitCheck.allowed) {
+    btn.disabled = false;
+    btn.innerHTML = btnOriginalHtml;
     if (limitCheck.limitHit) {
       document.getElementById('fp2-results').innerHTML = limitPopupHtml('full_paper', limitCheck.tier);
     } else {
@@ -14834,8 +14850,6 @@ async function markFullPaperP2() {
     return;
   }
 
-  const btn = document.getElementById('fp2-btn');
-  btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Marking — this may take 30–60 seconds…';
 
   document.getElementById('fp2-results').innerHTML = `
