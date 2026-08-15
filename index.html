@@ -1393,6 +1393,65 @@ footer {
   </div>
 </div>
 
+<!-- MANAGE SUBSCRIPTION PAGE -->
+<div id="accountPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding:100px 0 100px">
+  <div style="max-width:640px;margin:0 auto;padding:0 24px">
+    <div style="margin-bottom:32px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Account</div>
+      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Manage Subscription</div>
+    </div>
+
+    <div id="accountLoading" style="text-align:center;padding:60px 0;color:var(--text3);font-size:14px">Loading your account…</div>
+
+    <div id="accountContent" style="display:none">
+      <!-- Plan card -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:20px">
+          <div>
+            <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:6px">Current plan</div>
+            <div style="font-size:24px;font-weight:700;color:var(--text)" id="acctPlanName">—</div>
+          </div>
+          <div id="acctStatusBadge" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em"></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;font-size:14px">
+            <span style="color:var(--text3)">Price</span>
+            <span style="color:var(--text)" id="acctPrice">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:14px">
+            <span style="color:var(--text3)" id="acctDateLabel">Renews on</span>
+            <span style="color:var(--text)" id="acctDate">—</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:14px" id="acctFullPaperRow">
+            <span style="color:var(--text3)">Full paper markings today</span>
+            <span style="color:var(--text)" id="acctFullPaperUsage">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Free tier usage card (only shown for free users) -->
+      <div id="acctFreeUsageCard" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px">
+        <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:14px">Your free usage</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Individual markings</span><span style="color:var(--text)" id="acctIndividualUsage">—</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Paper 1 full marking</span><span style="color:var(--text)" id="acctP1Usage">—</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text2)">Paper 2 full marking</span><span style="color:var(--text)" id="acctP2Usage">—</span></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button onclick="showPricing()" style="flex:1;min-width:160px;padding:13px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">View plans</button>
+        <button onclick="cancelSubscriptionFromAccount()" id="acctCancelBtn" style="display:none;flex:1;min-width:160px;padding:13px;border-radius:10px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.06);color:#f87171;font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Cancel subscription</button>
+        <button onclick="reactivateSubscriptionFromAccount()" id="acctReactivateBtn" style="display:none;flex:1;min-width:160px;padding:13px;border-radius:10px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);color:#4ade80;font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Reactivate subscription</button>
+      </div>
+
+      <div id="acctMessage" style="margin-top:16px;font-size:13px;color:var(--text3);text-align:center"></div>
+    </div>
+  </div>
+</div>
+
 <div id="notesPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:88px">
   <div style="display:flex;min-height:calc(100vh - 88px)">
 
@@ -1608,8 +1667,7 @@ footer {
         <div style="font-size:15px;color:var(--text)" id="subStatusText">—</div>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
-        <button onclick="showPricing()" style="padding:9px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-weight:600;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Change plan</button>
-        <button onclick="cancelSubscription()" id="cancelSubBtn" style="padding:9px 16px;border-radius:8px;border:1px solid rgba(248,113,113,.3);background:rgba(248,113,113,.06);color:#f87171;font-weight:600;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Cancel subscription</button>
+        <button onclick="showAccountPage()" style="padding:9px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-weight:600;font-size:13px;cursor:pointer;font-family:'Sora',sans-serif">Manage subscription</button>
       </div>
     </div>
 
@@ -1970,7 +2028,7 @@ function resetNavLinks() {
 }
 
 function showHome() {
-  ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage'].forEach(id => {
+  ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -1986,7 +2044,7 @@ function showHome() {
 }
 
 function showMarker() {
-  ['fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage'].forEach(id => {
+  ['fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -2006,7 +2064,7 @@ function showMarker() {
 }
 
 function showPricing() {
-  ['markerPage','fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage'].forEach(id => {
+  ['markerPage','fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -2604,7 +2662,7 @@ const PAST_PAPERS = [
 ];
 
 function showPastPapers() {
-  ['markerPage','fullPaperPage','dashPage','notesPage','pricingPage'].forEach(id => {
+  ['markerPage','fullPaperPage','dashPage','notesPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -3356,7 +3414,7 @@ const NOTES = {
   }
 };
 function showNotes() {
-  ['markerPage','pastPapersPage','fullPaperPage','dashPage','pricingPage'].forEach(id => {
+  ['markerPage','pastPapersPage','fullPaperPage','dashPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -10359,7 +10417,7 @@ let fpPaper = 1;
 let currentFPPaper = null;
 
 function showFullPaper() {
-  ['dashPage','markerPage','pastPapersPage','notesPage','pricingPage'].forEach(id => {
+  ['dashPage','markerPage','pastPapersPage','notesPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -15113,7 +15171,7 @@ async function loadMarkings() {
 }
 
 function showDash() {
-  ['markerPage','pastPapersPage','notesPage','fullPaperPage','pricingPage'].forEach(id => {
+  ['markerPage','pastPapersPage','notesPage','fullPaperPage','pricingPage','accountPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -15137,7 +15195,6 @@ function showDash() {
 async function loadSubscriptionStatus() {
   const card = document.getElementById('subStatusCard');
   const textEl = document.getElementById('subStatusText');
-  const cancelBtn = document.getElementById('cancelSubBtn');
   try {
     const session = (await _supabase.auth.getSession()).data.session;
     if (!session) { card.style.display = 'none'; return; }
@@ -15160,13 +15217,10 @@ async function loadSubscriptionStatus() {
 
     if (data.plan === 'season_pass') {
       textEl.innerHTML = `<strong>${planLabel}</strong> — active${dateStr ? ` until ${dateStr}` : ''}. No recurring charge.`;
-      cancelBtn.style.display = 'none';
     } else if (data.cancel_at_period_end) {
       textEl.innerHTML = `<strong>${planLabel}</strong> — cancelled. You'll keep full access until <strong>${dateStr || 'your period ends'}</strong>, then it won't renew.`;
-      cancelBtn.style.display = 'none';
     } else {
       textEl.innerHTML = `<strong>${planLabel}</strong> — active${dateStr ? `, renews ${dateStr}` : ''}.`;
-      cancelBtn.style.display = 'inline-block';
     }
 
     card.style.display = 'flex';
@@ -15175,14 +15229,136 @@ async function loadSubscriptionStatus() {
   }
 }
 
-async function cancelSubscription() {
-  if (!confirm("Cancel your subscription? You'll keep access until the end of your current billing period, but it won't renew after that.")) return;
+function showAccountPage() {
+  ['markerPage','fullPaperPage','pastPapersPage','notesPage','dashPage','pricingPage','accountPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelectorAll('section:not(.hero)').forEach(s => s.style.display = 'none');
+  document.querySelector('footer').style.display = 'none';
+  const page = document.getElementById('accountPage');
+  page.style.display = 'block';
+  page.style.animation = 'none';
+  page.offsetHeight;
+  page.style.animation = 'pageSlideIn 0.25s ease';
+  resetNavLinks();
+  window.scrollTo(0,0);
+  document.title = 'Manage Subscription — IGCSE Mark';
+  loadAccountPage();
+}
 
-  const btn = document.getElementById('cancelSubBtn');
+async function loadAccountPage() {
+  const loading = document.getElementById('accountLoading');
+  const content = document.getElementById('accountContent');
+  loading.style.display = 'block';
+  content.style.display = 'none';
+
+  const session = (await _supabase.auth.getSession()).data.session;
+  if (!session) { showAuthWall(); return; }
+
+  const { data: sub } = await _supabase
+    .from('subscriptions')
+    .select('plan,status,cancel_at_period_end,current_period_end')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  const isActive = sub && sub.status === 'active';
+  if (!isActive) {
+    showPricing();
+    return;
+  }
+
+  const planNames = { basic: 'Basic', premium: 'Premium', season_pass: 'Season Pass' };
+  const planPrices = { basic: '$3.99/month', premium: '$5.99/month', season_pass: '$8 one-time' };
+  const fmtDate = d => d ? new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+
+  document.getElementById('acctPlanName').textContent = isActive ? planNames[sub.plan] || sub.plan : 'Free';
+  document.getElementById('acctPrice').textContent = isActive ? planPrices[sub.plan] || '—' : '$0';
+
+  const badge = document.getElementById('acctStatusBadge');
+  if (!isActive) {
+    badge.textContent = 'Free tier';
+    badge.style.background = 'rgba(148,163,184,.12)';
+    badge.style.color = 'var(--text3)';
+  } else if (sub.plan === 'season_pass') {
+    badge.textContent = 'Active';
+    badge.style.background = 'rgba(74,222,128,.12)';
+    badge.style.color = '#4ade80';
+  } else if (sub.cancel_at_period_end) {
+    badge.textContent = 'Cancelling';
+    badge.style.background = 'rgba(251,191,36,.12)';
+    badge.style.color = '#fbbf24';
+  } else {
+    badge.textContent = 'Active';
+    badge.style.background = 'rgba(74,222,128,.12)';
+    badge.style.color = '#4ade80';
+  }
+
+  const dateLabel = document.getElementById('acctDateLabel');
+  const dateVal = document.getElementById('acctDate');
+  const cancelBtn = document.getElementById('acctCancelBtn');
+  const reactivateBtn = document.getElementById('acctReactivateBtn');
+  cancelBtn.style.display = 'none';
+  reactivateBtn.style.display = 'none';
+
+  if (!isActive) {
+    dateLabel.textContent = 'Status';
+    dateVal.textContent = 'No active subscription';
+  } else if (sub.plan === 'season_pass') {
+    dateLabel.textContent = 'Access until';
+    dateVal.textContent = fmtDate(sub.current_period_end);
+  } else if (sub.cancel_at_period_end) {
+    dateLabel.textContent = 'Access ends';
+    dateVal.textContent = fmtDate(sub.current_period_end);
+    reactivateBtn.style.display = 'inline-block';
+  } else {
+    dateLabel.textContent = 'Renews on';
+    dateVal.textContent = fmtDate(sub.current_period_end);
+    cancelBtn.style.display = 'inline-block';
+  }
+
+  // Full paper daily usage row — only meaningful for Basic
+  const fpRow = document.getElementById('acctFullPaperRow');
+  if (isActive && sub.plan === 'basic') {
+    fpRow.style.display = 'flex';
+    const { data: daily } = await _supabase
+      .from('usage_daily_basic')
+      .select('full_paper_count')
+      .eq('user_id', session.user.id)
+      .eq('usage_date', new Date().toISOString().slice(0,10))
+      .maybeSingle();
+    document.getElementById('acctFullPaperUsage').textContent = `${daily?.full_paper_count || 0} / 3 used`;
+  } else {
+    fpRow.style.display = 'none';
+  }
+
+  // Free-tier usage card
+  const freeCard = document.getElementById('acctFreeUsageCard');
+  if (!isActive) {
+    freeCard.style.display = 'block';
+    const { data: lifetime } = await _supabase
+      .from('usage_lifetime')
+      .select('individual_used,full_paper_p1_used,full_paper_p2_used')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+    document.getElementById('acctIndividualUsage').textContent = `${lifetime?.individual_used || 0} / 3 used`;
+    document.getElementById('acctP1Usage').textContent = (lifetime?.full_paper_p1_used || 0) >= 1 ? 'Used' : 'Available';
+    document.getElementById('acctP2Usage').textContent = (lifetime?.full_paper_p2_used || 0) >= 1 ? 'Used' : 'Available';
+  } else {
+    freeCard.style.display = 'none';
+  }
+
+  loading.style.display = 'none';
+  content.style.display = 'block';
+}
+
+async function cancelSubscriptionFromAccount() {
+  if (!confirm("Cancel your subscription? You'll keep access until the end of your current billing period, but it won't renew after that.")) return;
+  const btn = document.getElementById('acctCancelBtn');
   const original = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = 'Cancelling…';
-
   try {
     const session = (await _supabase.auth.getSession()).data.session;
     const res = await fetch('/.netlify/functions/cancel-subscription', {
@@ -15191,9 +15367,32 @@ async function cancelSubscription() {
     });
     const result = await res.json();
     if (result.error) throw new Error(result.error);
-    await loadSubscriptionStatus();
+    document.getElementById('acctMessage').textContent = 'Your subscription has been cancelled — access continues until the date above.';
+    await loadAccountPage();
   } catch (e) {
-    alert('Could not cancel: ' + e.message);
+    document.getElementById('acctMessage').innerHTML = `<span style="color:#f87171">Could not cancel: ${e.message}</span>`;
+    btn.disabled = false;
+    btn.innerHTML = original;
+  }
+}
+
+async function reactivateSubscriptionFromAccount() {
+  const btn = document.getElementById('acctReactivateBtn');
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Reactivating…';
+  try {
+    const session = (await _supabase.auth.getSession()).data.session;
+    const res = await fetch('/.netlify/functions/reactivate-subscription', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + session.access_token }
+    });
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
+    document.getElementById('acctMessage').textContent = 'Your subscription will now renew as normal.';
+    await loadAccountPage();
+  } catch (e) {
+    document.getElementById('acctMessage').innerHTML = `<span style="color:#f87171">Could not reactivate: ${e.message}</span>`;
     btn.disabled = false;
     btn.innerHTML = original;
   }
