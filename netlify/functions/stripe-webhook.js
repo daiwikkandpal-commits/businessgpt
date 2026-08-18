@@ -50,6 +50,17 @@ async function fetchStripeSubscription(subscriptionId) {
   return res.json();
 }
 
+// Newer Stripe API versions moved current_period_end off the top-level Subscription
+// object and onto each subscription item. Check both spots so this keeps working
+// regardless of which API version the Stripe account is pinned to.
+function getPeriodEnd(sub) {
+  if (sub && sub.current_period_end) return sub.current_period_end;
+  if (sub && sub.items && Array.isArray(sub.items.data) && sub.items.data[0] && sub.items.data[0].current_period_end) {
+    return sub.items.data[0].current_period_end;
+  }
+  return null;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
@@ -87,8 +98,8 @@ exports.handler = async (event) => {
             plan,
             status: sub.status,
             cancel_at_period_end: false,
-            current_period_end: sub.current_period_end
-              ? new Date(sub.current_period_end * 1000).toISOString()
+            current_period_end: getPeriodEnd(sub)
+              ? new Date(getPeriodEnd(sub) * 1000).toISOString()
               : null,
             updated_at: new Date().toISOString()
           });
@@ -118,8 +129,8 @@ exports.handler = async (event) => {
           plan: obj.metadata?.plan,
           status: obj.status,
           cancel_at_period_end: !!obj.cancel_at_period_end,
-          current_period_end: obj.current_period_end
-            ? new Date(obj.current_period_end * 1000).toISOString()
+          current_period_end: getPeriodEnd(obj)
+            ? new Date(getPeriodEnd(obj) * 1000).toISOString()
             : null,
           updated_at: new Date().toISOString()
         });
