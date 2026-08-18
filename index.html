@@ -1341,6 +1341,11 @@ footer {
       <div style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.6">Free gives you 3 individual markings and 1 full paper marking per paper to try it out. Upgrade any time to keep going.</div>
     </div>
 
+    <div id="pricingActiveBanner" style="display:none;max-width:640px;margin:0 auto 28px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.3);border-radius:12px;padding:16px 20px">
+      <div id="pricingActiveBannerText" style="font-size:14px;color:var(--text2);line-height:1.5"></div>
+      <button onclick="showAccountPage()" style="padding:9px 16px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.1);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif">Manage subscription</button>
+    </div>
+
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" id="pricingCards">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
         <div>
@@ -2079,11 +2084,91 @@ function showPricing() {
   resetNavLinks();
   window.scrollTo(0,0);
   document.title = 'Pricing — IGCSE Mark';
+  checkPricingActivePlan();
+}
+
+async function checkPricingActivePlan() {
+  const banner = document.getElementById('pricingActiveBanner');
+  const buttons = {
+    basic: document.getElementById('pricingBtnBasic'),
+    premium: document.getElementById('pricingBtnPremium'),
+    season_pass: document.getElementById('pricingBtnSeason')
+  };
+  const originalLabels = { basic: 'Get Basic', premium: 'Get Premium', season_pass: 'Get Season Pass' };
+
+  // Reset to default (enabled) state first, in case this page was already showing an active plan before
+  Object.keys(buttons).forEach(k => {
+    const btn = buttons[k];
+    if (!btn) return;
+    btn.disabled = false;
+    btn.innerHTML = originalLabels[k];
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  });
+  banner.style.display = 'none';
+
+  try {
+    const session = (await _supabase.auth.getSession()).data.session;
+    if (!session) return;
+
+    const { data, error } = await _supabase
+      .from('subscriptions')
+      .select('plan,status,cancel_at_period_end,current_period_end')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+
+    if (error || !data || data.status !== 'active') return;
+
+    const planLabel = { basic: 'Basic', premium: 'Premium', season_pass: 'Season Pass' }[data.plan] || data.plan;
+    const dateStr = data.current_period_end
+      ? new Date(data.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : null;
+
+    let msg;
+    if (data.plan === 'season_pass') {
+      msg = `You're on the <strong style="color:var(--text)">${planLabel}</strong> plan — active${dateStr ? ` until <strong style="color:var(--text)">${dateStr}</strong>` : ''}. No need to buy again.`;
+    } else if (data.cancel_at_period_end) {
+      msg = `You're on the <strong style="color:var(--text)">${planLabel}</strong> plan — cancelled, but you keep full access until <strong style="color:var(--text)">${dateStr || 'your period ends'}</strong>.`;
+    } else {
+      msg = `You're on the <strong style="color:var(--text)">${planLabel}</strong> plan — active now, renews <strong style="color:var(--text)">${dateStr || 'soon'}</strong>.`;
+    }
+
+    document.getElementById('pricingActiveBannerText').innerHTML = msg;
+    banner.style.display = 'flex';
+
+    // Block buying another subscription while one is already active
+    Object.keys(buttons).forEach(k => {
+      const btn = buttons[k];
+      if (!btn) return;
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+      btn.style.cursor = 'not-allowed';
+      btn.innerHTML = (k === data.plan) ? '✓ Current Plan' : 'Already subscribed';
+    });
+  } catch (e) {
+    // Fail silently — leave buttons in their default enabled state
+  }
 }
 
 async function checkoutPlan(plan) {
   const session = (await _supabase.auth.getSession()).data.session;
   if (!session) { showAuthWall(); return; }
+
+  const { data: existingSub } = await _supabase
+    .from('subscriptions')
+    .select('plan,status,current_period_end')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (existingSub && existingSub.status === 'active') {
+    const dateStr = existingSub.current_period_end
+      ? new Date(existingSub.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      : 'your renewal date';
+    const planLabel = { basic: 'Basic', premium: 'Premium', season_pass: 'Season Pass' }[existingSub.plan] || existingSub.plan;
+    document.getElementById('pricingMessage').innerHTML = `<span>You already have the <strong>${planLabel}</strong> plan active${existingSub.plan === 'season_pass' ? ` until ${dateStr}` : `, renewing ${dateStr}`}. Head to <a href="#" onclick="showAccountPage();return false" style="color:var(--blue-400)">Manage subscription</a> to make changes.</span>`;
+    checkPricingActivePlan();
+    return;
+  }
 
   const btnId = plan === 'basic' ? 'pricingBtnBasic' : plan === 'premium' ? 'pricingBtnPremium' : 'pricingBtnSeason';
   const btn = document.getElementById(btnId);
