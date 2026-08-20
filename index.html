@@ -1346,13 +1346,19 @@ footer {
       <button onclick="showAccountPage()" style="padding:9px 16px;border-radius:8px;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.1);color:#4ade80;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif">Manage subscription</button>
     </div>
 
+    <div style="max-width:420px;margin:0 auto 28px;display:flex;gap:8px" id="pricingPromoBox">
+      <input id="pricingPromoInput" type="text" placeholder="Have a discount code?" style="flex:1;padding:11px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;font-family:'Sora',sans-serif" onkeydown="if(event.key==='Enter')applyPromoCode()">
+      <button onclick="applyPromoCode()" id="pricingPromoBtn" style="padding:11px 18px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;font-family:'Sora',sans-serif">Apply</button>
+    </div>
+    <div id="pricingPromoStatus" style="max-width:420px;margin:-16px auto 20px;text-align:center;font-size:12.5px"></div>
+
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px" id="pricingCards">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
         <div>
           <div style="font-size:16px;font-weight:700;color:var(--text)">Basic</div>
           <div style="font-size:13px;color:var(--text3);margin-top:4px">For steady, regular practice</div>
         </div>
-        <div style="font-size:32px;font-weight:700;color:var(--text)">$3.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
+        <div id="pricingPriceBasic" style="font-size:32px;font-weight:700;color:var(--text)">$3.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
         <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
           <div>✓ Unlimited individual question marking</div>
           <div>✓ 3 full paper markings per day</div>
@@ -1367,7 +1373,7 @@ footer {
           <div style="font-size:16px;font-weight:700;color:var(--text)">Premium</div>
           <div style="font-size:13px;color:var(--text3);margin-top:4px">For exam season, no caps</div>
         </div>
-        <div style="font-size:32px;font-weight:700;color:var(--text)">$5.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
+        <div id="pricingPricePremium" style="font-size:32px;font-weight:700;color:var(--text)">$5.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span></div>
         <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
           <div>✓ Unlimited individual question marking</div>
           <div>✓ Unlimited full paper marking</div>
@@ -1382,7 +1388,7 @@ footer {
           <div style="font-size:16px;font-weight:700;color:var(--text)">Season Pass</div>
           <div style="font-size:13px;color:var(--text3);margin-top:4px">One payment, no subscription</div>
         </div>
-        <div style="font-size:32px;font-weight:700;color:var(--text)">$8<span style="font-size:14px;font-weight:500;color:var(--text3)"> one-time</span></div>
+        <div id="pricingPriceSeason" style="font-size:32px;font-weight:700;color:var(--text)">$8<span style="font-size:14px;font-weight:500;color:var(--text3)"> one-time</span></div>
         <div style="display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--text2);flex:1">
           <div>✓ Unlimited individual question marking</div>
           <div>✓ Unlimited full paper marking</div>
@@ -2085,6 +2091,7 @@ function showPricing() {
   window.scrollTo(0,0);
   document.title = 'Pricing — IGCSE Mark';
   checkPricingActivePlan();
+  resetPromoUI();
 }
 
 async function checkPricingActivePlan() {
@@ -2150,6 +2157,67 @@ async function checkPricingActivePlan() {
   }
 }
 
+// ---- Promo code handling ----
+window.activePromoCode = null;
+const ORIGINAL_PRICES = {
+  basic:   '$3.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span>',
+  premium: '$5.99<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span>',
+  season_pass: '$8<span style="font-size:14px;font-weight:500;color:var(--text3)"> one-time</span>'
+};
+
+function resetPromoUI() {
+  window.activePromoCode = null;
+  document.getElementById('pricingPromoStatus').innerHTML = '';
+  document.getElementById('pricingPromoInput').value = '';
+  document.getElementById('pricingPriceBasic').innerHTML = ORIGINAL_PRICES.basic;
+  document.getElementById('pricingPricePremium').innerHTML = ORIGINAL_PRICES.premium;
+  document.getElementById('pricingPriceSeason').innerHTML = ORIGINAL_PRICES.season_pass;
+}
+
+async function applyPromoCode() {
+  const input = document.getElementById('pricingPromoInput');
+  const statusEl = document.getElementById('pricingPromoStatus');
+  const code = input.value.trim().toUpperCase();
+  if (!code) return;
+
+  statusEl.style.color = 'var(--text3)';
+  statusEl.textContent = 'Checking code…';
+
+  try {
+    const res = await fetch('/.netlify/functions/validate-promo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code })
+    });
+    const data = await res.json();
+
+    if (!data.valid) {
+      window.activePromoCode = null;
+      statusEl.style.color = '#f87171';
+      statusEl.textContent = data.reason || 'That code isn\'t valid or has run out.';
+      document.getElementById('pricingPriceBasic').innerHTML = ORIGINAL_PRICES.basic;
+      document.getElementById('pricingPricePremium').innerHTML = ORIGINAL_PRICES.premium;
+      document.getElementById('pricingPriceSeason').innerHTML = ORIGINAL_PRICES.season_pass;
+      return;
+    }
+
+    window.activePromoCode = code;
+    const d = data.discounts; // in cents
+    document.getElementById('pricingPriceBasic').innerHTML =
+      `<span style="text-decoration:line-through;color:var(--text3);font-size:20px;margin-right:6px">$3.99</span>$${(399 - d.basic) / 100}<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span>`;
+    document.getElementById('pricingPricePremium').innerHTML =
+      `<span style="text-decoration:line-through;color:var(--text3);font-size:20px;margin-right:6px">$5.99</span>$${(599 - d.premium) / 100}<span style="font-size:14px;font-weight:500;color:var(--text3)">/month</span>`;
+    document.getElementById('pricingPriceSeason').innerHTML =
+      `<span style="text-decoration:line-through;color:var(--text3);font-size:20px;margin-right:6px">$8</span>$${(800 - d.season_pass) / 100}<span style="font-size:14px;font-weight:500;color:var(--text3)"> one-time</span>`;
+
+    statusEl.style.color = '#4ade80';
+    statusEl.textContent = `Code applied — ${data.remaining} spot${data.remaining === 1 ? '' : 's'} left.`;
+  } catch (e) {
+    statusEl.style.color = '#f87171';
+    statusEl.textContent = 'Something went wrong checking that code — try again.';
+  }
+}
+
 async function checkoutPlan(plan) {
   const session = (await _supabase.auth.getSession()).data.session;
   if (!session) { showAuthWall(); return; }
@@ -2180,7 +2248,7 @@ async function checkoutPlan(plan) {
     const res = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
-      body: JSON.stringify({ plan })
+      body: JSON.stringify({ plan, promoCode: window.activePromoCode || undefined })
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
@@ -2189,6 +2257,7 @@ async function checkoutPlan(plan) {
     document.getElementById('pricingMessage').innerHTML = `<span style="color:#f87171">Could not start checkout: ${e.message}</span>`;
     btn.disabled = false;
     btn.innerHTML = originalText;
+    if (window.activePromoCode) resetPromoUI();
   }
 }
 
