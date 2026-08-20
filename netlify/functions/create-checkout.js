@@ -7,6 +7,13 @@ const PRICES = {
   season_pass: { id: 'price_1U3iNrFG7pAUe2A2XqqxWaIu', mode: 'payment' }
 };
 
+// Fixed Stripe coupon IDs created once by setup-promo-coupons.js
+const PROMO_COUPONS = {
+  basic: 'igcm_basic_1usd_off',
+  premium: 'igcm_premium_2usd_off',
+  season_pass: 'igcm_season_3usd_off'
+};
+
 const SITE_URL = 'https://igcsemark.com';
 
 exports.handler = async (event) => {
@@ -14,7 +21,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
   try {
-    const { plan } = JSON.parse(event.body || '{}');
+    const { plan, promoCode } = JSON.parse(event.body || '{}');
     if (!PRICES.hasOwnProperty(plan)) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid plan.' }) };
     }
@@ -39,6 +46,28 @@ exports.handler = async (event) => {
 
     const { id: priceId, mode } = PRICES[plan];
 
+    // Handle an optional promo code. Reserving the slot happens here — right
+    // before we create the actual Checkout Session — not at "validate" time,
+    // so browsing with a code typed in never burns a slot.
+    let couponId = null;
+    if (promoCode) {
+      const normalized = String(promoCode).trim().toUpperCase();
+      const rpcRes = await fetch(`${process.env.SUPABASE_URL}/rest/v1/rpc/redeem_promo_code`, {
+        method: 'POST',
+        headers: {
+          'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_code: normalized })
+      });
+      const reserved = await rpcRes.json();
+      if (reserved !== true) {
+        return { statusCode: 400, body: JSON.stringify({ error: 'That code is no longer available.' }) };
+      }
+      couponId = PROMO_COUPONS[plan];
+    }
+
     // Build the Checkout Session via Stripe's REST API directly (form-encoded, no SDK needed)
     const params = new URLSearchParams();
     params.append('mode', mode);
@@ -50,6 +79,9 @@ exports.handler = async (event) => {
     params.append('customer_email', user.email);
     params.append('metadata[supabase_user_id]', user.id);
     params.append('metadata[plan]', plan);
+    if (couponId) {
+      params.append('discounts[0][coupon]', couponId);
+    }
     if (mode === 'subscription') {
       params.append('subscription_data[metadata][supabase_user_id]', user.id);
       params.append('subscription_data[metadata][plan]', plan);
