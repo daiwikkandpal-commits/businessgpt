@@ -14843,6 +14843,7 @@ async function markFullPaper() {
     try {
       return parseDelimitedResults(text);
     } catch (e) {
+      console.error('Parse failure (P1) for question:', batch.map(q => q.q).join(', '), '— Raw AI text was:', text);
       // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markBatch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
@@ -15208,6 +15209,7 @@ async function markFullPaperP2() {
     try {
       return parseDelimitedResults(text);
     } catch (e) {
+      console.error('Parse failure (P2) for question:', batch.map(q => q.q).join(', '), '— Raw AI text was:', text);
       // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markP2Batch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
