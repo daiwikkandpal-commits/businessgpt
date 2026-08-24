@@ -3,7 +3,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method not allowed" };
   }
   try {
-    const { prompt, images } = JSON.parse(event.body);
+    const { prompt, images, temperature } = JSON.parse(event.body);
     const content = (images && images.length)
       ? [
           { type: "text", text: prompt },
@@ -22,7 +22,7 @@ exports.handler = async (event) => {
         model: "anthropic/claude-sonnet-4-5",
         messages: [{ role: "user", content: content }],
         max_tokens: 4000,
-        temperature: 0
+        temperature: typeof temperature === "number" ? temperature : 0
       })
     });
     const data = await res.json();
