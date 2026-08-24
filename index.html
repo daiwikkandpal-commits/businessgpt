@@ -14792,10 +14792,36 @@ async function markFullPaper() {
       '',
       qList,
       '',
-      'Respond ONLY with valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"feedback":"...","missed":"..."}]',
-      'IMPORTANT: Inside feedback and missed text, never use double-quote characters ("). If you need to reference a word or phrase from the answer, use single quotes (\') instead — double quotes inside the text will break the JSON.'
+      'Respond using EXACTLY this format, one block per question, with a line containing only ### between blocks and after the last block. Do not use JSON, markdown, or any other formatting:',
+      'LABEL: 1(a)',
+      'SCORE: 0',
+      'MAX: 0',
+      'FEEDBACK: one sentence explaining the score, on a single line',
+      'MISSED: key point missed, on a single line, or NONE if nothing missed',
+      '###',
+      'Keep FEEDBACK and MISSED each to a single line with no line breaks. Quotes, apostrophes, and any punctuation are fine to use freely — just keep each field on one line.'
     ].join('\n');
+  }
+
+  function parseDelimitedResults(text) {
+    const blocks = text.split(/\n?###\n?/).map(b => b.trim()).filter(Boolean);
+    const results = blocks.map(block => {
+      const get = (key) => {
+        const m = block.match(new RegExp('^' + key + ':\\s*(.*)$', 'mi'));
+        return m ? m[1].trim() : '';
+      };
+      const label = get('LABEL');
+      const score = parseFloat(get('SCORE')) || 0;
+      const max = parseFloat(get('MAX')) || 0;
+      const levelRaw = get('LEVEL');
+      const level = (levelRaw && !/^(none|null)$/i.test(levelRaw)) ? levelRaw : null;
+      const feedback = get('FEEDBACK');
+      const missedRaw = get('MISSED');
+      const missed = (missedRaw && !/^(none|null)$/i.test(missedRaw)) ? missedRaw : null;
+      return { label, score, max, level, feedback, missed };
+    }).filter(o => o.label);
+    if (!results.length) throw new Error('Could not read the AI response format.');
+    return results;
   }
 
   async function markBatch(batch, isRetry) {
@@ -14814,13 +14840,10 @@ async function markFullPaper() {
     }
     if (data.error) throw new Error(data.error);
     const text = data.text || '';
-    const bt3 = String.fromCharCode(96,96,96);
-    const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
     try {
-      return JSON.parse(cleaned);
+      return parseDelimitedResults(text);
     } catch (e) {
-      // The AI occasionally returns malformed JSON (e.g. an unescaped quote in feedback text).
-      // Regenerating almost always fixes it, so retry once automatically before surfacing an error.
+      // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markBatch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
     }
@@ -15153,10 +15176,16 @@ async function markFullPaperP2() {
       'QUESTIONS TO MARK:',
       qList,
       '',
-      'Respond ONLY with a valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"one sentence explaining the level/score awarded","missed":"key point missed or null"}]',
-      'For (b) questions include level awarded (e.g. "level":"L2 — 7/12"). For (a) questions set level to null.',
-      'IMPORTANT: Inside feedback and missed text, never use double-quote characters ("). If you need to reference a word or phrase from the answer, use single quotes (\') instead — double quotes inside the text will break the JSON.'
+      'Respond using EXACTLY this format, one block per question, with a line containing only ### between blocks and after the last block. Do not use JSON, markdown, or any other formatting:',
+      'LABEL: 1(a)',
+      'SCORE: 0',
+      'MAX: 0',
+      'LEVEL: NONE',
+      'FEEDBACK: one sentence explaining the level/score awarded, on a single line',
+      'MISSED: key point missed, on a single line, or NONE if nothing missed',
+      '###',
+      'For (b) questions set LEVEL to something like "L2 - 7/12". For (a) questions set LEVEL to NONE.',
+      'Keep FEEDBACK and MISSED each to a single line with no line breaks. Quotes, apostrophes, and any punctuation are fine to use freely — just keep each field on one line.'
     ].join('\n');
   }
 
@@ -15176,13 +15205,10 @@ async function markFullPaperP2() {
     }
     if (data.error) throw new Error(data.error);
     const text = data.text || '';
-    const bt3 = String.fromCharCode(96,96,96);
-    const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
     try {
-      return JSON.parse(cleaned);
+      return parseDelimitedResults(text);
     } catch (e) {
-      // The AI occasionally returns malformed JSON (e.g. an unescaped quote in feedback text).
-      // Regenerating almost always fixes it, so retry once automatically before surfacing an error.
+      // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markP2Batch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
     }
