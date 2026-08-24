@@ -14803,7 +14803,7 @@ async function markFullPaper() {
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt, temperature: isRetry ? 0.4 : 0 })
     });
     const raw = await res.text();
     let data;
@@ -15165,7 +15165,7 @@ async function markFullPaperP2() {
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt, temperature: isRetry ? 0.4 : 0 })
     });
     const raw = await res.text();
     let data;
