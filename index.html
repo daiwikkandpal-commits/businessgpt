@@ -14793,11 +14793,12 @@ async function markFullPaper() {
       qList,
       '',
       'Respond ONLY with valid JSON array, no markdown, no extra text:',
-      '[{"label":"1(a)","score":0,"max":0,"feedback":"...","missed":"..."}]'
+      '[{"label":"1(a)","score":0,"max":0,"feedback":"...","missed":"..."}]',
+      'IMPORTANT: Inside feedback and missed text, never use double-quote characters ("). If you need to reference a word or phrase from the answer, use single quotes (\') instead — double quotes inside the text will break the JSON.'
     ].join('\n');
   }
 
-  async function markBatch(batch) {
+  async function markBatch(batch, isRetry) {
     const prompt = buildBatchPrompt(batch);
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
@@ -14815,7 +14816,14 @@ async function markFullPaper() {
     const text = data.text || '';
     const bt3 = String.fromCharCode(96,96,96);
     const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
-    return JSON.parse(cleaned);
+    try {
+      return JSON.parse(cleaned);
+    } catch (e) {
+      // The AI occasionally returns malformed JSON (e.g. an unescaped quote in feedback text).
+      // Regenerating almost always fixes it, so retry once automatically before surfacing an error.
+      if (!isRetry) return markBatch(batch, true);
+      throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
+    }
   }
 
   try {
@@ -15147,11 +15155,12 @@ async function markFullPaperP2() {
       '',
       'Respond ONLY with a valid JSON array, no markdown, no extra text:',
       '[{"label":"1(a)","score":0,"max":0,"level":null,"feedback":"one sentence explaining the level/score awarded","missed":"key point missed or null"}]',
-      'For (b) questions include level awarded (e.g. "level":"L2 — 7/12"). For (a) questions set level to null.'
+      'For (b) questions include level awarded (e.g. "level":"L2 — 7/12"). For (a) questions set level to null.',
+      'IMPORTANT: Inside feedback and missed text, never use double-quote characters ("). If you need to reference a word or phrase from the answer, use single quotes (\') instead — double quotes inside the text will break the JSON.'
     ].join('\n');
   }
 
-  async function markP2Batch(batch) {
+  async function markP2Batch(batch, isRetry) {
     const prompt = buildP2BatchPrompt(batch);
     const res = await fetch('/.netlify/functions/mark', {
       method: 'POST',
@@ -15169,7 +15178,14 @@ async function markFullPaperP2() {
     const text = data.text || '';
     const bt3 = String.fromCharCode(96,96,96);
     const cleaned = text.replace(bt3+'json','').replace(new RegExp(bt3,'g'),'').trim();
-    return JSON.parse(cleaned);
+    try {
+      return JSON.parse(cleaned);
+    } catch (e) {
+      // The AI occasionally returns malformed JSON (e.g. an unescaped quote in feedback text).
+      // Regenerating almost always fixes it, so retry once automatically before surfacing an error.
+      if (!isRetry) return markP2Batch(batch, true);
+      throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
+    }
   }
 
   try {
