@@ -14804,10 +14804,16 @@ async function markFullPaper() {
   }
 
   function parseDelimitedResults(text) {
-    const blocks = text.split(/\n?###\n?/).map(b => b.trim()).filter(Boolean);
+    // Normalize line endings, then strip any stray preamble text the AI might add before
+    // the first real LABEL: line (e.g. "Here's the marking:") so it doesn't break parsing.
+    let normalized = text.replace(/\r\n/g, '\n');
+    const firstLabelIdx = normalized.search(/^LABEL:/mi);
+    if (firstLabelIdx > 0) normalized = normalized.slice(firstLabelIdx);
+
+    const blocks = normalized.split(/\n?###\n?/).map(b => b.trim()).filter(Boolean);
     const results = blocks.map(block => {
       const get = (key) => {
-        const m = block.match(new RegExp('^' + key + ':\\s*(.*)$', 'mi'));
+        const m = block.match(new RegExp('^\\s*' + key + ':\\s*(.*)$', 'mi'));
         return m ? m[1].trim() : '';
       };
       const label = get('LABEL');
@@ -14843,7 +14849,7 @@ async function markFullPaper() {
     try {
       return parseDelimitedResults(text);
     } catch (e) {
-      console.error('Parse failure (P1) for question:', batch.map(q => q.q).join(', '), '— Raw AI text was:', text);
+      console.error('Parse failure (P1) for question:', batch.map(q => q.q).join(', '), '— Raw AI text (JSON-escaped, so hidden chars are visible):', JSON.stringify(text));
       // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markBatch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
@@ -15209,7 +15215,7 @@ async function markFullPaperP2() {
     try {
       return parseDelimitedResults(text);
     } catch (e) {
-      console.error('Parse failure (P2) for question:', batch.map(q => q.q).join(', '), '— Raw AI text was:', text);
+      console.error('Parse failure (P2) for question:', batch.map(q => q.q).join(', '), '— Raw AI text (JSON-escaped, so hidden chars are visible):', JSON.stringify(text));
       // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markP2Batch(batch, true);
       throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
