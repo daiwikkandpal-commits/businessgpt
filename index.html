@@ -14807,13 +14807,24 @@ async function markFullPaper() {
     // Normalize line endings, then strip any stray preamble text the AI might add before
     // the first real LABEL: line (e.g. "Here's the marking:") so it doesn't break parsing.
     let normalized = text.replace(/\r\n/g, '\n');
-    const firstLabelIdx = normalized.search(/^LABEL:/mi);
+
+    // The AI is told "do not use markdown" but often ignores this and wraps field names in
+    // bold/backticks anyway (e.g. "**LABEL:** 1(b)" or "- LABEL: 1(b)"). Our field regexes require
+    // only whitespace before the key, so any of these silently break every block at once and
+    // throw. Strip common decoration before matching so it doesn't matter if the AI adds it.
+    normalized = normalized
+      .replace(/\*\*/g, '')
+      .replace(/__/g, '')
+      .replace(/`/g, '')
+      .replace(/^[ \t]*[-*•>]+[ \t]*(?=(LABEL|SCORE|MAX|LEVEL|FEEDBACK|MISSED)\s*:)/gmi, '');
+
+    const firstLabelIdx = normalized.search(/^\s*LABEL\s*:/mi);
     if (firstLabelIdx > 0) normalized = normalized.slice(firstLabelIdx);
 
     const blocks = normalized.split(/\n?###\n?/).map(b => b.trim()).filter(Boolean);
     const results = blocks.map(block => {
       const get = (key) => {
-        const m = block.match(new RegExp('^\\s*' + key + ':\\s*(.*)$', 'mi'));
+        const m = block.match(new RegExp('^\\s*' + key + '\\s*:\\s*(.*)$', 'mi'));
         return m ? m[1].trim() : '';
       };
       const label = get('LABEL');
@@ -14826,7 +14837,26 @@ async function markFullPaper() {
       const missed = (missedRaw && !/^(none|null)$/i.test(missedRaw)) ? missedRaw : null;
       return { label, score, max, level, feedback, missed };
     }).filter(o => o.label);
-    if (!results.length) throw new Error('Could not read the AI response format.');
+    if (!results.length) {
+      // Fallback: scan for each field anywhere in the text (not requiring line-start), in case the
+      // AI broke line structure entirely. Better to recover a lower-confidence result than to fail.
+      const get2 = (key) => {
+        const m = normalized.match(new RegExp(key + '\\s*:\\s*([^\\n]*)', 'i'));
+        return m ? m[1].trim() : '';
+      };
+      const label = get2('LABEL');
+      if (label) {
+        const score = parseFloat(get2('SCORE')) || 0;
+        const max = parseFloat(get2('MAX')) || 0;
+        const levelRaw = get2('LEVEL');
+        const level = (levelRaw && !/^(none|null)$/i.test(levelRaw)) ? levelRaw : null;
+        const feedback = get2('FEEDBACK');
+        const missedRaw = get2('MISSED');
+        const missed = (missedRaw && !/^(none|null)$/i.test(missedRaw)) ? missedRaw : null;
+        return [{ label, score, max, level, feedback, missed }];
+      }
+      throw new Error('Could not read the AI response format.');
+    }
     return results;
   }
 
