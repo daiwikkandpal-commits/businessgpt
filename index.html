@@ -14855,7 +14855,20 @@ async function markFullPaper() {
         const missed = (missedRaw && !/^(none|null)$/i.test(missedRaw)) ? missedRaw : null;
         return [{ label, score, max, level, feedback, missed }];
       }
-      throw new Error('Could not read the AI response format.');
+      // Build a diagnostic string so the failure reason is visible directly in the on-page
+      // error message, without needing DevTools. Shows block count and, for the first
+      // block, which fields matched vs. which were empty, plus raw char codes near the
+      // start (catches invisible/non-standard whitespace or unicode that \s might not cover).
+      const diagBlockCount = blocks.length;
+      const diagFirstBlock = blocks[0] || '(no blocks found)';
+      const diagKeys = ['LABEL','SCORE','MAX','LEVEL','FEEDBACK','MISSED'];
+      const diagFieldStatus = diagKeys.map(k => {
+        const m = diagFirstBlock.match(new RegExp('^\\s*' + k + '\\s*:\\s*(.*)$', 'mi'));
+        return k + '=' + (m ? 'OK' : 'MISSING');
+      }).join(', ');
+      const diagCharCodes = diagFirstBlock.slice(0, 12).split('').map(c => c.charCodeAt(0)).join(',');
+      throw new Error('Could not read the AI response format. [diag: blocks=' + diagBlockCount +
+        ' fields:(' + diagFieldStatus + ') first12CharCodes=[' + diagCharCodes + ']]');
     }
     return results;
   }
@@ -15248,7 +15261,7 @@ async function markFullPaperP2() {
       console.error('Parse failure (P2) for question:', batch.map(q => q.q).join(', '), '— Raw AI text (JSON-escaped, so hidden chars are visible):', JSON.stringify(text));
       // Regenerating almost always fixes a malformed response, so retry once automatically before surfacing an error.
       if (!isRetry) return markP2Batch(batch, true);
-      throw new Error('The AI response could not be read after two attempts. Please try marking this question again.');
+      throw new Error('The AI response could not be read after two attempts for question ' + batch.map(q => q.q).join(', ') + '. ' + (e.message || '') + ' Please try marking this question again.');
     }
   }
 
