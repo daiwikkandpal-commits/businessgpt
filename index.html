@@ -918,6 +918,7 @@ footer {
       <li><a href="#" id="navMarker" onclick="showMarker();return false" style="color:var(--text2)">Marker</a></li>
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
+      <li><a href="#" id="navTopical" onclick="showTopical();return false" style="color:var(--text2)">Topical</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#" id="navPricing" onclick="showPricing();return false" style="color:var(--text2)">Pricing</a></li>
       <li class="nav-cta-mobile" id="navCtaMobile">
@@ -2370,7 +2371,7 @@ async function runMark() {
   }
   const question   = document.getElementById('m-q').value.trim();
   const context    = document.getElementById('m-ctx').value.trim();
-  const markscheme = document.getElementById('m-ms').value.trim();
+  const markscheme = document.getElementById('m-ms').value.trim() || (window.topicalHiddenMS || '');
   const answer     = document.getElementById('m-ans').value.trim();
   const qtype      = markerPaper === 1 ? (PART_TYPES[currentPart] || 'explain') : (currentP2Part === 'a' ? 'analyse' : 'evaluate');
   const marks      = markerPaper === 1 ? (PART_MARKS[currentPart] || 4) : (currentP2Part === 'a' ? 8 : 12);
@@ -16114,5 +16115,570 @@ function showAuthWall() {
 }
 
 </script>
+<!-- ═════════ TOPICAL PAPERS (paste this whole block just before </body>) ═════════ -->
+<div id="topicalPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(88px + var(--exam-banner-h,0px));padding-bottom:80px">
+  <div style="max-width:940px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:20px">
+    <div style="padding-top:20px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:6px">Topical papers</div>
+      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Build your own paper</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:6px;line-height:1.6">Pick a paper and the topics you want. We build a paper from real past paper questions on just those topics, you write your answers, and it gets marked like a full paper.</div>
+    </div>
+
+    <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
+      <button id="tpTab-gen" onclick="tpSetMode('gen')"></button>
+      <button id="tpTab-browse" onclick="tpSetMode('browse')"></button>
+    </div>
+
+    <!-- GENERATE VIEW -->
+    <div id="tpGenView" style="display:flex;flex-direction:column;gap:20px">
+      <div id="tpGenForm" style="display:flex;flex-direction:column;gap:22px"></div>
+      <div id="tpPaper"></div>
+      <div id="tpResults"></div>
+    </div>
+
+    <!-- BROWSE VIEW -->
+    <div id="tpBrowseView" style="display:none;flex-direction:column;gap:20px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Unit</div>
+        <div id="tpUnits" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+      <div id="tpSubWrap" style="display:none">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Subtopic</div>
+        <div id="tpSubs" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+      <div id="tpControls" style="display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px">
+          <button id="tpP-all" onclick="tpSetPaper('all')"></button>
+          <button id="tpP-1" onclick="tpSetPaper(1)"></button>
+          <button id="tpP-2" onclick="tpSetPaper(2)"></button>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span id="tpCount" style="font-size:13px;color:var(--text3)"></span>
+          <button onclick="tpShuffle()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer">🔀 Shuffle</button>
+        </div>
+      </div>
+      <div id="tpList" style="display:flex;flex-direction:column;gap:12px"></div>
+      <button id="tpMore" onclick="tpShowMore()" style="display:none;align-self:center;padding:11px 24px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:14px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer">Show more</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var DATA_URL = 'topical_questions_final.json';
+  var UNIT_NAMES = {1:'Business Activity',2:'People in Business',3:'Marketing',4:'Operations Management',5:'Financial Information',6:'External Influences'};
+  var tp = { data: null, mode: 'gen',
+    unit: null, sub: 'all', paper: 'all', shown: 10, list: [], shuffled: false,      // browse
+    gPaper: 1, gSel: {}, gTarget: 40, paperQs: [], marking: false };                 // generate
+
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function clean(s){ return String(s || '').replace(/\\n/g, '\n'); }
+  function shuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function normText(t){ return String(t).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  function key(q){ return q.unit + '|' + q.subtopic; }
+
+  // ───────── styles ─────────
+  function chipStyle(active) {
+    return 'padding:9px 14px;border-radius:9px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;border:1px solid ' +
+      (active ? 'var(--blue-500)' : 'var(--border)') + ';background:' + (active ? 'var(--blue-500)' : 'transparent') +
+      ';color:' + (active ? '#fff' : 'var(--text2)') + ';' + (active ? 'box-shadow:0 2px 10px rgba(59,130,246,.3);' : '');
+  }
+  function segStyle(active) {
+    return 'padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:' +
+      (active ? 'var(--blue-500)' : 'transparent') + ';color:' + (active ? '#fff' : 'var(--text2)') + ';';
+  }
+  var labelCss = 'font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px';
+
+  // ───────── open page ─────────
+  window.showTopical = function () {
+    ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage','accountPage'].forEach(function (id) {
+      var el = document.getElementById(id); if (el) el.style.display = 'none';
+    });
+    document.querySelector('.hero').style.display = 'none';
+    document.querySelectorAll('section:not(.hero)').forEach(function (s) { s.style.display = 'none'; });
+    document.querySelector('footer').style.display = 'none';
+    var page = document.getElementById('topicalPage');
+    page.style.display = 'block';
+    page.style.animation = 'none'; page.offsetHeight; page.style.animation = 'pageSlideIn 0.25s ease';
+    window.topicalHiddenMS = ''; var oldB = document.getElementById('tpBanner'); if (oldB) oldB.remove();
+    resetNavLinks();
+    var nav = document.getElementById('navTopical');
+    if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
+    window.scrollTo(0, 0);
+    document.title = 'Topical Papers — IGCSE Mark';
+    tpLoad();
+  };
+
+  function tpLoad() {
+    tpTabs();
+    if (tp.data) { tpRenderCurrent(); return; }
+    document.getElementById('tpGenForm').innerHTML = '<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">Loading questions…</div>';
+    fetch(DATA_URL).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (d) { tp.data = d; tpRenderCurrent(); })
+    .catch(function (e) {
+      document.getElementById('tpGenForm').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Could not load the topical questions (' + esc(e.message) + '). Make sure topical_questions_final.json is uploaded next to index.html.</div>';
+    });
+  }
+  function tpRenderCurrent() { if (tp.mode === 'gen') tpRenderGen(); else tpRender(); }
+
+  function tpTabs() {
+    var g = document.getElementById('tpTab-gen'), b = document.getElementById('tpTab-browse');
+    g.textContent = '📝 Generate a paper'; b.textContent = '🔎 Browse questions';
+    g.style.cssText = segStyle(tp.mode === 'gen'); b.style.cssText = segStyle(tp.mode === 'browse');
+    document.getElementById('tpGenView').style.display = tp.mode === 'gen' ? 'flex' : 'none';
+    document.getElementById('tpBrowseView').style.display = tp.mode === 'browse' ? 'flex' : 'none';
+  }
+  window.tpSetMode = function (m) { tp.mode = m; tpTabs(); if (tp.data) tpRenderCurrent(); };
+
+  // ═════════════════ GENERATE A PAPER ═════════════════
+  function lengthOptions(paper) { return paper === 1 ? [20, 40, 60, 80] : [20, 40, 60, 80]; }
+
+  function tpRenderGen() {
+    var d = tp.data, paper = tp.gPaper;
+    var counts = {};
+    d.forEach(function (q) { if (q.paper === paper) counts[key(q)] = (counts[key(q)] || 0) + 1; });
+
+    var h = '';
+    // paper
+    h += '<div><div style="' + labelCss + '">1 · Paper</div><div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">' +
+      '<button onclick="tpGPaper(1)" style="' + segStyle(paper === 1) + '">Paper 1 · Short answer</button>' +
+      '<button onclick="tpGPaper(2)" style="' + segStyle(paper === 2) + '">Paper 2 · Case study</button></div></div>';
+
+    // topics
+    h += '<div><div style="' + labelCss + '">2 · Topics <span style="text-transform:none;letter-spacing:0;font-weight:400">(tick as many as you like)</span></div><div style="display:flex;flex-direction:column;gap:16px">';
+    var selectedQs = 0, selectedTopics = 0;
+    for (var u = 1; u <= 6; u++) {
+      var subs = Object.keys(counts).filter(function (k) { return k.split('|')[0] == u; }).sort();
+      if (!subs.length) continue;
+      var allOn = subs.every(function (k) { return tp.gSel[k]; });
+      h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">' +
+        '<div style="font-size:14px;font-weight:700;color:var(--text)">Unit ' + u + ' · ' + UNIT_NAMES[u] + '</div>' +
+        '<button onclick="tpGUnit(' + u + ')" style="padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">' + (allOn ? 'Clear unit' : 'Select whole unit') + '</button></div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+      subs.forEach(function (k) {
+        var on = !!tp.gSel[k]; if (on) { selectedTopics++; selectedQs += counts[k]; }
+        h += '<button data-key="' + esc(k) + '" onclick="tpGToggle(this.getAttribute(\'data-key\'))" style="' + chipStyle(on) + '">' + (on ? '✓ ' : '') + esc(k.split('|')[1]) +
+          ' <span style="opacity:.7;font-weight:500">' + counts[k] + '</span></button>';
+      });
+      h += '</div></div>';
+    }
+    h += '</div></div>';
+
+    // length
+    h += '<div><div style="' + labelCss + '">3 · Length</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
+    lengthOptions(paper).forEach(function (m) {
+      h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
+    });
+    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (paper === 1
+      ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1.'
+      : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
+
+    // generate
+    var ready = selectedTopics > 0;
+    h += '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">' +
+      '<button onclick="tpGenerate()" style="padding:13px 28px;border-radius:10px;border:none;background:var(--blue-500);color:#fff;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);' + (ready ? '' : 'opacity:.5;') + '">Generate my paper</button>' +
+      '<span style="font-size:13px;color:var(--text3)">' + (ready ? selectedTopics + ' topic' + (selectedTopics === 1 ? '' : 's') + ' selected · ' + selectedQs + ' questions available' : 'Pick at least one topic') + '</span></div>';
+
+    document.getElementById('tpGenForm').innerHTML = h;
+  }
+
+  window.tpGPaper = function (p) { if (tp.gPaper !== p) { tp.gPaper = p; tp.gSel = {}; document.getElementById('tpPaper').innerHTML = ''; document.getElementById('tpResults').innerHTML = ''; tp.paperQs = []; } tpRenderGen(); };
+  window.tpGToggle = function (k) { if (tp.gSel[k]) delete tp.gSel[k]; else tp.gSel[k] = true; tpRenderGen(); };
+  window.tpGLen = function (m) { tp.gTarget = m; tpRenderGen(); };
+  window.tpGUnit = function (u) {
+    var keys = {};
+    tp.data.forEach(function (q) { if (q.paper === tp.gPaper && q.unit === u) keys[key(q)] = 1; });
+    var all = Object.keys(keys);
+    var allOn = all.every(function (k) { return tp.gSel[k]; });
+    all.forEach(function (k) { if (allOn) delete tp.gSel[k]; else tp.gSel[k] = true; });
+    tpRenderGen();
+  };
+
+  // ── build the paper ──
+  function tpBuild(paper, keys, target) {
+    var classes = paper === 1 ? [2, 4, 6] : [8, 12];
+    var shares = paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
+    var pool = shuffle(tp.data.filter(function (q) { return q.paper === paper && keys[key(q)]; }));
+    var seen = {}, buckets = {};
+    classes.forEach(function (c) { buckets[c] = {}; });
+    pool.forEach(function (q) {
+      var dk = normText(q.text) + '|' + q.marks;
+      if (seen[dk] || !buckets[q.marks]) return; seen[dk] = 1;
+      var sk = key(q); (buckets[q.marks][sk] = buckets[q.marks][sk] || []).push(q);
+    });
+    function left(c) { return Object.keys(buckets[c]).some(function (s) { return buckets[c][s].length; }); }
+    var picked = [], got = {}, subPicks = {}, remaining = target;
+    classes.forEach(function (c) { got[c] = 0; });
+    while (remaining > 0) {
+      var order = classes.filter(function (c) { return c <= remaining && left(c); })
+        .sort(function (a, b) { return (shares[b] * target - got[b]) - (shares[a] * target - got[a]); });
+      if (!order.length) break;
+      var c = order[0];
+      var subs = shuffle(Object.keys(buckets[c]).filter(function (s) { return buckets[c][s].length; }))
+        .sort(function (a, b) { return (subPicks[a] || 0) - (subPicks[b] || 0); });
+      var s = subs[0], q = buckets[c][s].pop();
+      picked.push(q); got[c] += c; remaining -= c; subPicks[s] = (subPicks[s] || 0) + 1;
+    }
+    // order the paper
+    if (paper === 1) {
+      picked.sort(function (a, b) { return (a.unit - b.unit) || a.subtopic.localeCompare(b.subtopic) || (a.marks - b.marks); });
+    } else {
+      var groups = {}, order2 = [];
+      shuffle(picked).forEach(function (q) { if (!groups[q.paperKey]) { groups[q.paperKey] = []; order2.push(q.paperKey); } groups[q.paperKey].push(q); });
+      picked = [];
+      order2.forEach(function (pk) { groups[pk].sort(function (a, b) { return a.marks - b.marks; }); picked = picked.concat(groups[pk]); });
+    }
+    return picked;
+  }
+
+  window.tpGenerate = function () {
+    var keys = tp.gSel;
+    if (!Object.keys(keys).length) { alert('Pick at least one topic first.'); return; }
+    var qs = tpBuild(tp.gPaper, keys, tp.gTarget);
+    tp.paperQs = qs;
+    document.getElementById('tpResults').innerHTML = '';
+    tpRenderPaper();
+    var el = document.getElementById('tpPaper'); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  function ctxFor(q) {
+    if (q.paper !== 1) return '';
+    var c = clean(q.context);
+    if (/general question/i.test(c)) return '';
+    return c;
+  }
+  function paperTitle() {
+    var names = {}; tp.paperQs.forEach(function (q) { names[q.subtopic] = 1; });
+    var list = Object.keys(names);
+    return list.length > 3 ? list.slice(0, 3).join(', ') + ' +' + (list.length - 3) + ' more' : list.join(', ');
+  }
+  function paperMax() { return tp.paperQs.reduce(function (s, q) { return s + q.marks; }, 0); }
+
+  function tpRenderPaper() {
+    var qs = tp.paperQs, box = document.getElementById('tpPaper');
+    if (!qs.length) { box.innerHTML = '<div style="padding:16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:14px;color:var(--text2)">No questions matched those topics for this paper. Try adding more topics.</div>'; return; }
+    var max = paperMax(), lastPK = null, h = '';
+    h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">' +
+      '<div><div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-400);margin-bottom:4px">Your topical paper</div>' +
+      '<div style="font-size:20px;font-weight:700;color:var(--text)">Paper ' + tp.gPaper + ' · ' + max + ' marks · ' + qs.length + ' questions</div>' +
+      '<div style="font-size:13px;color:var(--text3);margin-top:4px">' + esc(paperTitle()) + '</div></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+      '<button onclick="tpPrint(\'paper\')" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">⬇ Question paper (PDF)</button>' +
+      '<button onclick="tpPrint(\'ms\')" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">⬇ Mark scheme (PDF)</button>' +
+      '<button onclick="tpGenerate()" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">🔀 New paper, same topics</button></div></div>';
+    h += '<div style="font-size:12px;color:var(--text3);margin-top:8px">To save as a PDF, click a download button and choose <strong>Save as PDF</strong> as the destination in the print window.</div>';
+    if (max < tp.gTarget) {
+      h += '<div style="font-size:12px;color:var(--text3)">Only ' + max + ' of ' + tp.gTarget + ' marks could be built from these topics. Add more topics for a longer paper.</div>';
+    }
+    h += '<div style="display:flex;flex-direction:column;gap:14px;margin-top:14px">';
+    qs.forEach(function (q, i) {
+      if (q.paper === 2 && q.paperKey !== lastPK) {
+        lastPK = q.paperKey;
+        h += '<details style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--blue-500)">📄 Case study (read this first)</summary>' +
+          '<div style="font-size:13px;color:var(--text2);line-height:1.7;margin-top:12px;white-space:pre-line">' + esc(clean(q.caseStudy)) + '</div></details>';
+      }
+      var ctx = ctxFor(q);
+      h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">' +
+        (ctx ? '<div style="padding:12px 18px;background:rgba(37,99,235,.05);border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text3);line-height:1.6;font-style:italic">' + esc(ctx) + '</div>' : '') +
+        '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
+        '<div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:28px">Q' + (i + 1) + '</span>' +
+        '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</span>' +
+        '<span style="font-size:11px;color:var(--text3);white-space:nowrap">[' + q.marks + ' marks]</span></div>' +
+        '<textarea id="tpans-' + i + '" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Your answer…" style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:\'Kalam\',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'rgba(59,130,246,.5)\'" onblur="this.style.borderColor=\'var(--border)\'"></textarea>' +
+        '</div></div>';
+    });
+    h += '</div>' +
+      '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>';
+    box.innerHTML = h;
+  }
+
+  // ── marking ──
+  function tpPart(q) {
+    if (q.marks >= 6) return (/justify|do you think|which .* (best|most)/i.test(q.text) || /no marks for application/i.test(q.ms || '')) ? 'e' : 'd';
+    if (q.marks >= 4) return 'c';
+    return 'a';
+  }
+  var NOSPELL = 'Cambridge IGCSE Business Studies does not assess spelling, punctuation, or grammar. Never deduct marks for spelling mistakes or typos. Mark purely on content and meaning. You may briefly note a spelling mistake in the feedback, but it must never affect the score.';
+  var P1_GUIDE = {
+    a: 'PART A/B (2 marks): Check against the mark scheme. If all main points are present award full marks; if partially correct award 1. For definitions the meaning must be clear but need not match the coursebook word for word.',
+    c: 'PART C (4 marks): Determine the structure from the mark scheme. Structure 1 = 4 different knowledge points (repeated points in different words get no mark). Structure 2 = 2 knowledge + 2 analysis (analysis must be cause-and-effect of its knowledge point and not generalised). Structure 3 = 2 knowledge + 2 application (application must come from the case context; the business name alone is NOT application).',
+    d: 'PART D (6 marks): 2 knowledge + 2 analysis + 2 application, in two 3-mark parts (1 knowledge + 1 analysis + 1 application each). The 2 application points must be different. Analysis must be cause-and-effect of the knowledge. If knowledge is WRONG award 0 for that whole 3-mark part. If analysis is irrelevant but knowledge and application are correct award 2. If application is incorrect but knowledge and analysis are correct award 2.',
+    e: 'PART E (6 marks): 2 knowledge + 2 analysis + 2 evaluation. Same knowledge/analysis rules as Part D. Evaluation MUST consider BOTH sides (advantages AND disadvantages). Without a clear balanced evaluative conclusion cap the score at 4/6.'
+  };
+  var P2A = '8-MARK QUESTION (Part A, point-based, NO evaluation marks). Type 1: two points linked to the case study, each 1 Knowledge + 2 Analysis + 1 Application (analysis must be deeply developed cause and effect; if not well developed award only 1 analysis mark; application must reference the case study). Type 2: four points, 1 Knowledge + 1 Analysis each. Type 3: four points, 1 Knowledge + 1 Application each. Never reward justification or conclusions. Analysis unrelated to the knowledge point gets 0.';
+  var P2B = '12-MARK QUESTION (Part B, levels-based, evaluation REQUIRED). Level 1 (1-4): limited knowledge, one option only or both just identified, no justified conclusion. Level 2 (5-8): at least one option in detail with explanation AND application, weak or partial conclusion; if there is NO justified conclusion the maximum is 8. Level 3 (9-12): detailed discussion of TWO OR MORE options with case study context AND a well-justified conclusion explaining why the alternative was rejected; without explicit rejection of the alternative the maximum is 10; only one option in detail means maximum 8. Application inside the evaluation is very important, generic evaluation must not score highly. For borderline answers always round DOWN.';
+  var FORMAT = 'Respond using EXACTLY this format and nothing else, with a line containing only ### after the block. Do not use JSON or markdown:\nLABEL: <label>\nSCORE: <number>\nMAX: <number>\nLEVEL: <e.g. L2 - 7/12, or NONE for non 12-mark questions>\nFEEDBACK: one sentence explaining the score, on a single line\nMISSED: key point missed, on a single line, or NONE\n###';
+
+  function tpPrompt(q, ans, label) {
+    var isP2 = q.paper === 2;
+    var guide = isP2 ? (q.marks >= 12 ? P2B : P2A) : P1_GUIDE[tpPart(q)];
+    return ['You are an experienced Cambridge IGCSE Business Studies 0450 Paper ' + q.paper + ' examiner. Mark strictly and consistently.',
+      NOSPELL, '', guide, '',
+      isP2 ? 'CASE STUDY:\n' + clean(q.caseStudy) + '\n' : '',
+      label + ' [' + q.marks + ' marks]: ' + clean(q.text),
+      isP2 ? '' : 'Context: ' + clean(q.context),
+      'Cambridge mark scheme: ' + clean(q.ms),
+      'Student answer: ' + (ans || '(no answer provided)'), '', FORMAT].join('\n');
+  }
+
+  async function markOne(q, ans, label, isRetry) {
+    var res = await fetch('/.netlify/functions/mark', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: tpPrompt(q, ans, label), temperature: isRetry ? 0.4 : 0 }) });
+    var raw = await res.text(), data;
+    try { data = JSON.parse(raw); } catch (e) { throw new Error('Server returned an invalid response (status ' + res.status + ').'); }
+    if (data.error) throw new Error(data.error);
+    try {
+      var r = parseDelimitedResults(data.text || '')[0];
+      return r;
+    } catch (e) {
+      if (!isRetry) return markOne(q, ans, label, true);
+      throw new Error('The AI response for ' + label + ' could not be read. Please try marking again.');
+    }
+  }
+
+  function estGrade(score, max) {
+    var s = score / max * 80, t = (typeof GENERIC_GRADE_THRESHOLD !== 'undefined') ? GENERIC_GRADE_THRESHOLD : { A: 42, B: 33, C: 25, D: 20, E: 17, F: 13, G: 9 };
+    return s >= t.A ? 'A' : s >= t.B ? 'B' : s >= t.C ? 'C' : s >= t.D ? 'D' : s >= t.E ? 'E' : s >= t.F ? 'F' : s >= t.G ? 'G' : 'U';
+  }
+
+  window.tpMarkPaper = async function () {
+    if (tp.marking) return;
+    if (typeof _supabase === 'undefined' || !_supabase || !(await _supabase.auth.getSession()).data.session) { showAuthWall(); return; }
+    var qs = tp.paperQs, out = document.getElementById('tpResults'), btn = document.getElementById('tpMarkBtn');
+    var answers = qs.map(function (q, i) { var el = document.getElementById('tpans-' + i); return el ? el.value.trim() : ''; });
+    if (answers.every(function (a) { return !a; })) {
+      out.innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Answer at least one question before marking. Blank answers are not sent to the AI.</div>'; return;
+    }
+    tp.marking = true; var orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Checking…';
+    var lim = await checkUsageLimit('full_paper', tp.gPaper);
+    if (!lim.allowed) {
+      tp.marking = false; btn.disabled = false; btn.innerHTML = orig;
+      out.innerHTML = lim.limitHit ? limitPopupHtml('full_paper', lim.tier) :
+        '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">' + esc(lim.message || 'Could not verify your usage limit.') + '</div>';
+      return;
+    }
+    btn.innerHTML = 'Marking your paper…';
+    out.innerHTML = '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center"><div style="font-size:14px;color:var(--text2);margin-bottom:6px">Marking every question, this can take 20 to 60 seconds…</div><div style="font-size:13px;color:var(--text3)">Please don\'t close this tab</div></div>';
+    try {
+      var results = await Promise.all(qs.map(function (q, i) {
+        if (!answers[i]) return Promise.resolve({ score: 0, max: q.marks, level: null, feedback: 'No answer provided.', missed: 'Attempt this question to get feedback.' });
+        return markOne(q, answers[i], 'Q' + (i + 1), false);
+      }));
+      results.forEach(function (r, i) { r.max = qs[i].marks; r.score = Math.max(0, Math.min(qs[i].marks, Number(r.score) || 0)); });
+      tpShowResults(results, answers);
+      var total = results.reduce(function (s, r) { return s + r.score; }, 0), max = paperMax();
+      var lbl = ('Topical (' + max + ' marks): ' + paperTitle()).slice(0, 90);
+      if (typeof saveMarking === 'function') saveMarking(tp.gPaper, lbl, total, max, 'Topical paper marked.');
+    } catch (e) {
+      out.innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Marking failed: ' + esc(e.message || 'Unknown error') + '</div>';
+    }
+    tp.marking = false; btn.disabled = false; btn.innerHTML = 'Mark again';
+  };
+
+  function tpShowResults(results, answers) {
+    var qs = tp.paperQs, max = paperMax();
+    var total = results.reduce(function (s, r) { return s + r.score; }, 0);
+    var pct = Math.round(total / max * 100), grade = estGrade(total, max);
+    var sc = (typeof gradeColor === 'function') ? gradeColor(grade) : { c: '#60a5fa', bg: 'rgba(96,165,250,.12)' };
+    if (pct >= 75 && typeof launchConfetti === 'function') launchConfetti();
+    var h = '<div style="display:flex;flex-direction:column;gap:14px;margin-top:6px">' +
+      '<div class="glass-card" style="padding:22px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">' +
+      '<div style="flex:1;min-width:200px"><div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)">Your result</div>' +
+      '<div style="font-size:34px;font-weight:700;color:' + sc.c + '">' + total + '<span style="font-size:18px;color:var(--text3)"> / ' + max + '</span></div>' +
+      '<div style="font-size:13px;color:var(--text2);margin-top:2px">' + pct + '% · ' + esc(paperTitle()) + '</div></div>' +
+      '<div style="text-align:center"><div style="padding:10px 26px;border-radius:10px;font-size:28px;font-weight:700;background:' + sc.bg + ';color:' + sc.c + '">' + grade + '</div>' +
+      '<div style="font-size:11px;color:var(--text3);margin-top:4px">estimated grade</div></div></div>';
+    qs.forEach(function (q, i) {
+      var r = results[i], p = r.score / q.marks, c = p >= .75 ? '#4ade80' : p >= .5 ? '#fbbf24' : '#f87171';
+      h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><div style="font-size:13px;font-weight:700;color:var(--text)">Q' + (i + 1) +
+        ' <span style="font-weight:500;color:var(--text3)">· from ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</span></div>' +
+        '<div style="font-size:15px;font-weight:700;color:' + c + '">' + r.score + '/' + q.marks + (r.level ? ' <span style="font-size:11px;color:var(--text3);font-weight:500">' + esc(r.level) + '</span>' : '') + '</div></div>' +
+        '<div style="font-size:13px;color:var(--text2);line-height:1.6">' + esc(r.feedback || '') + '</div>' +
+        (r.missed ? '<div style="font-size:13px;color:#f87171;line-height:1.6"><strong>Missed:</strong> ' + esc(r.missed) + '</div>' : '') +
+        '<details><summary style="cursor:pointer;font-size:12px;color:var(--blue-500);font-weight:600">Show question, your answer and the mark scheme</summary>' +
+        '<div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--text2);line-height:1.65">' +
+        '<div><strong style="color:var(--text)">Question:</strong> ' + esc(clean(q.text)) + '</div>' +
+        '<div style="white-space:pre-line"><strong style="color:var(--text)">Your answer:</strong> ' + esc(answers[i] || '(blank)') + '</div>' +
+        '<div style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:12px 14px;white-space:pre-line"><strong style="color:var(--text)">Mark scheme:</strong> ' + esc(clean(q.ms)) + '</div>' +
+        '</div></details></div>';
+    });
+    h += '</div>';
+    var out = document.getElementById('tpResults'); out.innerHTML = h;
+    if (out.scrollIntoView) out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ═════════════════ PDF (print window) ═════════════════
+  function linesFor(m) { return m <= 2 ? 3 : m <= 4 ? 6 : m <= 6 ? 10 : m <= 8 ? 15 : 24; }
+  window.tpPrint = function (kind) {
+    var qs = tp.paperQs; if (!qs.length) return;
+    var max = paperMax(), mins = Math.max(10, Math.round(max * 90 / 80 / 5) * 5);
+    var isMS = kind === 'ms';
+    var css = '@page{size:A4;margin:16mm}*{box-sizing:border-box}body{font-family:Georgia,"Times New Roman",serif;color:#111;font-size:12pt;line-height:1.5;margin:0}' +
+      '.hd{border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:14px}.hd h1{font-size:18pt;margin:0 0 4px}.hd .sub{font-size:10.5pt;color:#333}' +
+      '.info{display:flex;justify-content:space-between;font-size:10.5pt;margin:8px 0 14px;padding:8px 10px;border:1px solid #999}' +
+      '.cs{border:1px solid #999;background:#f5f5f5;padding:10px 12px;margin:16px 0 10px;font-size:10.5pt;white-space:pre-line}.cs b{display:block;margin-bottom:6px;font-family:Arial,sans-serif}' +
+      '.q{margin:0 0 16px;page-break-inside:avoid}.ctx{font-style:italic;font-size:10.5pt;color:#333;margin-bottom:6px}' +
+      '.qt{display:flex;gap:10px}.qn{font-weight:bold;min-width:30px}.qx{flex:1;white-space:pre-line}.qm{font-weight:bold;white-space:nowrap}' +
+      '.ln{height:24px;border-bottom:1px solid #aaa}.ans{margin:8px 0 0 40px}' +
+      '.ms{margin:8px 0 0 40px;font-size:10.5pt;border-left:3px solid #999;padding-left:10px;white-space:pre-line}.src{font-size:9.5pt;color:#555;font-family:Arial,sans-serif;margin:0 0 4px 40px}' +
+      '.ft{margin-top:24px;font-size:9pt;color:#666;text-align:center;font-family:Arial,sans-serif}' +
+      '@media print{.noprint{display:none}}.noprint{font-family:Arial,sans-serif;font-size:12px;background:#eef4ff;border:1px solid #bcd;padding:10px 14px;margin-bottom:14px}';
+    var body = '<div class="noprint">In the print window choose <b>Save as PDF</b> as the destination.</div>' +
+      '<div class="hd"><h1>' + (isMS ? 'Mark scheme · ' : '') + 'Topical Paper ' + tp.gPaper + '</h1><div class="sub">IGCSE Business Studies 0450 · ' + esc(paperTitle()) + '</div></div>' +
+      '<div class="info"><span>Total marks: <b>' + max + '</b></span><span>Suggested time: <b>' + mins + ' minutes</b></span>' +
+      (isMS ? '' : '<span>Answer all questions</span>') + '</div>';
+    var lastPK = null;
+    qs.forEach(function (q, i) {
+      if (q.paper === 2 && q.paperKey !== lastPK) {
+        lastPK = q.paperKey;
+        if (!isMS) body += '<div class="cs"><b>Case study</b>' + esc(clean(q.caseStudy)) + '</div>';
+      }
+      var ctx = ctxFor(q);
+      body += '<div class="q">' + (ctx && !isMS ? '<div class="ctx">' + esc(ctx) + '</div>' : '') +
+        '<div class="qt"><span class="qn">' + (i + 1) + '</span><span class="qx">' + esc(clean(q.text)) + '</span><span class="qm">[' + q.marks + ']</span></div>';
+      if (isMS) {
+        body += '<div class="src">Source: ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</div><div class="ms">' + esc(clean(q.ms)) + '</div>';
+      } else {
+        body += '<div class="ans">';
+        for (var l = 0; l < linesFor(q.marks); l++) body += '<div class="ln"></div>';
+        body += '</div>';
+      }
+      body += '</div>';
+    });
+    body += '<div class="ft">IGCSE Mark · Not affiliated with Cambridge Assessment International Education</div>';
+    var w = window.open('', '_blank');
+    if (!w) { alert('Your browser blocked the pop-up. Allow pop-ups for this site and try again.'); return; }
+    w.document.open();
+    w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + (isMS ? 'Mark scheme' : 'Topical paper') + ' - IGCSE Mark</title><style>' + css + '</style></head><body>' + body +
+      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print()},400)}</scr' + 'ipt></body></html>');
+    w.document.close();
+  };
+
+  // ═════════════════ BROWSE QUESTIONS ═════════════════
+  function paperBtnStyle(active) { return segStyle(active).replace('padding:8px 18px', 'padding:7px 16px'); }
+
+  function tpRender() {
+    var d = tp.data;
+    var counts = {};
+    d.forEach(function (q) { counts[q.unit] = (counts[q.unit] || 0) + 1; });
+    var uh = '';
+    for (var u = 1; u <= 6; u++) {
+      uh += '<button onclick="tpSetUnit(' + u + ')" style="' + chipStyle(tp.unit === u) + '">' + u + ' · ' + UNIT_NAMES[u] +
+        ' <span style="opacity:.7;font-weight:500">' + (counts[u] || 0) + '</span></button>';
+    }
+    document.getElementById('tpUnits').innerHTML = uh;
+    var subWrap = document.getElementById('tpSubWrap'), ctrls = document.getElementById('tpControls');
+    if (!tp.unit) {
+      subWrap.style.display = 'none'; ctrls.style.display = 'none';
+      document.getElementById('tpList').innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--text3);font-size:14px">Choose a unit above to get started.</div>';
+      document.getElementById('tpMore').style.display = 'none';
+      return;
+    }
+    var inUnit = d.filter(function (q) { return q.unit === tp.unit; });
+    var subCounts = {};
+    inUnit.forEach(function (q) { subCounts[q.subtopic] = (subCounts[q.subtopic] || 0) + 1; });
+    var names = Object.keys(subCounts).sort();
+    var sh = '<button onclick="tpSetSub(\'all\')" style="' + chipStyle(tp.sub === 'all') + '">All <span style="opacity:.7;font-weight:500">' + inUnit.length + '</span></button>';
+    names.forEach(function (n) {
+      sh += '<button data-sub="' + esc(n) + '" onclick="tpSetSub(this.getAttribute(\'data-sub\'))" style="' + chipStyle(tp.sub === n) + '">' + esc(n) +
+        ' <span style="opacity:.7;font-weight:500">' + subCounts[n] + '</span></button>';
+    });
+    document.getElementById('tpSubs').innerHTML = sh;
+    subWrap.style.display = 'block'; ctrls.style.display = 'flex';
+    var pool = inUnit.filter(function (q) { return tp.sub === 'all' || q.subtopic === tp.sub; });
+    var n1 = pool.filter(function (q) { return q.paper === 1; }).length, n2 = pool.filter(function (q) { return q.paper === 2; }).length;
+    var pa = document.getElementById('tpP-all'), p1 = document.getElementById('tpP-1'), p2 = document.getElementById('tpP-2');
+    pa.textContent = 'Both (' + pool.length + ')'; p1.textContent = 'Paper 1 (' + n1 + ')'; p2.textContent = 'Paper 2 (' + n2 + ')';
+    pa.style.cssText = paperBtnStyle(tp.paper === 'all'); p1.style.cssText = paperBtnStyle(tp.paper === 1); p2.style.cssText = paperBtnStyle(tp.paper === 2);
+    tp.list = pool.filter(function (q) { return tp.paper === 'all' || q.paper === tp.paper; });
+    if (!tp.shuffled) {
+      var so = { 'Oct/Nov': 0, 'May/Jun': 1, 'Feb/Mar': 2 };
+      tp.list.sort(function (a, b) { return b.year - a.year || (so[a.session] - so[b.session]) || a.paper - b.paper || a.marks - b.marks; });
+    }
+    tpRenderList();
+  }
+
+  function tpRenderList() {
+    var list = tp.list, shown = list.slice(0, tp.shown);
+    document.getElementById('tpCount').textContent = list.length + ' question' + (list.length === 1 ? '' : 's');
+    if (!list.length) {
+      document.getElementById('tpList').innerHTML = '<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">No questions for this filter.</div>';
+      document.getElementById('tpMore').style.display = 'none'; return;
+    }
+    document.getElementById('tpList').innerHTML = shown.map(function (q) {
+      var pill = 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;';
+      return '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:12px">' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
+        '<span style="' + pill + 'background:rgba(37,99,235,.08);color:var(--blue-500);border:1px solid rgba(59,130,246,.2)">' + q.year + ' ' + esc(q.session) + '</span>' +
+        '<span style="' + pill + 'background:rgba(0,0,0,.04);color:var(--text2);border:1px solid var(--border)">Paper ' + q.paper + ' · ' + esc(q.qNum) + '</span>' +
+        '<span style="' + pill + 'background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)">' + q.marks + ' marks</span>' +
+        '<span style="font-size:11px;color:var(--text3)">' + esc(q.subtopic) + '</span></div>' +
+        '<div style="font-size:14px;color:var(--text);line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</div>' +
+        '<div><button data-id="' + esc(q.id) + '" onclick="tpPractise(this.getAttribute(\'data-id\'))" style="padding:10px 20px;border-radius:9px;border:none;background:var(--blue-500);color:#fff;font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 2px 14px rgba(59,130,246,.25)">Practise this question →</button></div></div>';
+    }).join('');
+    document.getElementById('tpMore').style.display = list.length > tp.shown ? 'inline-block' : 'none';
+  }
+  window.tpSetUnit = function (u) { tp.unit = u; tp.sub = 'all'; tp.paper = 'all'; tp.shown = 10; tp.shuffled = false; tpRender(); };
+  window.tpSetSub = function (s) { tp.sub = s; tp.shown = 10; tp.shuffled = false; tpRender(); };
+  window.tpSetPaper = function (p) { tp.paper = p; tp.shown = 10; tp.shuffled = false; tpRender(); };
+  window.tpShowMore = function () { tp.shown += 10; tpRenderList(); };
+  window.tpShuffle = function () { tp.shuffled = true; tp.shown = 10; tp.list = shuffle(tp.list); tpRenderList(); };
+
+  // single question → Marker page (mark scheme stays hidden)
+  window.tpPractise = function (id) {
+    var q = tp.data.filter(function (x) { return x.id === id; })[0]; if (!q) return;
+    window._tpLaunch = true; showMarker();
+    if (q.paper === 1) {
+      var part = tpPart(q); setMP(1); setPart(part);
+      document.getElementById('m-ctx').value = part === 'e' ? '' : clean(q.context);
+    } else {
+      setMP(2); setP2Part(q.marks >= 12 ? 'b' : 'a');
+      document.getElementById('m-ctx').value = clean(q.caseStudy || q.context);
+    }
+    document.getElementById('m-q').value = clean(q.text);
+    document.getElementById('m-ms').value = ''; document.getElementById('m-ans').value = ''; document.getElementById('m-result').innerHTML = '';
+    try { clearCtxImage(); clearMsImage(); } catch (e) {}
+    window.topicalHiddenMS = clean(q.ms || '');
+    var old = document.getElementById('tpBanner'); if (old) old.remove();
+    var b = document.createElement('div'); b.id = 'tpBanner';
+    b.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:rgba(37,99,235,.08);border:1px solid rgba(59,130,246,.25);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--text2)';
+    b.innerHTML = '<span><strong style="color:var(--text)">Topical practice</strong> · ' + esc(q.subtopic) + ' · ' + q.year + ' ' + esc(q.session) + '. The mark scheme is loaded automatically, just write your answer and mark it.</span>' +
+      '<button onclick="showTopical()" style="padding:7px 14px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">← Back to topics</button>';
+    var wrap = document.querySelector('#markerPage > div'); wrap.insertBefore(b, wrap.firstChild); window.scrollTo(0, 0);
+  };
+
+  // ───────── keep the other pages working ─────────
+  ['showHome','showMarker','showPastPapers','showNotes','showDash','showFullPaper','showPricing','showAccountPage'].forEach(function (n) {
+    var orig = window[n]; if (typeof orig !== 'function') return;
+    window[n] = function () {
+      var tpPage = document.getElementById('topicalPage'); if (tpPage) tpPage.style.display = 'none';
+      if (n === 'showMarker' && window._tpLaunch) { window._tpLaunch = false; }
+      else { window.topicalHiddenMS = ''; var bn = document.getElementById('tpBanner'); if (bn) bn.remove(); }
+      return orig.apply(this, arguments);
+    };
+  });
+  var origReset = window.resetNavLinks;
+  window.resetNavLinks = function () {
+    origReset.apply(this, arguments);
+    var nt = document.getElementById('navTopical');
+    if (nt) { nt.style.color = 'var(--text2)'; nt.style.fontWeight = '500'; }
+  };
+  // dashboard: grade topical papers by percentage, not against an 80-mark boundary
+  var origGPG = window.getPaperGrade;
+  if (typeof origGPG === 'function') {
+    window.getPaperGrade = function (p, label, score) {
+      var m = /^Topical \((\d+) marks\)/.exec(label || '');
+      if (m) return estGrade(score, parseInt(m[1], 10));
+      return origGPG.apply(this, arguments);
+    };
+  }
+})();
+</script>
+
 </body>
 </html>
