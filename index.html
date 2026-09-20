@@ -16273,7 +16273,7 @@ function showAuthWall() {
       h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
     });
     h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (paper === 1
-      ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1.'
+      ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
       : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
 
     // generate
@@ -16324,7 +16324,10 @@ function showAuthWall() {
     }
     // order the paper
     if (paper === 1) {
-      picked.sort(function (a, b) { return (a.unit - b.unit) || a.subtopic.localeCompare(b.subtopic) || (a.marks - b.marks); });
+      var g1 = {}, ord1 = [];
+      shuffle(picked).forEach(function (q) { var g = gid(q); if (!g1[g]) { g1[g] = []; ord1.push(g); } g1[g].push(q); });
+      picked = [];
+      ord1.forEach(function (g) { g1[g].sort(function (a, b) { return String(a.qNum).localeCompare(String(b.qNum)); }); picked = picked.concat(g1[g]); });
     } else {
       var groups = {}, order2 = [];
       shuffle(picked).forEach(function (q) { if (!groups[q.paperKey]) { groups[q.paperKey] = []; order2.push(q.paperKey); } groups[q.paperKey].push(q); });
@@ -16344,11 +16347,18 @@ function showAuthWall() {
     var el = document.getElementById('tpPaper'); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  function ctxFor(q) {
-    if (q.paper !== 1) return '';
+  function scenarioOf(q) {
     var c = clean(q.context);
-    if (/general question/i.test(c)) return '';
-    return c;
+    // drop the "this is a general question" notes, keep any real scenario text
+    var parts = (c.match(/[^.!?]+[.!?]*/g) || []).map(function (x) { return x.trim(); }).filter(function (x) { return x && !/general question|no marks for application|candidates must/i.test(x); });
+    return parts.join(' ').trim();
+  }
+  function gid(q) { return q.paper === 1 ? q.paperKey + '|' + String(q.qNum).charAt(0) : q.paperKey; }
+  // longest real scenario per group of questions from the same scenario
+  function groupScenarios(qs) {
+    var map = {};
+    qs.forEach(function (q) { if (q.paper !== 1) return; var g = gid(q), sc = scenarioOf(q); if (sc.length > (map[g] || '').length) map[g] = sc; });
+    return map;
   }
   function paperTitle() {
     var names = {}; tp.paperQs.forEach(function (q) { names[q.subtopic] = 1; });
@@ -16360,7 +16370,7 @@ function showAuthWall() {
   function tpRenderPaper() {
     var qs = tp.paperQs, box = document.getElementById('tpPaper');
     if (!qs.length) { box.innerHTML = '<div style="padding:16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:14px;color:var(--text2)">No questions matched those topics for this paper. Try adding more topics.</div>'; return; }
-    var max = paperMax(), lastPK = null, h = '';
+    var max = paperMax(), lastPK = null, lastG = null, h = '', scen = groupScenarios(qs);
     h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">' +
       '<div><div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-400);margin-bottom:4px">Your topical paper</div>' +
       '<div style="font-size:20px;font-weight:700;color:var(--text)">Paper ' + tp.gPaper + ' · ' + max + ' marks · ' + qs.length + ' questions</div>' +
@@ -16380,9 +16390,12 @@ function showAuthWall() {
         h += '<details style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--blue-500)">📄 Case study (read this first)</summary>' +
           '<div style="font-size:13px;color:var(--text2);line-height:1.7;margin-top:12px;white-space:pre-line">' + esc(clean(q.caseStudy)) + '</div></details>';
       }
-      var ctx = ctxFor(q);
+      if (q.paper === 1 && gid(q) !== lastG) {
+        lastG = gid(q);
+        if (scen[lastG]) h += '<div style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-500);margin-bottom:6px">Scenario</div>' +
+          '<div style="font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-line">' + esc(scen[lastG]) + '</div></div>';
+      }
       h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">' +
-        (ctx ? '<div style="padding:12px 18px;background:rgba(37,99,235,.05);border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text3);line-height:1.6;font-style:italic">' + esc(ctx) + '</div>' : '') +
         '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
         '<div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:28px">Q' + (i + 1) + '</span>' +
         '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</span>' +
@@ -16514,35 +16527,51 @@ function showAuthWall() {
 
   // ═════════════════ PDF (print window) ═════════════════
   function linesFor(m) { return m <= 2 ? 3 : m <= 4 ? 6 : m <= 6 ? 10 : m <= 8 ? 15 : 24; }
+  function fmtMS(t) {
+    var s = clean(t).replace(/\s+(?=(?:Application words?|Application|Advantages|Disadvantages|Benefits|Limitations|Ways|Reasons|Methods|Factors|Effects|Points|Justification|Correct answer|Full definition|Partial definition|Partial|Alternatives|Other options|Do not award|Level \d|Valid recommendations|Valid conclusions)\b[^:\n]{0,45}:)/g, '\n');
+    return esc(s).replace(/(^|\n)([A-Z][^:\n]{0,50}:)/g, '$1<b>$2</b>');
+  }
   window.tpPrint = function (kind) {
     var qs = tp.paperQs; if (!qs.length) return;
     var max = paperMax(), mins = Math.max(10, Math.round(max * 90 / 80 / 5) * 5);
     var isMS = kind === 'ms';
-    var css = '@page{size:A4;margin:16mm}*{box-sizing:border-box}body{font-family:Georgia,"Times New Roman",serif;color:#111;font-size:12pt;line-height:1.5;margin:0}' +
-      '.hd{border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:14px}.hd h1{font-size:18pt;margin:0 0 4px}.hd .sub{font-size:10.5pt;color:#333}' +
-      '.info{display:flex;justify-content:space-between;font-size:10.5pt;margin:8px 0 14px;padding:8px 10px;border:1px solid #999}' +
-      '.cs{border:1px solid #999;background:#f5f5f5;padding:10px 12px;margin:16px 0 10px;font-size:10.5pt;white-space:pre-line}.cs b{display:block;margin-bottom:6px;font-family:Arial,sans-serif}' +
-      '.q{margin:0 0 16px;page-break-inside:avoid}.ctx{font-style:italic;font-size:10.5pt;color:#333;margin-bottom:6px}' +
-      '.qt{display:flex;gap:10px}.qn{font-weight:bold;min-width:30px}.qx{flex:1;white-space:pre-line}.qm{font-weight:bold;white-space:nowrap}' +
-      '.ln{height:24px;border-bottom:1px solid #aaa}.ans{margin:8px 0 0 40px}' +
-      '.ms{margin:8px 0 0 40px;font-size:10.5pt;border-left:3px solid #999;padding-left:10px;white-space:pre-line}.src{font-size:9.5pt;color:#555;font-family:Arial,sans-serif;margin:0 0 4px 40px}' +
-      '.ft{margin-top:24px;font-size:9pt;color:#666;text-align:center;font-family:Arial,sans-serif}' +
-      '@media print{.noprint{display:none}}.noprint{font-family:Arial,sans-serif;font-size:12px;background:#eef4ff;border:1px solid #bcd;padding:10px 14px;margin-bottom:14px}';
-    var body = '<div class="noprint">In the print window choose <b>Save as PDF</b> as the destination.</div>' +
-      '<div class="hd"><h1>' + (isMS ? 'Mark scheme · ' : '') + 'Topical Paper ' + tp.gPaper + '</h1><div class="sub">IGCSE Business Studies 0450 · ' + esc(paperTitle()) + '</div></div>' +
-      '<div class="info"><span>Total marks: <b>' + max + '</b></span><span>Suggested time: <b>' + mins + ' minutes</b></span>' +
-      (isMS ? '' : '<span>Answer all questions</span>') + '</div>';
-    var lastPK = null;
+    var css = '@page{size:A4;margin:16mm 16mm 18mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font-family:Arial,sans-serif;font-size:8.5pt;color:#777}}' +
+      '*{box-sizing:border-box}html{background:#e9ecf1}body{font-family:Georgia,"Times New Roman",serif;color:#111;font-size:12pt;line-height:1.5;margin:0}' +
+      '.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-family:Arial,sans-serif;font-size:13px;background:#1d4ed8;color:#fff;padding:10px 16px}' +
+      '.bar button{font:600 13px Arial,sans-serif;padding:7px 16px;border:0;border-radius:6px;background:#fff;color:#1d4ed8;cursor:pointer}' +
+      '.page{max-width:794px;margin:22px auto;background:#fff;padding:44px 52px;box-shadow:0 2px 14px rgba(0,0,0,.18)}' +
+      '.hd{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:2.5px solid #111;padding-bottom:12px;margin-bottom:14px}' +
+      '.hd h1{font-size:20pt;margin:0 0 4px;line-height:1.15}.hd .sub{font-size:10.5pt;color:#333}' +
+      '.fields{font-family:Arial,sans-serif;font-size:9.5pt;color:#333;min-width:190px}.fields div{border-bottom:1px solid #777;margin-bottom:9px;padding-top:12px}' +
+      '.info{display:flex;justify-content:space-between;gap:10px;font-family:Arial,sans-serif;font-size:10pt;margin:0 0 18px;padding:8px 12px;border:1px solid #888;background:#f7f7f7}' +
+      '.cs{border:1px solid #999;background:#f5f5f5;padding:12px 14px;margin:22px 0 12px;font-size:10.5pt;white-space:pre-line}.cs b{display:block;margin-bottom:6px;font-family:Arial,sans-serif;font-size:9.5pt;letter-spacing:.06em;text-transform:uppercase}' +
+      '.sc{break-after:avoid;page-break-after:avoid;break-inside:avoid;page-break-inside:avoid;margin:18px 0 10px}.q{margin:0 0 20px;break-inside:avoid;page-break-inside:avoid}' +
+      '.ctx{border-left:3px solid #999;background:#f6f6f6;padding:7px 11px;margin:0 0 9px;font-size:10pt;font-style:italic;color:#333}' +
+      '.qt{display:flex;gap:12px;align-items:flex-start}.qn{font-weight:bold;min-width:26px;font-family:Arial,sans-serif}.qx{flex:1;white-space:pre-line}.qm{font-weight:bold;white-space:nowrap;font-family:Arial,sans-serif;font-size:10.5pt}' +
+      '.ans{margin:6px 0 0 38px}.ln{height:23px;border-bottom:1px solid #b5b5b5}' +
+      '.src{margin:3px 0 4px 38px;font-family:Arial,sans-serif;font-size:8.5pt;color:#777}' +
+      '.ms{margin:4px 0 0 38px;font-size:10.5pt;border-left:3px solid #1d4ed8;background:#f4f7ff;padding:8px 12px;white-space:pre-line}.ms b{font-family:Arial,sans-serif;font-size:9.5pt;color:#111}' +
+      '.ft{margin-top:22px;font-size:8.5pt;color:#777;text-align:center;font-family:Arial,sans-serif}' +
+      '@media print{html{background:#fff}.bar{display:none}.page{max-width:none;margin:0;padding:0;box-shadow:none}}';
+    var body = '<div class="bar"><span>To save as a PDF: click Print, then choose <b>Save as PDF</b> as the destination.</span><button onclick="window.print()">Print / Save as PDF</button></div><div class="page">' +
+      '<div class="hd"><div><h1>' + (isMS ? 'Mark scheme<br>' : '') + 'Topical Paper ' + tp.gPaper + '</h1><div class="sub">IGCSE Business Studies 0450<br>' + esc(paperTitle()) + '</div></div>' +
+      (isMS ? '' : '<div class="fields"><div>Name:</div><div>Date:</div><div>Score: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ ' + max + '</div></div>') + '</div>' +
+      '<div class="info"><span>Total marks: <b>' + max + '</b></span>' + (isMS ? '' : '<span>Suggested time: <b>' + mins + ' minutes</b></span>') +
+      (isMS ? '<span>' + qs.length + ' questions</span>' : '<span>Answer all questions</span>') + '</div>';
+    var lastPK = null, lastG = null, scen = groupScenarios(qs);
     qs.forEach(function (q, i) {
       if (q.paper === 2 && q.paperKey !== lastPK) {
         lastPK = q.paperKey;
         if (!isMS) body += '<div class="cs"><b>Case study</b>' + esc(clean(q.caseStudy)) + '</div>';
       }
-      var ctx = ctxFor(q);
-      body += '<div class="q">' + (ctx && !isMS ? '<div class="ctx">' + esc(ctx) + '</div>' : '') +
+      if (q.paper === 1 && gid(q) !== lastG) {
+        lastG = gid(q);
+        if (!isMS && scen[lastG]) body += '<div class="cs sc"><b>Scenario</b>' + esc(scen[lastG]) + '</div>';
+      }
+      body += '<div class="q">' +
         '<div class="qt"><span class="qn">' + (i + 1) + '</span><span class="qx">' + esc(clean(q.text)) + '</span><span class="qm">[' + q.marks + ']</span></div>';
       if (isMS) {
-        body += '<div class="src">Source: ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</div><div class="ms">' + esc(clean(q.ms)) + '</div>';
+        body += '<div class="src">Source: ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</div><div class="ms">' + fmtMS(q.ms) + '</div>';
       } else {
         body += '<div class="ans">';
         for (var l = 0; l < linesFor(q.marks); l++) body += '<div class="ln"></div>';
@@ -16550,12 +16579,12 @@ function showAuthWall() {
       }
       body += '</div>';
     });
-    body += '<div class="ft">IGCSE Mark · Not affiliated with Cambridge Assessment International Education</div>';
+    body += '<div class="ft">IGCSE Mark · Not affiliated with Cambridge Assessment International Education</div></div>';
     var w = window.open('', '_blank');
     if (!w) { alert('Your browser blocked the pop-up. Allow pop-ups for this site and try again.'); return; }
     w.document.open();
-    w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + (isMS ? 'Mark scheme' : 'Topical paper') + ' - IGCSE Mark</title><style>' + css + '</style></head><body>' + body +
-      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print()},400)}</scr' + 'ipt></body></html>');
+    w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + (isMS ? 'Mark scheme' : 'Topical paper') + ' - IGCSE Mark</title><style>' + css + '</style></head><body>' + body +
+      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print()},500)}</scr' + 'ipt></body></html>');
     w.document.close();
   };
 
