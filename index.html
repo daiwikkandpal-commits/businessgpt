@@ -16239,7 +16239,7 @@ function showAuthWall() {
             convert: function (d) {
               return d.questions.map(function (q) {
                 var txt = q.options ? q.text + '\n\n' + q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n') : q.text;
-                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: txt, marks: q.marks, options: q.options, answer: q.answer,
+                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: txt, stem: q.text, marks: q.marks, options: q.options, answer: q.answer,
                   ms: q.ms, year: Number(q.year), session: q.session, variant: q.variant, caseStudy: d.contexts[q.ctx] || '', context: '', qp: q.qp,
                   ctxLabel: !q.ctx ? '' : /_S$/.test(q.ctx) ? 'Source material' : 'Stimulus' };
               });
@@ -16295,7 +16295,7 @@ function showAuthWall() {
     if (tp.data) { tpRenderCurrent(); return; }
     document.getElementById('tpGenForm').innerHTML = '<div style="padding:30px;text-align:center;color:var(--text3);font-size:14px">Loading questions…</div>';
     var url = DATA_URL;
-    fetch(url).then(function (r) {
+    fetch(url, { cache: 'no-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).then(function (d) {
@@ -16303,7 +16303,7 @@ function showAuthWall() {
       var cfg = tpCfg(); tp.data = cfg.convert ? cfg.convert(d) : d; tpCache[tp.subj] = tp.data; tpRenderCurrent();
     })
     .catch(function (e) {
-      document.getElementById('tpGenForm').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Could not load the topical questions (' + esc(e.message) + '). Make sure topical_questions_final.json is uploaded next to index.html.</div>';
+      document.getElementById('tpGenForm').innerHTML = '<div style="padding:16px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:10px;font-size:14px;color:#f87171">Could not load the topical questions (' + esc(e.message) + '). Make sure ' + esc(url) + ' is uploaded next to index.html.</div>';
     });
   }
   window.tpSetSubject = function (s) {
@@ -16649,65 +16649,245 @@ function showAuthWall() {
   }
 
   // ═════════════════ PDF (print window) ═════════════════
-  function linesFor(m) { return m <= 2 ? 3 : m <= 4 ? 6 : m <= 6 ? 10 : m <= 8 ? 15 : 24; }
+  function linesFor(m) { return m <= 1 ? 2 : m <= 2 ? 3 : m <= 3 ? 5 : m <= 4 ? 6 : m <= 5 ? 8 : m <= 6 ? 10 : m <= 8 ? 14 : 22; }
   function fmtMS(t) {
     var s = clean(t).replace(/\s+(?=(?:Application words?|Application|Advantages|Disadvantages|Benefits|Limitations|Ways|Reasons|Methods|Factors|Effects|Points|Justification|Correct answer|Full definition|Partial definition|Partial|Alternatives|Other options|Do not award|Level \d|Valid recommendations|Valid conclusions)\b[^:\n]{0,45}:)/g, '\n');
     return esc(s).replace(/(^|\n)([A-Z][^:\n]{0,50}:)/g, '$1<b>$2</b>');
   }
+  function pTrim(x) { return String(x).trim(); }
+  // question text without the MCQ options that convert() appends to it
+  function stemOf(q) { return clean(q.stem != null ? q.stem : (q.options ? String(q.text).split(/\n\nA {2,}/)[0] : q.text)); }
+  function tableHtml(cap, head, rows) {
+    var n = Math.max(head ? head.length : 0, rows.reduce(function (m, r) { return Math.max(m, r.length); }, 0));
+    var h = '<table class="dt">' + (cap ? '<caption>' + esc(cap) + '</caption>' : '');
+    if (head) { while (head.length < n) head.unshift(''); h += '<thead><tr>' + head.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead>'; }
+    h += '<tbody>' + rows.map(function (r) { while (r.length < n) r.push(''); return '<tr>' + r.map(function (c, k) { return '<td' + (k === 0 && head && !head[0] ? ' class="rh"' : '') + '>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+    return h;
+  }
+  // plain text → paragraphs, bullet lists, fact boxes, appendix headings and real tables
+  function richText(t) {
+    var lines = clean(t).split('\n'), out = '', i = 0, para = [];
+    function flush() { if (para.length) { out += '<p>' + para.map(esc).join('<br>') + '</p>'; para = []; } }
+    while (i < lines.length) {
+      var L = lines[i].trim(), m;
+      if (!L) { flush(); i++; continue; }
+      var hm = /^\((.+\|.+)\)$/.exec(L), tm = /^(Table [\w.]+):?\s*(.+\|.+)$/.exec(L);
+      if (hm || tm || (L.indexOf(' | ') > 0 && i + 1 < lines.length && lines[i + 1].indexOf(' | ') > 0)) {
+        flush();
+        var cap = '', head = null, lead = false, rows = [];
+        if (hm) { head = hm[1].split('|').map(pTrim); i++; }
+        else if (tm) { cap = tm[1]; head = tm[2].split('|').map(pTrim); lead = true; i++; }
+        while (i < lines.length && lines[i].indexOf('|') > 0) {
+          var r = lines[i].trim().replace(/^[•\-]\s*/, ''), cells;
+          var c1 = r.indexOf(':'), p1 = r.indexOf('|');
+          if (lead && c1 > 0 && c1 < p1) cells = [r.slice(0, c1)].concat(r.slice(c1 + 1).split('|'));
+          else cells = r.split('|');
+          rows.push(cells.map(pTrim)); i++;
+        }
+        if (head && rows.length && rows[0].length > head.length) head.unshift('');
+        out += rows.length ? tableHtml(cap, head, rows) : '<p>' + esc(L) + '</p>';
+        continue;
+      }
+      if (/^•/.test(L)) {
+        flush();
+        var items = [];
+        while (i < lines.length && /^•/.test(lines[i].trim())) { items.push(lines[i].trim().replace(/^•\s*/, '')); i++; }
+        var kv = items.length >= 3 && items.every(function (x) { return /^[^:]{1,70}:\s*\S/.test(x); });
+        if (kv) out += '<table class="kv">' + items.map(function (x) { var k = x.indexOf(':'); return '<tr><td>' + esc(x.slice(0, k)) + '</td><td>' + esc(x.slice(k + 1).trim()) + '</td></tr>'; }).join('') + '</table>';
+        else out += '<ul>' + items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+        continue;
+      }
+      if ((m = /^(Appendix \d+\s*[—–-][^:]*:)\s*(.*)$/.exec(L))) { flush(); out += '<h4 class="apx">' + esc(m[1].replace(/:$/, '')) + '</h4>' + (m[2] ? '<p>' + esc(m[2]) + '</p>' : ''); i++; continue; }
+      if (/fact file \d{4}$/i.test(L) || /^Table [\w.]+/.test(L)) { flush(); out += '<h4>' + esc(L) + '</h4>'; i++; continue; }
+      para.push(L); i++;
+    }
+    flush();
+    return out;
+  }
+  // split a context into a heading + body ("Source Material: X" or a short first line)
+  function ctxParts(t) {
+    var s = clean(t).trim(), m = /^Source Material:\s*(.+)\n/i.exec(s);
+    if (m) return { title: m[1].trim(), body: s.slice(m[0].length) };
+    var nl = s.indexOf('\n');
+    if (nl > 0 && nl < 70 && !/[.:]$/.test(s.slice(0, nl).trim()) && /^\s*\n/.test(s.slice(nl + 1))) return { title: s.slice(0, nl).trim(), body: s.slice(nl + 1) };
+    return { title: '', body: s };
+  }
+  function optionsHtml(q) {
+    var opts = q.options || [], stem = stemOf(q), head = null;
+    if (opts.some(function (o) { return o.indexOf(' | ') > 0; })) {
+      var hl = stem.split('\n').filter(function (x) { return /^\(.+\|.+\)$/.test(x.trim()); }).pop();
+      if (hl) head = hl.trim().slice(1, -1).split('|').map(pTrim);
+      return '<table class="dt opt">' + (head ? '<thead><tr><th></th>' + head.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead>' : '') + '<tbody>' +
+        opts.map(function (o, k) { return '<tr><td class="ol"><span class="bub">' + 'ABCD'.charAt(k) + '</span></td>' + o.split('|').map(function (c) { return '<td>' + esc(c.trim()) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+    }
+    var short = opts.every(function (o) { return o.length <= 14; });
+    return '<div class="opts' + (short ? ' row' : '') + '">' + opts.map(function (o, k) { return '<div class="op"><span class="bub">' + 'ABCD'.charAt(k) + '</span><span>' + esc(o) + '</span></div>'; }).join('') + '</div>';
+  }
+  // stem for printing: MCQ table headers are shown on the options table instead
+  function stemHtml(q) {
+    var s = stemOf(q);
+    if (q.options && q.options.some(function (o) { return o.indexOf(' | ') > 0; })) {
+      var ls = s.split('\n'), last = -1;
+      ls.forEach(function (x, k) { if (/^\(.+\|.+\)$/.test(x.trim())) last = k; });
+      // only drop the header if no data rows follow it (i.e. it belongs to the options)
+      if (last >= 0 && !ls.slice(last + 1).some(function (x) { return x.indexOf('|') > 0; })) { ls.splice(last, 1); s = ls.join('\n'); }
+    }
+    return richText(s);
+  }
+  // consecutive questions that share a scenario / source material
+  function printGroups(qs) {
+    var scen = groupScenarios(qs), out = [], cur = null;
+    qs.forEach(function (q, i) {
+      var key = null, label = '', text = '';
+      if (q.paper === 2 && q.caseStudy) { key = 'p2|' + q.paperKey; label = q.ctxLabel || 'Case study'; text = q.caseStudy; }
+      else if (q.paper === 1 && scen[gid(q)]) { key = 'p1|' + gid(q); label = 'Scenario'; text = scen[gid(q)]; }
+      if (!cur || key === null || cur.key !== key) { cur = { key: key, label: label, text: text, items: [] }; out.push(cur); }
+      cur.items.push({ q: q, n: i + 1 });
+    });
+    return out;
+  }
   window.tpPrint = function (kind) {
     var qs = tp.paperQs; if (!qs.length) return;
-    var max = paperMax(), mins = Math.max(10, Math.round(max * (qs[0] && qs[0].options ? 1.5 : 90 / 80) / 5) * 5);
-    var isMS = kind === 'ms';
-    var css = '@page{size:A4;margin:16mm 16mm 18mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font-family:Arial,sans-serif;font-size:8.5pt;color:#777}}' +
-      '*{box-sizing:border-box}html{background:#e9ecf1}body{font-family:Georgia,"Times New Roman",serif;color:#111;font-size:12pt;line-height:1.5;margin:0}' +
-      '.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-family:Arial,sans-serif;font-size:13px;background:#1d4ed8;color:#fff;padding:10px 16px}' +
-      '.bar button{font:600 13px Arial,sans-serif;padding:7px 16px;border:0;border-radius:6px;background:#fff;color:#1d4ed8;cursor:pointer}' +
-      '.page{max-width:794px;margin:22px auto;background:#fff;padding:44px 52px;box-shadow:0 2px 14px rgba(0,0,0,.18)}' +
-      '.hd{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:2.5px solid #111;padding-bottom:12px;margin-bottom:14px}' +
-      '.hd h1{font-size:20pt;margin:0 0 4px;line-height:1.15}.hd .sub{font-size:10.5pt;color:#333}' +
-      '.fields{font-family:Arial,sans-serif;font-size:9.5pt;color:#333;min-width:190px}.fields div{border-bottom:1px solid #777;margin-bottom:9px;padding-top:12px}' +
-      '.info{display:flex;justify-content:space-between;gap:10px;font-family:Arial,sans-serif;font-size:10pt;margin:0 0 18px;padding:8px 12px;border:1px solid #888;background:#f7f7f7}' +
-      '.cs{border:1px solid #999;background:#f5f5f5;padding:12px 14px;margin:22px 0 12px;font-size:10.5pt;white-space:pre-line}.cs b{display:block;margin-bottom:6px;font-family:Arial,sans-serif;font-size:9.5pt;letter-spacing:.06em;text-transform:uppercase}' +
-      '.sc{break-after:avoid;page-break-after:avoid;break-inside:avoid;page-break-inside:avoid;margin:18px 0 10px}.q{margin:0 0 20px;break-inside:avoid;page-break-inside:avoid}' +
-      '.ctx{border-left:3px solid #999;background:#f6f6f6;padding:7px 11px;margin:0 0 9px;font-size:10pt;font-style:italic;color:#333}' +
-      '.qt{display:flex;gap:12px;align-items:flex-start}.qn{font-weight:bold;min-width:26px;font-family:Arial,sans-serif}.qx{flex:1;white-space:pre-line}.qm{font-weight:bold;white-space:nowrap;font-family:Arial,sans-serif;font-size:10.5pt}' +
-      '.ans{margin:6px 0 0 38px}.ln{height:23px;border-bottom:1px solid #b5b5b5}' +
-      '.src{margin:3px 0 4px 38px;font-family:Arial,sans-serif;font-size:8.5pt;color:#777}' +
-      '.ms{margin:4px 0 0 38px;font-size:10.5pt;border-left:3px solid #1d4ed8;background:#f4f7ff;padding:8px 12px;white-space:pre-line}.ms b{font-family:Arial,sans-serif;font-size:9.5pt;color:#111}' +
-      '.ft{margin-top:22px;font-size:8.5pt;color:#777;text-align:center;font-family:Arial,sans-serif}' +
-      '@media print{html{background:#fff}.bar{display:none}.page{max-width:none;margin:0;padding:0;box-shadow:none}}';
-    var body = '<div class="bar"><span>To save as a PDF: click Print, then choose <b>Save as PDF</b> as the destination.</span><button onclick="window.print()">Print / Save as PDF</button></div><div class="page">' +
-      '<div class="hd"><div><h1>' + (isMS ? 'Mark scheme<br>' : '') + 'Topical Paper ' + tp.gPaper + '</h1><div class="sub">' + tpCfg().name + '<br>' + esc(paperTitle()) + '</div></div>' +
-      (isMS ? '' : '<div class="fields"><div>Name:</div><div>Date:</div><div>Score: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ ' + max + '</div></div>') + '</div>' +
-      '<div class="info"><span>Total marks: <b>' + max + '</b></span>' + (isMS ? '' : '<span>Suggested time: <b>' + mins + ' minutes</b></span>') +
-      (isMS ? '<span>' + qs.length + ' questions</span>' : '<span>Answer all questions</span>') + '</div>';
-    var lastPK = null, lastG = null, scen = groupScenarios(qs);
-    qs.forEach(function (q, i) {
-      if (q.paper === 2 && q.paperKey !== lastPK) {
-        lastPK = q.paperKey;
-        if (!isMS) body += '<div class="cs"><b>' + esc(q.ctxLabel || 'Case study') + '</b>' + esc(clean(q.caseStudy)) + '</div>';
-      }
-      if (q.paper === 1 && gid(q) !== lastG) {
-        lastG = gid(q);
-        if (!isMS && scen[lastG]) body += '<div class="cs sc"><b>Scenario</b>' + esc(scen[lastG]) + '</div>';
-      }
-      body += '<div class="q">' +
-        '<div class="qt"><span class="qn">' + (i + 1) + '</span><span class="qx">' + esc(clean(q.text)) + '</span><span class="qm">[' + q.marks + ']</span></div>';
-      if (isMS) {
-        body += '<div class="src">Source: ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</div><div class="ms">' + fmtMS(q.ms) + '</div>';
-      } else {
-        body += '<div class="ans">';
-        for (var l = 0; l < (q.options ? 0 : linesFor(q.marks)); l++) body += '<div class="ln"></div>';
-        body += '</div>';
-      }
-      body += '</div>';
-    });
-    body += '<div class="ft">IGCSE Mark · Not affiliated with Cambridge Assessment International Education</div></div>';
+    var cfg = tpCfg(), isMS = kind === 'ms', isMCQ = !!(qs[0] && qs[0].options);
+    var max = paperMax(), mins = Math.max(10, Math.round(max * (isMCQ ? 1.5 : 90 / 80) / 5) * 5);
+    var subj = cfg.name.replace(/^IGCSE\s+/, ''), pl = (cfg.pLabel && cfg.pLabel[tp.gPaper]) || ('Paper ' + tp.gPaper);
+    var ptype = pl.split('·').pop().trim();
+    var docTitle = (isMS ? 'Mark scheme' : 'Question paper');
+    var runL = ('IGCSE Mark  ·  ' + subj + '  ·  Topical Paper ' + tp.gPaper).replace(/"/g, '');
+    var topics = {}; qs.forEach(function (q) { topics[q.subtopic] = (topics[q.subtopic] || 0) + 1; });
+    var topicList = Object.keys(topics).sort(function (a, b) { return String(a).localeCompare(String(b), undefined, { numeric: true }); });
+    var groups = printGroups(qs);
+
+    var css = '@page{size:A4;margin:20mm 17mm 18mm;' +
+        '@top-left{content:"' + runL + '";font:600 8pt Sora,Arial,sans-serif;color:#64748b}' +
+        '@top-right{content:"' + docTitle + '";font:600 8pt Sora,Arial,sans-serif;color:#2563EB}' +
+        '@bottom-left{content:"igcsemark.com";font:8pt Sora,Arial,sans-serif;color:#94a3b8}' +
+        '@bottom-right{content:"Page " counter(page) " of " counter(pages);font:8pt Sora,Arial,sans-serif;color:#64748b}}' +
+      '@page:first{@top-left{content:none}@top-right{content:none}}' +
+      ':root{--ink:#0F1E2E;--blue:#2563EB;--soft:#EEF4FD;--line:#CBD5E1;--mute:#64748b}' +
+      '*{box-sizing:border-box}html{background:#dfe6ef}' +
+      'body{font-family:Sora,Arial,sans-serif;color:var(--ink);font-size:10.5pt;line-height:1.55;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+      'p{margin:0 0 7px}ul{margin:4px 0 8px;padding-left:20px}li{margin:2px 0}h4{font-size:10pt;margin:10px 0 5px}' +
+      '.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-size:13px;background:var(--ink);color:#fff;padding:10px 16px}' +
+      '.bar button{font:600 13px Sora,Arial,sans-serif;padding:8px 18px;border:0;border-radius:7px;background:var(--blue);color:#fff;cursor:pointer}' +
+      '.sheet{max-width:794px;margin:22px auto;background:#fff;padding:56px 60px;box-shadow:0 4px 24px rgba(15,30,46,.18)}' +
+      /* cover */
+      '.cover{break-after:page;page-break-after:always}' +
+      '.brand{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;border-radius:12px;padding:16px 22px}' +
+      '.brand .wm{font:900 19pt Fraunces,Georgia,serif;letter-spacing:-.01em}.brand .wm span{color:#60a5fa}.brand .url{font-size:8.5pt;color:#cbd5e1}' +
+      '.kick{margin:34px 0 6px;font-size:9pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}' +
+      '.cover h1{font:900 30pt/1.1 Fraunces,Georgia,serif;margin:0 0 6px}.cover .ptype{font-size:13pt;color:var(--mute);margin-bottom:22px}' +
+      '.meta{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid var(--ink);border-radius:10px;overflow:hidden;margin-bottom:18px}' +
+      '.meta div{padding:10px 14px;border-right:1px solid var(--line)}.meta div:last-child{border-right:0}.meta small{display:block;font-size:7.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}.meta b{font-size:14pt}' +
+      '.cand{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:22px}.cand div{border-bottom:1.5px solid var(--ink);padding:18px 0 4px;font-size:8.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}' +
+      '.box{border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:16px}.box h3{margin:0 0 8px;font-size:8.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}' +
+      '.box ul{margin:0;padding-left:18px;font-size:9.5pt}' +
+      '.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{font-size:8.5pt;background:var(--soft);border:1px solid #c7d8f5;border-radius:20px;padding:3px 10px}.chip i{font-style:normal;color:var(--mute)}' +
+      '.grid{display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}' +
+      '.grid div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:4px 6px;font-size:8pt;height:40px;display:flex;flex-direction:column;justify-content:space-between}' +
+      '.grid div b{font-size:8.5pt}.grid div span{align-self:flex-end;color:var(--mute)}.grid .tot{grid-column:span 2;background:var(--soft)}' +
+      '.disc{margin-top:18px;font-size:7.5pt;color:var(--mute)}' +
+      /* groups */
+      '.gh{margin:22px 0 10px;font-size:9pt;font-weight:700;color:var(--blue);break-after:avoid;page-break-after:avoid}' +
+      '.src{border:1.5px solid var(--ink);border-radius:10px;padding:0;margin:0 0 16px;font-size:9.8pt}' +
+      '.src .sl{display:flex;justify-content:space-between;background:var(--ink);color:#fff;padding:7px 14px;font-size:8pt;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:8px 8px 0 0}' +
+      '.src .sb{padding:12px 16px 6px}.src .st{font:800 12.5pt Fraunces,Georgia,serif;margin:0 0 8px}' +
+      'table.kv{border-collapse:collapse;margin:4px 0 10px;min-width:60%;font-size:9.5pt}table.kv td{border:1px solid var(--line);padding:4px 10px}table.kv td:first-child{background:var(--soft);font-weight:600}' +
+      'table.dt{border-collapse:collapse;margin:6px 0 10px;font-size:9.5pt}table.dt caption{text-align:left;font-weight:700;padding-bottom:4px}' +
+      'table.dt th{background:var(--soft);font-weight:700;text-align:left;border:1px solid var(--line);padding:5px 10px;font-size:9pt}table.dt td{border:1px solid var(--line);padding:5px 10px}table.dt td.rh{font-weight:600}' +
+      'h4.apx{margin:12px 0 4px;padding-top:8px;border-top:1px dashed var(--line);color:var(--blue)}' +
+      /* questions */
+      '.q{margin:0 0 20px;break-inside:avoid;page-break-inside:avoid}.q.long{break-inside:auto;page-break-inside:auto}' +
+      '.qt{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start}' +
+      '.qn{font-weight:800;font-size:11pt;background:var(--ink);color:#fff;border-radius:6px;text-align:center;padding:1px 0}' +
+      '.qx p:last-child{margin-bottom:0}.qm{font-weight:700;font-size:9.5pt;white-space:nowrap;color:var(--ink);padding-top:2px}' +
+      '.body{margin-left:44px}' +
+      '.ln{height:9mm;border-bottom:1px solid #9aa9bb}' +
+      '.draw{height:78mm;border:1.5px dashed #9aa9bb;border-radius:8px;margin:8px 0 4px;position:relative}.draw span{position:absolute;top:6px;left:10px;font-size:7.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8}' +
+      '.opts{margin:8px 0 0;display:grid;gap:5px}.opts.row{grid-template-columns:repeat(4,1fr)}' +
+      '.op{display:flex;gap:10px;align-items:flex-start}.bub{flex:none;width:21px;height:21px;border:1.5px solid var(--ink);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:9pt}' +
+      'table.opt td.ol{border:0;padding:3px 8px 3px 0;background:none}table.opt th:first-child{background:none;border:0}' +
+      '.end{margin-top:26px;text-align:center;font-size:9pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}' +
+      /* mark scheme */
+      'table.ms{width:100%;border-collapse:collapse;font-size:9.5pt}table.ms thead th{background:var(--ink);color:#fff;text-align:left;padding:7px 10px;font-size:8.5pt;letter-spacing:.06em;text-transform:uppercase}' +
+      'table.ms td{border-bottom:1px solid var(--line);padding:9px 10px;vertical-align:top}table.ms tr{break-inside:avoid;page-break-inside:avoid}' +
+      'table.ms td.n{width:62px;font-weight:800;font-size:11pt}table.ms td.n small{display:block;font-weight:500;font-size:7pt;color:var(--mute);line-height:1.3;margin-top:3px}' +
+      'table.ms td.mk{width:52px;text-align:center;font-weight:800}.mq{font-size:8.5pt;color:var(--mute);font-style:italic;margin-bottom:5px}.ma{white-space:pre-line}.ma b{color:var(--blue)}' +
+      'table.ms tr.gr td{background:var(--soft);font-weight:700;font-size:8.5pt;color:var(--blue);padding:6px 10px}' +
+      '.key{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.key div{border:1px solid var(--line);border-radius:7px;padding:5px 8px;display:flex;justify-content:space-between;font-size:9.5pt}.key b{color:var(--blue)}' +
+      '@media print{html{background:#fff}.bar{display:none}.sheet{max-width:none;margin:0;padding:0;box-shadow:none}}';
+
+    // ── cover ──
+    var cover = '<div class="cover"><div class="brand"><div class="wm">IGCSE <span>Mark</span></div><div class="url">igcsemark.com</div></div>' +
+      '<div class="kick">' + esc(cfg.name) + (isMS ? ' · Mark scheme' : '') + '</div>' +
+      '<h1>Topical Paper ' + tp.gPaper + '</h1><div class="ptype">' + esc(ptype) + '</div>' +
+      '<div class="meta"><div><small>Total marks</small><b>' + max + '</b></div><div><small>Questions</small><b>' + qs.length + '</b></div><div><small>' + (isMS ? 'Topics' : 'Suggested time') + '</small><b>' + (isMS ? topicList.length : mins + ' min') + '</b></div></div>';
+    if (!isMS) {
+      cover += '<div class="cand"><div>Name</div><div>Date</div></div>' +
+        '<div class="box"><h3>Instructions</h3><ul>' +
+        (isMCQ ? '<li>Answer all questions.</li><li>For each question choose one answer, A, B, C or D, and circle it.</li><li>Each correct answer scores one mark.</li><li>You may use a calculator.</li>'
+               : '<li>Answer all questions in the spaces provided.</li><li>Read any source material or case study before answering the questions that refer to it.</li><li>The number of marks for each question is shown in brackets [ ].</li><li>You may use a calculator.</li>') +
+        '</ul></div>';
+    } else {
+      cover += '<div class="box"><h3>How to use this mark scheme</h3><ul>' +
+        (isMCQ ? '<li>One mark for each correct answer.</li><li>The answer key is below, with a full breakdown by topic on the next page.</li>'
+               : '<li>(1) means one mark for that point. Slashes (/) separate different ways of making the same point.</li><li>Accept answers that are worded differently if they clearly mean the same thing.</li><li>8-mark questions are marked with levels. Read the whole answer and pick the best-fit level.</li>') +
+        '</ul></div>';
+    }
+    cover += '<div class="box"><h3>Topics covered</h3><div class="chips">' + topicList.map(function (t) { return '<span class="chip">' + esc(t) + ' <i>×' + topics[t] + '</i></span>'; }).join('') + '</div></div>';
+    if (isMS && isMCQ) {
+      cover += '<div class="box"><h3>Answer key</h3><div class="key">' + qs.map(function (q, i) { return '<div><span>' + (i + 1) + '</span><b>' + esc(q.answer) + '</b></div>'; }).join('') + '</div></div>';
+    } else if (!isMS && !isMCQ) {
+      cover += '<div class="box"><h3>For marking</h3><div class="grid">' + qs.map(function (q, i) { return '<div><b>Q' + (i + 1) + '</b><span>/ ' + q.marks + '</span></div>'; }).join('') +
+        '<div class="tot"><b>Total</b><span>/ ' + max + '</span></div></div></div>';
+    } else if (!isMS) {
+      cover += '<div class="box" style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Score</h3><b style="font-size:14pt">______ / ' + max + '</b></div>';
+    }
+    cover += '<div class="disc">Questions are taken from Cambridge IGCSE past papers and grouped by topic. IGCSE Mark is not affiliated with Cambridge University Press &amp; Assessment.</div></div>';
+
+    // ── body ──
+    var body = '';
+    function srcBlock(g) {
+      var p = ctxParts(g.text);
+      return '<div class="src"><div class="sl"><span>' + esc(g.label) + '</span></div><div class="sb">' + (p.title ? '<div class="st">' + esc(p.title) + '</div>' : '') + richText(p.body) + '</div></div>';
+    }
+    if (!isMS) {
+      groups.forEach(function (g) {
+        if (g.key) {
+          var a = g.items[0].n, b = g.items[g.items.length - 1].n;
+          body += '<div class="gh">' + (a === b ? 'Question ' + a + ' is' : 'Questions ' + a + ' to ' + b + ' are') + ' based on the ' + esc(g.label.toLowerCase()) + ' below.</div>' + srcBlock(g);
+        }
+        g.items.forEach(function (it) {
+          var q = it.q, nl = q.options ? 0 : linesFor(q.marks);
+          body += '<div class="q' + (nl > 14 ? ' long' : '') + '"><div class="qt"><span class="qn">' + it.n + '</span><div class="qx">' + stemHtml(q) + '</div><span class="qm">[' + q.marks + ']</span></div><div class="body">' +
+            (q.options ? optionsHtml(q) : /\bdiagram\b/i.test(stemOf(q)) ? '<div class="draw"><span>Diagram</span></div>' + new Array(Math.max(2, nl - 6) + 1).join('<div class="ln"></div>') : new Array(nl + 1).join('<div class="ln"></div>')) + '</div></div>';
+        });
+      });
+      body += '<div class="end">End of paper</div>';
+    } else if (isMCQ) {
+      body += '<table class="ms"><thead><tr><th>Q</th><th>Answer</th><th>Topic</th><th>From</th></tr></thead><tbody>' +
+        qs.map(function (q, i) { var k = 'ABCD'.indexOf(q.answer); return '<tr><td class="n">' + (i + 1) + '</td><td><b style="color:#2563EB">' + esc(q.answer) + '</b>' + (k >= 0 && q.options ? '  ' + esc(q.options[k]) : '') + '</td><td>' + esc(q.subtopic) + '</td><td style="white-space:nowrap">' + q.year + ' ' + esc(q.session) + ' Q' + esc(q.qNum) + '</td></tr>'; }).join('') +
+        '</tbody></table>';
+    } else {
+      body += '<table class="ms"><thead><tr><th>Q</th><th>Answer</th><th style="text-align:center">Marks</th></tr></thead><tbody>';
+      groups.forEach(function (g) {
+        if (g.key) { var p = ctxParts(g.text); body += '<tr class="gr"><td colspan="3">' + esc(g.label) + (p.title ? ': ' + esc(p.title) : '') + '</td></tr>'; }
+        g.items.forEach(function (it) {
+          var q = it.q;
+          body += '<tr><td class="n">' + it.n + '<small>' + q.year + ' ' + esc(q.session) + '<br>' + esc(q.qNum) + '</small></td><td><div class="mq">' + esc(stemOf(q).split('\n')[0]) + '</div><div class="ma">' + fmtMS(q.ms) + '</div></td><td class="mk">' + q.marks + '</td></tr>';
+        });
+      });
+      body += '</tbody></table>';
+    }
+
+    var html = '<div class="bar"><span>To save as a PDF: click Print, then choose <b>Save as PDF</b>.</span><button onclick="window.print()">Print / Save as PDF</button></div><div class="sheet">' + cover + body + '</div>';
     var w = window.open('', '_blank');
     if (!w) { alert('Your browser blocked the pop-up. Allow pop-ups for this site and try again.'); return; }
     w.document.open();
-    w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + (isMS ? 'Mark scheme' : 'Topical paper') + ' - IGCSE Mark</title><style>' + css + '</style></head><body>' + body +
-      '<scr' + 'ipt>window.onload=function(){setTimeout(function(){window.print()},500)}</scr' + 'ipt></body></html>');
+    w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + docTitle + ' - Topical Paper ' + tp.gPaper + ' - ' + esc(subj) + '</title>' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800;9..144,900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">' +
+      '<style>' + css + '</style></head><body>' + html +
+      '<scr' + 'ipt>window.onload=function(){var go=function(){setTimeout(function(){window.print()},300)};(document.fonts&&document.fonts.ready?document.fonts.ready.then(go):go())}</scr' + 'ipt></body></html>');
     w.document.close();
   };
 
