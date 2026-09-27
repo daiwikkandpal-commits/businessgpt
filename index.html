@@ -16233,14 +16233,15 @@ function showAuthWall() {
     bus:  { url: 'topical_questions_final.json', name: 'IGCSE Business Studies 0450', marking: true, papers: [1, 2],
             pLabel: { 1: 'Paper 1 · Short answer', 2: 'Paper 2 · Case study' },
             units: {1:'Business Activity',2:'People in Business',3:'Marketing',4:'Operations Management',5:'Financial Information',6:'External Influences'} },
-    econ: { url: 'topical_econ.json', name: 'IGCSE Economics 0455', marking: false, papers: [2],
-            pLabel: { 2: 'Paper 2 · Structured questions' },
+    econ: { url: 'topical_econ.json', name: 'IGCSE Economics 0455', marking: false, papers: [1, 2],
+            pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Structured questions' },
             units: {1:'The basic economic problem',2:'The allocation of resources',3:'Microeconomic decision-makers',4:'Government and the macroeconomy',5:'Economic development',6:'International trade and globalisation'},
             convert: function (d) {
               return d.questions.map(function (q) {
-                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx, qNum: q.q, text: q.text, marks: q.marks,
+                var txt = q.options ? q.text + '\n\n' + q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n') : q.text;
+                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: txt, marks: q.marks, options: q.options, answer: q.answer,
                   ms: q.ms, year: Number(q.year), session: q.session, variant: q.variant, caseStudy: d.contexts[q.ctx] || '', context: '', qp: q.qp,
-                  ctxLabel: /_S$/.test(q.ctx) ? 'Source material' : 'Stimulus' };
+                  ctxLabel: !q.ctx ? '' : /_S$/.test(q.ctx) ? 'Source material' : 'Stimulus' };
               });
             } }
   };
@@ -16332,7 +16333,7 @@ function showAuthWall() {
   window.tpSetMode = function (m) { tp.mode = m; tpTabs(); if (tp.data) tpRenderCurrent(); };
 
   // ═════════════════ GENERATE A PAPER ═════════════════
-  function lengthOptions(paper) { return paper === 1 ? [20, 40, 60, 80] : [20, 40, 60, 80]; }
+  function lengthOptions(paper) { return tp.subj === 'econ' && paper === 1 ? [10, 20, 30, 40] : [20, 40, 60, 80]; }
 
   function tpRenderGen() {
     var d = tp.data, paper = tp.gPaper;
@@ -16370,7 +16371,9 @@ function showAuthWall() {
     lengthOptions(paper).forEach(function (m) {
       h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
     });
-    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (paper === 1
+    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (tp.subj === 'econ' && paper === 1
+      ? 'Multiple choice questions, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
+      : paper === 1
       ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
       : tp.subj === 'econ' ? 'A mix of short and long questions, like a real Paper 2. Questions that share a source or stimulus stay together, with it shown first.'
       : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
@@ -16399,8 +16402,8 @@ function showAuthWall() {
   // ── build the paper ──
   function tpBuild(paper, keys, target) {
     var econ = tp.subj === 'econ';
-    var classes = econ ? [8, 6, 5, 4, 2, 1] : paper === 1 ? [2, 4, 6] : [8, 12];
-    var shares = econ ? { 8: .3, 6: .3, 5: .06, 4: .2, 2: .12, 1: .02 } : paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
+    var classes = econ ? (paper === 1 ? [1] : [8, 6, 5, 4, 2, 1]) : paper === 1 ? [2, 4, 6] : [8, 12];
+    var shares = econ ? (paper === 1 ? { 1: 1 } : { 8: .3, 6: .3, 5: .06, 4: .2, 2: .12, 1: .02 }) : paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
     var pool = shuffle(tp.data.filter(function (q) { return q.paper === paper && keys[key(q)]; }));
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
@@ -16500,15 +16503,35 @@ function showAuthWall() {
         '<div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:28px">Q' + (i + 1) + '</span>' +
         '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</span>' +
         '<span style="font-size:11px;color:var(--text3);white-space:nowrap">[' + q.marks + ' marks]</span></div>' +
-        '<textarea id="tpans-' + i + '" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Your answer…" style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:\'Kalam\',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'rgba(59,130,246,.5)\'" onblur="this.style.borderColor=\'var(--border)\'"></textarea>' +
+        (q.options ? '<div id="tpmcq-' + i + '" style="display:flex;gap:8px;flex-wrap:wrap">' + ['A','B','C','D'].map(function (L) { return '<label style="display:flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)"><input type="radio" name="tpmcq-' + i + '" value="' + L + '"> ' + L + '</label>'; }).join('') + '</div>' : '<textarea id="tpans-' + i + '" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Your answer…" style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:\'Kalam\',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'rgba(59,130,246,.5)\'" onblur="this.style.borderColor=\'var(--border)\'"></textarea>') +
         '</div></div>';
     });
     h += '</div>' +
-      (tpCfg().marking ? '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>' : '<div style="margin-top:16px;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:13px;color:var(--text2)">Marking for Economics is coming soon. Download the mark scheme above to check your answers.</div>');
+      (tp.gPaper === 1 && qs[0] && qs[0].options ? '<button onclick="tpCheckMCQ()" style="margin-top:16px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Check answers</button>' : tpCfg().marking ? '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>' : '<div style="margin-top:16px;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:13px;color:var(--text2)">Marking for Economics is coming soon. Download the mark scheme above to check your answers.</div>');
     box.innerHTML = h;
   }
 
   // ── marking ──
+  window.tpCheckMCQ = function () {
+    var qs = tp.paperQs, right = 0, rows = '';
+    qs.forEach(function (q, i) {
+      var sel = document.querySelector('input[name="tpmcq-' + i + '"]:checked'), a = sel ? sel.value : null, ok = a === q.answer;
+      if (ok) right++;
+      var box = document.getElementById('tpmcq-' + i);
+      if (box) box.querySelectorAll('label').forEach(function (l) {
+        var v = l.querySelector('input').value;
+        l.style.borderColor = v === q.answer ? '#4ade80' : (v === a ? '#f87171' : 'var(--border)');
+        l.style.background = v === q.answer ? 'rgba(74,222,128,.12)' : (v === a ? 'rgba(248,113,113,.1)' : 'transparent');
+      });
+      rows += '<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text)">Q' + (i + 1) + ' <span style="color:var(--text3)">· ' + esc(q.subtopic) + '</span></span>' +
+        '<span style="font-weight:700;color:' + (ok ? '#4ade80' : '#f87171') + '">' + (ok ? '✓ ' + a : (a ? '✗ ' + a + ' · answer ' + q.answer : 'blank · answer ' + q.answer)) + '</span></div>';
+    });
+    var pct = Math.round(right / qs.length * 100), c = pct >= 70 ? '#4ade80' : pct >= 50 ? '#fbbf24' : '#f87171';
+    document.getElementById('tpResults').innerHTML = '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px">' +
+      '<div style="font-size:22px;font-weight:700;color:' + c + '">' + right + ' / ' + qs.length + ' <span style="font-size:14px;color:var(--text3);font-weight:500">(' + pct + '%)</span></div>' +
+      '<div style="margin-top:12px">' + rows + '</div></div>';
+    var r = document.getElementById('tpResults'); if (r && r.scrollIntoView) r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   function tpPart(q) {
     if (q.marks >= 6) return (/justify|do you think|which .* (best|most)/i.test(q.text) || /no marks for application/i.test(q.ms || '')) ? 'e' : 'd';
     if (q.marks >= 4) return 'c';
@@ -16633,7 +16656,7 @@ function showAuthWall() {
   }
   window.tpPrint = function (kind) {
     var qs = tp.paperQs; if (!qs.length) return;
-    var max = paperMax(), mins = Math.max(10, Math.round(max * 90 / 80 / 5) * 5);
+    var max = paperMax(), mins = Math.max(10, Math.round(max * (qs[0] && qs[0].options ? 1.5 : 90 / 80) / 5) * 5);
     var isMS = kind === 'ms';
     var css = '@page{size:A4;margin:16mm 16mm 18mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font-family:Arial,sans-serif;font-size:8.5pt;color:#777}}' +
       '*{box-sizing:border-box}html{background:#e9ecf1}body{font-family:Georgia,"Times New Roman",serif;color:#111;font-size:12pt;line-height:1.5;margin:0}' +
@@ -16674,7 +16697,7 @@ function showAuthWall() {
         body += '<div class="src">Source: ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</div><div class="ms">' + fmtMS(q.ms) + '</div>';
       } else {
         body += '<div class="ans">';
-        for (var l = 0; l < linesFor(q.marks); l++) body += '<div class="ln"></div>';
+        for (var l = 0; l < (q.options ? 0 : linesFor(q.marks)); l++) body += '<div class="ln"></div>';
         body += '</div>';
       }
       body += '</div>';
@@ -16748,7 +16771,7 @@ function showAuthWall() {
         '<span style="' + pill + 'background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)">' + q.marks + ' marks</span>' +
         '<span style="font-size:11px;color:var(--text3)">' + esc(q.subtopic) + '</span></div>' +
         '<div style="font-size:14px;color:var(--text);line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</div>' +
-        (tpCfg().marking ? '<div><button data-id="' + esc(q.id) + '" onclick="tpPractise(this.getAttribute(\'data-id\'))" style="padding:10px 20px;border-radius:9px;border:none;background:var(--blue-500);color:#fff;font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 2px 14px rgba(59,130,246,.25)">Practise this question →</button></div></div>' : '<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show ' + esc((q.ctxLabel || 'context').toLowerCase()) + '</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:var(--bg);border-radius:9px">' + esc(q.caseStudy) + '</div></details>' +'<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show mark scheme</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:9px">' + esc(q.ms) + '</div></details>' +'<div><a href="' + esc(q.qp || '#') + '" target="_blank" style="font-size:13px;color:var(--blue-500);font-weight:600;text-decoration:none">📄 Open original paper</a></div></div>');
+        (tpCfg().marking ? '<div><button data-id="' + esc(q.id) + '" onclick="tpPractise(this.getAttribute(\'data-id\'))" style="padding:10px 20px;border-radius:9px;border:none;background:var(--blue-500);color:#fff;font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 2px 14px rgba(59,130,246,.25)">Practise this question →</button></div></div>' : (q.caseStudy ? '<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show ' + esc((q.ctxLabel || 'context').toLowerCase()) + '</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:var(--bg);border-radius:9px">' + esc(q.caseStudy) + '</div></details>' : '') +'<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show mark scheme</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:9px">' + esc(q.ms) + '</div></details>' +'<div><a href="' + esc(q.qp || '#') + '" target="_blank" style="font-size:13px;color:var(--blue-500);font-weight:600;text-decoration:none">📄 Open original paper</a></div></div>');
     }).join('');
     document.getElementById('tpMore').style.display = list.length > tp.shown ? 'inline-block' : 'none';
   }
