@@ -16238,8 +16238,9 @@ function showAuthWall() {
             units: {1:'The basic economic problem',2:'The allocation of resources',3:'Microeconomic decision-makers',4:'Government and the macroeconomy',5:'Economic development',6:'International trade and globalisation'},
             convert: function (d) {
               return d.questions.map(function (q) {
-                var txt = q.options ? q.text + '\n\n' + q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n') : q.text;
-                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: txt, stem: q.text, marks: q.marks, options: q.options, answer: q.answer,
+                var inImg = q.options && q.options.join('') === 'ABCD';
+                var txt = q.options && !inImg ? q.text + '\n\n' + q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n') : q.text;
+                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: txt, stem: q.text, img: q.img || [], marks: q.marks, options: q.options, answer: q.answer,
                   ms: q.ms, year: Number(q.year), session: q.session, variant: q.variant, caseStudy: d.contexts[q.ctx] || '', context: '', qp: q.qp,
                   ctxLabel: !q.ctx ? '' : /_S$/.test(q.ctx) ? 'Source material' : 'Stimulus' };
               });
@@ -16257,6 +16258,11 @@ function showAuthWall() {
   function shuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function normText(t){ return String(t).toLowerCase().replace(/[^a-z0-9]/g, ''); }
   function key(q){ return q.unit + '|' + q.subtopic; }
+  function imgUrl(src){ try { return new URL(src, location.href).href; } catch (e) { return src; } }
+  function hasImgOpts(q){ return !!(q.img && q.img.length && q.options && q.stem != null); }
+  function shownText(q){ return clean(hasImgOpts(q) ? q.stem : q.text); }
+  function optsAfterImg(q){ if (!hasImgOpts(q) || q.options.join('') === 'ABCD') return ''; return '<div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-line">' + esc(q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n')) + '</div>'; }
+  function imgsHtml(q){ return (q.img || []).map(function (src) { return '<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center"><img src="' + esc(imgUrl(src)) + '" alt="Diagram for this question" loading="lazy" style="max-width:100%;max-height:420px;height:auto"></div>'; }).join(''); }
 
   // ───────── styles ─────────
   function chipStyle(active) {
@@ -16501,8 +16507,8 @@ function showAuthWall() {
       h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">' +
         '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
         '<div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:28px">Q' + (i + 1) + '</span>' +
-        '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</span>' +
-        '<span style="font-size:11px;color:var(--text3);white-space:nowrap">[' + q.marks + ' marks]</span></div>' +
+        '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(shownText(q)) + '</span>' +
+        '<span style="font-size:11px;color:var(--text3);white-space:nowrap">[' + q.marks + ' marks]</span></div>' + imgsHtml(q) + optsAfterImg(q) +
         (q.options ? '<div id="tpmcq-' + i + '" style="display:flex;gap:8px;flex-wrap:wrap">' + ['A','B','C','D'].map(function (L) { return '<label style="display:flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)"><input type="radio" name="tpmcq-' + i + '" value="' + L + '"> ' + L + '</label>'; }).join('') + '</div>' : '<textarea id="tpans-' + i + '" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Your answer…" style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:\'Kalam\',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'rgba(59,130,246,.5)\'" onblur="this.style.borderColor=\'var(--border)\'"></textarea>') +
         '</div></div>';
     });
@@ -16720,6 +16726,7 @@ function showAuthWall() {
       return '<table class="dt opt">' + (head ? '<thead><tr><th></th>' + head.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead>' : '') + '<tbody>' +
         opts.map(function (o, k) { return '<tr><td class="ol"><span class="bub">' + 'ABCD'.charAt(k) + '</span></td>' + o.split('|').map(function (c) { return '<td>' + esc(c.trim()) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
     }
+    if (opts.join('') === 'ABCD') return '<div class="opts row">' + opts.map(function (o) { return '<div class="op"><span class="bub">' + o + '</span></div>'; }).join('') + '</div>';
     var short = opts.every(function (o) { return o.length <= 14; });
     return '<div class="opts' + (short ? ' row' : '') + '">' + opts.map(function (o, k) { return '<div class="op"><span class="bub">' + 'ABCD'.charAt(k) + '</span><span>' + esc(o) + '</span></div>'; }).join('') + '</div>';
   }
@@ -16803,6 +16810,7 @@ function showAuthWall() {
       '.qx p:last-child{margin-bottom:0}.qm{font-weight:700;font-size:9.5pt;white-space:nowrap;color:var(--ink);padding-top:2px}' +
       '.body{margin-left:44px}' +
       '.ln{height:9mm;border-bottom:1px solid #9aa9bb}' +
+      '.qimg{display:block;max-width:100%;max-height:88mm;width:auto;height:auto;margin:8px 0 4px}' +
       '.draw{height:78mm;border:1.5px dashed #9aa9bb;border-radius:8px;margin:8px 0 4px;position:relative}.draw span{position:absolute;top:6px;left:10px;font-size:7.5pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8}' +
       '.opts{margin:8px 0 0;display:grid;gap:5px}.opts.row{grid-template-columns:repeat(4,1fr)}' +
       '.op{display:flex;gap:10px;align-items:flex-start}.bub{flex:none;width:21px;height:21px;border:1.5px solid var(--ink);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:9pt}' +
@@ -16859,14 +16867,14 @@ function showAuthWall() {
         }
         g.items.forEach(function (it) {
           var q = it.q, nl = q.options ? 0 : linesFor(q.marks);
-          body += '<div class="q' + (nl > 14 ? ' long' : '') + '"><div class="qt"><span class="qn">' + it.n + '</span><div class="qx">' + stemHtml(q) + '</div><span class="qm">[' + q.marks + ']</span></div><div class="body">' +
+          body += '<div class="q' + (nl > 14 ? ' long' : '') + '"><div class="qt"><span class="qn">' + it.n + '</span><div class="qx">' + stemHtml(q) + (q.img || []).map(function (src) { return '<img class="qimg" src="' + esc(imgUrl(src)) + '" alt="">'; }).join('') + '</div><span class="qm">[' + q.marks + ']</span></div><div class="body">' +
             (q.options ? optionsHtml(q) : /\bdiagram\b/i.test(stemOf(q)) ? '<div class="draw"><span>Diagram</span></div>' + new Array(Math.max(2, nl - 6) + 1).join('<div class="ln"></div>') : new Array(nl + 1).join('<div class="ln"></div>')) + '</div></div>';
         });
       });
       body += '<div class="end">End of paper</div>';
     } else if (isMCQ) {
       body += '<table class="ms"><thead><tr><th>Q</th><th>Answer</th><th>Topic</th><th>From</th></tr></thead><tbody>' +
-        qs.map(function (q, i) { var k = 'ABCD'.indexOf(q.answer); return '<tr><td class="n">' + (i + 1) + '</td><td><b style="color:#2563EB">' + esc(q.answer) + '</b>' + (k >= 0 && q.options ? '  ' + esc(q.options[k]) : '') + '</td><td>' + esc(q.subtopic) + '</td><td style="white-space:nowrap">' + q.year + ' ' + esc(q.session) + ' Q' + esc(q.qNum) + '</td></tr>'; }).join('') +
+        qs.map(function (q, i) { var k = 'ABCD'.indexOf(q.answer); return '<tr><td class="n">' + (i + 1) + '</td><td><b style="color:#2563EB">' + esc(q.answer) + '</b>' + (k >= 0 && q.options && q.options[k] !== q.answer ? '  ' + esc(q.options[k]) : '') + '</td><td>' + esc(q.subtopic) + '</td><td style="white-space:nowrap">' + q.year + ' ' + esc(q.session) + ' Q' + esc(q.qNum) + '</td></tr>'; }).join('') +
         '</tbody></table>';
     } else {
       body += '<table class="ms"><thead><tr><th>Q</th><th>Answer</th><th style="text-align:center">Marks</th></tr></thead><tbody>';
@@ -16950,7 +16958,7 @@ function showAuthWall() {
         '<span style="' + pill + 'background:rgba(0,0,0,.04);color:var(--text2);border:1px solid var(--border)">Paper ' + q.paper + ' · ' + esc(q.qNum) + '</span>' +
         '<span style="' + pill + 'background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25)">' + q.marks + ' marks</span>' +
         '<span style="font-size:11px;color:var(--text3)">' + esc(q.subtopic) + '</span></div>' +
-        '<div style="font-size:14px;color:var(--text);line-height:1.65;white-space:pre-line">' + esc(clean(q.text)) + '</div>' +
+        '<div style="font-size:14px;color:var(--text);line-height:1.65;white-space:pre-line">' + esc(shownText(q)) + '</div>' + imgsHtml(q) + optsAfterImg(q) +
         (tpCfg().marking ? '<div><button data-id="' + esc(q.id) + '" onclick="tpPractise(this.getAttribute(\'data-id\'))" style="padding:10px 20px;border-radius:9px;border:none;background:var(--blue-500);color:#fff;font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 2px 14px rgba(59,130,246,.25)">Practise this question →</button></div></div>' : (q.caseStudy ? '<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show ' + esc((q.ctxLabel || 'context').toLowerCase()) + '</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:var(--bg);border-radius:9px">' + esc(q.caseStudy) + '</div></details>' : '') +'<details><summary style="cursor:pointer;font-size:13px;color:var(--blue-500);font-weight:600">Show mark scheme</summary><div style="font-size:12.5px;color:var(--text2);line-height:1.65;white-space:pre-line;margin-top:8px;padding:12px 14px;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.2);border-radius:9px">' + esc(q.ms) + '</div></details>' +'<div><a href="' + esc(q.qp || '#') + '" target="_blank" style="font-size:13px;color:var(--blue-500);font-weight:600;text-decoration:none">📄 Open original paper</a></div></div>');
     }).join('');
     document.getElementById('tpMore').style.display = list.length > tp.shown ? 'inline-block' : 'none';
