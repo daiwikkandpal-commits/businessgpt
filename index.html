@@ -919,6 +919,7 @@ footer {
       <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navTopical" onclick="showTopical();return false" style="color:var(--text2)">Topical</a></li>
+      <li><a href="#" id="navTutor" onclick="showTutoring();return false" style="color:var(--text2);display:inline-flex;align-items:center;gap:6px">1:1 Tutoring <span style="font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:999px;background:#4ade80;color:#0f1e2e">FREE</span></a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#" id="navPricing" onclick="showPricing();return false" style="color:var(--text2)">Pricing</a></li>
       <li class="nav-cta-mobile" id="navCtaMobile">
@@ -1326,9 +1327,14 @@ footer {
       <button onclick="setPPSubject('bus')" id="pps-bus" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:600;background:var(--blue-500);color:#fff">Business 0450</button>
       <button onclick="setPPSubject('econ')" id="pps-econ" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">Economics 0455</button>
       <button onclick="setPPSubject('acc')" id="pps-acc" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">Accounting 0452</button>
+      <button onclick="setPPSubject('maths')" id="pps-maths" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">Mathematics 0580</button>
+      <button onclick="setPPSubject('phys')" id="pps-phys" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">Physics 0625</button>
+      <button onclick="setPPSubject('eng')" id="pps-eng" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">English First Language 0500</button>
+      <button onclick="setPPSubject('cs')" id="pps-cs" style="padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)">Computer Science 0478</button>
       <div style="height:1px;background:var(--border);margin:8px 0"></div>
       <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px">Year</div>
       <button onclick="filterPP('all')" id="ppf-all" style="padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;border:none;background:var(--blue-500);color:#fff;cursor:pointer;text-align:left;width:100%">All years</button>
+      <button onclick="filterPP('2026')" id="ppf-2026" style="padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">2026</button>
       <button onclick="filterPP('2025')" id="ppf-2025" style="padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">2025</button>
       <button onclick="filterPP('2024')" id="ppf-2024" style="padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">2024</button>
       <button onclick="filterPP('2023')" id="ppf-2023" style="padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;font-family:'Sora',sans-serif;border:none;background:transparent;color:var(--text2);cursor:pointer;text-align:left;width:100%">2023</button>
@@ -2619,6 +2625,22 @@ function toggleFaq(btn) {
 
 // ── Past Papers Data ────────────────────────────────
 const PAST_PAPERS = [
+  { year: '2026', sessions: [
+    { session: 'May/June',
+      p1:  ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_11.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_12.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_13.pdf'],
+      ms1: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_11.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_12.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_13.pdf'],
+      p2:  ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_21.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_22.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_qp_23.pdf'],
+      in2: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_in_21.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_in_22.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_in_23.pdf'],
+      ms2: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_21.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_22.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_s26_ms_23.pdf'],
+    },
+    { session: 'Feb/March',
+      p1:  ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_m26_qp_12.pdf'],
+      ms1: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_m26_ms_12.pdf'],
+      p2:  ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_m26_qp_22.pdf'],
+      in2: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_m26_in_22.pdf'],
+      ms2: ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2026/0450_m26_ms_22.pdf'],
+    },
+  ]},
   { year: '2025', sessions: [
     { session: 'May/June',
       p1:  ['https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_s25_qp_11.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_s25_qp_12.pdf', 'https://bestexamhelp.com/exam/cambridge-igcse/business-studies-0450/2025/0450_s25_qp_13.pdf'],
@@ -2860,22 +2882,96 @@ function buildSubjectPapers(slug, code) {
     p2:  vs.map(v => link(y, s, 'qp', '2' + v)),
     ms2: vs.map(v => link(y, s, 'ms', '2' + v))
   });
-  return ['2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].map(y => ({
+  return ['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].map(y => ({
     year: y,
     sessions: [
       { session: 'May/June',  ...set(y, 's', [1,2,3]) },
       { session: 'Oct/Nov',   ...set(y, 'w', [1,2,3]) },
       { session: 'Feb/March', ...set(y, 'm', [2]) }
-    ]
+    ].filter(x => !(y === '2026' && x.session === 'Oct/Nov'))
   }));
 }
 const ECON_PAST_PAPERS = buildSubjectPapers('economics-0455', '0455');
 const ACC_PAST_PAPERS  = buildSubjectPapers('accounting-0452', '0452');
+function buildMathsPapers() {
+  const base = 'https://bestexamhelp.com/exam/cambridge-igcse/mathematics-0580/';
+  const link = (y, s, type, v) => base + y + '/0580_' + s + String(y).slice(2) + '_' + type + '_' + v + '.pdf';
+  const labels = ['Paper 1 — Core', 'Paper 2 — Extended', 'Paper 3 — Core', 'Paper 4 — Extended'];
+  const set = (y, s, vs) => ({ papers: labels.map((label, k) => ({
+    label, rows: vs.map(v => ({ v, qp: link(y, s, 'qp', (k + 1) + '' + v), ms: (y === '2026' && s === 's' && k === 3 && v === 1) ? null : link(y, s, 'ms', (k + 1) + '' + v), extra: [] }))
+  })) });
+  return ['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].map(y => ({
+    year: y,
+    sessions: [
+      { session: 'May/June',  ...set(y, 's', [1,2,3]) },
+      { session: 'Oct/Nov',   ...set(y, 'w', [1,2,3]) },
+      { session: 'Feb/March', ...set(y, 'm', [2]) }
+    ].filter(x => !(y === '2026' && x.session === 'Oct/Nov'))
+  }));
+}
+const MATHS_PAST_PAPERS = buildMathsPapers();
+
+// Generic builder: cfg.papers(y) -> {paperNo: label}; cfg.has(y, s, type, paperNo, variant) -> bool
+function buildPapersFrom(slug, code, cfg) {
+  const base = 'https://bestexamhelp.com/exam/cambridge-igcse/' + slug + '/';
+  const link = (y, s, type, pv) => base + y + '/' + code + '_' + s + String(y).slice(2) + '_' + type + '_' + pv + '.pdf';
+  const extras = cfg.extras || [];
+  const out = [];
+  ['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].forEach(y => {
+    const sessions = [];
+    [['May/June','s',[1,2,3]],['Oct/Nov','w',[1,2,3]],['Feb/March','m',[2]]].forEach(([name, s, vs]) => {
+      if (+y === 2026 && s === 'w') return;
+      if (cfg.sessionOk && !cfg.sessionOk(+y, s)) return;
+      const labels = cfg.papers(+y);
+      const papers = Object.keys(labels).map(pn => ({
+        label: labels[pn],
+        rows: vs.filter(v => cfg.has(+y, s, 'qp', +pn, v)).map(v => ({
+          v, qp: link(y, s, 'qp', pn + v), ms: link(y, s, 'ms', pn + v),
+          extra: extras.filter(e => cfg.has(+y, s, e.type, +pn, v)).map(e => ({ label: e.label, url: link(y, s, e.type, pn + v) }))
+        }))
+      })).filter(p => p.rows.length);
+      if (papers.length) sessions.push({ session: name, papers });
+    });
+    out.push({ year: y, sessions });
+  });
+  return out;
+}
+const PHYS_PAST_PAPERS = buildPapersFrom('physics-0625', '0625', {
+  papers: y => y <= 2015
+    ? { 1: 'Paper 1 — Multiple Choice', 2: 'Paper 2 — Core Theory', 3: 'Paper 3 — Extended Theory', 5: 'Paper 5 — Practical Test', 6: 'Paper 6 — Alternative to Practical' }
+    : { 1: 'Paper 1 — Multiple Choice (Core)', 2: 'Paper 2 — Multiple Choice (Extended)', 3: 'Paper 3 — Theory (Core)', 4: 'Paper 4 — Theory (Extended)', 5: 'Paper 5 — Practical Test', 6: 'Paper 6 — Alternative to Practical' },
+  has: (y, s, t, p, v) => !(y === 2020 && s === 's' && p === 3 && v === 3)
+});
+const ENG_PAST_PAPERS = buildPapersFrom('english-first-language-0500', '0500', {
+  papers: y => y <= 2019
+    ? { 1: 'Paper 1 — Reading Passages (Core)', 2: 'Paper 2 — Reading Passages (Extended)', 3: 'Paper 3 — Directed Writing and Composition' }
+    : { 1: 'Paper 1 — Reading', 2: 'Paper 2 — Directed Writing and Composition' },
+  extras: [{ type: 'in', label: 'Insert' }],
+  has: () => true
+});
+const CS_PAST_PAPERS = buildPapersFrom('computer-science-0478', '0478', {
+  papers: y => y <= 2022
+    ? { 1: 'Paper 1 — Theory', 2: 'Paper 2 — Problem-solving and Programming' }
+    : { 1: 'Paper 1 — Computer Systems', 2: 'Paper 2 — Algorithms, Programming and Logic' },
+  sessionOk: (y, s) => !(s === 'm' && y < 2017),
+  extras: [{ type: 'pm', label: 'Pre-release' }],
+  has: (y, s, t, p, v) => {
+    if (t !== 'pm') return true;
+    if (p !== 2 || y >= 2023) return false;
+    if (y === 2022 && s === 's') return false;
+    if (y === 2016 && s === 'w' && v === 1) return false;
+    return true;
+  }
+});
 
 const PP_SUBJECTS = {
   bus:  { name: 'Business Studies', data: () => PAST_PAPERS,      code: '0450', p1: 'Paper 1 — Short Answer',    p2: 'Paper 2 — Case Study',               inserts: true,  oldYears: true  },
   econ: { name: 'Economics', data: () => ECON_PAST_PAPERS, code: '0455', p1: 'Paper 1 — Multiple Choice', p2: 'Paper 2 — Structured Questions',     inserts: false, oldYears: true  },
-  acc:  { name: 'Accounting', data: () => ACC_PAST_PAPERS,  code: '0452', p1: 'Paper 1 — Multiple Choice', p2: 'Paper 2 — Structured Written Paper', inserts: false, oldYears: true  }
+  acc:  { name: 'Accounting', data: () => ACC_PAST_PAPERS,  code: '0452', p1: 'Paper 1 — Multiple Choice', p2: 'Paper 2 — Structured Written Paper', inserts: false, oldYears: true  },
+  maths:{ name: 'Mathematics', data: () => MATHS_PAST_PAPERS, code: '0580', inserts: false, oldYears: true },
+  phys: { name: 'Physics', data: () => PHYS_PAST_PAPERS, code: '0625', inserts: false, oldYears: true },
+  eng:  { name: 'English First Language', data: () => ENG_PAST_PAPERS, code: '0500', inserts: false, oldYears: true },
+  cs:   { name: 'Computer Science', data: () => CS_PAST_PAPERS, code: '0478', inserts: false, oldYears: true }
 };
 
 let ppSubject = 'bus';
@@ -2884,7 +2980,7 @@ function setPPSubject(sub) {
   ppSubject = sub;
   const title = document.getElementById('ppTitle');
   if (title) title.innerHTML = 'Cambridge IGCSE ' + PP_SUBJECTS[sub].name + ' <span style="color:var(--blue-400)">' + PP_SUBJECTS[sub].code + '</span>';
-  ['bus','econ','acc'].forEach(k => {
+  ['bus','econ','acc','maths','phys','eng','cs'].forEach(k => {
     const btn = document.getElementById('pps-' + k);
     if (!btn) return;
     const active = k === sub;
@@ -2926,7 +3022,7 @@ let ppFilter = 'all';
 
 function filterPP(f) {
   ppFilter = f;
-  ['all','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015','mj','on','fm'].forEach(k => {
+  ['all','2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015','mj','on','fm'].forEach(k => {
     const btn = document.getElementById('ppf-' + k);
     if (!btn) return;
     const active = k === f;
@@ -2959,7 +3055,7 @@ function renderPastPapers() {
 
   // Filter
   if (ppFilter !== 'all') {
-    if (['2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].includes(ppFilter)) {
+    if (['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].includes(ppFilter)) {
       cards = cards.filter(c => c.year === ppFilter);
     } else if (ppFilter === 'mj') {
       cards = cards.filter(c => c.session.includes('June'));
@@ -2998,6 +3094,24 @@ function renderPastPapers() {
         <span style="font-size:11px;color:var(--text3)">${subj.code}</span>
       </div>
 
+      ${card.papers ? card.papers.map((pp, pi) => `
+      <div style="padding:14px 18px;${pi < card.papers.length - 1 ? 'border-bottom:1px solid var(--border)' : ''}">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px">${pp.label}</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${pp.rows.map(r => `<div style="display:flex;gap:6px;flex-wrap:wrap">
+            <a href="${r.qp}" target="_blank" style="flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;background:rgba(37,99,235,.1);border:1px solid rgba(59,130,246,.2);border-radius:9px;font-size:13px;font-weight:600;color:var(--blue-400);text-decoration:none"
+              onmouseover="this.style.background='rgba(37,99,235,.2)'" onmouseout="this.style.background='rgba(37,99,235,.1)'">
+              ${docIcon} ${pp.rows.length > 1 || card.session !== 'Feb/March' ? 'Variant ' + r.v : 'Question paper'}
+            </a>
+            ${r.extra.map(e => `<a href="${e.url}" target="_blank" style="flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:9px;font-size:13px;font-weight:600;color:#a78bfa;text-decoration:none"
+              onmouseover="this.style.background='rgba(139,92,246,.16)'" onmouseout="this.style.background='rgba(139,92,246,.08)'">📄 ${e.label}</a>`).join('')}
+            ${r.ms ? `<a href="${r.ms}" target="_blank" style="flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;gap:5px;padding:9px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;font-size:13px;font-weight:600;color:var(--text2);text-decoration:none"
+              onmouseover="this.style.background='rgba(255,255,255,.07)'" onmouseout="this.style.background='rgba(255,255,255,.03)'">
+              ${dlIcon} MS ${r.v}
+            </a>` : `<span style="flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;padding:9px;border:1px dashed var(--border);border-radius:9px;font-size:12px;color:var(--text3)">MS soon</span>`}
+          </div>`).join('')}
+        </div>
+      </div>`).join('') : `
       <!-- Paper 1 row -->
       <div style="padding:14px 18px;border-bottom:1px solid var(--border)">
         <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px">${subj.p1}</div>
@@ -3033,7 +3147,7 @@ function renderPastPapers() {
               ${dlIcon} MS ${i+1}
             </a>
           </div>`).join('')}
-      </div>
+      </div>`}
 
     </div>
   `).join('');
@@ -17022,6 +17136,369 @@ function showAuthWall() {
 
 
 
+
+
+<!-- ═════════ FREE 1:1 TUTORING ═════════ -->
+<!-- Hidden copy of the form so Netlify Forms detects it at deploy time -->
+<form name="tutoring-signup" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="tutoring-signup" />
+  <input name="bot-field" /><input name="subject" /><input name="full_name" /><input name="year_group" />
+  <input name="tier" /><input name="topic" /><input name="details" /><input name="availability" />
+  <input name="account_email" /><input name="account_id" /><input name="account_name" /><input name="submitted_at" />
+</form>
+
+<style>
+#tutorPage { --tu-ink: var(--text); --tu-soft: var(--bg3); }
+#tutorPage .tu-wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+#tutorPage .tu-hero { position: relative; overflow: hidden; border-radius: 24px; padding: 44px 40px; background: linear-gradient(135deg, #0f1e2e 0%, #13284a 55%, #1d4ed8 140%); color: #fff; }
+#tutorPage .tu-hero::before { content: ""; position: absolute; width: 380px; height: 380px; right: -90px; top: -140px; border-radius: 50%; background: radial-gradient(circle, rgba(96,165,250,.45), transparent 65%); }
+#tutorPage .tu-hero::after { content: ""; position: absolute; width: 260px; height: 260px; left: 38%; bottom: -170px; border-radius: 50%; background: radial-gradient(circle, rgba(74,222,128,.22), transparent 65%); }
+#tutorPage .tu-hero > * { position: relative; z-index: 1; }
+#tutorPage .tu-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+#tutorPage .tu-badge { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); }
+#tutorPage .tu-badge.free { background: #4ade80; color: #0f1e2e; border-color: #4ade80; }
+#tutorPage .tu-hero h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.08; font-weight: 700; letter-spacing: -.02em; max-width: 640px; }
+#tutorPage .tu-hero h1 em { font-style: normal; background: linear-gradient(90deg, #93c5fd, #4ade80); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#tutorPage .tu-hero p { margin-top: 14px; max-width: 560px; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.8); }
+#tutorPage .tu-hero-cta { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+#tutorPage .tu-btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 12px; border: none; cursor: pointer; font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform .15s, box-shadow .15s, background .15s; }
+#tutorPage .tu-btn:hover { transform: translateY(-1px); }
+#tutorPage .tu-btn.primary { background: var(--blue-500); color: #fff; box-shadow: 0 6px 24px rgba(37,99,235,.35); }
+#tutorPage .tu-btn.light { background: #fff; color: #0f1e2e; }
+#tutorPage .tu-btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3); }
+#tutorPage .tu-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+#tutorPage .tu-stats { margin-top: 30px; display: flex; gap: 28px; flex-wrap: wrap; }
+#tutorPage .tu-stats div { font-size: 12px; color: rgba(255,255,255,.65); }
+#tutorPage .tu-stats b { display: block; font-size: 22px; color: #fff; }
+
+#tutorPage .tu-section { margin-top: 44px; }
+#tutorPage .tu-kicker { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--blue-500); margin-bottom: 8px; }
+#tutorPage .tu-h2 { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
+#tutorPage .tu-sub { font-size: 14px; color: var(--text3); margin-top: 6px; line-height: 1.6; }
+
+#tutorPage .tu-steps { margin-top: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+#tutorPage .tu-step { position: relative; background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 22px 20px; transition: border-color .2s, transform .2s; }
+#tutorPage .tu-step.done { border-color: rgba(74,222,128,.5); }
+#tutorPage .tu-step.now { border-color: var(--blue-400); box-shadow: 0 8px 28px rgba(37,99,235,.12); transform: translateY(-2px); }
+#tutorPage .tu-step-n { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: var(--bg3); color: var(--blue-500); margin-bottom: 14px; }
+#tutorPage .tu-step.done .tu-step-n { background: #4ade80; color: #0f1e2e; }
+#tutorPage .tu-step.now .tu-step-n { background: var(--blue-500); color: #fff; }
+#tutorPage .tu-step h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+#tutorPage .tu-step p { font-size: 13px; color: var(--text3); line-height: 1.6; margin-top: 6px; }
+#tutorPage .tu-step .tu-tag { position: absolute; top: 18px; right: 18px; font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #16a34a; }
+
+#tutorPage .tu-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 20px; margin-top: 20px; align-items: start; }
+#tutorPage .tu-topics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+#tutorPage .tu-topic { text-align: left; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; cursor: pointer; font-family: 'Sora', sans-serif; transition: border-color .15s, transform .15s, box-shadow .15s, background .15s; }
+#tutorPage .tu-topic:hover { border-color: var(--blue-400); transform: translateY(-2px); }
+#tutorPage .tu-topic.on { border-color: var(--blue-500); background: rgba(37,99,235,.06); box-shadow: 0 6px 20px rgba(37,99,235,.15); }
+#tutorPage .tu-topic-ic { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; background: var(--bg3); color: var(--blue-500); margin-bottom: 10px; }
+#tutorPage .tu-topic.on .tu-topic-ic { background: var(--blue-500); color: #fff; }
+#tutorPage .tu-topic b { display: block; font-size: 13px; color: var(--text); }
+#tutorPage .tu-topic span { display: block; font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.45; }
+
+#tutorPage .tu-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 24px; position: sticky; top: calc(100px + var(--exam-banner-h,0px)); }
+#tutorPage .tu-field { margin-bottom: 14px; }
+#tutorPage .tu-field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+#tutorPage .tu-field label i { font-style: normal; font-weight: 500; text-transform: none; letter-spacing: 0; }
+#tutorPage .tu-input, #tutorPage .tu-select, #tutorPage .tu-text { width: 100%; padding: 12px 14px; border-radius: 11px; border: 1.5px solid var(--border); background: var(--bg3); color: var(--text); font-family: 'Sora', sans-serif; font-size: 14px; outline: none; transition: border-color .15s, background .15s; }
+#tutorPage .tu-input:focus, #tutorPage .tu-select:focus, #tutorPage .tu-text:focus { border-color: var(--blue-400); background: var(--bg2); }
+#tutorPage .tu-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+#tutorPage .tu-text { resize: vertical; min-height: 80px; line-height: 1.6; }
+#tutorPage .tu-seg { display: flex; gap: 6px; }
+#tutorPage .tu-seg button { flex: 1; padding: 10px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg3); color: var(--text2); font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+#tutorPage .tu-seg button.on { border-color: var(--blue-500); background: var(--blue-500); color: #fff; }
+#tutorPage .tu-acct { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 11px; background: rgba(74,222,128,.08); border: 1px solid rgba(74,222,128,.3); font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+#tutorPage .tu-acct b { color: var(--text); word-break: break-all; }
+#tutorPage .tu-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; flex: none; box-shadow: 0 0 0 4px rgba(74,222,128,.18); }
+#tutorPage .tu-hint { font-size: 12px; color: var(--text3); margin-top: 10px; line-height: 1.6; text-align: center; }
+#tutorPage .tu-err { display: none; font-size: 13px; color: #ef4444; margin-bottom: 12px; }
+#tutorPage .tu-topic-preview { display: none; margin-top: 8px; font-size: 12px; color: var(--text3); line-height: 1.55; padding: 10px 12px; border-radius: 10px; background: var(--bg3); }
+
+#tutorPage .tu-locked { text-align: center; padding: 10px 4px; }
+#tutorPage .tu-locked .ic { width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: rgba(37,99,235,.1); font-size: 22px; }
+#tutorPage .tu-locked h3 { font-size: 18px; font-weight: 700; color: var(--text); }
+#tutorPage .tu-locked p { font-size: 13px; color: var(--text3); line-height: 1.6; margin: 8px 0 18px; }
+#tutorPage .tu-locked .tu-btn { width: 100%; justify-content: center; margin-bottom: 8px; }
+#tutorPage .tu-locked .tu-btn.outline { background: transparent; color: var(--text2); border: 1px solid var(--border2); }
+
+#tutorPage .tu-done { text-align: center; padding: 8px 4px; }
+#tutorPage .tu-check { width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 50%; background: #4ade80; display: flex; align-items: center; justify-content: center; animation: tuPop .45s cubic-bezier(.2,1.6,.4,1); }
+#tutorPage .tu-check svg path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: tuDraw .5s .25s forwards ease; }
+#tutorPage .tu-done h3 { font-size: 20px; font-weight: 700; color: var(--text); }
+#tutorPage .tu-done p { font-size: 13px; color: var(--text3); line-height: 1.65; margin-top: 8px; }
+#tutorPage .tu-summary { margin: 16px 0; text-align: left; border-radius: 12px; background: var(--bg3); padding: 12px 14px; font-size: 13px; color: var(--text2); }
+#tutorPage .tu-summary div { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; }
+#tutorPage .tu-summary b { color: var(--text); text-align: right; }
+
+#tutorPage .tu-faq { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+#tutorPage .tu-faq details { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+#tutorPage .tu-faq summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--text); list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+#tutorPage .tu-faq summary::after { content: "+"; color: var(--blue-500); font-weight: 700; }
+#tutorPage .tu-faq details[open] summary::after { content: "–"; }
+#tutorPage .tu-faq p { font-size: 13px; color: var(--text3); line-height: 1.65; margin-top: 8px; }
+#tutorPage .tu-soon { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--text3); }
+#tutorPage .tu-soon span { padding: 5px 11px; border-radius: 999px; border: 1px dashed var(--border2); }
+
+@keyframes tuPop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes tuDraw { to { stroke-dashoffset: 0; } }
+@keyframes tuShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+#tutorPage .tu-shake { animation: tuShake .3s; }
+
+@media (max-width: 900px) {
+  #tutorPage .tu-grid { grid-template-columns: 1fr; }
+  #tutorPage .tu-card { position: static; }
+  #tutorPage .tu-topics { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  #tutorPage .tu-wrap { padding: 0 16px; }
+  #tutorPage .tu-hero { padding: 32px 22px; border-radius: 20px; }
+  #tutorPage .tu-steps, #tutorPage .tu-faq { grid-template-columns: 1fr; }
+  #tutorPage .tu-topics { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<div id="tutorPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(96px + var(--exam-banner-h,0px));padding-bottom:80px">
+  <div class="tu-wrap">
+
+    <div class="tu-hero">
+      <div class="tu-badges"><span class="tu-badge free">100% free</span><span class="tu-badge">1:1 sessions</span><span class="tu-badge">IGCSE Maths 0580</span></div>
+      <h1>Stuck on a Maths topic? Get <em>free one-to-one</em> help.</h1>
+      <p>Pick the topic you're struggling with and we'll set up a one-to-one session to work through it with you. Core or Extended, any year group.</p>
+      <div class="tu-hero-cta">
+        <button class="tu-btn light" onclick="tuScrollToForm()">Request a session</button>
+        <button class="tu-btn ghost" onclick="document.getElementById('tuHow').scrollIntoView({behavior:'smooth'})">How it works</button>
+      </div>
+      <div class="tu-stats">
+        <div><b>$0</b>always free</div>
+        <div><b>9</b>syllabus topics</div>
+        <div><b>1:1</b>just you and a tutor</div>
+      </div>
+    </div>
+
+    <div class="tu-section" id="tuHow">
+      <div class="tu-kicker">How to sign up</div>
+      <div class="tu-h2">Three quick steps</div>
+      <div class="tu-steps">
+        <div class="tu-step" id="tuStep1">
+          <span class="tu-tag" id="tuStep1Tag" style="display:none">Done</span>
+          <div class="tu-step-n">1</div>
+          <h3>Have an IGCSE Mark account</h3>
+          <p>Sign in, or make a free account if you don't have one. We use it to know who's asking.</p>
+        </div>
+        <div class="tu-step" id="tuStep2">
+          <div class="tu-step-n">2</div>
+          <h3>Pick your topic</h3>
+          <p>Enter your full name and year group, then choose the Maths topic you want help with.</p>
+        </div>
+        <div class="tu-step" id="tuStep3">
+          <div class="tu-step-n">3</div>
+          <h3>We'll email you</h3>
+          <p>We'll get in touch at your account email to sort out a time for your session.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tu-section" id="tuFormSection">
+      <div class="tu-kicker">Mathematics 0580</div>
+      <div class="tu-h2">What do you need help with?</div>
+      <div class="tu-sub">Tap a topic, or choose it from the dropdown in the form.</div>
+      <div class="tu-grid">
+        <div class="tu-topics" id="tuTopics"></div>
+        <div class="tu-card" id="tuCard"></div>
+      </div>
+    </div>
+
+    <div class="tu-section">
+      <div class="tu-kicker">Questions</div>
+      <div class="tu-h2">Good to know</div>
+      <div class="tu-faq">
+        <details><summary>Is it really free?</summary><p>Yes. There's no cost and no subscription needed. You just need a free IGCSE Mark account.</p></details>
+        <details><summary>How will you contact me?</summary><p>We'll email the address on your IGCSE Mark account, so make sure you can access it.</p></details>
+        <details><summary>Can I ask for more than one topic?</summary><p>Yes. Send one request per topic, or mention the others in the "anything else" box.</p></details>
+        <details><summary>Core or Extended?</summary><p>Both. Tell us which tier you're taking so the session matches your paper.</p></details>
+      </div>
+      <div class="tu-soon">More subjects coming soon: <span>Physics</span><span>Economics</span><span>Business</span><span>Accounting</span></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var TU_TOPICS = [
+    { k: 'Number', ic: '#', d: 'Types of numbers, sets, fractions, decimals, percentages, indices, standard form, estimation, limits of accuracy' },
+    { k: 'Algebra and Graphs', ic: 'x', d: 'Algebraic manipulation, quadratic and linear equations, inequalities, sequences, functions, graph sketching' },
+    { k: 'Coordinate Geometry', ic: 'y', d: 'Cartesian coordinates, gradients, lengths, midpoints, equations of straight lines (parallel and perpendicular)' },
+    { k: 'Geometry', ic: '△', d: 'Geometrical terms, constructions, scale drawings, similarity, symmetry, circle theorems' },
+    { k: 'Mensuration', ic: '□', d: 'Units, perimeter, area, surface area, volume, circles, arcs and sectors' },
+    { k: 'Trigonometry', ic: 'θ', d: "Pythagoras' theorem, right-angled triangles, trig ratios, 3D and non-right-angled trigonometry (Extended)" },
+    { k: 'Transformations and Vectors', ic: '→', d: 'Reflections, rotations, translations, enlargements, 2D vector geometry' },
+    { k: 'Probability', ic: 'P', d: 'Relative frequency, expected frequency, combined events, conditional probability' },
+    { k: 'Statistics', ic: 'σ', d: 'Statistical charts, averages (mean, median, mode), scatter diagrams, cumulative frequency, histograms' }
+  ];
+  var st = { user: null, topic: '', tier: '', sent: null, busy: false };
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function $(id) { return document.getElementById(id); }
+
+  function renderTopics() {
+    $('tuTopics').innerHTML = TU_TOPICS.map(function (t, i) {
+      return '<button type="button" class="tu-topic' + (st.topic === t.k ? ' on' : '') + '" onclick="tuPickTopic(' + i + ')">' +
+        '<div class="tu-topic-ic">' + esc(t.ic) + '</div><b>' + (i + 1) + '. ' + esc(t.k) + '</b><span>' + esc(t.d) + '</span></button>';
+    }).join('');
+  }
+
+  function renderSteps() {
+    var signed = !!st.user, done = !!st.sent;
+    $('tuStep1').className = 'tu-step' + (signed ? ' done' : ' now');
+    $('tuStep1Tag').style.display = signed ? '' : 'none';
+    $('tuStep2').className = 'tu-step' + (done ? ' done' : signed ? ' now' : '');
+    $('tuStep3').className = 'tu-step' + (done ? ' now' : '');
+  }
+
+  function renderCard() {
+    var c = $('tuCard');
+    if (st.sent) {
+      var s = st.sent;
+      c.innerHTML = '<div class="tu-done"><div class="tu-check"><svg width="30" height="30" viewBox="0 0 30 30"><path d="M8 15.5l5 5 9-11" stroke="#0f1e2e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+        '<h3>Request sent!</h3><p>Thanks, ' + esc(s.full_name.split(' ')[0]) + '. We\'ll email <b style="color:var(--text)">' + esc(s.account_email) + '</b> to set up your session.</p>' +
+        '<div class="tu-summary"><div><span>Topic</span><b>' + esc(s.topic) + '</b></div><div><span>Year group</span><b>' + esc(s.year_group) + '</b></div>' + (s.tier ? '<div><span>Tier</span><b>' + esc(s.tier) + '</b></div>' : '') + '</div>' +
+        '<button class="tu-btn primary" style="width:100%;justify-content:center" onclick="tuAnother()">Request another topic</button></div>';
+      return;
+    }
+    if (!st.user) {
+      c.innerHTML = '<div class="tu-locked"><div class="ic">🔒</div><h3>Sign in to request a session</h3>' +
+        '<p>You need an IGCSE Mark account first. It\'s free and takes a few seconds. Come back here after and the form will be ready.</p>' +
+        '<a class="tu-btn primary" href="auth.html?mode=signup" onclick="tuMarkReturn()">Create free account</a><a class="tu-btn outline" href="auth.html" onclick="tuMarkReturn()">I already have an account</a></div>';
+      return;
+    }
+    var u = st.user, meta = u.user_metadata || {};
+    var opts = TU_TOPICS.map(function (t) { return '<option value="' + esc(t.k) + '"' + (st.topic === t.k ? ' selected' : '') + '>' + esc(t.k) + '</option>'; }).join('');
+    var years = ['Year 9', 'Year 10', 'Year 11', 'Year 12', 'Other'].map(function (y) { return '<option>' + y + '</option>'; }).join('');
+    c.innerHTML =
+      '<div class="tu-acct"><span class="tu-dot"></span><span>Signed in as <b>' + esc(u.email) + '</b></span></div>' +
+      '<div class="tu-err" id="tuErr"></div>' +
+      '<div class="tu-field"><label for="tuName">Full name</label><input id="tuName" class="tu-input" autocomplete="name" placeholder="e.g. Aisha Khan"></div>' +
+      '<div class="tu-field"><label for="tuYear">Year group</label><select id="tuYear" class="tu-select"><option value="">Choose your year</option>' + years + '</select></div>' +
+      '<div class="tu-field"><label>Tier <i>(optional)</i></label><div class="tu-seg">' +
+        ['Core', 'Extended', 'Not sure'].map(function (t) { return '<button type="button" class="' + (st.tier === t ? 'on' : '') + '" onclick="tuTier(\'' + t + '\')">' + t + '</button>'; }).join('') + '</div></div>' +
+      '<div class="tu-field"><label for="tuTopic">Topic</label><select id="tuTopic" class="tu-select" onchange="tuSelectTopic(this.value)"><option value="">Choose a topic</option>' + opts + '</select>' +
+        '<div class="tu-topic-preview" id="tuPreview"></div></div>' +
+      '<div class="tu-field"><label for="tuDetails">Anything specific? <i>(optional)</i></label><textarea id="tuDetails" class="tu-text" maxlength="600" placeholder="e.g. I get confused with circle theorems and finding missing angles"></textarea></div>' +
+      '<div class="tu-field"><label for="tuAvail">When are you usually free? <i>(optional)</i></label><input id="tuAvail" class="tu-input" maxlength="120" placeholder="e.g. weekdays after 5pm"></div>' +
+      '<input id="tuBot" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
+      '<button class="tu-btn primary" id="tuSubmit" style="width:100%;justify-content:center" onclick="tuSubmit()">Request free session</button>' +
+      '<div class="tu-hint">We\'ll reply to your account email. No payment, ever.</div>';
+    updatePreview();
+    c.querySelectorAll('input,select,textarea').forEach(function (el) { el.addEventListener('input', function () { var e = $('tuErr'); if (e) e.style.display = 'none'; }); });
+  }
+
+  function updatePreview() {
+    var p = $('tuPreview'); if (!p) return;
+    var t = TU_TOPICS.filter(function (x) { return x.k === st.topic; })[0];
+    p.style.display = t ? 'block' : 'none';
+    if (t) p.textContent = 'Covers: ' + t.d + '.';
+  }
+
+  function render() { renderTopics(); renderSteps(); renderCard(); }
+
+  window.tuPickTopic = function (i) {
+    st.topic = TU_TOPICS[i].k; renderTopics();
+    var sel = $('tuTopic');
+    if (sel) { sel.value = st.topic; updatePreview(); }
+    if (window.innerWidth <= 900) tuScrollToForm();
+  };
+  window.tuSelectTopic = function (v) { st.topic = v; renderTopics(); updatePreview(); };
+  window.tuTier = function (t) { st.tier = st.tier === t ? '' : t; document.querySelectorAll('#tuCard .tu-seg button').forEach(function (b) { b.className = b.textContent === st.tier ? 'on' : ''; }); };
+  window.tuMarkReturn = function () { try { localStorage.setItem('tuReturn', '1'); } catch (e) {} };
+  window.tuAnother = function () { st.sent = null; st.topic = ''; render(); tuScrollToForm(); };
+  window.tuScrollToForm = function () { var el = $('tuCard'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+
+  function fail(msg, el) {
+    var e = $('tuErr'); e.textContent = msg; e.style.display = 'block';
+    if (el) { el.classList.remove('tu-shake'); void el.offsetWidth; el.classList.add('tu-shake'); el.focus(); }
+  }
+
+  window.tuSubmit = async function () {
+    if (st.busy) return;
+    var name = $('tuName').value.trim(), year = $('tuYear').value, topic = $('tuTopic').value;
+    $('tuErr').style.display = 'none';
+    if (name.length < 3 || name.indexOf(' ') < 0) return fail('Please enter your full name (first and last).', $('tuName'));
+    if (!year) return fail('Please choose your year group.', $('tuYear'));
+    if (!topic) return fail('Please choose the topic you need help with.', $('tuTopic'));
+    // re-check the account at submit time so we always know who signed up
+    var user = st.user;
+    try { var s = (await _supabase.auth.getSession()).data.session; user = s && s.user; } catch (e) {}
+    if (!user) { st.user = null; render(); return; }
+    var data = {
+      'form-name': 'tutoring-signup',
+      'bot-field': $('tuBot').value,
+      subject: 'New free tutoring request: ' + topic + ' (' + name + ')',
+      full_name: name,
+      year_group: year,
+      tier: st.tier || 'Not given',
+      topic: 'Mathematics 0580 - ' + topic,
+      details: $('tuDetails').value.trim() || '-',
+      availability: $('tuAvail').value.trim() || '-',
+      account_email: user.email || '',
+      account_id: user.id || '',
+      account_name: (user.user_metadata && user.user_metadata.full_name) || '-',
+      submitted_at: new Date().toISOString()
+    };
+    st.busy = true; var btn = $('tuSubmit'); btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      var r = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      st.sent = { full_name: name, year_group: year, tier: st.tier, topic: topic, account_email: user.email };
+      render(); tuScrollToForm();
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Request free session';
+      fail('Something went wrong sending your request. Please try again, or email igcsemark@gmail.com.');
+    }
+    st.busy = false;
+  };
+
+  async function refreshUser() {
+    try { var s = (await _supabase.auth.getSession()).data.session; st.user = s ? s.user : null; } catch (e) { st.user = null; }
+    if ($('tutorPage').style.display !== 'none') render();
+  }
+
+  window.showTutoring = function () {
+    ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage','accountPage','topicalPage'].forEach(function (id) {
+      var el = $(id); if (el) el.style.display = 'none';
+    });
+    var hero = document.querySelector('.hero'); if (hero) hero.style.display = 'none';
+    document.querySelectorAll('section:not(.hero)').forEach(function (s) { s.style.display = 'none'; });
+    var f = document.querySelector('footer'); if (f) f.style.display = 'none';
+    var page = $('tutorPage'); page.style.display = 'block';
+    page.style.animation = 'none'; page.offsetHeight; page.style.animation = 'pageSlideIn 0.25s ease';
+    resetNavLinks();
+    var nav = $('navTutor'); if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
+    window.scrollTo(0, 0);
+    document.title = 'Free 1:1 Maths Tutoring — IGCSE Mark';
+    render(); refreshUser();
+  };
+
+  // hide this page when any other page opens
+  ['showHome','showMarker','showPastPapers','showNotes','showDash','showFullPaper','showPricing','showAccountPage','showTopical'].forEach(function (n) {
+    var orig = window[n]; if (typeof orig !== 'function') return;
+    window[n] = function () { var p = $('tutorPage'); if (p) p.style.display = 'none'; return orig.apply(this, arguments); };
+  });
+  var origReset = window.resetNavLinks;
+  window.resetNavLinks = function () {
+    origReset.apply(this, arguments);
+    var nt = $('navTutor'); if (nt) { nt.style.color = 'var(--text2)'; nt.style.fontWeight = '500'; }
+  };
+  try { if (typeof _supabase !== 'undefined' && _supabase) _supabase.auth.onAuthStateChange(function () { refreshUser(); }); } catch (e) {}
+  if (/[#&?]tutoring\b/.test(location.hash + location.search)) setTimeout(window.showTutoring, 300);
+  else setTimeout(async function () {
+    var back = false; try { back = localStorage.getItem('tuReturn') === '1'; } catch (e) {}
+    if (!back) return;
+    try { var s = (await _supabase.auth.getSession()).data.session; if (s) { localStorage.removeItem('tuReturn'); window.showTutoring(); } } catch (e) {}
+  }, 600);
+})();
+</script>
 
 </body>
 </html>
