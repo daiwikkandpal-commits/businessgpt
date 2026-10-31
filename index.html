@@ -42,6 +42,7 @@ body {
   --text2:    #334155;
   --text3:    #64748b;
   --radius:   12px;
+  --exam-banner-h: 22px; /* breathing room under the taller nav (old banner removed) */
   --radius-lg: 20px;
 }
 
@@ -895,6 +896,46 @@ footer {
 .paper-dd-panel::-webkit-scrollbar { width:7px; }
 .paper-dd-panel::-webkit-scrollbar-track { background:transparent; }
 .paper-dd-panel::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+
+/* ─── NAV v2: roomier bar ─────────────────────────── */
+nav { background: rgba(240,247,255,0.86); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); box-shadow: 0 1px 0 rgba(59,130,246,0.08), 0 8px 30px rgba(15,30,46,0.04); }
+nav > .container.nav-inner { max-width: 1440px; height: 76px; gap: 28px; padding: 0 32px; }
+.nav-logo { flex-shrink: 0; }
+.nav-links { flex: 1; justify-content: center; gap: 6px; min-width: 0; }
+.nav-links a { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; padding: 10px 15px; font-size: 14.5px; font-weight: 500; border-radius: 12px; letter-spacing: -0.005em; }
+.nav-links a[style*="96, 165, 250"], .nav-links a[style*="#60a5fa"] { background: rgba(37,99,235,0.1); color: var(--blue-500) !important; }
+.nav-pill { font-size: 9.5px; font-weight: 700; letter-spacing: .07em; padding: 3px 7px; border-radius: 999px; line-height: 1; }
+.nav-pill.free { background: #4ade80; color: #0f1e2e; }
+.nav-pill.elite { background: linear-gradient(135deg, #f59e0b, #f97316); color: #fff; }
+nav .dark-toggle { flex-shrink: 0; }
+.nav-user { flex-shrink: 0; gap: 14px !important; padding-left: 18px; border-left: 1px solid rgba(59,130,246,0.15); }
+#navName { white-space: nowrap; font-weight: 600 !important; color: var(--text) !important; }
+.nav-user button { white-space: nowrap; border-radius: 10px !important; padding: 8px 16px !important; }
+.nav-cta { flex-shrink: 0; }
+[data-theme="dark"] nav { background: rgba(19,21,26,0.88); box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 30px rgba(0,0,0,0.25); }
+[data-theme="dark"] .nav-links a[style*="96, 165, 250"], [data-theme="dark"] .nav-links a[style*="#60a5fa"] { background: rgba(96,165,250,0.14); color: #93c5fd !important; }
+[data-theme="dark"] .nav-user { border-left-color: rgba(255,255,255,0.1); }
+@media (max-width: 1400px) { #navName { display: none; } .nav-links a { padding: 10px 12px; } nav > .container.nav-inner { gap: 20px; } }
+@media (max-width: 1240px) {
+  .nav-hamburger { display: flex !important; }
+  .nav-links {
+    display: none; position: absolute; top: 76px; left: 0; right: 0; flex: none;
+    flex-direction: column; align-items: stretch; gap: 4px;
+    background: var(--bg); border-bottom: 1px solid rgba(59,130,246,0.12);
+    padding: 12px 20px 18px; box-shadow: 0 16px 32px rgba(15,30,46,0.12);
+  }
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a { padding: 13px 16px; font-size: 15px; }
+  .nav-cta { display: none !important; }
+  .nav-cta-mobile { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 4px; margin-top: 4px; border-top: 1px solid var(--border); }
+  .nav-cta-mobile a { text-align: center; }
+  body.is-signed-in .nav-cta-mobile { display: none; }
+  nav > .container.nav-inner { justify-content: flex-end; }
+  .nav-user { border-left: none; padding-left: 0; order: 2; }
+  .nav-logo { margin-right: auto; order: 0; }
+  .nav-inner > div:has(#navHamburger) { order: 3; }
+}
+@media (max-width: 640px) { nav > .container.nav-inner { padding: 0 16px; height: 68px; gap: 12px; } .nav-links { top: 68px; } }
 </style>
 
 
@@ -916,10 +957,10 @@ footer {
     <ul class="nav-links" id="navLinks">
       <li><a href="#" id="navDash" onclick="showDash();return false" style="color:var(--text2)">Dashboard</a></li>
       <li><a href="#" id="navMarker" onclick="showMarker();return false" style="color:var(--text2)">Marker</a></li>
-      <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper Marking (Elite)</a></li>
+      <li><a href="#" id="navFullPaper" onclick="showFullPaper();return false" style="color:var(--text2)">Full Paper <span class="nav-pill elite">ELITE</span></a></li>
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navTopical" onclick="showTopical();return false" style="color:var(--text2)">Topical</a></li>
-      <li><a href="#" id="navTutor" onclick="showTutoring();return false" style="color:var(--text2);display:inline-flex;align-items:center;gap:6px">1:1 Tutoring <span style="font-size:9px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:999px;background:#4ade80;color:#0f1e2e">FREE</span></a></li>
+      <li><a href="#" id="navTutor" onclick="showTutoring();return false" style="color:var(--text2)">1:1 Tutoring <span class="nav-pill free">FREE</span></a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#" id="navPricing" onclick="showPricing();return false" style="color:var(--text2)">Pricing</a></li>
       <li class="nav-cta-mobile" id="navCtaMobile">
@@ -959,34 +1000,7 @@ footer {
   </div>
 </nav>
 
-<!-- GLOBAL EXAM BANNER (shown on every page) -->
-<div id="examBanner" style="position:fixed;top:64px;left:0;right:0;z-index:99;background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap">
-  <div style="display:flex;align-items:center;gap:9px">
-    <div style="width:28px;height:28px;border-radius:8px;background:rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📅</div>
-    <div>
-      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-400);line-height:1.3">Next exam series</div>
-      <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.3">Oct/Nov 2026</div>
-    </div>
-  </div>
-  <div style="width:1px;height:26px;background:var(--border)"></div>
-  <div style="display:flex;gap:22px;flex-wrap:wrap">
-    <div style="font-size:12.5px;color:var(--text2)"><span style="color:var(--text3)">Paper 1</span> · Tue, 6 Oct 2026</div>
-    <div style="font-size:12.5px;color:var(--text2)"><span style="color:var(--text3)">Paper 2</span> · Fri, 16 Oct 2026</div>
-  </div>
-</div>
-<script>
-(function(){
-  function syncExamBannerHeight(){
-    var b = document.getElementById('examBanner');
-    if(!b) return;
-    document.documentElement.style.setProperty('--exam-banner-h', b.offsetHeight + 'px');
-  }
-  window.addEventListener('resize', syncExamBannerHeight);
-  window.addEventListener('load', syncExamBannerHeight);
-  document.addEventListener('DOMContentLoaded', syncExamBannerHeight);
-  syncExamBannerHeight();
-})();
-</script>
+
 
 <!-- School prompt modal (catches every sign-in method missing a school) -->
 <div class="school-modal-overlay" id="schoolModalOverlay">
@@ -17375,7 +17389,7 @@ function showAuthWall() {
     }
     var u = st.user, meta = u.user_metadata || {};
     var opts = TU_TOPICS.map(function (t) { return '<option value="' + esc(t.k) + '"' + (st.topic === t.k ? ' selected' : '') + '>' + esc(t.k) + '</option>'; }).join('');
-    var years = ['Year 9', 'Year 10', 'Year 11', 'Year 12', 'Other'].map(function (y) { return '<option>' + y + '</option>'; }).join('');
+    var years = ['Year 9', 'Year 10', 'Year 11', 'Other'].map(function (y) { return '<option>' + y + '</option>'; }).join('');
     c.innerHTML =
       '<div class="tu-acct"><span class="tu-dot"></span><span>Signed in as <b>' + esc(u.email) + '</b></span></div>' +
       '<div class="tu-err" id="tuErr"></div>' +
@@ -17448,8 +17462,23 @@ function showAuthWall() {
     };
     st.busy = true; var btn = $('tuSubmit'); btn.disabled = true; btn.textContent = 'Sending…';
     try {
-      var r = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var ok = false;
+      try {
+        var r = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+        ok = r.ok;
+      } catch (e) {}
+      if (!ok) {
+        // fallback: email the request straight to igcsemark@gmail.com
+        var mail = {
+          _subject: data.subject, _template: 'table', _captcha: 'false', _replyto: data.account_email,
+          'Full name': data.full_name, 'Year group': data.year_group, 'Topic': data.topic, 'Tier': data.tier,
+          'Anything specific': data.details, 'Usually free': data.availability,
+          'Account email': data.account_email, 'Account ID': data.account_id, 'Account name': data.account_name, 'Submitted at': data.submitted_at
+        };
+        var r2 = await fetch('https://formsubmit.co/ajax/igcsemark@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(mail) });
+        var j = {}; try { j = await r2.json(); } catch (e) {}
+        if (!r2.ok || String(j.success) !== 'true') throw new Error(j.message || ('HTTP ' + r2.status));
+      }
       st.sent = { full_name: name, year_group: year, tier: st.tier, topic: topic, account_email: user.email };
       render(); tuScrollToForm();
     } catch (e) {
