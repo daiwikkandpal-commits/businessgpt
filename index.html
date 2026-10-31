@@ -16305,6 +16305,7 @@ function showAuthWall() {
       <button id="tpS-bus" onclick="tpSetSubject('bus')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:var(--blue-500);color:#fff">Business</button>
       <button id="tpS-econ" onclick="tpSetSubject('econ')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Economics</button>
       <button id="tpS-acc" onclick="tpSetSubject('acc')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Accounting</button>
+      <button id="tpS-maths" onclick="tpSetSubject('maths')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Maths</button>
     </div>
 
     <div id="tpBusWrap"><div style="display:flex;flex-direction:column;gap:20px">
@@ -16335,6 +16336,8 @@ function showAuthWall() {
           <button id="tpP-all" onclick="tpSetPaper('all')"></button>
           <button id="tpP-1" onclick="tpSetPaper(1)"></button>
           <button id="tpP-2" onclick="tpSetPaper(2)"></button>
+          <button id="tpP-3" onclick="tpSetPaper(3)" style="display:none"></button>
+          <button id="tpP-4" onclick="tpSetPaper(4)" style="display:none"></button>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <span id="tpCount" style="font-size:13px;color:var(--text3)"></span>
@@ -16377,6 +16380,17 @@ function showAuthWall() {
                   ms: q.ms, msImg: q.msImg || [], dataImg: q.data || [], ctxImg: c ? c.img : [], year: Number(q.year), session: q.session, variant: q.variant,
                   caseStudy: c ? c.text : '', context: '', qp: q.qp, ctxLabel: c ? 'Question ' + c.n + ' (full question)' : '' };
               });
+            } },
+    maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
+            pLabel: { 1: 'Paper 1 · Core', 2: 'Paper 2 · Extended', 3: 'Paper 3 · Core', 4: 'Paper 4 · Extended' },
+            units: {1:'Number',2:'Algebra and graphs',3:'Coordinate geometry',4:'Geometry',5:'Mensuration',6:'Trigonometry',7:'Transformations and vectors',8:'Probability',9:'Statistics'},
+            convert: function (d) {
+              return d.questions.map(function (q) {
+                var c = q.ctx ? d.contexts[q.ctx] : null;
+                return { id: q.id, paper: q.paper, unit: q.unit, subtopic: q.subtopic, paperKey: q.ctx || q.id, qNum: q.q, text: '', stem: '', raw: q.text, img: q.img || [], bigImg: true, marks: q.marks,
+                  ms: q.ms, msImg: q.msImg || [], dataImg: [], ctxImg: c ? c.img : [], year: Number(q.year), session: q.session, variant: q.variant,
+                  caseStudy: c ? 'Question ' + c.n : '', context: '', qp: q.qp, ctxLabel: c ? 'Question ' + c.n + ' (full question)' : '' };
+              });
             } }
   };
   var DATA_URL = TP_SUBJ.bus.url, UNIT_NAMES = TP_SUBJ.bus.units, tpCache = {};
@@ -16397,7 +16411,7 @@ function showAuthWall() {
   function optsAfterImg(q){ if (!hasImgOpts(q) || q.options.join('') === 'ABCD') return ''; return '<div style="font-size:14px;color:var(--text);line-height:1.75;white-space:pre-line">' + esc(q.options.map(function (o, k) { return 'ABCD'.charAt(k) + '   ' + o; }).join('\n')) + '</div>'; }
   function bigImgs(arr){ return (arr || []).map(function (src) { return '<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;margin-top:8px"><img src="' + esc(imgUrl(src)) + '" alt="" loading="lazy" style="max-width:100%;height:auto"></div>'; }).join(''); }
   function ctxHtml(q){ return q.ctxImg && q.ctxImg.length ? bigImgs(q.ctxImg) : '<div style="font-size:13px;color:var(--text2);line-height:1.7;margin-top:12px;white-space:pre-line">' + esc(clean(q.caseStudy)) + '</div>'; }
-  function imgsHtml(q){ return (q.img || []).map(function (src) { return '<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center"><img src="' + esc(imgUrl(src)) + '" alt="Diagram for this question" loading="lazy" style="max-width:100%;max-height:420px;height:auto"></div>'; }).join(''); }
+  function imgsHtml(q){ return (q.img || []).map(function (src) { return '<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center"><img src="' + esc(imgUrl(src)) + '" alt="Diagram for this question" loading="lazy" style="max-width:100%;' + (q.bigImg ? '' : 'max-height:420px;') + 'height:auto"></div>'; }).join(''); }
 
   // ───────── styles ─────────
   function chipStyle(active) {
@@ -16453,13 +16467,13 @@ function showAuthWall() {
     DATA_URL = cfg.url; UNIT_NAMES = cfg.units; tp.data = tpCache[s] || null;
     tp.unit = null; tp.sub = 'all'; tp.paper = 'all'; tp.shown = 10; tp.list = []; tp.shuffled = false;
     tp.gPaper = cfg.papers[0]; tp.gSel = {}; tp.paperQs = [];
-    ['bus', 'econ', 'acc'].forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) b.style.cssText = segStyle(k === s); });
+    ['bus', 'econ', 'acc', 'maths'].forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) b.style.cssText = segStyle(k === s); });
     var d = document.getElementById('tpDesc');
     if (d) d.textContent = s === 'bus' ? d.getAttribute('data-bus')
-      : 'Pick the topics you want. We build a paper from real ' + (s === 'acc' ? 'Accounting' : 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + (s === 'acc' ? 'Accounting' : 'Economics') + ' is coming soon.';
+      : 'Pick the topics you want. We build a paper from real ' + ({ acc: 'Accounting', maths: 'Maths' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + ({ acc: 'Accounting', maths: 'Maths' }[s] || 'Economics') + ' is coming soon.';
     var p = document.getElementById('tpPaper'); if (p) p.innerHTML = '';
     var r = document.getElementById('tpResults'); if (r) r.innerHTML = '';
-    var pb = document.getElementById('tpP-1'); if (pb) pb.style.display = cfg.papers.indexOf(1) < 0 ? 'none' : '';
+    [1, 2, 3, 4].forEach(function (n) { var pb = document.getElementById('tpP-' + n); if (pb) pb.style.display = cfg.papers.indexOf(n) < 0 ? 'none' : ''; });
     tpLoad();
   };
   function tpRenderCurrent() { if (tp.mode === 'gen') tpRenderGen(); else tpRender(); }
@@ -16474,7 +16488,7 @@ function showAuthWall() {
   window.tpSetMode = function (m) { tp.mode = m; tpTabs(); if (tp.data) tpRenderCurrent(); };
 
   // ═════════════════ GENERATE A PAPER ═════════════════
-  function lengthOptions(paper) { return tp.subj !== 'bus' && paper === 1 ? [10, 20, 30, 40] : [20, 40, 60, 80]; }
+  function lengthOptions(paper) { return (tp.subj === 'econ' || tp.subj === 'acc') && paper === 1 ? [10, 20, 30, 40] : [20, 40, 60, 80]; }
 
   function tpRenderGen() {
     var d = tp.data, paper = tp.gPaper;
@@ -16512,10 +16526,11 @@ function showAuthWall() {
     lengthOptions(paper).forEach(function (m) {
       h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
     });
-    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (tp.subj !== 'bus' && paper === 1
+    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + ((tp.subj === 'econ' || tp.subj === 'acc') && paper === 1
       ? 'Multiple choice questions, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
       : paper === 1
       ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
+      : tp.subj === 'maths' ? 'Real Paper ' + paper + ' questions on your topics, with the diagrams and grids from the paper. Parts of the same question stay together.'
       : tp.subj === 'acc' ? 'Structured questions from real Paper 2s. Parts from the same question stay together, with the full question shown first.'
       : tp.subj === 'econ' ? 'A mix of short and long questions, like a real Paper 2. Questions that share a source or stimulus stay together, with it shown first.'
       : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
@@ -16546,8 +16561,8 @@ function showAuthWall() {
     var econ = tp.subj !== 'bus';
     var classes = econ ? (paper === 1 ? [1] : [8, 6, 5, 4, 2, 1]) : paper === 1 ? [2, 4, 6] : [8, 12];
     var shares = econ ? (paper === 1 ? { 1: 1 } : { 8: .3, 6: .3, 5: .06, 4: .2, 2: .12, 1: .02 }) : paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
-    if (tp.subj === 'acc' && paper === 2) {
-      var mk = {}, tot = 0; tp.data.forEach(function (q) { if (q.paper === 2 && q.marks > 0) { mk[q.marks] = (mk[q.marks] || 0) + q.marks; tot += q.marks; } });
+    if ((tp.subj === 'acc' && paper === 2) || tp.subj === 'maths') {
+      var mk = {}, tot = 0; tp.data.forEach(function (q) { if (q.paper === paper && q.marks > 0) { mk[q.marks] = (mk[q.marks] || 0) + q.marks; tot += q.marks; } });
       classes = Object.keys(mk).map(Number).sort(function (a, b) { return b - a; }); shares = {};
       classes.forEach(function (c) { shares[c] = mk[c] / tot; });
     }
@@ -16555,7 +16570,7 @@ function showAuthWall() {
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
-      var dk = normText(q.text) + '|' + q.marks + (tp.subj === 'acc' && paper === 2 ? '|' + q.paperKey : '');
+      var dk = normText(q.text) + '|' + q.marks + (tp.subj === 'acc' && paper === 2 ? '|' + q.paperKey : tp.subj === 'maths' ? '|' + q.id : '');
       if (seen[dk] || !buckets[q.marks]) return; seen[dk] = 1;
       var sk = key(q); (buckets[q.marks][sk] = buckets[q.marks][sk] || []).push(q);
     });
@@ -16653,7 +16668,7 @@ function showAuthWall() {
         '</div></div>';
     });
     h += '</div>' +
-      (tp.gPaper === 1 && qs[0] && qs[0].options ? '<button onclick="tpCheckMCQ()" style="margin-top:16px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Check answers</button>' : tpCfg().marking ? '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>' : '<div style="margin-top:16px;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:13px;color:var(--text2)">Marking for ' + (tp.subj === 'acc' ? 'Accounting' : 'Economics') + ' is coming soon. Download the mark scheme above to check your answers.</div>');
+      (tp.gPaper === 1 && qs[0] && qs[0].options ? '<button onclick="tpCheckMCQ()" style="margin-top:16px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Check answers</button>' : tpCfg().marking ? '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>' : '<div style="margin-top:16px;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:13px;color:var(--text2)">Marking for ' + ({ acc: 'Accounting', maths: 'Maths' }[tp.subj] || 'Economics') + ' is coming soon. Download the mark scheme above to check your answers.</div>');
     box.innerHTML = h;
   }
 
@@ -17074,10 +17089,14 @@ function showAuthWall() {
     document.getElementById('tpSubs').innerHTML = sh;
     subWrap.style.display = 'block'; ctrls.style.display = 'flex';
     var pool = inUnit.filter(function (q) { return tp.sub === 'all' || q.subtopic === tp.sub; });
-    var n1 = pool.filter(function (q) { return q.paper === 1; }).length, n2 = pool.filter(function (q) { return q.paper === 2; }).length;
-    var pa = document.getElementById('tpP-all'), p1 = document.getElementById('tpP-1'), p2 = document.getElementById('tpP-2');
-    pa.textContent = 'Both (' + pool.length + ')'; p1.textContent = 'Paper 1 (' + n1 + ')'; p2.textContent = 'Paper 2 (' + n2 + ')';
-    pa.style.cssText = paperBtnStyle(tp.paper === 'all'); p1.style.cssText = paperBtnStyle(tp.paper === 1); p2.style.cssText = paperBtnStyle(tp.paper === 2);
+    var pa = document.getElementById('tpP-all'), pps = tpCfg().papers;
+    pa.textContent = (pps.length > 2 ? 'All' : 'Both') + ' (' + pool.length + ')'; pa.style.cssText = paperBtnStyle(tp.paper === 'all');
+    [1, 2, 3, 4].forEach(function (n) {
+      var b = document.getElementById('tpP-' + n); if (!b) return;
+      if (pps.indexOf(n) < 0) { b.style.display = 'none'; return; }
+      b.textContent = 'Paper ' + n + ' (' + pool.filter(function (q) { return q.paper === n; }).length + ')';
+      b.style.cssText = paperBtnStyle(tp.paper === n);
+    });
     tp.list = pool.filter(function (q) { return tp.paper === 'all' || q.paper === tp.paper; });
     if (!tp.shuffled) {
       var so = { 'Oct/Nov': 0, 'May/Jun': 1, 'Feb/Mar': 2 };
