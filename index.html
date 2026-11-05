@@ -17659,6 +17659,19 @@ function showAuthWall() {
 #clockPage.zen:hover .ck-ctrl{opacity:1}
 #clockPage.zen .fc{--h:min(30vw,62vh)}
 #clockPage.zen .ck-unit{max-width:none}
+#clockPage .ck-music{width:min(760px,100%);margin-top:30px;background:#0f1012;border:1px solid #1e2024;border-radius:16px;padding:16px 18px;display:none}
+#clockPage .ck-music.open{display:block}
+#clockPage .ck-mh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font:600 13px 'Sora',sans-serif;color:#fff}
+#clockPage .ck-mh span{display:flex;align-items:center;gap:8px}
+#clockPage .ck-mlink{display:flex;gap:8px;margin-top:10px}
+#clockPage .ck-mlink input{flex:1;min-width:0;background:#121316;border:1px solid #26282d;color:#fff;border-radius:9px;padding:9px 12px;font:500 13px 'Sora',sans-serif}
+#clockPage .ck-mlink input:focus{outline:none;border-color:#1db954}
+#clockPage .ck-music iframe{width:100%;height:152px;border:0;border-radius:12px;margin-top:12px;background:#121316}
+#clockPage .ck-merr{color:#f87171;font:500 12px 'Sora',sans-serif;margin-top:6px;min-height:0}
+#clockPage .ck-ib.on{color:#1db954;border-color:rgba(29,185,84,.45)}
+#clockPage .ck-sync{grid-column:1/-1;font:500 12px 'Sora',sans-serif;color:#6f727a;text-align:center;margin-top:-2px}
+#clockPage .ck-sync a{color:#60a5fa;text-decoration:none;font-weight:600}
+#clockPage.zen .ck-music{display:none!important}
 @media(max-width:640px){
   #clockPage .ck-top{justify-content:center}
   #clockPage .ck-stats{grid-template-columns:1fr 1fr}
@@ -17676,6 +17689,7 @@ function showAuthWall() {
         <button data-m="pomo" onclick="ckMode('pomo')">Pomodoro</button>
       </div>
       <div class="ck-icons">
+        <button class="ck-ib" id="ckMusicBtn" onclick="ckMusic()" title="Music"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></button>
         <button class="ck-ib" id="ckSound" onclick="ckToggleSound()" title="Sound on/off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
         <button class="ck-ib" onclick="ckZen()" title="Focus mode (F)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
       </div>
@@ -17698,10 +17712,20 @@ function showAuthWall() {
       <button class="ck-sec" id="ckSkip" onclick="ckSkip()" style="display:none">Skip</button>
     </div>
 
+    <div class="ck-music" id="ckMusicBox">
+      <div class="ck-mh"><span><svg width="18" height="18" viewBox="0 0 24 24" fill="#1db954"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.85-1.74-6.43-2.13-10.66-1.17a.75.75 0 1 1-.33-1.46c4.62-1.06 8.6-.6 11.74 1.33.35.21.46.67.25 1.05zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.26-2-8.23-2.59-12.09-1.42a.94.94 0 1 1-.54-1.8c4.4-1.33 9.88-.68 13.6 1.62.44.27.58.85.32 1.29zm.13-3.4C15.2 8.3 8.78 8.08 5.06 9.21a1.13 1.13 0 1 1-.65-2.16c4.27-1.3 11.37-1.05 15.85 1.61a1.13 1.13 0 0 1-1.16 1.94z"/></svg>Study music</span>
+        <span style="font-weight:500;color:#6f727a;font-size:12px">Log in to Spotify in this browser for full songs</span></div>
+      <div class="ck-chips" id="ckPresets" style="justify-content:flex-start"></div>
+      <div class="ck-mlink"><input id="ckLink" placeholder="Or paste your own Spotify playlist, album or song link"><button class="ck-sec" style="padding:9px 16px" onclick="ckUseLink()">Play</button></div>
+      <div class="ck-merr" id="ckMErr"></div>
+      <div id="ckPlayer"></div>
+    </div>
+
     <div class="ck-stats">
       <div class="ck-stat"><small>Studied today</small><div id="ckToday">0m</div></div>
       <div class="ck-stat"><small>Sessions today</small><div id="ckSess">0</div></div>
       <div class="ck-stat"><small>Last 7 days</small><div class="ck-week" id="ckWeek"></div></div>
+      <div class="ck-sync" id="ckSync"></div>
     </div>
     <div class="ck-hint"><kbd>Space</kbd> start / pause &nbsp;·&nbsp; <kbd>R</kbd> reset &nbsp;·&nbsp; <kbd>F</kbd> focus mode &nbsp;·&nbsp; <kbd>Esc</kbd> exit</div>
   </div>
@@ -17766,8 +17790,81 @@ function showAuthWall() {
 
   // ---------- stats ----------
   function dayKey(d) { d = d || new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
-  function logTime(sec) { var log = LS.get('ck_log', {}); log[dayKey()] = (log[dayKey()] || 0) + sec; LS.set('ck_log', log); stats(); }
-  function addSession() { var s = LS.get('ck_sess', {}); s[dayKey()] = (s[dayKey()] || 0) + 1; LS.set('ck_sess', s); stats(); }
+  function logTime(sec) { var log = LS.get('ck_log', {}); log[dayKey()] = (log[dayKey()] || 0) + sec; LS.set('ck_log', log); stats(); queuePush(); }
+  function addSession() { var s = LS.get('ck_sess', {}); s[dayKey()] = (s[dayKey()] || 0) + 1; LS.set('ck_sess', s); stats(); queuePush(true); }
+
+  // ---------- account sync (Supabase table: study_log) ----------
+  var sync = { uid: null, ok: false, timer: null, dirty: {} };
+  function sb() { try { return typeof _supabase !== 'undefined' && _supabase ? _supabase : null; } catch (e) { return null; } }
+  function syncLine() {
+    var el = $('ckSync'); if (!el) return;
+    el.innerHTML = sync.uid ? (sync.ok ? 'Saved to your account, so it shows up on any device you sign in on.' : 'Saved on this device.')
+      : 'Saved on this device. <a href="auth.html">Sign in</a> to keep it across devices.';
+  }
+  async function pull() {
+    var c = sb(); if (!c) return syncLine();
+    try { var se = (await c.auth.getSession()).data.session; sync.uid = se ? se.user.id : null; } catch (e) { sync.uid = null; }
+    if (!sync.uid) { sync.ok = false; return syncLine(); }
+    try {
+      var since = new Date(); since.setDate(since.getDate() - 60);
+      var r = await c.from('study_log').select('day,seconds,sessions').eq('user_id', sync.uid).gte('day', dayKey(since));
+      if (r.error) throw r.error;
+      var log = LS.get('ck_log', {}), ss = LS.get('ck_sess', {});
+      (r.data || []).forEach(function (row) {
+        log[row.day] = Math.max(log[row.day] || 0, row.seconds || 0);
+        ss[row.day] = Math.max(ss[row.day] || 0, row.sessions || 0);
+        if ((log[row.day] || 0) > (row.seconds || 0) || (ss[row.day] || 0) > (row.sessions || 0)) sync.dirty[row.day] = 1;
+      });
+      // local days the account has not seen yet
+      var have = {}; (r.data || []).forEach(function (row) { have[row.day] = 1; });
+      Object.keys(log).forEach(function (d) { if (!have[d] && d >= dayKey(since)) sync.dirty[d] = 1; });
+      LS.set('ck_log', log); LS.set('ck_sess', ss); sync.ok = true; stats(); push();
+    } catch (e) { sync.ok = false; }
+    syncLine();
+  }
+  function queuePush(now) { sync.dirty[dayKey()] = 1; if (!sync.uid) return; clearTimeout(sync.timer); sync.timer = setTimeout(push, now ? 300 : 20000); }
+  async function push() {
+    var c = sb(); if (!c || !sync.uid) return;
+    var days = Object.keys(sync.dirty); if (!days.length) return;
+    var log = LS.get('ck_log', {}), ss = LS.get('ck_sess', {});
+    var rows = days.map(function (d) { return { user_id: sync.uid, day: d, seconds: log[d] || 0, sessions: ss[d] || 0, updated_at: new Date().toISOString() }; });
+    sync.dirty = {};
+    try { var r = await c.from('study_log').upsert(rows, { onConflict: 'user_id,day' }); if (r.error) throw r.error; sync.ok = true; }
+    catch (e) { days.forEach(function (d) { sync.dirty[d] = 1; }); sync.ok = false; }
+    syncLine();
+  }
+  window.addEventListener('pagehide', function () { push(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) push(); });
+  try { var c0 = sb(); if (c0) c0.auth.onAuthStateChange(function () { setTimeout(pull, 50); }); } catch (e) {}
+
+  // ---------- Spotify ----------
+  var MUSIC = [
+    ['Lofi beats', 'playlist/37i9dQZF1DWWQRwui0ExPn'],
+    ['Deep Focus', 'playlist/37i9dQZF1DWZeKCadgRdKQ'],
+    ['Peaceful Piano', 'playlist/37i9dQZF1DX4sWSpwq3LiO']
+  ];
+  var music = { src: LS.get('ck_music', MUSIC[0][1]), open: LS.get('ck_music_open', false), loaded: false };
+  function embed(src) { return 'https://open.spotify.com/embed/' + src + '?utm_source=generator&theme=0'; }
+  function renderMusic() {
+    $('ckMusicBox').classList.toggle('open', music.open);
+    $('ckMusicBtn').classList.toggle('on', music.open);
+    $('ckPresets').innerHTML = MUSIC.map(function (m) {
+      return '<button class="' + (music.src === m[1] ? 'on' : '') + '" onclick="ckPlay(\'' + m[1] + '\')">' + m[0] + '</button>';
+    }).join('');
+    if (music.open && !music.loaded) { $('ckPlayer').innerHTML = '<iframe src="' + embed(music.src) + '" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'; music.loaded = music.src; }
+  }
+  window.ckMusic = function () { music.open = !music.open; LS.set('ck_music_open', music.open); renderMusic(); };
+  window.ckPlay = function (src) {
+    music.src = src; LS.set('ck_music', src); $('ckMErr').textContent = '';
+    $('ckPlayer').innerHTML = '<iframe src="' + embed(src) + '" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>';
+    music.loaded = src; renderMusic();
+  };
+  window.ckUseLink = function () {
+    var v = ($('ckLink').value || '').trim();
+    var m = /open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?(playlist|album|track|artist|episode|show)\/([A-Za-z0-9]{10,})/.exec(v) || /^spotify:(playlist|album|track|artist|episode|show):([A-Za-z0-9]{10,})$/.exec(v);
+    if (!m) { $('ckMErr').textContent = 'That doesn\u2019t look like a Spotify link. In Spotify, tap Share \u2192 Copy link, then paste it here.'; return; }
+    $('ckLink').value = ''; ckPlay(m[1] + '/' + m[2]);
+  };
   function fmt(sec) { var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60); return h ? h + 'h ' + m + 'm' : m + 'm'; }
   function stats() {
     var log = LS.get('ck_log', {}), ss = LS.get('ck_sess', {});
@@ -17800,7 +17897,7 @@ function showAuthWall() {
   function setRunning(on) {
     if (on === st.running) return;
     if (on) { st.startAt = Date.now(); st.running = true; st.tick = setInterval(display, 200); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
-    else { st.base = elapsed(); st.running = false; clearInterval(st.tick); document.title = 'Study Clock — IGCSE Mark'; }
+    else { st.base = elapsed(); st.running = false; clearInterval(st.tick); document.title = 'Study Clock — IGCSE Mark'; if (sync.uid) { clearTimeout(sync.timer); push(); } }
     ui();
   }
   window.ckToggle = function () {
@@ -17882,7 +17979,7 @@ function showAuthWall() {
 
   document.addEventListener('keydown', function (e) {
     var pg = $('clockPage'); if (!pg || pg.style.display === 'none') return;
-    if (/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) { if (e.key === 'Enter' && e.target.id && e.target.id.indexOf('ckC') === 0) ckCustom(); return; }
+    if (/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) { if (e.key === 'Enter' && e.target.id === 'ckLink') ckUseLink(); else if (e.key === 'Enter' && e.target.id && e.target.id.indexOf('ckC') === 0) ckCustom(); return; }
     if (e.code === 'Space') { e.preventDefault(); ckToggle(); }
     else if (e.key === 'r' || e.key === 'R') ckReset();
     else if (e.key === 'f' || e.key === 'F') ckZen();
@@ -17904,7 +18001,7 @@ function showAuthWall() {
     var nav = $('navClock'); if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
     window.scrollTo(0, 0);
     document.title = 'Study Clock — IGCSE Mark';
-    ui(); display(); stats();
+    ui(); display(); stats(); renderMusic(); pull();
   };
   ['showHome','showMarker','showPastPapers','showNotes','showDash','showFullPaper','showPricing','showAccountPage','showTopical','showTutoring'].forEach(function (n) {
     var orig = window[n]; if (typeof orig !== 'function') return;
@@ -17915,7 +18012,7 @@ function showAuthWall() {
     origReset.apply(this, arguments);
     var n = $('navClock'); if (n) { n.style.color = 'var(--text2)'; n.style.fontWeight = '500'; }
   };
-  ui(); display(); stats();
+  ui(); display(); stats(); syncLine();
   if (/[#&?]clock\b/.test(location.hash + location.search)) setTimeout(window.showClock, 300);
 })();
 </script>
