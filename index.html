@@ -961,6 +961,7 @@ nav .dark-toggle { flex-shrink: 0; }
       <li><a href="#" id="navPapers" onclick="showPastPapers();return false" style="color:var(--text2)">Past Papers</a></li>
       <li><a href="#" id="navTopical" onclick="showTopical();return false" style="color:var(--text2)">Topical</a></li>
       <li><a href="#" id="navTutor" onclick="showTutoring();return false" style="color:var(--text2)">1:1 Tutoring <span class="nav-pill free">FREE</span></a></li>
+      <li><a href="#" id="navClock" onclick="showClock();return false" style="color:var(--text2)">Study Clock</a></li>
       <li><a href="#" id="navNotes" onclick="showNotes();return false" style="color:var(--text2)">Notes</a></li>
       <li><a href="#" id="navPricing" onclick="showPricing();return false" style="color:var(--text2)">Pricing</a></li>
       <li class="nav-cta-mobile" id="navCtaMobile">
@@ -17581,6 +17582,341 @@ function showAuthWall() {
     if (!back) return;
     try { var s = (await _supabase.auth.getSession()).data.session; if (s) { localStorage.removeItem('tuReturn'); window.showTutoring(); } } catch (e) {}
   }, 600);
+})();
+</script>
+
+<!-- ===================== STUDY CLOCK ===================== -->
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+#clockPage{display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(88px + var(--exam-banner-h,0px));padding-bottom:60px;background:#060708;color:#e8e8ea}
+#clockPage *{box-sizing:border-box}
+#clockPage .ck-wrap{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;align-items:center}
+#clockPage .ck-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 28px}
+#clockPage .ck-seg{display:inline-flex;background:#141518;border:1px solid #24262b;border-radius:12px;padding:4px;gap:4px}
+#clockPage .ck-seg button{border:0;background:transparent;color:#9a9ca3;font:600 13px 'Sora',sans-serif;padding:9px 16px;border-radius:8px;cursor:pointer;transition:all .15s}
+#clockPage .ck-seg button:hover{color:#fff}
+#clockPage .ck-seg button.on{background:#2b2d33;color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
+#clockPage .ck-icons{display:flex;gap:8px}
+#clockPage .ck-ib{width:40px;height:40px;border-radius:10px;border:1px solid #24262b;background:#141518;color:#cfd0d4;cursor:pointer;display:grid;place-items:center;transition:all .15s}
+#clockPage .ck-ib:hover{border-color:#3a3d44;color:#fff}
+#clockPage .ck-ib.off{opacity:.45}
+#clockPage .ck-status{font:600 12px 'Sora',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7c7f87;margin-bottom:18px;min-height:16px;text-align:center}
+#clockPage .ck-status b{color:#60a5fa;font-weight:600}
+#clockPage .ck-status.brk b{color:#4ade80}
+#clockPage .ck-clock{display:flex;gap:clamp(8px,1.6vw,22px);width:100%;justify-content:center}
+#clockPage .ck-unit{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vw,20px);flex:1;max-width:330px}
+#clockPage .ck-lbl{font:600 clamp(14px,2vw,26px) 'Oswald',sans-serif;letter-spacing:.06em;color:#8d8f96}
+/* flip card */
+#clockPage .fc{--h:clamp(120px,24vw,320px);position:relative;width:100%;height:var(--h);border-radius:clamp(10px,1.4vw,18px);background:#111214;perspective:1400px;font:600 calc(var(--h)*.78) 'Oswald','Bebas Neue',Impact,sans-serif;color:#bdbdc0;line-height:var(--h);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.04) inset;user-select:none}
+#clockPage .fc .h{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#111214;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#clockPage .fc .h span{position:absolute;left:0;right:0;height:var(--h);display:block;letter-spacing:-.02em}
+#clockPage .fc .t{top:0;border-radius:inherit;border-bottom-left-radius:0;border-bottom-right-radius:0}
+#clockPage .fc .t span{top:0}
+#clockPage .fc .b{bottom:0;border-radius:inherit;border-top-left-radius:0;border-top-right-radius:0}
+#clockPage .fc .b span{bottom:0}
+#clockPage .fc .ft{transform-origin:50% 100%;z-index:3}
+#clockPage .fc .fb{transform-origin:50% 0;z-index:3;transform:rotateX(90deg)}
+#clockPage .fc.go .ft{animation:ckDown .26s ease-in forwards}
+#clockPage .fc.go .fb{animation:ckUp .26s .26s ease-out forwards}
+#clockPage .fc::after{content:"";position:absolute;left:0;right:0;top:50%;height:clamp(3px,.45vw,6px);margin-top:calc(clamp(3px,.45vw,6px) / -2);background:#060708;z-index:5}
+#clockPage .fc .t::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(0,0,0,.12))}
+@keyframes ckDown{to{transform:rotateX(-90deg)}}
+@keyframes ckUp{to{transform:rotateX(0)}}
+#clockPage .ck-set{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:14px;min-height:46px}
+#clockPage .ck-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#clockPage .ck-chips button{border:1px solid #26282d;background:#121316;color:#b9bbc1;font:600 13px 'Sora',sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .15s}
+#clockPage .ck-chips button:hover{border-color:#3d4048;color:#fff}
+#clockPage .ck-chips button.on{background:#e8e8ea;color:#0b0c0e;border-color:#e8e8ea}
+#clockPage .ck-custom{display:flex;align-items:center;gap:8px;color:#8d8f96;font:500 13px 'Sora',sans-serif}
+#clockPage .ck-custom input{width:64px;background:#121316;border:1px solid #26282d;color:#fff;border-radius:9px;padding:8px 10px;font:600 14px 'Sora',sans-serif;text-align:center}
+#clockPage .ck-custom input:focus{outline:none;border-color:#60a5fa}
+#clockPage .ck-ctrl{margin-top:26px;display:flex;gap:12px;align-items:center}
+#clockPage .ck-main{min-width:150px;padding:14px 30px;border-radius:12px;border:1.5px solid #e8e8ea;background:transparent;color:#fff;font:600 16px 'Sora',sans-serif;cursor:pointer;transition:all .15s}
+#clockPage .ck-main:hover{background:#e8e8ea;color:#0b0c0e}
+#clockPage .ck-main.run{border-color:#3a3d44}
+#clockPage .ck-sec{padding:14px 20px;border-radius:12px;border:1px solid #26282d;background:#121316;color:#b9bbc1;font:600 14px 'Sora',sans-serif;cursor:pointer}
+#clockPage .ck-sec:hover{color:#fff;border-color:#3d4048}
+#clockPage .ck-bar{width:min(560px,100%);height:3px;background:#17181b;border-radius:3px;margin-top:30px;overflow:hidden}
+#clockPage .ck-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width .4s linear}
+#clockPage .ck-stats{margin-top:44px;width:min(760px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#clockPage .ck-stat{background:#0f1012;border:1px solid #1e2024;border-radius:14px;padding:16px 18px}
+#clockPage .ck-stat small{display:block;font:600 11px 'Sora',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6f727a;margin-bottom:6px}
+#clockPage .ck-stat div{font:600 22px 'Sora',sans-serif;color:#fff}
+#clockPage .ck-week{display:flex;align-items:flex-end;gap:6px;height:44px;margin-top:4px}
+#clockPage .ck-week span{flex:1;background:#24262b;border-radius:3px;min-height:3px;position:relative}
+#clockPage .ck-week span.today{background:#60a5fa}
+#clockPage .ck-hint{margin-top:20px;font:500 12px 'Sora',sans-serif;color:#55585f;text-align:center}
+#clockPage .ck-hint kbd{background:#141518;border:1px solid #26282d;border-bottom-width:2px;border-radius:5px;padding:1px 6px;font:600 11px 'Sora',sans-serif;color:#9a9ca3}
+#clockPage.done .fc{animation:ckPulse 1s ease 3}
+@keyframes ckPulse{50%{box-shadow:0 0 0 2px #60a5fa,0 20px 60px rgba(59,130,246,.35)}}
+/* zen / fullscreen */
+#clockPage.zen{position:fixed;inset:0;z-index:9999;padding:0;display:flex!important;align-items:center;justify-content:center;overflow:hidden}
+#clockPage.zen .ck-wrap{max-width:1900px;width:100%;justify-content:center;height:100%;padding:0 4vw}
+#clockPage.zen .ck-set,#clockPage.zen .ck-stats,#clockPage.zen .ck-hint,#clockPage.zen .ck-bar{display:none}
+#clockPage.zen .ck-top{position:absolute;top:22px;left:0;right:0;padding:0 28px;margin:0;opacity:.0;transition:opacity .3s}
+#clockPage.zen:hover .ck-top,#clockPage.zen .ck-top:focus-within{opacity:1}
+#clockPage.zen .ck-ctrl{position:absolute;bottom:40px;left:0;right:0;justify-content:center;opacity:.0;transition:opacity .3s}
+#clockPage.zen:hover .ck-ctrl{opacity:1}
+#clockPage.zen .fc{--h:min(30vw,62vh)}
+#clockPage.zen .ck-unit{max-width:none}
+@media(max-width:640px){
+  #clockPage .ck-top{justify-content:center}
+  #clockPage .ck-stats{grid-template-columns:1fr 1fr}
+  #clockPage .ck-stats .ck-stat:last-child{grid-column:1/-1}
+  #clockPage .ck-main{min-width:120px;padding:13px 22px}
+}
+</style>
+
+<div id="clockPage">
+  <div class="ck-wrap">
+    <div class="ck-top">
+      <div class="ck-seg" id="ckModes">
+        <button data-m="down" onclick="ckMode('down')">Count Down</button>
+        <button data-m="up" onclick="ckMode('up')">Count Up</button>
+        <button data-m="pomo" onclick="ckMode('pomo')">Pomodoro</button>
+      </div>
+      <div class="ck-icons">
+        <button class="ck-ib" id="ckSound" onclick="ckToggleSound()" title="Sound on/off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
+        <button class="ck-ib" onclick="ckZen()" title="Focus mode (F)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+      </div>
+    </div>
+
+    <div class="ck-status" id="ckStatus"></div>
+
+    <div class="ck-clock">
+      <div class="ck-unit"><div class="fc" id="ckH"></div><div class="ck-lbl">HOUR</div></div>
+      <div class="ck-unit"><div class="fc" id="ckM"></div><div class="ck-lbl">MIN</div></div>
+      <div class="ck-unit"><div class="fc" id="ckS"></div><div class="ck-lbl">SEC</div></div>
+    </div>
+
+    <div class="ck-bar" id="ckBar"><i></i></div>
+    <div class="ck-set" id="ckSet"></div>
+
+    <div class="ck-ctrl">
+      <button class="ck-sec" onclick="ckReset()">Reset</button>
+      <button class="ck-main" id="ckMain" onclick="ckToggle()">Start</button>
+      <button class="ck-sec" id="ckSkip" onclick="ckSkip()" style="display:none">Skip</button>
+    </div>
+
+    <div class="ck-stats">
+      <div class="ck-stat"><small>Studied today</small><div id="ckToday">0m</div></div>
+      <div class="ck-stat"><small>Sessions today</small><div id="ckSess">0</div></div>
+      <div class="ck-stat"><small>Last 7 days</small><div class="ck-week" id="ckWeek"></div></div>
+    </div>
+    <div class="ck-hint"><kbd>Space</kbd> start / pause &nbsp;·&nbsp; <kbd>R</kbd> reset &nbsp;·&nbsp; <kbd>F</kbd> focus mode &nbsp;·&nbsp; <kbd>Esc</kbd> exit</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var LS = { get: function (k, d) { try { var v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+             set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+  var st = {
+    mode: LS.get('ck_mode', 'down'), target: LS.get('ck_target', 25 * 60), sound: LS.get('ck_sound', true),
+    running: false, startAt: 0, base: 0,     // base = seconds already elapsed before current run
+    pomo: { phase: 'focus', round: 1, focus: 25, brk: 5, long: 15, rounds: 4 },
+    tick: null, shown: {}, logged: 0          // logged = seconds of this run already added to stats
+  };
+  var PRESETS = [15, 25, 30, 45, 60, 90, 120];
+
+  // ---------- flip cards ----------
+  function card(el, val) {
+    if (st.shown[el.id] === val) return;
+    var old = st.shown[el.id]; st.shown[el.id] = val;
+    if (old === undefined || !el.firstChild) {
+      clearTimeout(el._t); el.classList.remove('go');
+      el.innerHTML = '<div class="h t"><span>' + val + '</span></div><div class="h b"><span>' + val + '</span></div>' +
+                     '<div class="h t ft"><span>' + val + '</span></div><div class="h b fb"><span>' + val + '</span></div>';
+      return;
+    }
+    var h = Array.prototype.slice.call(el.children);
+    h[0].firstChild.textContent = val;   // static top: new
+    h[1].firstChild.textContent = old;   // static bottom: old (until flap lands)
+    h[2].firstChild.textContent = old;   // falling flap: old top
+    h[3].firstChild.textContent = val;   // rising flap: new bottom
+    el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { h[1].firstChild.textContent = val; h[2].firstChild.textContent = val; el.classList.remove('go'); }, 560);
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  // ---------- time ----------
+  function elapsed() { return st.base + (st.running ? (Date.now() - st.startAt) / 1000 : 0); }
+  function total() {
+    if (st.mode === 'up') return 0;
+    if (st.mode === 'pomo') { var p = st.pomo; return (p.phase === 'focus' ? p.focus : p.phase === 'long' ? p.long : p.brk) * 60; }
+    return st.target;
+  }
+  function display() {
+    var e = elapsed(), tt = total();
+    var secs = st.mode === 'up' ? Math.floor(e) : Math.max(0, Math.ceil(tt - e));
+    var h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60), s = secs % 60;
+    card($('ckH'), pad(Math.min(h, 99))); card($('ckM'), pad(m)); card($('ckS'), pad(s));
+    $('ckBar').firstChild.style.width = st.mode === 'up' ? '0' : Math.min(100, e / tt * 100) + '%';
+    var page = $('clockPage');
+    if (st.running && page.style.display !== 'none') document.title = (h ? h + ':' : '') + pad(m) + ':' + pad(s) + ' · Study Clock';
+    // log focused time live (not breaks)
+    if (st.running && !(st.mode === 'pomo' && st.pomo.phase !== 'focus')) {
+      var add = Math.floor(e) - st.logged;
+      if (add > 0) { logTime(add); st.logged += add; }
+    }
+    if (st.mode !== 'up' && st.running && e >= tt) finish();
+  }
+
+  // ---------- stats ----------
+  function dayKey(d) { d = d || new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function logTime(sec) { var log = LS.get('ck_log', {}); log[dayKey()] = (log[dayKey()] || 0) + sec; LS.set('ck_log', log); stats(); }
+  function addSession() { var s = LS.get('ck_sess', {}); s[dayKey()] = (s[dayKey()] || 0) + 1; LS.set('ck_sess', s); stats(); }
+  function fmt(sec) { var h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60); return h ? h + 'h ' + m + 'm' : m + 'm'; }
+  function stats() {
+    var log = LS.get('ck_log', {}), ss = LS.get('ck_sess', {});
+    $('ckToday').textContent = fmt(log[dayKey()] || 0);
+    $('ckSess').textContent = ss[dayKey()] || 0;
+    var days = [], max = 1;
+    for (var i = 6; i >= 0; i--) { var d = new Date(); d.setDate(d.getDate() - i); var v = log[dayKey(d)] || 0; days.push([d, v]); max = Math.max(max, v); }
+    $('ckWeek').innerHTML = days.map(function (x, i) {
+      return '<span class="' + (i === 6 ? 'today' : '') + '" style="height:' + Math.max(6, x[1] / max * 100) + '%" title="' +
+        x[0].toLocaleDateString(undefined, { weekday: 'short' }) + ': ' + fmt(x[1]) + '"></span>';
+    }).join('');
+  }
+
+  // ---------- sound ----------
+  var actx = null;
+  function chime() {
+    if (!st.sound) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      [0, .32, .64].forEach(function (t, i) {
+        var o = actx.createOscillator(), g = actx.createGain(), at = actx.currentTime + t;
+        o.type = 'sine'; o.frequency.value = [659.25, 783.99, 1046.5][i];
+        g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(.25, at + .02); g.gain.exponentialRampToValueAtTime(.001, at + 1.1);
+        o.connect(g); g.connect(actx.destination); o.start(at); o.stop(at + 1.2);
+      });
+    } catch (e) {}
+  }
+
+  // ---------- controls ----------
+  function setRunning(on) {
+    if (on === st.running) return;
+    if (on) { st.startAt = Date.now(); st.running = true; st.tick = setInterval(display, 200); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    else { st.base = elapsed(); st.running = false; clearInterval(st.tick); document.title = 'Study Clock — IGCSE Mark'; }
+    ui();
+  }
+  window.ckToggle = function () {
+    if (!st.running && st.mode !== 'up' && elapsed() >= total()) resetTime();
+    setRunning(!st.running); display();
+  };
+  function resetTime() { st.base = 0; st.logged = 0; st.startAt = Date.now(); }
+  window.ckReset = function () {
+    setRunning(false); resetTime();
+    if (st.mode === 'pomo') { st.pomo.phase = 'focus'; st.pomo.round = 1; }
+    $('clockPage').classList.remove('done'); ui(); display();
+  };
+  function finish() {
+    var wasFocus = st.mode !== 'pomo' || st.pomo.phase === 'focus';
+    setRunning(false); chime();
+    if (wasFocus) addSession();
+    var pg = $('clockPage'); pg.classList.remove('done'); void pg.offsetWidth; pg.classList.add('done');
+    if (st.mode === 'pomo') { nextPhase(); resetTime(); setRunning(true); }
+    else { st.base = total(); }
+    ui(); display();
+  }
+  function nextPhase() {
+    var p = st.pomo;
+    if (p.phase === 'focus') p.phase = p.round % p.rounds === 0 ? 'long' : 'break';
+    else { p.phase = 'focus'; p.round++; }
+  }
+  window.ckSkip = function () { if (st.mode !== 'pomo') return; var r = st.running; setRunning(false); nextPhase(); resetTime(); if (r) setRunning(true); ui(); display(); };
+  window.ckMode = function (m) {
+    setRunning(false); st.mode = m; LS.set('ck_mode', m); resetTime();
+    if (m === 'pomo') { st.pomo.phase = 'focus'; st.pomo.round = 1; }
+    st.shown = {}; ['ckH', 'ckM', 'ckS'].forEach(function (id) { $(id).innerHTML = ''; });
+    ui(); display();
+  };
+  window.ckSetMins = function (min) {
+    min = Math.max(1, Math.min(5999, Math.round(min)));
+    setRunning(false); st.target = min * 60; LS.set('ck_target', st.target); resetTime(); ui(); display();
+  };
+  window.ckCustom = function () {
+    var h = parseInt($('ckCH').value, 10) || 0, m = parseInt($('ckCM').value, 10) || 0;
+    if (h * 60 + m > 0) ckSetMins(h * 60 + m);
+  };
+  window.ckPomo = function (f, b) { setRunning(false); st.pomo.focus = f; st.pomo.brk = b; st.pomo.long = b * 3; st.pomo.phase = 'focus'; st.pomo.round = 1; resetTime(); ui(); display(); };
+  window.ckToggleSound = function () { st.sound = !st.sound; LS.set('ck_sound', st.sound); ui(); if (st.sound) chime(); };
+  window.ckZen = function () {
+    var pg = $('clockPage'), on = !pg.classList.contains('zen');
+    pg.classList.toggle('zen', on);
+    try { if (on && pg.requestFullscreen) pg.requestFullscreen().catch(function () {}); else if (!on && document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+  };
+  document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement) $('clockPage').classList.remove('zen'); });
+
+  function ui() {
+    document.querySelectorAll('#ckModes button').forEach(function (b) { b.classList.toggle('on', b.dataset.m === st.mode); });
+    $('ckMain').textContent = st.running ? 'Pause' : (elapsed() > 0 && (st.mode === 'up' || elapsed() < total()) ? 'Resume' : 'Start');
+    $('ckMain').classList.toggle('run', st.running);
+    $('ckSound').classList.toggle('off', !st.sound);
+    $('ckSkip').style.display = st.mode === 'pomo' ? '' : 'none';
+    $('ckBar').style.visibility = st.mode === 'up' ? 'hidden' : 'visible';
+    var s = $('ckStatus'); s.classList.remove('brk');
+    if (st.mode === 'pomo') {
+      var p = st.pomo, lab = p.phase === 'focus' ? 'Focus' : p.phase === 'long' ? 'Long break' : 'Short break';
+      if (p.phase !== 'focus') s.classList.add('brk');
+      s.innerHTML = '<b>' + lab + '</b> &nbsp;·&nbsp; Round ' + ((p.round - 1) % p.rounds + 1) + ' of ' + p.rounds;
+    } else if (st.mode === 'up') s.innerHTML = st.running ? '<b>Studying</b>' : 'Stopwatch';
+    else s.innerHTML = st.running ? '<b>Focus</b> &nbsp;·&nbsp; ' + fmt(st.target) + ' session' : (elapsed() >= total() && elapsed() > 0 ? '<b>Done</b> &nbsp;·&nbsp; nice work' : 'Timer');
+    // settings row
+    var set = $('ckSet');
+    if (st.mode === 'down') {
+      set.innerHTML = '<div class="ck-chips">' + PRESETS.map(function (m) {
+        return '<button class="' + (st.target === m * 60 ? 'on' : '') + '" onclick="ckSetMins(' + m + ')">' + (m >= 60 && m % 60 === 0 ? m / 60 + ' hr' : m + ' min') + '</button>';
+      }).join('') + '</div><div class="ck-custom">Custom <input id="ckCH" type="number" min="0" max="99" placeholder="0"> h <input id="ckCM" type="number" min="0" max="59" placeholder="0"> m' +
+        '<button class="ck-sec" style="padding:8px 14px" onclick="ckCustom()">Set</button></div>';
+    } else if (st.mode === 'pomo') {
+      var P = [[25, 5], [50, 10], [90, 15]];
+      set.innerHTML = '<div class="ck-chips">' + P.map(function (x) {
+        return '<button class="' + (st.pomo.focus === x[0] ? 'on' : '') + '" onclick="ckPomo(' + x[0] + ',' + x[1] + ')">' + x[0] + ' / ' + x[1] + '</button>';
+      }).join('') + '</div><div class="ck-custom">Focus, then a break. Every 4th break is a long one.</div>';
+    } else set.innerHTML = '<div class="ck-custom">Counts up from zero. Your time is saved to today’s total.</div>';
+  }
+
+  document.addEventListener('keydown', function (e) {
+    var pg = $('clockPage'); if (!pg || pg.style.display === 'none') return;
+    if (/INPUT|TEXTAREA|SELECT/.test((e.target.tagName || ''))) { if (e.key === 'Enter' && e.target.id && e.target.id.indexOf('ckC') === 0) ckCustom(); return; }
+    if (e.code === 'Space') { e.preventDefault(); ckToggle(); }
+    else if (e.key === 'r' || e.key === 'R') ckReset();
+    else if (e.key === 'f' || e.key === 'F') ckZen();
+    else if (e.key === 'Escape' && pg.classList.contains('zen')) ckZen();
+  });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) display(); });
+
+  // ---------- page wiring ----------
+  window.showClock = function () {
+    ['markerPage','pastPapersPage','notesPage','dashPage','fullPaperPage','pricingPage','accountPage','topicalPage','tutorPage'].forEach(function (id) {
+      var el = $(id); if (el) el.style.display = 'none';
+    });
+    var hero = document.querySelector('.hero'); if (hero) hero.style.display = 'none';
+    document.querySelectorAll('section:not(.hero)').forEach(function (s) { s.style.display = 'none'; });
+    var f = document.querySelector('footer'); if (f) f.style.display = 'none';
+    var page = $('clockPage'); page.style.display = 'block';
+    page.style.animation = 'none'; page.offsetHeight; page.style.animation = 'pageSlideIn 0.25s ease';
+    resetNavLinks();
+    var nav = $('navClock'); if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
+    window.scrollTo(0, 0);
+    document.title = 'Study Clock — IGCSE Mark';
+    ui(); display(); stats();
+  };
+  ['showHome','showMarker','showPastPapers','showNotes','showDash','showFullPaper','showPricing','showAccountPage','showTopical','showTutoring'].forEach(function (n) {
+    var orig = window[n]; if (typeof orig !== 'function') return;
+    window[n] = function () { var p = $('clockPage'); if (p) { p.style.display = 'none'; p.classList.remove('zen'); } document.title = document.title; return orig.apply(this, arguments); };
+  });
+  var origReset = window.resetNavLinks;
+  window.resetNavLinks = function () {
+    origReset.apply(this, arguments);
+    var n = $('navClock'); if (n) { n.style.color = 'var(--text2)'; n.style.fontWeight = '500'; }
+  };
+  ui(); display(); stats();
+  if (/[#&?]clock\b/.test(location.hash + location.search)) setTimeout(window.showClock, 300);
 })();
 </script>
 
