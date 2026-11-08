@@ -17743,22 +17743,28 @@ function showAuthWall() {
 #clockPage .ck-sw:hover{border-color:var(--ck-line2)}
 #clockPage .ck-sw.on{border-color:var(--ck-accent);color:var(--ck-text)}
 #clockPage .ck-sw i{width:40px;height:30px;border-radius:7px;display:grid;place-items:center;font:600 15px 'Oswald',sans-serif;font-style:normal}
-/* mini floating clock */
-#ckMini{position:fixed;right:22px;bottom:22px;z-index:9000;display:none;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-radius:16px;background:var(--ck-card);border:1px solid var(--ck-line);box-shadow:0 18px 44px rgba(0,0,0,.35);color:var(--ck-text);user-select:none;touch-action:none;overflow:hidden}
+/* mini floating clock (sized in em so it can be scaled) */
+#ckMini{--msz:1;font-size:calc(16px * var(--msz));position:fixed;right:22px;bottom:22px;z-index:9000;display:none;align-items:center;gap:.75em;padding:.625em .75em .625em 1em;border-radius:1em;background:var(--ck-card);border:1px solid var(--ck-line);box-shadow:0 18px 44px rgba(0,0,0,.35);color:var(--ck-text);user-select:none;-webkit-user-select:none;touch-action:none;overflow:hidden}
 #ckMini.show{display:flex;animation:ckMiniIn .25s ease}
 @keyframes ckMiniIn{from{opacity:0;transform:translateY(10px) scale(.97)}}
-#ckMini .mg{cursor:grab;display:flex;flex-direction:column;gap:1px;min-width:118px}
+#ckMini .mg{cursor:grab;display:flex;flex-direction:column;gap:.06em;min-width:7.4em}
 #ckMini .mg:active{cursor:grabbing}
-#ckMini .ml{font:600 10px 'Sora',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ck-muted);display:flex;align-items:center;gap:6px}
-#ckMini .ml b{width:6px;height:6px;border-radius:50%;background:var(--ck-muted)}
-#ckMini.run .ml b{background:var(--ck-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--ck-accent) 25%,transparent);animation:ckBlink 1.6s infinite}
+#ckMini .ml{font:600 .625em 'Sora',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ck-muted);display:flex;align-items:center;gap:.6em;white-space:nowrap}
+#ckMini .ml b{width:.6em;height:.6em;border-radius:50%;background:var(--ck-muted);flex:none}
+#ckMini.run .ml b{background:var(--ck-accent);box-shadow:0 0 0 .3em color-mix(in srgb,var(--ck-accent) 25%,transparent);animation:ckBlink 1.6s infinite}
 @keyframes ckBlink{50%{opacity:.35}}
-#ckMini .mt{font:600 30px/1.05 'Oswald','Bebas Neue',Impact,sans-serif;color:var(--ck-digit);text-shadow:var(--ck-glow);letter-spacing:.02em;font-variant-numeric:tabular-nums}
-#ckMini .mb{width:34px;height:34px;border-radius:10px;border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);cursor:pointer;display:grid;place-items:center;padding:0}
+#ckMini .mt{font:600 1.875em/1.05 'Oswald','Bebas Neue',Impact,sans-serif;color:var(--ck-digit);text-shadow:var(--ck-glow);letter-spacing:.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+#ckMini .mb{font-size:inherit;width:2.125em;height:2.125em;border-radius:.625em;border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);cursor:pointer;display:grid;place-items:center;padding:0;flex:none}
+#ckMini .mb svg{width:.9em;height:.9em}
 #ckMini .mb:hover{color:var(--ck-text);border-color:var(--ck-line2)}
 #ckMini .mb.pp{background:var(--ck-strong);color:var(--ck-on);border-color:var(--ck-strong)}
-#ckMini .mbar{position:absolute;left:0;bottom:0;height:2px;background:var(--ck-accent);width:0;transition:width .4s linear}
-@media(max-width:640px){#ckMini{right:12px;bottom:12px;left:12px;justify-content:space-between}}
+#ckMini .mbar{position:absolute;left:0;bottom:0;height:max(2px,.14em);background:var(--ck-accent);width:0;transition:width .4s linear}
+#ckMini .mrz{position:absolute;right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;opacity:.0;transition:opacity .2s;touch-action:none}
+#ckMini:hover .mrz,#ckMini .mrz.on{opacity:1}
+#ckMini .mrz::before{content:"";position:absolute;right:4px;bottom:4px;width:10px;height:10px;border-right:2px solid var(--ck-muted);border-bottom:2px solid var(--ck-muted);border-bottom-right-radius:3px}
+#ckMini .mrz::after{content:"";position:absolute;right:8px;bottom:8px;width:4px;height:4px;border-right:2px solid var(--ck-muted);border-bottom:2px solid var(--ck-muted)}
+#ckMini .msz{position:absolute;left:50%;top:-1px;transform:translate(-50%,-110%);font:600 11px 'Sora',sans-serif;background:var(--ck-strong);color:var(--ck-on);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s}
+@media(max-width:640px){#ckMini{right:12px;bottom:12px;max-width:calc(100vw - 24px)}#ckMini .mrz{opacity:.8}}
 </style>
 
 <div id="clockPage">
@@ -17820,6 +17826,7 @@ function showAuthWall() {
   <button class="mb" onclick="showClock()" title="Open full clock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
   <button class="mb" onclick="ckMiniClose()" title="Hide"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
   <i class="mbar" id="ckMiniBar"></i>
+  <span class="mrz" id="ckMiniRz" title="Drag to resize"></span>
 </div>
 <script>
 (function () {
@@ -17847,27 +17854,63 @@ function showAuthWall() {
   document.addEventListener('click', function (e) { var p = $('ckPop'); if (p && p.classList.contains('open') && !p.contains(e.target)) p.classList.remove('open'); });
 
   // ---------- mini floating clock ----------
-  function miniShow(on) { var m = $('ckMini'); if (m) m.classList.toggle('show', !!on); }
+  function miniShow(on) { var m = $('ckMini'); if (m) { m.classList.toggle('show', !!on); if (on && window.ckMiniFit) ckMiniFit(); } }
   window.ckMiniClose = function () { st.mini = false; miniShow(false); };
   window.ckMinimize = function () {
     st.mini = true;
     var back = st.prev && typeof window[st.prev] === 'function' ? st.prev : 'showTopical';
     window[back]();
   };
-  (function drag() {
-    var m, g, sx, sy, ox, oy, on = false;
-    function pos(x, y) { m.style.left = x + 'px'; m.style.top = y + 'px'; m.style.right = 'auto'; m.style.bottom = 'auto'; }
+  (function dragAndResize() {
+    var m, mode = null, sx, sy, ox, oy, ow, os;
+    function clampPos() {
+      if (!m || m.style.left === '' || innerWidth <= 640) return;
+      var x = Math.min(Math.max(8, parseFloat(m.style.left)), innerWidth - m.offsetWidth - 8), y = Math.min(Math.max(8, parseFloat(m.style.top)), innerHeight - m.offsetHeight - 8);
+      m.style.left = x + 'px'; m.style.top = y + 'px';
+    }
+    function pin() { var r = m.getBoundingClientRect(); m.style.left = r.left + 'px'; m.style.top = r.top + 'px'; m.style.right = 'auto'; m.style.bottom = 'auto'; }
+    function setScale(z) { z = Math.max(.6, Math.min(3.2, z)); m.style.setProperty('--msz', z.toFixed(3)); return z; }
     document.addEventListener('pointerdown', function (e) {
-      g = $('ckMiniGrab'); m = $('ckMini'); if (!g || !g.contains(e.target)) return;
-      var r = m.getBoundingClientRect(); sx = e.clientX; sy = e.clientY; ox = r.left; oy = r.top; on = true; e.preventDefault();
+      m = $('ckMini'); if (!m || !m.contains(e.target)) return;
+      if ($('ckMiniRz').contains(e.target)) mode = 'size';
+      else if ($('ckMiniGrab').contains(e.target)) mode = 'move';
+      else return;
+      if (innerWidth > 640) pin();
+      var r = m.getBoundingClientRect(); sx = e.clientX; sy = e.clientY; ox = r.left; oy = r.top; ow = r.width;
+      os = parseFloat(getComputedStyle(m).getPropertyValue('--msz')) || 1;
+      if (mode === 'size') $('ckMiniRz').classList.add('on');
+      e.preventDefault();
     });
     document.addEventListener('pointermove', function (e) {
-      if (!on) return;
-      var x = Math.min(Math.max(8, ox + e.clientX - sx), innerWidth - m.offsetWidth - 8), y = Math.min(Math.max(8, oy + e.clientY - sy), innerHeight - m.offsetHeight - 8);
-      pos(x, y);
+      if (!mode) return;
+      if (mode === 'move') {
+        var x = Math.min(Math.max(8, ox + e.clientX - sx), innerWidth - m.offsetWidth - 8), y = Math.min(Math.max(8, oy + e.clientY - sy), innerHeight - m.offsetHeight - 8);
+        if (innerWidth > 640) { m.style.left = x + 'px'; m.style.top = y + 'px'; }
+      } else {
+        var dx = e.clientX - sx, dy = (e.clientY - sy) * 2.4, d = Math.abs(dx) > Math.abs(dy) ? dx : dy;
+        var z = setScale(os * (ow + d) / ow);
+        var tip = m.querySelector('.msz'); if (tip) { tip.textContent = Math.round(z * 100) + '%'; tip.style.opacity = 1; }
+      }
     });
-    document.addEventListener('pointerup', function () { if (on) { on = false; LS.set('ck_mini_pos', [parseInt(m.style.left), parseInt(m.style.top)]); } });
-    window.addEventListener('load', function () { var p = LS.get('ck_mini_pos', null), mm = $('ckMini'); if (p && mm && innerWidth > 640) { mm.style.left = Math.min(p[0], innerWidth - 260) + 'px'; mm.style.top = Math.min(p[1], innerHeight - 80) + 'px'; mm.style.right = 'auto'; mm.style.bottom = 'auto'; } });
+    document.addEventListener('pointerup', function () {
+      if (!mode) return;
+      if (mode === 'size') { $('ckMiniRz').classList.remove('on'); LS.set('ck_mini_scale', parseFloat(m.style.getPropertyValue('--msz')) || 1); var tip = m.querySelector('.msz'); if (tip) tip.style.opacity = 0; }
+      clampPos();
+      if (innerWidth > 640 && m.style.left) LS.set('ck_mini_pos', [parseFloat(m.style.left), parseFloat(m.style.top)]);
+      mode = null;
+    });
+    // double-click the grip to reset size
+    document.addEventListener('dblclick', function (e) { var r = $('ckMiniRz'); if (r && r.contains(e.target)) { m = $('ckMini'); setScale(1); LS.set('ck_mini_scale', 1); clampPos(); } });
+    window.addEventListener('resize', function () { m = $('ckMini'); clampPos(); });
+    function restore() {
+      var mm = $('ckMini'); if (!mm) return; m = mm;
+      var z = LS.get('ck_mini_scale', 1); if (z && z !== 1) setScale(z);
+      if (!mm.querySelector('.msz')) { var t = document.createElement('span'); t.className = 'msz'; mm.appendChild(t); }
+      var p = LS.get('ck_mini_pos', null);
+      if (p && innerWidth > 640) { mm.style.left = p[0] + 'px'; mm.style.top = p[1] + 'px'; mm.style.right = 'auto'; mm.style.bottom = 'auto'; }
+    }
+    if (document.readyState === 'complete') restore(); else window.addEventListener('load', restore);
+    window.ckMiniFit = function () { m = $('ckMini'); requestAnimationFrame(clampPos); };
   })();
 
   // ---------- flip cards ----------
