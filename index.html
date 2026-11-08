@@ -17637,27 +17637,27 @@ function showAuthWall() {
 <!-- ===================== STUDY CLOCK ===================== -->
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
 <style>
-#clockPage{display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(88px + var(--exam-banner-h,0px));padding-bottom:60px;background:#060708;color:#e8e8ea}
+#clockPage{display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(88px + var(--exam-banner-h,0px));padding-bottom:60px;background:var(--ck-bg);color:var(--ck-strong)}
 #clockPage *{box-sizing:border-box}
 #clockPage .ck-wrap{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;align-items:center}
 #clockPage .ck-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 28px}
-#clockPage .ck-seg{display:inline-flex;background:#141518;border:1px solid #24262b;border-radius:12px;padding:4px;gap:4px}
-#clockPage .ck-seg button{border:0;background:transparent;color:#9a9ca3;font:600 13px 'Sora',sans-serif;padding:9px 16px;border-radius:8px;cursor:pointer;transition:all .15s}
-#clockPage .ck-seg button:hover{color:#fff}
-#clockPage .ck-seg button.on{background:#2b2d33;color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
+#clockPage .ck-seg{display:inline-flex;background:var(--ck-panel);border:1px solid var(--ck-line);border-radius:12px;padding:4px;gap:4px}
+#clockPage .ck-seg button{border:0;background:transparent;color:var(--ck-soft);font:600 13px 'Sora',sans-serif;padding:9px 16px;border-radius:8px;cursor:pointer;transition:all .15s}
+#clockPage .ck-seg button:hover{color:var(--ck-text)}
+#clockPage .ck-seg button.on{background:var(--ck-seg);color:var(--ck-text);box-shadow:0 1px 0 rgba(255,255,255,.06) inset}
 #clockPage .ck-icons{display:flex;gap:8px}
-#clockPage .ck-ib{width:40px;height:40px;border-radius:10px;border:1px solid #24262b;background:#141518;color:#cfd0d4;cursor:pointer;display:grid;place-items:center;transition:all .15s}
-#clockPage .ck-ib:hover{border-color:#3a3d44;color:#fff}
+#clockPage .ck-ib{width:40px;height:40px;border-radius:10px;border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);cursor:pointer;display:grid;place-items:center;transition:all .15s}
+#clockPage .ck-ib:hover{border-color:var(--ck-line2);color:var(--ck-text)}
 #clockPage .ck-ib.off{opacity:.45}
-#clockPage .ck-status{font:600 12px 'Sora',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#7c7f87;margin-bottom:18px;min-height:16px;text-align:center}
-#clockPage .ck-status b{color:#60a5fa;font-weight:600}
+#clockPage .ck-status{font:600 12px 'Sora',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--ck-muted);margin-bottom:18px;min-height:16px;text-align:center}
+#clockPage .ck-status b{color:var(--ck-accent);font-weight:600}
 #clockPage .ck-status.brk b{color:#4ade80}
 #clockPage .ck-clock{display:flex;gap:clamp(8px,1.6vw,22px);width:100%;justify-content:center}
 #clockPage .ck-unit{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vw,20px);flex:1;max-width:330px}
-#clockPage .ck-lbl{font:600 clamp(14px,2vw,26px) 'Oswald',sans-serif;letter-spacing:.06em;color:#8d8f96}
+#clockPage .ck-lbl{font:600 clamp(14px,2vw,26px) 'Oswald',sans-serif;letter-spacing:.06em;color:var(--ck-label)}
 /* flip card */
-#clockPage .fc{--h:clamp(120px,24vw,320px);position:relative;width:100%;height:var(--h);border-radius:clamp(10px,1.4vw,18px);background:#111214;perspective:1400px;font:600 calc(var(--h)*.78) 'Oswald','Bebas Neue',Impact,sans-serif;color:#bdbdc0;line-height:var(--h);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.04) inset;user-select:none}
-#clockPage .fc .h{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:#111214;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#clockPage .fc{--h:clamp(120px,24vw,320px);position:relative;width:100%;height:var(--h);border-radius:clamp(10px,1.4vw,18px);background:var(--ck-card);perspective:1400px;font:600 calc(var(--h)*.78) 'Oswald','Bebas Neue',Impact,sans-serif;color:var(--ck-digit);text-shadow:var(--ck-glow);line-height:var(--h);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.55),0 1px 0 rgba(255,255,255,.04) inset;user-select:none}
+#clockPage .fc .h{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:var(--ck-card);backface-visibility:hidden;-webkit-backface-visibility:hidden}
 #clockPage .fc .h span{position:absolute;left:0;right:0;height:var(--h);display:block;letter-spacing:-.02em}
 #clockPage .fc .t{top:0;border-radius:inherit;border-bottom-left-radius:0;border-bottom-right-radius:0}
 #clockPage .fc .t span{top:0}
@@ -17667,37 +17667,37 @@ function showAuthWall() {
 #clockPage .fc .fb{transform-origin:50% 0;z-index:3;transform:rotateX(90deg)}
 #clockPage .fc.go .ft{animation:ckDown .26s ease-in forwards}
 #clockPage .fc.go .fb{animation:ckUp .26s .26s ease-out forwards}
-#clockPage .fc::after{content:"";position:absolute;left:0;right:0;top:50%;height:clamp(3px,.45vw,6px);margin-top:calc(clamp(3px,.45vw,6px) / -2);background:#060708;z-index:5}
-#clockPage .fc .t::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(0,0,0,.12))}
+#clockPage .fc::after{content:"";position:absolute;left:0;right:0;top:50%;height:clamp(3px,.45vw,6px);margin-top:calc(clamp(3px,.45vw,6px) / -2);background:var(--ck-bg);z-index:5}
+#clockPage .fc .t::after{content:"";position:absolute;inset:0;background:var(--ck-sheen,linear-gradient(180deg,rgba(255,255,255,.025),rgba(0,0,0,.12)))}
 @keyframes ckDown{to{transform:rotateX(-90deg)}}
 @keyframes ckUp{to{transform:rotateX(0)}}
 #clockPage .ck-set{margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:14px;min-height:46px}
 #clockPage .ck-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-#clockPage .ck-chips button{border:1px solid #26282d;background:#121316;color:#b9bbc1;font:600 13px 'Sora',sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .15s}
-#clockPage .ck-chips button:hover{border-color:#3d4048;color:#fff}
-#clockPage .ck-chips button.on{background:#e8e8ea;color:#0b0c0e;border-color:#e8e8ea}
-#clockPage .ck-custom{display:flex;align-items:center;gap:8px;color:#8d8f96;font:500 13px 'Sora',sans-serif}
-#clockPage .ck-custom input{width:64px;background:#121316;border:1px solid #26282d;color:#fff;border-radius:9px;padding:8px 10px;font:600 14px 'Sora',sans-serif;text-align:center}
-#clockPage .ck-custom input:focus{outline:none;border-color:#60a5fa}
+#clockPage .ck-chips button{border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);font:600 13px 'Sora',sans-serif;padding:8px 14px;border-radius:999px;cursor:pointer;transition:all .15s}
+#clockPage .ck-chips button:hover{border-color:var(--ck-line2);color:var(--ck-text)}
+#clockPage .ck-chips button.on{background:var(--ck-strong);color:var(--ck-on);border-color:var(--ck-strong)}
+#clockPage .ck-custom{display:flex;align-items:center;gap:8px;color:var(--ck-label);font:500 13px 'Sora',sans-serif}
+#clockPage .ck-custom input{width:64px;background:var(--ck-panel);border:1px solid var(--ck-line);color:var(--ck-text);border-radius:9px;padding:8px 10px;font:600 14px 'Sora',sans-serif;text-align:center}
+#clockPage .ck-custom input:focus{outline:none;border-color:var(--ck-accent)}
 #clockPage .ck-ctrl{margin-top:26px;display:flex;gap:12px;align-items:center}
-#clockPage .ck-main{min-width:150px;padding:14px 30px;border-radius:12px;border:1.5px solid #e8e8ea;background:transparent;color:#fff;font:600 16px 'Sora',sans-serif;cursor:pointer;transition:all .15s}
-#clockPage .ck-main:hover{background:#e8e8ea;color:#0b0c0e}
-#clockPage .ck-main.run{border-color:#3a3d44}
-#clockPage .ck-sec{padding:14px 20px;border-radius:12px;border:1px solid #26282d;background:#121316;color:#b9bbc1;font:600 14px 'Sora',sans-serif;cursor:pointer}
-#clockPage .ck-sec:hover{color:#fff;border-color:#3d4048}
-#clockPage .ck-bar{width:min(560px,100%);height:3px;background:#17181b;border-radius:3px;margin-top:30px;overflow:hidden}
-#clockPage .ck-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#60a5fa);transition:width .4s linear}
+#clockPage .ck-main{min-width:150px;padding:14px 30px;border-radius:12px;border:1.5px solid var(--ck-strong);background:transparent;color:var(--ck-text);font:600 16px 'Sora',sans-serif;cursor:pointer;transition:all .15s}
+#clockPage .ck-main:hover{background:var(--ck-strong);color:var(--ck-on)}
+#clockPage .ck-main.run{border-color:var(--ck-line2)}
+#clockPage .ck-sec{padding:14px 20px;border-radius:12px;border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);font:600 14px 'Sora',sans-serif;cursor:pointer}
+#clockPage .ck-sec:hover{color:var(--ck-text);border-color:var(--ck-line2)}
+#clockPage .ck-bar{width:min(560px,100%);height:3px;background:var(--ck-line);border-radius:3px;margin-top:30px;overflow:hidden}
+#clockPage .ck-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ck-accent2),var(--ck-accent));transition:width .4s linear}
 #clockPage .ck-stats{margin-top:44px;width:min(760px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-#clockPage .ck-stat{background:#0f1012;border:1px solid #1e2024;border-radius:14px;padding:16px 18px}
-#clockPage .ck-stat small{display:block;font:600 11px 'Sora',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6f727a;margin-bottom:6px}
-#clockPage .ck-stat div{font:600 22px 'Sora',sans-serif;color:#fff}
+#clockPage .ck-stat{background:var(--ck-panel);border:1px solid var(--ck-line);border-radius:14px;padding:16px 18px}
+#clockPage .ck-stat small{display:block;font:600 11px 'Sora',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ck-muted);margin-bottom:6px}
+#clockPage .ck-stat div{font:600 22px 'Sora',sans-serif;color:var(--ck-text)}
 #clockPage .ck-week{display:flex;align-items:flex-end;gap:6px;height:44px;margin-top:4px}
-#clockPage .ck-week span{flex:1;background:#24262b;border-radius:3px;min-height:3px;position:relative}
-#clockPage .ck-week span.today{background:#60a5fa}
-#clockPage .ck-hint{margin-top:20px;font:500 12px 'Sora',sans-serif;color:#55585f;text-align:center}
-#clockPage .ck-hint kbd{background:#141518;border:1px solid #26282d;border-bottom-width:2px;border-radius:5px;padding:1px 6px;font:600 11px 'Sora',sans-serif;color:#9a9ca3}
+#clockPage .ck-week span{flex:1;background:var(--ck-line);border-radius:3px;min-height:3px;position:relative}
+#clockPage .ck-week span.today{background:var(--ck-accent)}
+#clockPage .ck-hint{margin-top:20px;font:500 12px 'Sora',sans-serif;color:var(--ck-muted);text-align:center}
+#clockPage .ck-hint kbd{background:var(--ck-panel);border:1px solid var(--ck-line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;font:600 11px 'Sora',sans-serif;color:var(--ck-soft)}
 #clockPage.done .fc{animation:ckPulse 1s ease 3}
-@keyframes ckPulse{50%{box-shadow:0 0 0 2px #60a5fa,0 20px 60px rgba(59,130,246,.35)}}
+@keyframes ckPulse{50%{box-shadow:0 0 0 2px var(--ck-accent),0 20px 60px rgba(59,130,246,.35)}}
 /* zen / fullscreen */
 #clockPage.zen{position:fixed;inset:0;z-index:9999;padding:0;display:flex!important;align-items:center;justify-content:center;overflow:hidden}
 #clockPage.zen .ck-wrap{max-width:1900px;width:100%;justify-content:center;height:100%;padding:0 4vw}
@@ -17708,18 +17708,18 @@ function showAuthWall() {
 #clockPage.zen:hover .ck-ctrl{opacity:1}
 #clockPage.zen .fc{--h:min(30vw,62vh)}
 #clockPage.zen .ck-unit{max-width:none}
-#clockPage .ck-music{width:min(760px,100%);margin-top:30px;background:#0f1012;border:1px solid #1e2024;border-radius:16px;padding:16px 18px;display:none}
+#clockPage .ck-music{width:min(760px,100%);margin-top:30px;background:var(--ck-panel);border:1px solid var(--ck-line);border-radius:16px;padding:16px 18px;display:none}
 #clockPage .ck-music.open{display:block}
-#clockPage .ck-mh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font:600 13px 'Sora',sans-serif;color:#fff}
+#clockPage .ck-mh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font:600 13px 'Sora',sans-serif;color:var(--ck-text)}
 #clockPage .ck-mh span{display:flex;align-items:center;gap:8px}
 #clockPage .ck-mlink{display:flex;gap:8px;margin-top:10px}
-#clockPage .ck-mlink input{flex:1;min-width:0;background:#121316;border:1px solid #26282d;color:#fff;border-radius:9px;padding:9px 12px;font:500 13px 'Sora',sans-serif}
+#clockPage .ck-mlink input{flex:1;min-width:0;background:var(--ck-panel);border:1px solid var(--ck-line);color:var(--ck-text);border-radius:9px;padding:9px 12px;font:500 13px 'Sora',sans-serif}
 #clockPage .ck-mlink input:focus{outline:none;border-color:#1db954}
-#clockPage .ck-music iframe{width:100%;height:152px;border:0;border-radius:12px;margin-top:12px;background:#121316}
+#clockPage .ck-music iframe{width:100%;height:152px;border:0;border-radius:12px;margin-top:12px;background:var(--ck-panel)}
 #clockPage .ck-merr{color:#f87171;font:500 12px 'Sora',sans-serif;margin-top:6px;min-height:0}
 #clockPage .ck-ib.on{color:#1db954;border-color:rgba(29,185,84,.45)}
-#clockPage .ck-sync{grid-column:1/-1;font:500 12px 'Sora',sans-serif;color:#6f727a;text-align:center;margin-top:-2px}
-#clockPage .ck-sync a{color:#60a5fa;text-decoration:none;font-weight:600}
+#clockPage .ck-sync{grid-column:1/-1;font:500 12px 'Sora',sans-serif;color:var(--ck-muted);text-align:center;margin-top:-2px}
+#clockPage .ck-sync a{color:var(--ck-accent);text-decoration:none;font-weight:600}
 #clockPage.zen .ck-music{display:none!important}
 @media(max-width:640px){
   #clockPage .ck-top{justify-content:center}
@@ -17727,6 +17727,38 @@ function showAuthWall() {
   #clockPage .ck-stats .ck-stat:last-child{grid-column:1/-1}
   #clockPage .ck-main{min-width:120px;padding:13px 22px}
 }
+#clockPage, #ckMini{--ck-bg:#060708;--ck-card:#111214;--ck-digit:#bdbdc0;--ck-label:#8d8f96;--ck-panel:#121316;--ck-line:#24262b;--ck-line2:#3a3d44;--ck-soft:#b9bbc1;--ck-muted:#6f727a;--ck-seg:#2b2d33;--ck-strong:#e8e8ea;--ck-on:#0b0c0e;--ck-text:#ffffff;--ck-accent:#60a5fa;--ck-accent2:#3b82f6;--ck-glow:none}
+#clockPage[data-ck-theme="paper"], #ckMini[data-ck-theme="paper"]{--ck-sheen:linear-gradient(180deg,rgba(255,255,255,.5),rgba(0,0,0,.035));--ck-bg:#f1ece3;--ck-card:#fffdf8;--ck-digit:#2a2622;--ck-label:#8a8177;--ck-panel:#fbf6ee;--ck-line:#e2d9cb;--ck-line2:#c9baa6;--ck-soft:#5d554c;--ck-muted:#9a8f82;--ck-seg:#e9e0d1;--ck-strong:#2a2622;--ck-on:#fffdf8;--ck-text:#2a2622;--ck-accent:#c2410c;--ck-accent2:#ea580c;--ck-glow:none}
+#clockPage[data-ck-theme="ocean"], #ckMini[data-ck-theme="ocean"]{--ck-bg:#051221;--ck-card:#0b2137;--ck-digit:#a8d8ff;--ck-label:#5f8fb8;--ck-panel:#0a1b2e;--ck-line:#16314d;--ck-line2:#24507a;--ck-soft:#9cc3e6;--ck-muted:#5b7c9c;--ck-seg:#173a5c;--ck-strong:#a8d8ff;--ck-on:#051221;--ck-text:#e6f3ff;--ck-accent:#38bdf8;--ck-accent2:#0ea5e9;--ck-glow:none}
+#clockPage[data-ck-theme="forest"], #ckMini[data-ck-theme="forest"]{--ck-bg:#06110b;--ck-card:#0f2117;--ck-digit:#b7e4c7;--ck-label:#6b9b7c;--ck-panel:#0c1b13;--ck-line:#1b3426;--ck-line2:#2b5139;--ck-soft:#a7cdb3;--ck-muted:#62806d;--ck-seg:#1d3a2a;--ck-strong:#d8f3dc;--ck-on:#06110b;--ck-text:#eefbf1;--ck-accent:#4ade80;--ck-accent2:#22c55e;--ck-glow:none}
+#clockPage[data-ck-theme="sunset"], #ckMini[data-ck-theme="sunset"]{--ck-bg:#1a0a13;--ck-card:#2a1220;--ck-digit:#ffc2a8;--ck-label:#c07b8c;--ck-panel:#230f1a;--ck-line:#3b1a2b;--ck-line2:#5a2a42;--ck-soft:#f0b7c3;--ck-muted:#9a6476;--ck-seg:#43203a;--ck-strong:#ffd6c2;--ck-on:#1a0a13;--ck-text:#fff1ea;--ck-accent:#fb7185;--ck-accent2:#f97316;--ck-glow:none}
+#clockPage[data-ck-theme="neon"], #ckMini[data-ck-theme="neon"]{--ck-bg:#05010d;--ck-card:#0d0620;--ck-digit:#f5c2ff;--ck-label:#a78bfa;--ck-panel:#0b0518;--ck-line:#23124a;--ck-line2:#3b1f73;--ck-soft:#d8b4fe;--ck-muted:#7c6aa8;--ck-seg:#2a1458;--ck-strong:#f0abfc;--ck-on:#05010d;--ck-text:#faf5ff;--ck-accent:#22d3ee;--ck-accent2:#a855f7;--ck-glow:0 0 22px rgba(240,171,252,.55)}
+#clockPage[data-ck-theme="amber"], #ckMini[data-ck-theme="amber"]{--ck-bg:#0c0905;--ck-card:#17120a;--ck-digit:#ffb000;--ck-label:#a37a2c;--ck-panel:#130e07;--ck-line:#2b2112;--ck-line2:#4a3819;--ck-soft:#e0b866;--ck-muted:#8a6d3a;--ck-seg:#2f2412;--ck-strong:#ffb000;--ck-on:#0c0905;--ck-text:#fff4dc;--ck-accent:#ffb000;--ck-accent2:#f59e0b;--ck-glow:0 0 18px rgba(255,176,0,.45)}
+
+/* theme picker */
+#clockPage .ck-tp{position:relative}
+#clockPage .ck-pop{position:absolute;right:0;top:48px;z-index:20;background:var(--ck-panel);border:1px solid var(--ck-line);border-radius:14px;padding:12px;display:none;grid-template-columns:repeat(4,1fr);gap:10px;box-shadow:0 18px 40px rgba(0,0,0,.35);width:300px}
+#clockPage .ck-pop.open{display:grid}
+#clockPage .ck-sw{border:1px solid var(--ck-line);background:transparent;border-radius:11px;padding:8px 4px 7px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ck-soft);font:600 10.5px 'Sora',sans-serif}
+#clockPage .ck-sw:hover{border-color:var(--ck-line2)}
+#clockPage .ck-sw.on{border-color:var(--ck-accent);color:var(--ck-text)}
+#clockPage .ck-sw i{width:40px;height:30px;border-radius:7px;display:grid;place-items:center;font:600 15px 'Oswald',sans-serif;font-style:normal}
+/* mini floating clock */
+#ckMini{position:fixed;right:22px;bottom:22px;z-index:9000;display:none;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-radius:16px;background:var(--ck-card);border:1px solid var(--ck-line);box-shadow:0 18px 44px rgba(0,0,0,.35);color:var(--ck-text);user-select:none;touch-action:none;overflow:hidden}
+#ckMini.show{display:flex;animation:ckMiniIn .25s ease}
+@keyframes ckMiniIn{from{opacity:0;transform:translateY(10px) scale(.97)}}
+#ckMini .mg{cursor:grab;display:flex;flex-direction:column;gap:1px;min-width:118px}
+#ckMini .mg:active{cursor:grabbing}
+#ckMini .ml{font:600 10px 'Sora',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ck-muted);display:flex;align-items:center;gap:6px}
+#ckMini .ml b{width:6px;height:6px;border-radius:50%;background:var(--ck-muted)}
+#ckMini.run .ml b{background:var(--ck-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--ck-accent) 25%,transparent);animation:ckBlink 1.6s infinite}
+@keyframes ckBlink{50%{opacity:.35}}
+#ckMini .mt{font:600 30px/1.05 'Oswald','Bebas Neue',Impact,sans-serif;color:var(--ck-digit);text-shadow:var(--ck-glow);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+#ckMini .mb{width:34px;height:34px;border-radius:10px;border:1px solid var(--ck-line);background:var(--ck-panel);color:var(--ck-soft);cursor:pointer;display:grid;place-items:center;padding:0}
+#ckMini .mb:hover{color:var(--ck-text);border-color:var(--ck-line2)}
+#ckMini .mb.pp{background:var(--ck-strong);color:var(--ck-on);border-color:var(--ck-strong)}
+#ckMini .mbar{position:absolute;left:0;bottom:0;height:2px;background:var(--ck-accent);width:0;transition:width .4s linear}
+@media(max-width:640px){#ckMini{right:12px;bottom:12px;left:12px;justify-content:space-between}}
 </style>
 
 <div id="clockPage">
@@ -17740,6 +17772,8 @@ function showAuthWall() {
       <div class="ck-icons">
         <button class="ck-ib" id="ckMusicBtn" onclick="ckMusic()" title="Music"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></button>
         <button class="ck-ib" id="ckSound" onclick="ckToggleSound()" title="Sound on/off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></button>
+        <div class="ck-tp"><button class="ck-ib" id="ckThemeBtn" onclick="ckThemeMenu(event)" title="Theme"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16a6 6 0 0 0 6-6c0-4.9-4.5-8.6-10-8.6z"/></svg></button><div class="ck-pop" id="ckPop"></div></div>
+        <button class="ck-ib" onclick="ckMinimize()" title="Minimise: keep a small clock on screen while you use the rest of the site"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><rect x="12" y="12" width="7" height="6" rx="1" fill="currentColor" stroke="none"/></svg></button>
         <button class="ck-ib" onclick="ckZen()" title="Focus mode (F)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
       </div>
     </div>
@@ -17780,6 +17814,13 @@ function showAuthWall() {
   </div>
 </div>
 
+<div id="ckMini" role="timer" aria-live="off">
+  <div class="mg" id="ckMiniGrab" title="Drag to move"><div class="ml"><b></b><span id="ckMiniLbl">Timer</span></div><div class="mt" id="ckMiniTime">00:25:00</div></div>
+  <button class="mb pp" id="ckMiniPP" onclick="ckToggle()" title="Start / pause"></button>
+  <button class="mb" onclick="showClock()" title="Open full clock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+  <button class="mb" onclick="ckMiniClose()" title="Hide"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <i class="mbar" id="ckMiniBar"></i>
+</div>
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -17792,6 +17833,42 @@ function showAuthWall() {
     tick: null, shown: {}, logged: 0          // logged = seconds of this run already added to stats
   };
   var PRESETS = [15, 25, 30, 45, 60, 90, 120];
+  var THEMES = [["midnight", "Midnight", "#111214", "#bdbdc0"], ["paper", "Paper", "#fffdf8", "#2a2622"], ["ocean", "Ocean", "#0b2137", "#a8d8ff"], ["forest", "Forest", "#0f2117", "#b7e4c7"], ["sunset", "Sunset", "#2a1220", "#ffc2a8"], ["neon", "Neon", "#0d0620", "#f5c2ff"], ["amber", "Retro amber", "#17120a", "#ffb000"]];
+  st.theme = LS.get('ck_theme', 'midnight'); st.mini = false; st.prev = null;
+  function applyTheme() {
+    ['clockPage', 'ckMini'].forEach(function (id) { var el = $(id); if (el) { if (st.theme === 'midnight') el.removeAttribute('data-ck-theme'); else el.setAttribute('data-ck-theme', st.theme); } });
+    var pop = $('ckPop'); if (!pop) return;
+    pop.innerHTML = THEMES.map(function (t) {
+      return '<button class="ck-sw' + (t[0] === st.theme ? ' on' : '') + '" onclick="ckTheme(\'' + t[0] + '\')"><i style="background:' + t[2] + ';color:' + t[3] + '">25</i>' + t[1] + '</button>';
+    }).join('');
+  }
+  window.ckTheme = function (t) { st.theme = t; LS.set('ck_theme', t); applyTheme(); };
+  window.ckThemeMenu = function (e) { e.stopPropagation(); $('ckPop').classList.toggle('open'); };
+  document.addEventListener('click', function (e) { var p = $('ckPop'); if (p && p.classList.contains('open') && !p.contains(e.target)) p.classList.remove('open'); });
+
+  // ---------- mini floating clock ----------
+  function miniShow(on) { var m = $('ckMini'); if (m) m.classList.toggle('show', !!on); }
+  window.ckMiniClose = function () { st.mini = false; miniShow(false); };
+  window.ckMinimize = function () {
+    st.mini = true;
+    var back = st.prev && typeof window[st.prev] === 'function' ? st.prev : 'showTopical';
+    window[back]();
+  };
+  (function drag() {
+    var m, g, sx, sy, ox, oy, on = false;
+    function pos(x, y) { m.style.left = x + 'px'; m.style.top = y + 'px'; m.style.right = 'auto'; m.style.bottom = 'auto'; }
+    document.addEventListener('pointerdown', function (e) {
+      g = $('ckMiniGrab'); m = $('ckMini'); if (!g || !g.contains(e.target)) return;
+      var r = m.getBoundingClientRect(); sx = e.clientX; sy = e.clientY; ox = r.left; oy = r.top; on = true; e.preventDefault();
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!on) return;
+      var x = Math.min(Math.max(8, ox + e.clientX - sx), innerWidth - m.offsetWidth - 8), y = Math.min(Math.max(8, oy + e.clientY - sy), innerHeight - m.offsetHeight - 8);
+      pos(x, y);
+    });
+    document.addEventListener('pointerup', function () { if (on) { on = false; LS.set('ck_mini_pos', [parseInt(m.style.left), parseInt(m.style.top)]); } });
+    window.addEventListener('load', function () { var p = LS.get('ck_mini_pos', null), mm = $('ckMini'); if (p && mm && innerWidth > 640) { mm.style.left = Math.min(p[0], innerWidth - 260) + 'px'; mm.style.top = Math.min(p[1], innerHeight - 80) + 'px'; mm.style.right = 'auto'; mm.style.bottom = 'auto'; } });
+  })();
 
   // ---------- flip cards ----------
   function card(el, val) {
@@ -17827,6 +17904,7 @@ function showAuthWall() {
     var h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60), s = secs % 60;
     card($('ckH'), pad(Math.min(h, 99))); card($('ckM'), pad(m)); card($('ckS'), pad(s));
     $('ckBar').firstChild.style.width = st.mode === 'up' ? '0' : Math.min(100, e / tt * 100) + '%';
+    var mt = $('ckMiniTime'); if (mt) { mt.textContent = pad(Math.min(h, 99)) + ':' + pad(m) + ':' + pad(s); $('ckMiniBar').style.width = st.mode === 'up' ? '0' : Math.min(100, e / tt * 100) + '%'; }
     var page = $('clockPage');
     if (st.running && page.style.display !== 'none') document.title = (h ? h + ':' : '') + pad(m) + ':' + pad(s) + ' · Study Clock';
     // log focused time live (not breaks)
@@ -18003,6 +18081,14 @@ function showAuthWall() {
     $('ckMain').classList.toggle('run', st.running);
     $('ckSound').classList.toggle('off', !st.sound);
     $('ckSkip').style.display = st.mode === 'pomo' ? '' : 'none';
+    var mini = $('ckMini');
+    if (mini) {
+      mini.classList.toggle('run', st.running);
+      $('ckMiniPP').innerHTML = st.running ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+        : '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>';
+      $('ckMiniLbl').textContent = st.mode === 'pomo' ? (st.pomo.phase === 'focus' ? 'Focus' : 'Break') + ' · ' + ((st.pomo.round - 1) % st.pomo.rounds + 1) + '/' + st.pomo.rounds
+        : st.mode === 'up' ? 'Stopwatch' : (st.running ? 'Focus' : 'Paused');
+    }
     $('ckBar').style.visibility = st.mode === 'up' ? 'hidden' : 'visible';
     var s = $('ckStatus'); s.classList.remove('brk');
     if (st.mode === 'pomo') {
@@ -18044,7 +18130,7 @@ function showAuthWall() {
     var hero = document.querySelector('.hero'); if (hero) hero.style.display = 'none';
     document.querySelectorAll('section:not(.hero)').forEach(function (s) { s.style.display = 'none'; });
     var f = document.querySelector('footer'); if (f) f.style.display = 'none';
-    var page = $('clockPage'); page.style.display = 'block';
+    var page = $('clockPage'); page.style.display = 'block'; miniShow(false); var pp = $('ckPop'); if (pp) pp.classList.remove('open');
     page.style.animation = 'none'; page.offsetHeight; page.style.animation = 'pageSlideIn 0.25s ease';
     resetNavLinks();
     var nav = $('navClock'); if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
@@ -18054,14 +18140,22 @@ function showAuthWall() {
   };
   ['showHome','showMarker','showPastPapers','showNotes','showDash','showFullPaper','showPricing','showAccountPage','showTopical','showTutoring'].forEach(function (n) {
     var orig = window[n]; if (typeof orig !== 'function') return;
-    window[n] = function () { var p = $('clockPage'); if (p) { p.style.display = 'none'; p.classList.remove('zen'); } document.title = document.title; return orig.apply(this, arguments); };
+    window[n] = function () {
+      var p = $('clockPage'), wasOpen = p && p.style.display === 'block';
+      if (p) { p.style.display = 'none'; p.classList.remove('zen'); }
+      if (!wasOpen) st.prev = n;
+      if (wasOpen && (st.running || st.mini)) { st.mini = true; }
+      var r = orig.apply(this, arguments);
+      if (st.mini) { miniShow(true); ui(); display(); }
+      return r;
+    };
   });
   var origReset = window.resetNavLinks;
   window.resetNavLinks = function () {
     origReset.apply(this, arguments);
     var n = $('navClock'); if (n) { n.style.color = 'var(--text2)'; n.style.fontWeight = '500'; }
   };
-  ui(); display(); stats(); syncLine();
+  applyTheme(); ui(); display(); stats(); syncLine();
   if (/[#&?]clock\b/.test(location.hash + location.search)) setTimeout(window.showClock, 300);
 })();
 </script>
