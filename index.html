@@ -915,8 +915,10 @@ nav .dark-toggle { flex-shrink: 0; }
 [data-theme="dark"] nav { background: rgba(19,21,26,0.88); box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 30px rgba(0,0,0,0.25); }
 [data-theme="dark"] .nav-links a[style*="96, 165, 250"], [data-theme="dark"] .nav-links a[style*="#60a5fa"] { background: rgba(96,165,250,0.14); color: #93c5fd !important; }
 [data-theme="dark"] .nav-user { border-left-color: rgba(255,255,255,0.1); }
-@media (max-width: 1400px) { #navName { display: none; } .nav-links a { padding: 10px 12px; } nav > .container.nav-inner { gap: 20px; } }
-@media (max-width: 1240px) {
+.nav-links { gap: 2px; } .nav-links a { padding: 9px 12px; font-size: 14px; } nav > .container.nav-inner { gap: 18px; padding: 0 24px; max-width: 1560px; }
+@media (max-width: 1700px) { #navName { display: none; } }
+@media (max-width: 1460px) { .nav-links a { padding: 9px 9px; font-size: 13.5px; } nav > .container.nav-inner { gap: 14px; } }
+@media (max-width: 1360px) {
   .nav-hamburger { display: flex !important; }
   .nav-links {
     display: none; position: absolute; top: 76px; left: 0; right: 0; flex: none;
@@ -1822,7 +1824,7 @@ nav .dark-toggle { flex-shrink: 0; }
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;display:flex;flex-direction:column">
         <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:14px">Score over time</div>
         <div id="chartBox" style="position:relative;flex:1;min-height:250px"><canvas id="progressChart"></canvas></div>
-        <div id="chartEmpty" style="display:none;text-align:center;padding:40px 0;color:var(--text3);font-size:13px">No data yet — start marking!</div>
+        <div id="chartEmpty" style="display:none;flex:1;min-height:200px;align-items:center;justify-content:center;text-align:center;color:var(--text3);font-size:13px">No data yet — start marking!</div>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
@@ -15914,8 +15916,8 @@ async function renderDash() {
     document.getElementById('statP1').textContent = '—';
     document.getElementById('statP2').textContent = '—';
     document.getElementById('statBest').textContent = '—';
-    document.getElementById('chartEmpty').style.display = 'block';
-    document.getElementById('progressChart').style.display = 'none';
+    document.getElementById('chartEmpty').style.display = 'flex';
+    document.getElementById('chartBox').style.display = 'none';
     return;
   }
 
@@ -15937,6 +15939,7 @@ async function renderDash() {
   // Chart
   const chartData = [...markings].reverse().slice(-20);
   document.getElementById('chartEmpty').style.display = 'none';
+  document.getElementById('chartBox').style.display = 'block';
   document.getElementById('progressChart').style.display = 'block';
   if (progressChart) progressChart.destroy();
   const ctx = document.getElementById('progressChart').getContext('2d');
