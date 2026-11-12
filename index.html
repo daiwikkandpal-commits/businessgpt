@@ -16502,6 +16502,7 @@ function showAuthWall() {
       <button id="tpS-econ" onclick="tpSetSubject('econ')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Economics</button>
       <button id="tpS-acc" onclick="tpSetSubject('acc')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Accounting</button>
       <button id="tpS-maths" onclick="tpSetSubject('maths')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Maths</button>
+      <button id="tpS-asacc" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
       <button id="tpS-phys" onclick="tpSetSubject('phys')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Physics</button>
     </div>
 
@@ -16579,6 +16580,10 @@ function showAuthWall() {
                   caseStudy: c ? c.text : '', context: '', qp: q.qp, ctxLabel: c ? 'Question ' + c.n + ' (full question)' : '' };
               });
             } },
+    asacc: { level: 'as', url: 'topical_asacc.json', name: 'AS Level Accounting 9706', marking: false, papers: [1, 2],
+            pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Structured questions' },
+            units: {1:'The accounting system',2:'Financial accounting',3:'Cost and management accounting'},
+            convert: function (d) { return TP_SUBJ.acc.convert(d).map(function (r) { if (r.paper === 2) { r.img = r.dataImg; r.dataImg = []; r.bigImg = true; } return r; }); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
             pLabel: { 1: 'Paper 1 · Core', 2: 'Paper 2 · Extended', 3: 'Paper 3 · Core', 4: 'Paper 4 · Extended' },
             units: {1:'Number',2:'Algebra and graphs',3:'Coordinate geometry',4:'Geometry',5:'Mensuration',6:'Trigonometry',7:'Transformations and vectors',8:'Probability',9:'Statistics'},
@@ -16662,12 +16667,16 @@ function showAuthWall() {
   };
   // AS Level has no topical yet: show the placeholder instead. Returns true when AS is showing.
   window.tpApplyLevel = function () {
-    var as = siteLevel === 'as';
+    var lv = siteLevel === 'as' ? 'as' : 'igcse';
     var show = function (id, v) { var e = document.getElementById(id); if (e) e.style.display = v; };
-    show('tpAsSoon', as ? 'block' : 'none'); show('tpSubjSeg', as ? 'none' : 'flex'); show('tpBusWrap', as ? 'none' : '');
+    show('tpAsSoon', 'none'); show('tpSubjSeg', 'flex'); show('tpBusWrap', '');
     var page = document.getElementById('topicalPage');
-    if (!as && page && page.style.display === 'block' && !tp.data) tpLoad();
-    return as;
+    if ((TP_SUBJ[tp.subj].level || 'igcse') !== lv) {
+      if (page && page.style.display === 'block') { tpSetSubject(lv === 'as' ? 'asacc' : 'bus'); return true; }
+      return false;
+    }
+    Object.keys(TP_SUBJ).forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) b.style.display = (TP_SUBJ[k].level || 'igcse') === lv ? '' : 'none'; });
+    return false;
   };
 
   function tpLoad() {
@@ -16692,10 +16701,10 @@ function showAuthWall() {
     DATA_URL = cfg.url; UNIT_NAMES = cfg.units; tp.data = tpCache[s] || null;
     tp.unit = null; tp.sub = 'all'; tp.paper = 'all'; tp.shown = 10; tp.list = []; tp.shuffled = false;
     tp.gPaper = cfg.papers[0]; tp.gSel = {}; tp.paperQs = [];
-    ['bus', 'econ', 'acc', 'maths', 'phys'].forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) b.style.cssText = segStyle(k === s); });
+    Object.keys(TP_SUBJ).forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) { b.style.cssText = segStyle(k === s); b.style.display = (TP_SUBJ[k].level || 'igcse') === (TP_SUBJ[s].level || 'igcse') ? '' : 'none'; } });
     var d = document.getElementById('tpDesc');
     if (d) d.textContent = s === 'bus' ? d.getAttribute('data-bus')
-      : 'Pick the topics you want. We build a paper from real ' + ({ acc: 'Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + ({ acc: 'Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.';
+      : 'Pick the topics you want. We build a paper from real ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.' + (s === 'asacc' ? ' Questions from 2010 to 2026, sorted by the chapters of the Cambridge AS & A Level Accounting coursebook.' : '');
     var p = document.getElementById('tpPaper'); if (p) p.innerHTML = '';
     var r = document.getElementById('tpResults'); if (r) r.innerHTML = '';
     [1, 2, 3, 4, 6].forEach(function (n) { var pb = document.getElementById('tpP-' + n); if (pb) pb.style.display = cfg.papers.indexOf(n) < 0 ? 'none' : ''; });
@@ -16713,7 +16722,7 @@ function showAuthWall() {
   window.tpSetMode = function (m) { tp.mode = m; tpTabs(); if (tp.data) tpRenderCurrent(); };
 
   // ═════════════════ GENERATE A PAPER ═════════════════
-  function isMCQPaper(paper) { return ((tp.subj === 'econ' || tp.subj === 'acc') && paper === 1) || (tp.subj === 'phys' && paper <= 2); }
+  function isMCQPaper(paper) { return ((tp.subj === 'econ' || /acc$/.test(tp.subj)) && paper === 1) || (tp.subj === 'phys' && paper <= 2); }
   function lengthOptions(paper) { return isMCQPaper(paper) ? [10, 20, 30, 40] : [20, 40, 60, 80]; }
 
   function tpRenderGen() {
@@ -16757,7 +16766,7 @@ function showAuthWall() {
       : paper === 1
       ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
       : (tp.subj === 'maths' || tp.subj === 'phys') ? 'Real Paper ' + paper + ' questions on your topics, with the diagrams and grids from the paper. Parts of the same question stay together.'
-      : tp.subj === 'acc' ? 'Structured questions from real Paper 2s. Parts from the same question stay together, with the full question shown first.'
+      : /acc$/.test(tp.subj) ? 'Structured questions from real Paper 2s. Parts from the same question stay together, with the full question shown first.'
       : tp.subj === 'econ' ? 'A mix of short and long questions, like a real Paper 2. Questions that share a source or stimulus stay together, with it shown first.'
       : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
 
@@ -16788,7 +16797,7 @@ function showAuthWall() {
     var classes = econ ? (paper === 1 ? [1] : [8, 6, 5, 4, 2, 1]) : paper === 1 ? [2, 4, 6] : [8, 12];
     var shares = econ ? (paper === 1 ? { 1: 1 } : { 8: .3, 6: .3, 5: .06, 4: .2, 2: .12, 1: .02 }) : paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
     if (tp.subj === 'phys' && paper <= 2) { classes = [1]; shares = { 1: 1 }; }
-    else if ((tp.subj === 'acc' && paper === 2) || tp.subj === 'maths' || tp.subj === 'phys') {
+    else if ((/acc$/.test(tp.subj) && paper === 2) || tp.subj === 'maths' || tp.subj === 'phys') {
       var mk = {}, tot = 0; tp.data.forEach(function (q) { if (q.paper === paper && q.marks > 0) { mk[q.marks] = (mk[q.marks] || 0) + q.marks; tot += q.marks; } });
       classes = Object.keys(mk).map(Number).sort(function (a, b) { return b - a; }); shares = {};
       classes.forEach(function (c) { shares[c] = mk[c] / tot; });
@@ -16797,7 +16806,7 @@ function showAuthWall() {
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
-      var dk = normText(q.text) + '|' + q.marks + (tp.subj === 'acc' && paper === 2 ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
+      var dk = normText(q.text) + '|' + q.marks + (/acc$/.test(tp.subj) && paper === 2 ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
       if (seen[dk] || !buckets[q.marks]) return; seen[dk] = 1;
       var sk = key(q); (buckets[q.marks][sk] = buckets[q.marks][sk] || []).push(q);
     });
@@ -17222,7 +17231,7 @@ function showAuthWall() {
     } else {
       cover += '<div class="box"><h3>How to use this mark scheme</h3><ul>' +
         (isMCQ ? '<li>One mark for each correct answer.</li><li>The answer key is below, with a full breakdown by topic on the next page.</li>'
-               : tp.subj === 'acc' ? '<li>The official Cambridge mark scheme is shown for each part. (1) means one mark.</li><li>OF means own figure: give the mark if the figure follows correctly from the student\'s own earlier working.</li><li>Accept answers that are worded differently if they clearly mean the same thing.</li>'
+               : /acc$/.test(tp.subj) ? '<li>The official Cambridge mark scheme is shown for each part. (1) means one mark.</li><li>OF means own figure: give the mark if the figure follows correctly from the student\'s own earlier working.</li><li>Accept answers that are worded differently if they clearly mean the same thing.</li>'
                : '<li>(1) means one mark for that point. Slashes (/) separate different ways of making the same point.</li><li>Accept answers that are worded differently if they clearly mean the same thing.</li><li>8-mark questions are marked with levels. Read the whole answer and pick the best-fit level.</li>') +
         '</ul></div>';
     }
