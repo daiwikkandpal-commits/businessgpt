@@ -338,6 +338,83 @@ nav.nav-on-dark .btn-ghost{color:#e2e8f0;border-color:rgba(148,163,184,.3);backg
 /* editorial serif headings across the home page */
 .section-title,.cta-section h2{font-family:'Fraunces',Georgia,serif!important;font-weight:700!important;letter-spacing:-.025em!important}
 
+
+/* ─── Topical: generated paper ─── */
+.tpx-head{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:24px 26px;box-shadow:0 6px 24px rgba(15,30,46,.05)}
+.tpx-kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-500)}
+.tpx-title{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:700;letter-spacing:-.02em;color:var(--text);margin-top:6px;line-height:1.15}
+.tpx-sub{font-size:14px;color:var(--text2);margin-top:4px}
+.tpx-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.tpx-stats>div{background:var(--bg3,rgba(37,99,235,.04));border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+.tpx-stats b{display:block;font-size:22px;color:var(--text);line-height:1.1}
+.tpx-stats span{font-size:12px;color:var(--text3)}
+.tpx-topics{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tpx-topics span{font-size:12px;font-weight:600;color:var(--text2);background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.15);padding:5px 10px;border-radius:999px}
+.tpx-topics i{font-style:normal;color:var(--text3);font-weight:500;margin-left:2px}
+.tpx-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.tpx-btn{padding:10px 16px;border-radius:10px;border:1px solid var(--blue-500);background:var(--blue-500);color:#fff;font:600 13px 'Sora',sans-serif;cursor:pointer;transition:transform .12s,box-shadow .2s}
+.tpx-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.25)}
+.tpx-btn.ghost{background:transparent;color:var(--text2);border-color:var(--border2)}
+.tpx-btn.ghost:hover{box-shadow:none;border-color:var(--blue-500);color:var(--blue-500)}
+.tpx-note{font-size:12px;color:var(--text3);margin-top:12px;line-height:1.55}
+.tpx-how{list-style:none;counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 0;padding:0}
+.tpx-how li{counter-increment:s;position:relative;padding:12px 14px 12px 46px;background:var(--bg2);border:1px dashed var(--border2);border-radius:12px;font-size:13px;color:var(--text2);line-height:1.5}
+.tpx-how li::before{content:counter(s);position:absolute;left:14px;top:11px;width:22px;height:22px;border-radius:50%;background:var(--blue-500);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center}
+.tpx-prog{position:sticky;top:72px;z-index:20;display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;box-shadow:0 6px 20px rgba(15,30,46,.06);font-size:13px;font-weight:600;color:var(--text2)}
+.tpx-track{flex:1;height:7px;border-radius:99px;background:rgba(148,163,184,.25);overflow:hidden}
+.tpx-track>div{height:100%;width:0;background:var(--blue-500);border-radius:99px;transition:width .3s}
+.tpx-prog-m{color:var(--text3);font-weight:500}
+.tpx-list{display:flex;flex-direction:column;gap:16px;margin-top:16px}
+.tpx-block{display:flex;flex-direction:column;gap:12px;padding:16px;border:1px solid rgba(37,99,235,.18);border-radius:18px;background:rgba(37,99,235,.03)}
+.tpx-block-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.tpx-block-k{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-500);margin-bottom:3px}
+.tpx-block-t{font-size:15px;font-weight:700;color:var(--text)}
+.tpx-orig{font-size:12.5px;font-weight:600;color:var(--blue-500);text-decoration:none;white-space:nowrap}
+.tpx-orig:hover{text-decoration:underline}
+.tpx-ctx{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--blue-500);border-radius:12px;padding:12px 16px}
+.tpx-ctx>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--blue-500)}
+.tpx-scen{background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-left:4px solid var(--blue-500);border-radius:12px;padding:14px 18px;font-size:13.5px;color:var(--text2);line-height:1.7;white-space:pre-line}
+.tpx-q{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:130px}
+.tpx-qh{display:flex;align-items:flex-start;gap:12px}
+.tpx-num{flex:none;width:34px;height:34px;border-radius:10px;background:var(--blue-500);color:#fff;font-weight:700;font-size:15px;display:grid;place-items:center}
+.tpx-meta{flex:1;display:flex;flex-wrap:wrap;gap:6px;padding-top:4px}
+.tpx-chip{font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;border:1px solid var(--border);color:var(--text2);background:var(--bg)}
+.tpx-chip.topic{color:var(--blue-500);border-color:rgba(37,99,235,.25);background:rgba(37,99,235,.06)}
+.tpx-marks{flex:none;font-size:12px;font-weight:700;color:var(--text2);background:rgba(148,163,184,.15);padding:5px 10px;border-radius:8px;margin-top:3px}
+.tpx-text{font-size:15px;color:var(--text);line-height:1.7;white-space:pre-line}
+.tpx-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tpx-opt{position:relative;cursor:pointer}
+.tpx-opt input{position:absolute;opacity:0;pointer-events:none}
+.tpx-opt span{display:grid;place-items:center;height:46px;border:1.5px solid var(--border2);border-radius:12px;font-size:16px;font-weight:700;color:var(--text);transition:all .12s;background:var(--bg2)}
+.tpx-opt:hover span{border-color:var(--blue-500)}
+.tpx-opt input:checked+span{background:var(--blue-500);border-color:var(--blue-500);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.25)}
+.tpx-opt.right span{background:rgba(34,197,94,.14)!important;border-color:#22c55e!important;color:#16a34a!important;box-shadow:none!important}
+.tpx-opt.wrong span{background:rgba(239,68,68,.12)!important;border-color:#ef4444!important;color:#dc2626!important;box-shadow:none!important}
+.tpx-alabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.tpx-ta{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Kalam',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box;transition:border-color .15s,box-shadow .15s}
+.tpx-ta:focus{border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.tpx-ms{border-top:1px dashed var(--border2);padding-top:10px}
+.tpx-ms>summary{cursor:pointer;font-size:13px;font-weight:700;color:#16a34a;list-style:none}
+.tpx-ms>summary::before{content:'▸ ';}
+.tpx-ms[open]>summary::before{content:'▾ ';}
+.tpx-mstext{margin-top:8px;font-size:13px;color:var(--text2);line-height:1.65;white-space:pre-line;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:12px 14px}
+.tpx-mslink{margin-top:8px;font-size:12px}.tpx-mslink a{color:var(--blue-500);font-weight:600;text-decoration:none}
+.tpx-fb:empty{display:none}
+.tpx-verdict{font-size:13.5px;font-weight:700;padding:9px 12px;border-radius:10px}
+.tpx-verdict.ok{background:rgba(34,197,94,.1);color:#16a34a}.tpx-verdict.no{background:rgba(239,68,68,.08);color:#dc2626}
+.tpx-end{margin-top:18px}
+.tpx-main{padding:14px 30px;background:var(--blue-500);color:#fff;border:none;border-radius:12px;font:600 15px 'Sora',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(37,99,235,.3)}
+.tpx-endnote{padding:14px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:12px;font-size:13px;color:var(--text2);line-height:1.6}
+.tpx-res{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:22px 24px}
+.tpx-score{font-family:'Fraunces',Georgia,serif;font-size:44px;font-weight:700;line-height:1.1}.tpx-score span{font-size:20px;color:var(--text3)}
+.tpx-dim{color:var(--text3);font-size:13px}
+.tpx-res-h{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin:18px 0 8px}
+.tpx-trow{display:grid;grid-template-columns:minmax(120px,1.3fr) 2fr auto;gap:12px;align-items:center;font-size:13px;color:var(--text);padding:5px 0}
+.tpx-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);text-decoration:none}
+.tpx-row:hover{background:rgba(37,99,235,.04)}
+.tpx-good{font-weight:700;color:#16a34a;white-space:nowrap}.tpx-bad{font-weight:700;color:#dc2626;white-space:nowrap}
+@media(max-width:700px){.tpx-stats{grid-template-columns:repeat(2,1fr)}.tpx-how{grid-template-columns:1fr}.tpx-head{padding:20px}.tpx-q{padding:16px}.tpx-block{padding:10px}.tpx-prog{top:64px}}
+
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -16618,7 +16695,7 @@ function showAuthWall() {
   function numSort(a, b) { return String(a).localeCompare(String(b), undefined, { numeric: true }); }
   var tp = { subj: 'bus', data: null, mode: 'gen',
     unit: null, sub: 'all', paper: 'all', shown: 10, list: [], shuffled: false,      // browse
-    gPaper: 1, gSel: {}, gTarget: 40, paperQs: [], marking: false };                 // generate
+    gPaper: 1, gSel: {}, gTarget: 40, gFrom: 0, paperQs: [], marking: false };                 // generate
 
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function clean(s){ return String(s || '').replace(/\\n/g, '\n'); }
@@ -16728,15 +16805,27 @@ function showAuthWall() {
   function tpRenderGen() {
     var d = tp.data, paper = tp.gPaper;
     var counts = {};
-    d.forEach(function (q) { if (q.paper === paper) counts[key(q)] = (counts[key(q)] || 0) + 1; });
+    var yrs = {};
+    d.forEach(function (q) { if (q.paper === paper) yrs[Number(q.year)] = 1; });
+    var yearList = Object.keys(yrs).map(Number).sort(function (a, b) { return b - a; });
+    if (tp.gFrom && yearList.indexOf(tp.gFrom) < 0) tp.gFrom = 0;
+    d.forEach(function (q) { if (q.paper === paper && (!tp.gFrom || Number(q.year) >= tp.gFrom)) counts[key(q)] = (counts[key(q)] || 0) + 1; });
 
     var h = '';
     // paper
     h += '<div><div style="' + labelCss + '">1 · Paper</div><div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">' +
       tpCfg().papers.map(function (p) { return '<button onclick="tpGPaper(' + p + ')" style="' + segStyle(paper === p) + '">' + tpCfg().pLabel[p] + '</button>'; }).join('') + '</div></div>';
 
+    // years
+    h += '<div><div style="' + labelCss + '">2 · Years</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
+      '<span style="font-size:14px;color:var(--text2)">Only use questions from</span>' +
+      '<select onchange="tpGFrom(this.value)" style="padding:9px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font:600 13px Sora,sans-serif;cursor:pointer">' +
+      '<option value="0"' + (!tp.gFrom ? ' selected' : '') + '>All years (' + yearList[yearList.length - 1] + ' to ' + yearList[0] + ')</option>' +
+      yearList.slice(0, -1).map(function (y) { return '<option value="' + y + '"' + (tp.gFrom === y ? ' selected' : '') + '>' + y + ' onwards</option>'; }).join('') +
+      '</select></div><div style="font-size:12px;color:var(--text3);margin-top:8px">Pick a year to practise only recent papers. The topic counts below update to match.</div></div>';
+
     // topics
-    h += '<div><div style="' + labelCss + '">2 · Topics <span style="text-transform:none;letter-spacing:0;font-weight:400">(tick as many as you like)</span></div><div style="display:flex;flex-direction:column;gap:16px">';
+    h += '<div><div style="' + labelCss + '">3 · Topics <span style="text-transform:none;letter-spacing:0;font-weight:400">(tick as many as you like)</span></div><div style="display:flex;flex-direction:column;gap:16px">';
     var selectedQs = 0, selectedTopics = 0;
     Object.keys(UNIT_NAMES).map(Number).forEach(function (u) {
       var subs = Object.keys(counts).filter(function (k) { return k.split('|')[0] == u; }).sort(function (a, b) { return numSort(a.split('|')[1], b.split('|')[1]); });
@@ -16757,7 +16846,7 @@ function showAuthWall() {
     h += '</div></div>';
 
     // length
-    h += '<div><div style="' + labelCss + '">3 · Length</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
+    h += '<div><div style="' + labelCss + '">4 · Length</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
     lengthOptions(paper).forEach(function (m) {
       h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
     });
@@ -16782,6 +16871,7 @@ function showAuthWall() {
   window.tpGPaper = function (p) { if (tp.gPaper !== p) { tp.gPaper = p; tp.gSel = {}; document.getElementById('tpPaper').innerHTML = ''; document.getElementById('tpResults').innerHTML = ''; tp.paperQs = []; } tpRenderGen(); };
   window.tpGToggle = function (k) { if (tp.gSel[k]) delete tp.gSel[k]; else tp.gSel[k] = true; tpRenderGen(); };
   window.tpGLen = function (m) { tp.gTarget = m; tpRenderGen(); };
+  window.tpGFrom = function (y) { tp.gFrom = Number(y) || 0; tpRenderGen(); };
   window.tpGUnit = function (u) {
     var keys = {};
     tp.data.forEach(function (q) { if (q.paper === tp.gPaper && q.unit === u) keys[key(q)] = 1; });
@@ -16802,7 +16892,7 @@ function showAuthWall() {
       classes = Object.keys(mk).map(Number).sort(function (a, b) { return b - a; }); shares = {};
       classes.forEach(function (c) { shares[c] = mk[c] / tot; });
     }
-    var pool = shuffle(tp.data.filter(function (q) { return q.paper === paper && keys[key(q)]; }));
+    var pool = shuffle(tp.data.filter(function (q) { return q.paper === paper && keys[key(q)] && (!tp.gFrom || Number(q.year) >= tp.gFrom); }));
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
@@ -16868,65 +16958,138 @@ function showAuthWall() {
   }
   function paperMax() { return tp.paperQs.reduce(function (s, q) { return s + q.marks; }, 0); }
 
+  function srcVariant(q) {
+    if (q.variant) return String(q.variant);
+    var m = /Variant (\d)/.exec(q.paperLabel || '') || /_\d(\d)$/.exec(q.paperKey || '') || /_\d(\d)_/.exec(q.id || '');
+    return m ? m[1] : '';
+  }
+  function srcLabel(q, short) {
+    var v = srcVariant(q);
+    return esc(q.session) + ' ' + q.year + ' · Paper ' + q.paper + (v ? (short ? ' · V' : ' · Variant ') + v : '') + ' · Q' + esc(q.qNum);
+  }
+  function srcPaper(q) { var v = srcVariant(q); return esc(q.session) + ' ' + q.year + ' · Paper ' + q.paper + (v ? ' · Variant ' + v : ''); }
+  function qpLink(q) { return q.qp ? '<a class="tpx-orig" href="' + esc(q.qp) + '" target="_blank" rel="noopener">Original paper ↗</a>' : ''; }
+  function msBlock(q) {
+    var inner = q.msImg && q.msImg.length ? bigImgs(q.msImg) : '<div class="tpx-mstext">' + fmtMS(q.ms || 'See the mark scheme.') + '</div>';
+    return '<details class="tpx-ms"><summary>Show mark scheme</summary>' + inner +
+      (q.qp ? '<div class="tpx-mslink"><a href="' + esc(String(q.qp).replace('_qp_', '_ms_')) + '" target="_blank" rel="noopener">Full mark scheme PDF ↗</a></div>' : '') + '</details>';
+  }
+  function tpProgress() {
+    var qs = tp.paperQs, done = 0;
+    qs.forEach(function (q, i) {
+      if (q.options) { if (document.querySelector('input[name="tpmcq-' + i + '"]:checked')) done++; }
+      else { var el = document.getElementById('tpans-' + i); if (el && el.value.trim()) done++; }
+    });
+    var t = document.getElementById('tpxProgTxt'), bar = document.getElementById('tpxProgBar');
+    if (t) t.textContent = done + ' of ' + qs.length + ' answered';
+    if (bar) bar.style.width = (qs.length ? done / qs.length * 100 : 0) + '%';
+  }
+  window.tpProgress = tpProgress;
+
   function tpRenderPaper() {
     var qs = tp.paperQs, box = document.getElementById('tpPaper');
     if (!qs.length) { box.innerHTML = '<div style="padding:16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:14px;color:var(--text2)">No questions matched those topics for this paper. Try adding more topics.</div>'; return; }
-    var max = paperMax(), lastPK = null, lastG = null, h = '', scen = groupScenarios(qs);
-    h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">' +
-      '<div><div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-400);margin-bottom:4px">Your topical paper</div>' +
-      '<div style="font-size:20px;font-weight:700;color:var(--text)">Paper ' + tp.gPaper + ' · ' + max + ' marks · ' + qs.length + ' questions</div>' +
-      '<div style="font-size:13px;color:var(--text3);margin-top:4px">' + esc(paperTitle()) + '</div></div>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-      '<button onclick="tpPrint(\'paper\')" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">⬇ Question paper (PDF)</button>' +
-      '<button onclick="tpPrint(\'ms\')" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">⬇ Mark scheme (PDF)</button>' +
-      '<button onclick="tpGenerate()" style="padding:9px 16px;border-radius:9px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">🔀 New paper, same topics</button></div></div>';
-    h += '<div style="font-size:12px;color:var(--text3);margin-top:8px">To save as a PDF, click a download button and choose <strong>Save as PDF</strong> as the destination in the print window.</div>';
-    if (max < tp.gTarget) {
-      h += '<div style="font-size:12px;color:var(--text3)">Only ' + max + ' of ' + tp.gTarget + ' marks could be built from these topics. Add more topics for a longer paper.</div>';
-    }
-    h += '<div style="display:flex;flex-direction:column;gap:14px;margin-top:14px">';
+    var cfg = tpCfg(), max = paperMax(), lastPK = null, lastG = null, h = '', scen = groupScenarios(qs);
+    var isMCQ = !!(qs[0] && qs[0].options), open = false;
+    var mins = Math.max(5, Math.round((isMCQ ? qs.length * 1.5 : max * 1.3) / 5) * 5);
+    var papers = {}; qs.forEach(function (q) { papers[srcPaper(q)] = 1; });
+    var topics = {}; qs.forEach(function (q) { topics[q.subtopic] = (topics[q.subtopic] || 0) + 1; });
+
+    // header
+    h += '<div class="tpx-head">' +
+      '<div class="tpx-kicker">Your topical paper</div>' +
+      '<div class="tpx-title">' + esc(cfg.name) + '</div>' +
+      '<div class="tpx-sub">' + esc((cfg.pLabel || {})[tp.gPaper] || ('Paper ' + tp.gPaper)) + '</div>' +
+      '<div class="tpx-stats">' +
+        '<div><b>' + qs.length + '</b><span>questions</span></div>' +
+        '<div><b>' + max + '</b><span>marks</span></div>' +
+        '<div><b>~' + mins + '</b><span>minutes</span></div>' +
+        '<div><b>' + Object.keys(papers).length + '</b><span>past papers used</span></div>' +
+      '</div>' +
+      '<div class="tpx-topics">' + Object.keys(topics).map(function (t) { return '<span>' + esc(t) + ' <i>' + topics[t] + '</i></span>'; }).join('') + '</div>' +
+      '<div class="tpx-actions">' +
+        '<button class="tpx-btn" onclick="tpPrint(\'paper\')">⬇ Question paper PDF</button>' +
+        '<button class="tpx-btn" onclick="tpPrint(\'ms\')">⬇ Mark scheme PDF</button>' +
+        '<button class="tpx-btn ghost" onclick="tpGenerate()">🔀 New paper, same topics</button>' +
+      '</div>' +
+      '<div class="tpx-note">PDF tip: in the print window, choose <b>Save as PDF</b> as the destination.' +
+        (tp.gFrom ? ' Questions from ' + tp.gFrom + ' onwards only.' : '') +
+        (max < tp.gTarget ? ' Only ' + max + ' of ' + tp.gTarget + ' marks could be built from these topics, so add more topics for a longer paper.' : '') + '</div>' +
+    '</div>';
+
+    // how to
+    var steps = isMCQ
+      ? ['Pick one answer for every question.', 'Press <b>Check answers</b> at the bottom.', 'Each question then shows the right answer, and you get a score by topic.']
+      : cfg.marking
+        ? ['Questions from the same case study are grouped. Read the case study first.', 'Type your answer in each box.', 'Press <b>Mark this paper</b> for feedback on every question.']
+        : ['Questions from the same past paper question are grouped. Read the blue box first, it has the information you need.', 'Write your answers in the boxes or on paper.', 'Open <b>Show mark scheme</b> under each question to check yourself.'];
+    h += '<ol class="tpx-how">' + steps.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>';
+
+    // progress
+    h += '<div class="tpx-prog"><span id="tpxProgTxt">0 of ' + qs.length + ' answered</span><div class="tpx-track"><div id="tpxProgBar"></div></div><span class="tpx-prog-m">' + max + ' marks</span></div>';
+
+    h += '<div class="tpx-list">';
     qs.forEach(function (q, i) {
-      if (q.paper === 2 && q.paperKey !== lastPK) {
-        lastPK = q.paperKey;
-        h += '<details style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--blue-500)">📄 ' + (q.ctxLabel || 'Case study') + ' (read this first)</summary>' + ctxHtml(q) + '</details>';
-      }
-      if (q.paper === 1 && gid(q) !== lastG) {
+      if (q.paper !== 1 && q.paperKey !== lastPK && (q.ctxImg && q.ctxImg.length || q.caseStudy)) {
+        if (open) h += '</section>';
+        lastPK = q.paperKey; open = true;
+        h += '<section class="tpx-block"><div class="tpx-block-h"><div><div class="tpx-block-k">From the past paper</div><div class="tpx-block-t">' + srcPaper(q) + ' · ' + esc(q.ctxLabel ? q.ctxLabel.replace(/ \(full question\)/, '') : 'Question ' + String(q.qNum).replace(/\(.*/, '')) + '</div></div>' + qpLink(q) + '</div>' +
+          '<details class="tpx-ctx" open><summary>Read this first: ' + esc(q.ctxLabel && /Stimulus|Source/.test(q.ctxLabel) ? q.ctxLabel : (cfg.marking ? 'case study' : 'the question information')) + '</summary>' + ctxHtml(q) + '</details>';
+      } else if (q.paper === 1 && gid(q) !== lastG) {
+        if (open) { h += '</section>'; open = false; }
         lastG = gid(q);
-        if (scen[lastG]) h += '<div style="background:rgba(37,99,235,.05);border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px"><div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-500);margin-bottom:6px">Scenario</div>' +
-          '<div style="font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-line">' + esc(scen[lastG]) + '</div></div>';
+        if (scen[lastG]) h += '<div class="tpx-scen"><div class="tpx-block-k">Scenario</div><div>' + esc(scen[lastG]) + '</div></div>';
       }
-      h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">' +
-        '<div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
-        '<div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:13px;font-weight:700;color:var(--blue-400);min-width:28px">Q' + (i + 1) + '</span>' +
-        '<span style="font-size:14px;color:var(--text);flex:1;line-height:1.65;white-space:pre-line">' + esc(shownText(q)) + '</span>' +
-        '<span style="font-size:11px;color:var(--text3);white-space:nowrap">[' + q.marks + ' marks]</span></div>' + imgsHtml(q) + optsAfterImg(q) +
-        (q.options ? '<div id="tpmcq-' + i + '" style="display:flex;gap:8px;flex-wrap:wrap">' + ['A','B','C','D'].map(function (L) { return '<label style="display:flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid var(--border);border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)"><input type="radio" name="tpmcq-' + i + '" value="' + L + '"> ' + L + '</label>'; }).join('') + '</div>' : '<textarea id="tpans-' + i + '" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Your answer…" style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:\'Kalam\',cursive;font-size:15px;line-height:1.7;resize:vertical;outline:none;box-sizing:border-box" onfocus="this.style.borderColor=\'rgba(59,130,246,.5)\'" onblur="this.style.borderColor=\'var(--border)\'"></textarea>') +
-        '</div></div>';
+      var ans = q.options
+        ? '<div class="tpx-opts" id="tpmcq-' + i + '">' + ['A', 'B', 'C', 'D'].map(function (L) { return '<label class="tpx-opt"><input type="radio" name="tpmcq-' + i + '" value="' + L + '"><span>' + L + '</span></label>'; }).join('') + '</div>'
+        : '<div class="tpx-alabel">Your answer</div><textarea id="tpans-' + i + '" class="tpx-ta" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Write your answer here…"></textarea>';
+      h += '<article class="tpx-q" id="tpq-' + i + '">' +
+        '<div class="tpx-qh"><span class="tpx-num">' + (i + 1) + '</span>' +
+          '<div class="tpx-meta"><span class="tpx-chip src" title="Where this question comes from">📄 ' + srcLabel(q) + '</span><span class="tpx-chip topic">' + esc(q.subtopic) + '</span></div>' +
+          '<span class="tpx-marks">' + q.marks + ' mark' + (q.marks === 1 ? '' : 's') + '</span></div>' +
+        (shownText(q) ? '<div class="tpx-text">' + esc(shownText(q)) + '</div>' : '') +
+        imgsHtml(q) + optsAfterImg(q) + ans +
+        (!q.options && !cfg.marking ? msBlock(q) : '') +
+        '<div class="tpx-fb" id="tpfb-' + i + '"></div>' +
+      '</article>';
     });
-    h += '</div>' +
-      (qs[0] && qs[0].options ? '<button onclick="tpCheckMCQ()" style="margin-top:16px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Check answers</button>' : tpCfg().marking ? '<button id="tpMarkBtn" onclick="tpMarkPaper()" style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--blue-500);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28)">Mark this paper</button>' : '<div style="margin-top:16px;padding:12px 16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;font-size:13px;color:var(--text2)">Marking for ' + ({ acc: 'Accounting', maths: 'Maths', phys: 'Physics' }[tp.subj] || 'Economics') + ' is coming soon. Download the mark scheme above to check your answers.</div>');
+    if (open) h += '</section>';
+    h += '</div>';
+
+    h += '<div class="tpx-end">' +
+      (isMCQ ? '<button class="tpx-main" onclick="tpCheckMCQ()">Check answers</button>'
+        : cfg.marking ? '<button id="tpMarkBtn" class="tpx-main" onclick="tpMarkPaper()">Mark this paper</button>'
+        : '<div class="tpx-endnote">AI marking for ' + esc(cfg.name.replace(/^(IGCSE|AS Level) /, '')) + ' is coming soon. Use <b>Show mark scheme</b> under each question, or download the full mark scheme above.</div>') +
+      '</div>';
     box.innerHTML = h;
+    box.oninput = box.onchange = tpProgress;
+    tpProgress();
   }
 
   // ── marking ──
   window.tpCheckMCQ = function () {
-    var qs = tp.paperQs, right = 0, rows = '';
+    var qs = tp.paperQs, right = 0, rows = '', byTopic = {};
     qs.forEach(function (q, i) {
       var sel = document.querySelector('input[name="tpmcq-' + i + '"]:checked'), a = sel ? sel.value : null, ok = a === q.answer;
       if (ok) right++;
+      var t = byTopic[q.subtopic] || (byTopic[q.subtopic] = [0, 0]); t[1]++; if (ok) t[0]++;
       var box = document.getElementById('tpmcq-' + i);
       if (box) box.querySelectorAll('label').forEach(function (l) {
         var v = l.querySelector('input').value;
-        l.style.borderColor = v === q.answer ? '#4ade80' : (v === a ? '#f87171' : 'var(--border)');
-        l.style.background = v === q.answer ? 'rgba(74,222,128,.12)' : (v === a ? 'rgba(248,113,113,.1)' : 'transparent');
+        l.classList.toggle('right', v === q.answer); l.classList.toggle('wrong', v === a && !ok);
       });
-      rows += '<div style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--text)">Q' + (i + 1) + ' <span style="color:var(--text3)">· ' + esc(q.subtopic) + '</span></span>' +
-        '<span style="font-weight:700;color:' + (ok ? '#4ade80' : '#f87171') + '">' + (ok ? '✓ ' + a : (a ? '✗ ' + a + ' · answer ' + q.answer : 'blank · answer ' + q.answer)) + '</span></div>';
+      var fb = document.getElementById('tpfb-' + i);
+      if (fb) fb.innerHTML = '<div class="tpx-verdict ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓ Correct' : (a ? '✗ You picked ' + a + '. The answer is ' + q.answer + '.' : 'Not answered. The answer is ' + q.answer + '.')) + '</div>';
+      rows += '<a class="tpx-row" href="#tpq-' + i + '"><span><b>Q' + (i + 1) + '</b> <span class="tpx-dim">' + srcLabel(q, true) + '</span></span>' +
+        '<span class="' + (ok ? 'tpx-good' : 'tpx-bad') + '">' + (ok ? '✓ ' + a : (a ? '✗ ' + a + ' · answer ' + q.answer : 'blank · answer ' + q.answer)) + '</span></a>';
     });
-    var pct = Math.round(right / qs.length * 100), c = pct >= 70 ? '#4ade80' : pct >= 50 ? '#fbbf24' : '#f87171';
-    document.getElementById('tpResults').innerHTML = '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px">' +
-      '<div style="font-size:22px;font-weight:700;color:' + c + '">' + right + ' / ' + qs.length + ' <span style="font-size:14px;color:var(--text3);font-weight:500">(' + pct + '%)</span></div>' +
-      '<div style="margin-top:12px">' + rows + '</div></div>';
+    var pct = Math.round(right / qs.length * 100), c = pct >= 70 ? '#22c55e' : pct >= 50 ? '#f59e0b' : '#ef4444';
+    var tp_ = Object.keys(byTopic).map(function (k) { var v = byTopic[k], p = Math.round(v[0] / v[1] * 100);
+      return '<div class="tpx-trow"><span>' + esc(k) + '</span><div class="tpx-track"><div style="width:' + p + '%;background:' + (p >= 70 ? '#22c55e' : p >= 50 ? '#f59e0b' : '#ef4444') + '"></div></div><b>' + v[0] + '/' + v[1] + '</b></div>'; }).join('');
+    document.getElementById('tpResults').innerHTML = '<div class="tpx-res">' +
+      '<div class="tpx-res-top"><div><div class="tpx-kicker">Your score</div><div class="tpx-score" style="color:' + c + '">' + right + '<span> / ' + qs.length + '</span></div><div class="tpx-dim">' + pct + '% correct</div></div></div>' +
+      '<div class="tpx-res-h">By topic</div>' + tp_ +
+      '<div class="tpx-res-h">Every question</div><div>' + rows + '</div></div>';
     var r = document.getElementById('tpResults'); if (r && r.scrollIntoView) r.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   function tpPart(q) {
@@ -17029,7 +17192,7 @@ function showAuthWall() {
       var r = results[i], p = r.score / q.marks, c = p >= .75 ? '#4ade80' : p >= .5 ? '#fbbf24' : '#f87171';
       h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><div style="font-size:13px;font-weight:700;color:var(--text)">Q' + (i + 1) +
-        ' <span style="font-weight:500;color:var(--text3)">· from ' + q.year + ' ' + esc(q.session) + ', Paper ' + q.paper + ' ' + esc(q.qNum) + '</span></div>' +
+        ' <span style="font-weight:500;color:var(--text3)">· ' + srcLabel(q) + '</span></div>' +
         '<div style="font-size:15px;font-weight:700;color:' + c + '">' + r.score + '/' + q.marks + (r.level ? ' <span style="font-size:11px;color:var(--text3);font-weight:500">' + esc(r.level) + '</span>' : '') + '</div></div>' +
         '<div style="font-size:13px;color:var(--text2);line-height:1.6">' + esc(r.feedback || '') + '</div>' +
         (r.missed ? '<div style="font-size:13px;color:#f87171;line-height:1.6"><strong>Missed:</strong> ' + esc(r.missed) + '</div>' : '') +
