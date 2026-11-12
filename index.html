@@ -972,6 +972,7 @@ nav .dark-toggle { flex-shrink: 0; }
       </li>
     </ul>
     <div style="display:flex;align-items:center;gap:10px">
+      <div class="lvl-seg lvl-seg-nav" title="Choose your level"><button data-lvl="igcse" onclick="setLevel('igcse')">IGCSE</button><button data-lvl="as" onclick="setLevel('as')">AS</button></div>
       <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
       <div class="nav-cta" id="navCta" style="display:none">
         <a href="auth.html" class="btn-ghost" id="navSignin">Sign in</a>
@@ -1004,6 +1005,19 @@ nav .dark-toggle { flex-shrink: 0; }
 </nav>
 
 
+
+<!-- Level chooser (first visit) -->
+<div class="level-modal" id="levelModal">
+  <div class="level-card">
+    <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Welcome to IGCSE Mark</div>
+    <h3>What are you studying?</h3>
+    <p>We'll show you the right past papers and practice. You can switch any time from the top bar.</p>
+    <div class="level-opts">
+      <button onclick="setLevel('igcse')"><b>IGCSE</b><span>Business, Economics, Accounting, Maths, Sciences and more</span></button>
+      <button onclick="setLevel('as')"><b>AS Level</b><span>Business 9609, Economics 9708, Accounting 9706</span></button>
+    </div>
+  </div>
+</div>
 
 <!-- School prompt modal (catches every sign-in method missing a school) -->
 <div class="school-modal-overlay" id="schoolModalOverlay">
@@ -1334,6 +1348,23 @@ nav .dark-toggle { flex-shrink: 0; }
 
 <!-- PAST PAPERS PAGE -->
 <style>
+.lvl-seg{display:inline-flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+.lvl-seg button{border:0;background:transparent;color:var(--text2);font:600 12.5px 'Sora',sans-serif;padding:6px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.lvl-seg button:hover{color:var(--text)}
+.lvl-seg button.on{background:var(--blue-500);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,.25)}
+.lvl-seg-side{display:flex;width:100%}.lvl-seg-side button{flex:1}
+.level-modal{position:fixed;inset:0;background:rgba(15,30,46,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:3000;padding:20px}
+.level-modal.show{display:flex}
+.level-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:30px;max-width:520px;width:100%;box-shadow:0 30px 80px rgba(15,30,46,.25);animation:heroFadeUp .3s ease}
+.level-card h3{font-size:24px;font-weight:700;letter-spacing:-.4px;color:var(--text);margin-bottom:8px}
+.level-card p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:20px}
+.level-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.level-opts button{display:flex;flex-direction:column;justify-content:flex-start;text-align:left;background:var(--bg3);border:1.5px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;font-family:'Sora',sans-serif;transition:border-color .15s,transform .15s,box-shadow .15s}
+.level-opts button:hover{border-color:var(--blue-500);transform:translateY(-2px);box-shadow:0 10px 24px rgba(37,99,235,.15)}
+.level-opts b{display:block;font-size:18px;color:var(--text);margin-bottom:6px}
+.level-opts span{font-size:12.5px;color:var(--text3);line-height:1.5}
+@media(max-width:560px){.level-opts{grid-template-columns:1fr}}
+@media(max-width:1100px){.lvl-seg-nav button{padding:5px 8px;font-size:11.5px}}
 .pps-btn{padding:9px 12px;border-radius:8px;font-size:13px;font-family:'Sora',sans-serif;border:none;cursor:pointer;text-align:left;width:100%;font-weight:500;background:transparent;color:var(--text2)}
 .pps-btn:hover{background:rgba(59,130,246,.08)}
 .pps-btn.on{background:var(--blue-500);color:#fff;font-weight:600}
@@ -1372,7 +1403,8 @@ nav .dark-toggle { flex-shrink: 0; }
 @media(max-width:760px){
 #pastPapersPage>div{flex-direction:column}
 #ppSide{width:auto!important;min-width:0!important;height:auto!important;position:static!important;flex-direction:row!important;overflow-x:auto;padding:12px 16px!important;border-right:0!important;border-bottom:1px solid var(--border)}
-#ppSide>div{display:none}
+#ppSide>div:not(#ppSubjList){display:none}
+#ppSubjList{flex-direction:row!important}
 #ppSide .pps-btn{width:auto;white-space:nowrap;flex:none}
 #ppMain{padding:22px 16px 60px!important}
 .pp-years{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
@@ -1386,17 +1418,11 @@ nav .dark-toggle { flex-shrink: 0; }
   <div style="display:flex;min-height:calc(100vh - 80px)">
 
     <!-- Sidebar -->
-    <div id="ppSide" style="width:180px;min-width:180px;background:var(--bg2);border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(64px + var(--exam-banner-h,0px));height:calc(100vh - 64px - var(--exam-banner-h,0px));overflow-y:auto;flex-shrink:0">
-      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px">Subject</div>
-      <button onclick="setPPSubject('bus')" id="pps-bus" class="pps-btn">Business 0450</button>
-      <button onclick="setPPSubject('econ')" id="pps-econ" class="pps-btn">Economics 0455</button>
-      <button onclick="setPPSubject('acc')" id="pps-acc" class="pps-btn">Accounting 0452</button>
-      <button onclick="setPPSubject('maths')" id="pps-maths" class="pps-btn">Mathematics 0580</button>
-      <button onclick="setPPSubject('phys')" id="pps-phys" class="pps-btn">Physics 0625</button>
-      <button onclick="setPPSubject('chem')" id="pps-chem" class="pps-btn">Chemistry 0620</button>
-      <button onclick="setPPSubject('bio')" id="pps-bio" class="pps-btn">Biology 0610</button>
-      <button onclick="setPPSubject('eng')" id="pps-eng" class="pps-btn">English First Language 0500</button>
-      <button onclick="setPPSubject('cs')" id="pps-cs" class="pps-btn">Computer Science 0478</button>
+    <div id="ppSide" style="width:200px;min-width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(64px + var(--exam-banner-h,0px));height:calc(100vh - 64px - var(--exam-banner-h,0px));overflow-y:auto;flex-shrink:0">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px">Level</div>
+      <div class="lvl-seg lvl-seg-side"><button data-lvl="igcse" onclick="setPPSubject(ppLastSubj.igcse)">IGCSE</button><button data-lvl="as" onclick="setPPSubject(ppLastSubj.as)">AS Level</button></div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin:14px 0 8px">Subject</div>
+      <div id="ppSubjList" style="display:flex;flex-direction:column;gap:6px"></div>
 
     </div>
 
@@ -2997,11 +3023,11 @@ const MATHS_PAST_PAPERS = buildMathsPapers();
 
 // Generic builder: cfg.papers(y) -> {paperNo: label}; cfg.has(y, s, type, paperNo, variant) -> bool
 function buildPapersFrom(slug, code, cfg) {
-  const base = 'https://bestexamhelp.com/exam/cambridge-igcse/' + slug + '/';
+  const base = (cfg.base || 'https://bestexamhelp.com/exam/cambridge-igcse/') + slug + '/';
   const link = (y, s, type, pv) => base + y + '/' + code + '_' + s + String(y).slice(2) + '_' + type + '_' + pv + '.pdf';
   const extras = cfg.extras || [];
   const out = [];
-  ['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015'].forEach(y => {
+  (cfg.years || ['2026','2025','2024','2023','2022','2021','2020','2019','2018','2017','2016','2015']).forEach(y => {
     const sessions = [];
     [['May/June','s',[1,2,3]],['Oct/Nov','w',[1,2,3]],['Feb/March','m',[2]]].forEach(([name, s, vs]) => {
       if (+y === 2026 && s === 'w') return;
@@ -3061,6 +3087,20 @@ const BIO_PAST_PAPERS = buildPapersFrom('biology-0610', '0610', {
   has: (y, s, t, p, v) => !(y === 2020 && s === 's' && p === 3 && v === 3) && !(y === 2021 && s === 'w' && p === 5 && v === 3)
 });
 
+// ── AS Level (Papers 1 and 2), 2010–2026 ──
+const AS_BASE = 'https://bestexamhelp.com/exam/cambridge-international-a-level/';
+const AS_YEARS = Array.from({ length: 17 }, (_, i) => String(2026 - i));
+const asCfg = papers => ({ base: AS_BASE, years: AS_YEARS, papers, sessionOk: (y, s) => s !== 'm' || y >= 2016, has: () => true });
+const AS_BUS_PAST_PAPERS = buildPapersFrom('business-9609', '9609', asCfg(y => y >= 2023
+  ? { 1: 'Paper 1 — Business Concepts 1', 2: 'Paper 2 — Business Concepts 2' }
+  : { 1: 'Paper 1 — Short Answer and Essay', 2: 'Paper 2 — Data Response' }));
+const AS_ECON_PAST_PAPERS = buildPapersFrom('economics-9708', '9708', asCfg(y => y >= 2016
+  ? { 1: 'Paper 1 — Multiple Choice', 2: 'Paper 2 — Data Response and Essays' }
+  : { 1: 'Paper 1 — Multiple Choice', 2: 'Paper 2 — Data Response' }));
+const AS_ACC_PAST_PAPERS = buildPapersFrom('accounting-9706', '9706', asCfg(y => y >= 2023
+  ? { 1: 'Paper 1 — Multiple Choice', 2: 'Paper 2 — Fundamentals of Accounting' }
+  : { 1: 'Paper 1 — Multiple Choice', 2: 'Paper 2 — Structured Questions' }));
+
 const PP_SUBJECTS = {
   bus:  { name: 'Business Studies', data: () => PAST_PAPERS,      code: '0450', p1: 'Paper 1 — Short Answer',    p2: 'Paper 2 — Case Study',               inserts: true },
   econ: { name: 'Economics', data: () => ECON_PAST_PAPERS, code: '0455', p1: 'Paper 1 — Multiple Choice', p2: 'Paper 2 — Structured Questions',     inserts: false },
@@ -3070,8 +3110,34 @@ const PP_SUBJECTS = {
   chem: { name: 'Chemistry', data: () => CHEM_PAST_PAPERS, code: '0620' },
   bio:  { name: 'Biology', data: () => BIO_PAST_PAPERS, code: '0610' },
   eng:  { name: 'English First Language', data: () => ENG_PAST_PAPERS, code: '0500' },
-  cs:   { name: 'Computer Science', data: () => CS_PAST_PAPERS, code: '0478' }
+  cs:   { name: 'Computer Science', data: () => CS_PAST_PAPERS, code: '0478' },
+  asbus:  { level: 'as', name: 'Business', data: () => AS_BUS_PAST_PAPERS, code: '9609' },
+  asecon: { level: 'as', name: 'Economics', data: () => AS_ECON_PAST_PAPERS, code: '9708' },
+  asacc:  { level: 'as', name: 'Accounting', data: () => AS_ACC_PAST_PAPERS, code: '9706' }
 };
+const ppLevelOf = k => PP_SUBJECTS[k].level || 'igcse';
+const LEVEL_NAME = { igcse: 'Cambridge IGCSE', as: 'Cambridge International AS Level' };
+
+// ── Site-wide level (IGCSE / AS Level) ──
+let siteLevel = (() => { try { return localStorage.getItem('igm_level'); } catch (e) { return null; } })();
+const ppLastSubj = { igcse: 'bus', as: 'asacc' };
+function setLevel(l, quiet) {
+  siteLevel = l;
+  try { localStorage.setItem('igm_level', l); } catch (e) {}
+  document.querySelectorAll('[data-lvl]').forEach(b => b.classList.toggle('on', b.getAttribute('data-lvl') === l));
+  const m = document.getElementById('levelModal'); if (m) m.classList.remove('show');
+  if (quiet) return;
+  const pp = document.getElementById('pastPapersPage');
+  if (pp && pp.style.display === 'block') setPPSubject(ppLevelOf(ppSubject) === l ? ppSubject : ppLastSubj[l]);
+  if (typeof window.tpApplyLevel === 'function') window.tpApplyLevel();
+}
+function ppRenderSide() {
+  const lv = ppLevelOf(ppSubject), box = document.getElementById('ppSubjList');
+  if (!box) return;
+  box.innerHTML = Object.keys(PP_SUBJECTS).filter(k => ppLevelOf(k) === lv).map(k =>
+    '<button onclick="setPPSubject(\'' + k + '\')" id="pps-' + k + '" class="pps-btn' + (k === ppSubject ? ' on' : '') + '">' + PP_SUBJECTS[k].name + ' ' + PP_SUBJECTS[k].code + '</button>').join('');
+  document.querySelectorAll('#ppSide [data-lvl]').forEach(b => b.classList.toggle('on', b.getAttribute('data-lvl') === lv));
+}
 
 let ppSubject = 'bus', ppYear = null, ppSession = 'all', ppPaper = 'all', ppFilter = 'all';
 const ppVar = (url, fb) => { const m = /_(\d)(\d)\.pdf$/.exec(url || ''); return m ? +m[2] : fb; };
@@ -3098,9 +3164,11 @@ function ppNorm(key) {
 
 function setPPSubject(sub) {
   ppSubject = sub;
+  const lv = ppLevelOf(sub); ppLastSubj[lv] = sub;
+  if (siteLevel !== lv) setLevel(lv, true);
   const title = document.getElementById('ppTitle');
-  if (title) title.innerHTML = 'Cambridge IGCSE ' + PP_SUBJECTS[sub].name + ' <span style="color:var(--blue-400)">' + PP_SUBJECTS[sub].code + '</span>';
-  Object.keys(PP_SUBJECTS).forEach(k => { const b = document.getElementById('pps-' + k); if (b) b.classList.toggle('on', k === sub); });
+  if (title) title.innerHTML = LEVEL_NAME[lv] + ' ' + PP_SUBJECTS[sub].name + ' <span style="color:var(--blue-400)">' + PP_SUBJECTS[sub].code + '</span>';
+  ppRenderSide();
   const years = ppNorm(sub).map(y => y.year);
   if (!years.includes(ppYear)) ppYear = years[0];
   ppPaper = 'all';
@@ -3125,7 +3193,7 @@ function showPastPapers() {
   document.getElementById('navPapers').style.fontWeight = '600';
   window.scrollTo(0,0);
   document.title = 'Past Papers — IGCSE Mark';
-  setPPSubject(ppSubject);
+  setPPSubject(siteLevel && ppLevelOf(ppSubject) !== siteLevel ? ppLastSubj[siteLevel] : ppSubject);
 }
 
 function filterPP(f) { if (/^\d{4}$/.test(f)) ppYear = f; renderPastPapers(); }
@@ -16351,7 +16419,17 @@ function showAuthWall() {
       <div id="tpDesc" data-bus="Pick a paper and the topics you want. We build a paper from real past paper questions on just those topics, you write your answers, and it gets marked like a full paper." style="font-size:14px;color:var(--text2);margin-top:6px;line-height:1.6">Pick a paper and the topics you want. We build a paper from real past paper questions on just those topics, you write your answers, and it gets marked like a full paper.</div>
     </div>
 
-    <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
+    <div id="tpAsSoon" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">AS Level</div>
+      <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px">AS Level topical is on the way</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:18px">We're tagging every AS Accounting 9706 question from 2010 to 2026 by topic, with Business and Economics after that. Until then, all the AS past papers are ready to download.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary" style="border:0;cursor:pointer;font-family:Sora,sans-serif" onclick="showPastPapers()">AS past papers</button>
+        <button class="btn-ghost" style="cursor:pointer;font-family:Sora,sans-serif;background:transparent" onclick="setLevel('igcse')">Switch to IGCSE</button>
+      </div>
+    </div>
+
+    <div id="tpSubjSeg" style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
       <button id="tpS-bus" onclick="tpSetSubject('bus')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:var(--blue-500);color:#fff">Business</button>
       <button id="tpS-econ" onclick="tpSetSubject('econ')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Economics</button>
       <button id="tpS-acc" onclick="tpSetSubject('acc')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Accounting</button>
@@ -16511,7 +16589,17 @@ function showAuthWall() {
     if (nav) { nav.style.color = '#60a5fa'; nav.style.fontWeight = '600'; }
     window.scrollTo(0, 0);
     document.title = 'Topical Papers — IGCSE Mark';
+    if (window.tpApplyLevel()) return;
     tpLoad();
+  };
+  // AS Level has no topical yet: show the placeholder instead. Returns true when AS is showing.
+  window.tpApplyLevel = function () {
+    var as = siteLevel === 'as';
+    var show = function (id, v) { var e = document.getElementById(id); if (e) e.style.display = v; };
+    show('tpAsSoon', as ? 'block' : 'none'); show('tpSubjSeg', as ? 'none' : 'flex'); show('tpBusWrap', as ? 'none' : '');
+    var page = document.getElementById('topicalPage');
+    if (!as && page && page.style.display === 'block' && !tp.data) tpLoad();
+    return as;
   };
 
   function tpLoad() {
@@ -18203,5 +18291,14 @@ function showAuthWall() {
 })();
 </script>
 
+<script>
+(function () {
+  function initLevel() {
+    if (siteLevel === 'igcse' || siteLevel === 'as') setLevel(siteLevel, true);
+    else setTimeout(function () { if (!siteLevel) { var m = document.getElementById('levelModal'); if (m) m.classList.add('show'); } }, 900);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLevel); else initLevel();
+})();
+</script>
 </body>
 </html>
