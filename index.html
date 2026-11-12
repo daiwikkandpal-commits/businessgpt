@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,600;1,9..144,700&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet" />
 <style>
 /* ─── Reset ────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -267,6 +267,76 @@ body {
   50%      { transform:translateY(-30px) scale(1.05); }
 }
 
+
+
+/* ─── HERO v2 (editorial, dark) ─────────────────────── */
+.hero.hx{text-align:left;padding:150px 0 150px;background:#071021;color:#e8eef9;isolation:isolate}
+.hx-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.hx-glow{position:absolute;border-radius:50%;filter:blur(90px)}
+.hx-glow.g1{width:620px;height:620px;right:-120px;top:-60px;background:rgba(37,99,235,.35)}
+.hx-glow.g2{width:420px;height:420px;left:-160px;bottom:-140px;background:rgba(74,222,128,.10)}
+.hx-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(148,180,230,.14) 1px,transparent 1px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%);mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 80%)}
+.hero.hx::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:90px;background:linear-gradient(to bottom,rgba(7,16,33,0),var(--bg));z-index:-1}
+.hx-wrap{display:grid;grid-template-columns:1fr 1.08fr;gap:56px;align-items:center}
+.hx-eyebrow{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:26px;animation:heroFadeUp .6s ease both}
+.hx-eyebrow i{font-style:normal;color:#475569}
+.hx-eyebrow .e0{color:#93a8c8}.hx-eyebrow .e1{color:#60a5fa}.hx-eyebrow .e2{color:#4ade80}
+.hero.hx h1.hx-title{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:clamp(46px,6.4vw,92px);line-height:.98;letter-spacing:-.035em;color:#f4f7fc;margin-bottom:26px;font-variation-settings:'opsz' 144}
+.hx-circ{position:relative;display:inline-block;padding:0 .08em}
+.hx-circ em{font-style:italic;font-weight:600;background:linear-gradient(100deg,#93c5fd 0%,#60a5fa 45%,#3b82f6 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-right:.06em}
+.hx-circ svg{position:absolute;left:-7%;top:-14%;width:114%;height:132%;overflow:visible;pointer-events:none}
+.hx-circ path{fill:none;stroke:#FFD500;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:1100;stroke-dashoffset:1100;animation:hxDraw 1.1s .55s cubic-bezier(.65,0,.35,1) forwards;opacity:.9}
+@keyframes hxDraw{to{stroke-dashoffset:0}}
+.hero.hx .hx-sub{font-size:18px;line-height:1.65;color:#a9b8d0;max-width:500px;margin:0 0 36px}
+.hx-actions{display:flex;gap:14px;flex-wrap:wrap;animation:heroFadeUp .7s .25s ease both}
+.hx-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:12px;font:600 15px 'Sora',sans-serif;text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+.hx-btn-main{background:#2563EB;color:#fff;box-shadow:0 10px 30px rgba(37,99,235,.45),inset 0 1px 0 rgba(255,255,255,.18)}
+.hx-btn-main:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 16px 36px rgba(37,99,235,.55)}
+.hx-btn-alt{color:#e2e8f0;background:rgba(255,255,255,.04);border:1px solid rgba(148,163,184,.28)}
+.hx-btn-alt svg{color:#60a5fa}
+.hx-btn-alt:hover{background:rgba(255,255,255,.08);border-color:rgba(148,163,184,.5)}
+/* device */
+.hx-device{position:relative;animation:hxIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes hxIn{from{opacity:0;transform:translateY(30px) rotate(-1deg)}to{opacity:1;transform:none}}
+.hx-tab{background:#0b0f17;border-radius:30px;padding:12px;border:1px solid rgba(148,163,184,.25);box-shadow:0 0 0 3px #1c2433,0 40px 90px rgba(0,0,0,.55),0 0 120px rgba(37,99,235,.18)}
+.hx-screen{display:grid;grid-template-columns:1.1fr 1fr;border-radius:20px;overflow:hidden;min-height:340px;background:#0f1726}
+.hx-paper{background:#fbfaf6;color:#1f2937;padding:20px 20px 14px;display:flex;flex-direction:column;font-size:12px}
+.hx-qmeta{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin-bottom:8px}
+.hx-q{font-size:13px;line-height:1.5;color:#0f172a;margin-bottom:12px}.hx-q span{color:#64748b;font-size:12px}
+.hx-ans{flex:1;font-family:'Kalam',cursive;font-size:14px;line-height:1.45;color:#1e3a8a;background:repeating-linear-gradient(transparent 0 20px,rgba(37,99,235,.10) 20px 21px);padding-top:1px}
+.hx-ans p{margin-bottom:6px}
+.hx-tools{display:flex;align-items:center;gap:7px;margin-top:10px;padding:7px 10px;border-radius:10px;background:#0f172a}
+.hx-tools span{width:14px;height:14px;border-radius:4px;background:#334155}.hx-tools span.on{background:#2563EB}
+.hx-tools b{margin-left:auto;color:#cbd5e1;font:600 10px 'Sora',sans-serif}
+.hx-fb{padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#121c2e,#0d1524);border-left:1px solid rgba(148,163,184,.12)}
+.hx-fbh{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:#93a8c8;letter-spacing:.04em}
+.hx-fbh .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.15)}
+.hx-score{display:flex;align-items:baseline;gap:6px;padding:4px 0 6px;border-bottom:1px solid rgba(148,163,184,.14)}
+.hx-score b{font-family:'Fraunces',serif;font-size:44px;line-height:1;color:#fff}
+.hx-score span{color:#93a8c8;font-size:15px}
+.hx-score em{margin-left:auto;font-style:normal;font-size:11px;font-weight:600;color:#93c5fd;background:rgba(37,99,235,.18);border:1px solid rgba(96,165,250,.3);padding:4px 9px;border-radius:999px}
+.hx-pt{display:flex;gap:8px;font-size:11.5px;line-height:1.45;color:#cbd5e1}
+.hx-pt i{flex:none;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700}
+.hx-pt.ok i{background:rgba(74,222,128,.16);color:#4ade80}.hx-pt.no i{background:rgba(255,213,0,.16);color:#FFD500}
+.hx-ask{margin-top:auto;font-size:11px;color:#64748b;border:1px solid rgba(148,163,184,.2);border-radius:9px;padding:8px 10px}
+.hx-pen{position:absolute;right:-16px;top:12%;width:10px;height:72%;border-radius:6px;background:linear-gradient(90deg,#cbd5e1,#fff 45%,#94a3b8);box-shadow:4px 10px 20px rgba(0,0,0,.4);transform:rotate(4deg)}
+/* stats on dark */
+.hx-stats{margin-top:72px}
+.hx .stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(148,163,184,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hx .stat-num{color:#fff}.hx .stat-num span{color:#60a5fa}
+.hx .stat-label{color:#93a8c8}
+@media(max-width:980px){.hx-wrap{grid-template-columns:1fr;gap:48px}.hx-pen{display:none}.hero.hx{padding:120px 0 120px}}
+@media(max-width:560px){.hx-screen{grid-template-columns:1fr}.hx-fb{border-left:0;border-top:1px solid rgba(148,163,184,.12)}.hx-eyebrow{font-size:11px;letter-spacing:.12em}}
+nav.nav-on-dark{background:rgba(7,16,33,.72)!important;border-bottom:1px solid rgba(148,163,184,.12)!important;box-shadow:none!important}
+nav.nav-on-dark .nav-links a{color:#b8c6dc!important}
+nav.nav-on-dark .nav-links a:hover{color:#fff!important;background:rgba(255,255,255,.06)!important}
+nav.nav-on-dark .lvl-seg{background:rgba(255,255,255,.05);border-color:rgba(148,163,184,.22)}
+nav.nav-on-dark .lvl-seg button:not(.on){color:#b8c6dc}
+nav.nav-on-dark .dark-toggle{background:rgba(255,255,255,.06);border-color:rgba(148,163,184,.22)}
+nav.nav-on-dark .nav-hamburger span{background:#e2e8f0}
+nav.nav-on-dark .btn-ghost{color:#e2e8f0;border-color:rgba(148,163,184,.3);background:transparent}
+/* editorial serif headings across the home page */
+.section-title,.cta-section h2{font-family:'Fraunces',Georgia,serif!important;font-weight:700!important;letter-spacing:-.025em!important}
 
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
@@ -1031,53 +1101,51 @@ nav .dark-toggle { flex-shrink: 0; }
 </div>
 
 <!-- HERO -->
-<section class="hero" id="home" style="position:relative;overflow:hidden">
-  <!-- Animated blobs -->
-  <div class="hero-animated-bg">
-    <div class="hero-blob" style="width:500px;height:500px;background:#3b82f6;top:-100px;left:-100px;animation-delay:0s"></div>
-    <div class="hero-blob" style="width:400px;height:400px;background:#8b5cf6;top:50px;right:-50px;animation-delay:2s"></div>
-    <div class="hero-blob" style="width:300px;height:300px;background:#06b6d4;bottom:0;left:30%;animation-delay:4s"></div>
-  </div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="hero-badge" style="animation:heroFadeUp 0.6s ease both">
-      <div class="hero-badge-dot"></div>
-      Cambridge IGCSE Business Studies 0450
-    </div>
-    <h1 style="font-size:clamp(38px,6vw,68px);font-weight:700;line-height:1.08;letter-spacing:-0.03em;margin-bottom:20px">
-      Ace your Business exam<br/>with <span class="hero-gradient-text">AI marking</span>
-    </h1>
-    <p class="hero-sub" style="font-size:18px;max-width:540px;margin:0 auto 36px">
-      Instant, Cambridge-accurate feedback on your answers.
-      Practice with real mark schemes and level-by-level guidance.
-    </p>
-    <div class="hero-actions" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px">
-      <a href="#" onclick="showMarker();return false" class="btn-hero btn-hero-primary btn-ripple" onclick="addRipple(event,this)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
-        Start marking free
-      </a>
-      <a href="#features" class="btn-hero btn-hero-secondary">
-        See how it works →
-      </a>
+<section class="hero hx" id="home">
+  <div class="hx-bg" aria-hidden="true"><div class="hx-glow g1"></div><div class="hx-glow g2"></div><div class="hx-grid"></div></div>
+  <div class="container hx-wrap">
+    <div class="hx-copy">
+      <div class="hx-eyebrow"><span class="e0">IGCSE Mark</span><i>·</i><span class="e1">IGCSE</span><i>·</i><span class="e2">AS Level</span></div>
+      <h1 class="hx-title">Ace every<br/><span class="hx-circ"><em>Cambridge</em><svg viewBox="0 0 400 130" preserveAspectRatio="none" aria-hidden="true"><path d="M206 14C120 8 30 26 14 62c-14 34 60 58 176 58 118 0 196-20 196-56 0-34-80-54-200-50-46 2-88 8-118 18"/></svg></span><br/>paper.</h1>
+      <p class="hx-sub">Instant marking against real Cambridge mark schemes, every past paper from 2010, and topical practice. Built for IGCSE and AS Level.</p>
+      <div class="hx-actions">
+        <a href="#" onclick="showMarker();return false" class="hx-btn hx-btn-main">Start marking free <span aria-hidden="true">→</span></a>
+        <a href="#features" class="hx-btn hx-btn-alt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>See how it works</a>
+      </div>
     </div>
 
-    <!-- Stats with animated counters -->
-    <div class="hero-stats" id="heroStats">
-      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.4s ease both">
-        <div class="stat-num" id="statAnswers">0<span>k+</span></div>
-        <div class="stat-label">answers marked</div>
+    <div class="hx-device" aria-hidden="true">
+      <div class="hx-tab">
+        <div class="hx-screen">
+          <div class="hx-paper">
+            <div class="hx-qmeta">0450/22 · Question 3(b)</div>
+            <div class="hx-q">Explain <b>two</b> ways Amira could motivate the workers at her bakery. <span>[6]</span></div>
+            <div class="hx-ans">
+              <p>One way is to pay a bonus when sales targets are hit. Workers at the bakery would work harder to bake more so they earn more money.</p>
+              <p>Another way is job rotation, moving staff between baking and serving, so the work is less boring.</p>
+            </div>
+            <div class="hx-tools"><span></span><span></span><span></span><span class="on"></span><span></span><b>3 / 4</b></div>
+          </div>
+          <div class="hx-fb">
+            <div class="hx-fbh"><span class="dot"></span>Marked in 4s</div>
+            <div class="hx-score"><b>4</b><span>/ 6</span><em>Level 2</em></div>
+            <div class="hx-pt ok"><i>✓</i>Bonus identified and linked to the bakery</div>
+            <div class="hx-pt ok"><i>✓</i>Job rotation identified</div>
+            <div class="hx-pt no"><i>!</i>Develop the effect of job rotation: why does less boring work mean higher output?</div>
+            <div class="hx-ask">Ask a follow-up question…</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.5s ease both">
-        <div class="stat-num" id="statAccuracy">0<span>%</span></div>
-        <div class="stat-label">accuracy vs Cambridge</div>
-      </div>
-      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.6s ease both">
-        <div class="stat-num"><span>&lt;</span>5s</div>
-        <div class="stat-label">marking time</div>
-      </div>
-      <div class="stat-card" style="animation:heroFadeUp 0.6s 0.7s ease both">
-        <div class="stat-num" id="statTopics">0</div>
-        <div class="stat-label">Cambridge topics</div>
-      </div>
+      <div class="hx-pen"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero-stats hx-stats" id="heroStats">
+      <div class="stat-card"><div class="stat-num" id="statAnswers">0<span>k+</span></div><div class="stat-label">answers marked</div></div>
+      <div class="stat-card"><div class="stat-num" id="statAccuracy">0<span>%</span></div><div class="stat-label">accuracy vs Cambridge</div></div>
+      <div class="stat-card"><div class="stat-num"><span>&lt;</span>5s</div><div class="stat-label">marking time</div></div>
+      <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">subjects with past papers</div></div>
     </div>
   </div>
 </section>
@@ -18298,6 +18366,19 @@ function showAuthWall() {
     else setTimeout(function () { if (!siteLevel) { var m = document.getElementById('levelModal'); if (m) m.classList.add('show'); } }, 900);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLevel); else initLevel();
+})();
+</script>
+<script>
+(function () {
+  var nav = document.querySelector('nav'), hero = document.getElementById('home');
+  function upd() {
+    var mob = document.getElementById('navLinks');
+    var open = mob && mob.classList.contains('mobile-open');
+    var on = hero && hero.style.display !== 'none' && hero.offsetParent !== null && window.scrollY < hero.offsetHeight - 90 && !open;
+    nav.classList.toggle('nav-on-dark', !!on);
+  }
+  window.addEventListener('scroll', upd, { passive: true });
+  setInterval(upd, 400); upd();
 })();
 </script>
 </body>
