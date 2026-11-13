@@ -424,6 +424,15 @@ nav.nav-on-dark .btn-ghost{color:#e2e8f0;border-color:rgba(148,163,184,.3);backg
 .tpx-num.pl{width:auto;min-width:34px;padding:0 8px;background:transparent;color:var(--text);border:1.5px solid var(--border2);font-size:14px}
 .tpx-q.other{background:rgba(148,163,184,.06)}
 .tpx-chip.topic.off{color:var(--text3);border-color:var(--border);background:transparent;font-weight:500}
+
+.tpx-legend{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tpx-lrow{display:grid;grid-template-columns:44px 1fr auto;gap:8px;font-size:13px;color:var(--text3);padding:3px 0}
+.tpx-lrow b{color:var(--text2)}.tpx-lrow i{font-style:normal;font-weight:700}
+.tpx-lrow.mine{color:var(--blue-500);font-weight:600}.tpx-lrow.mine b{color:var(--blue-500)}
+.tpx-pages{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 16px;display:flex;flex-direction:column;gap:14px;box-shadow:0 4px 18px rgba(15,30,46,.06)}
+.tpx-pages img{display:block;width:100%;height:auto}
+.tpx-pages img+img{border-top:1px dashed #cbd5e1;padding-top:14px}
+.tpx-mspart{margin-top:12px}
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -16669,7 +16678,8 @@ function showAuthWall() {
     asacc: { level: 'as', url: 'topical_asacc.json', name: 'AS Level Accounting 9706', marking: false, papers: [1, 2],
             pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Structured questions' },
             units: {1:'The accounting system',2:'Financial accounting',3:'Cost and management accounting'},
-            convert: function (d) { return TP_SUBJ.acc.convert(d).map(function (r) { if (r.paper === 2) { r.img = r.dataImg; r.dataImg = []; r.bigImg = true; } return r; }); } },
+            exact: true,
+            convert: function (d) { return TP_SUBJ.acc.convert(d).map(function (r) { var c = d.contexts[r.paperKey]; r.pages = c && c.pages ? c.pages : []; if (r.paper === 2) { r.img = r.dataImg; r.dataImg = []; } r.bigImg = true; return r; }); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
             pLabel: { 1: 'Paper 1 · Core', 2: 'Paper 2 · Extended', 3: 'Paper 3 · Core', 4: 'Paper 4 · Extended' },
             units: {1:'Number',2:'Algebra and graphs',3:'Coordinate geometry',4:'Geometry',5:'Mensuration',6:'Trigonometry',7:'Transformations and vectors',8:'Probability',9:'Statistics'},
@@ -16905,7 +16915,7 @@ function showAuthWall() {
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
-      var dk = normText(q.text) + '|' + q.marks + (/acc$/.test(tp.subj) && paper === 2 ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
+      var dk = (normText(q.text) || q.id) + '|' + q.marks + (/acc$/.test(tp.subj) && paper === 2 ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
       if (seen[dk] || !buckets[q.marks]) return; seen[dk] = 1;
       var sk = key(q); (buckets[q.marks][sk] = buckets[q.marks][sk] || []).push(q);
     });
@@ -17078,14 +17088,33 @@ function showAuthWall() {
       : cfg.marking
         ? ['Each question is a full question from a real past paper. Read the case study first.', 'Parts on your topics are marked with ●. Type your answer in each box.', 'Press <b>Mark this paper</b> for feedback on every part.']
         : ['Each question is a full question from a real past paper, with every part. Read the question information first.', 'Parts on your topics are marked with ●. Other parts show their topic in grey.', 'Open <b>Show mark scheme</b> under each part to check yourself.'];
+    if (cfg.exact && !isMCQ) steps = ['Each question is shown exactly as it is in the real past paper, every part included.', 'The box above each question shows the topic of every part. Your topics are marked with ●.', 'Download the question paper PDF to write on it, then open <b>Show mark scheme</b> to check.'];
     h += '<ol class="tpx-how">' + steps.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>';
 
     // progress
-    h += '<div class="tpx-prog"><span id="tpxProgTxt">0 of ' + qs.length + ' answered</span><div class="tpx-track"><div id="tpxProgBar"></div></div><span class="tpx-prog-m">' + max + ' marks</span></div>';
+    if (!(cfg.exact && !isMCQ)) h += '<div class="tpx-prog"><span id="tpxProgTxt">0 of ' + qs.length + ' answered</span><div class="tpx-track"><div id="tpxProgBar"></div></div><span class="tpx-prog-m">' + max + ' marks</span></div>';
 
     h += '<div class="tpx-list">';
-    var qn = 0, lastW = null, lastCtx = null;
+    var qn = 0, lastW = null, lastCtx = null, exactP = cfg.exact && !isMCQ;
     qs.forEach(function (q, i) {
+      if (exactP) {
+        if (wkey(q) === lastW) return;
+        lastW = wkey(q); qn++;
+        var parts = qs.filter(function (x) { return wkey(x) === lastW; }), gm = 0;
+        parts.forEach(function (x) { gm += x.marks; });
+        h += '<section class="tpx-block exact"><div class="tpx-block-h"><div class="tpx-qtitle"><span class="tpx-qbig">Question ' + qn + '</span><span class="tpx-qtot">' + gm + ' marks</span></div>' +
+          '<div class="tpx-block-src">📄 ' + srcPaper(q) + ' · Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ' ' + qpLink(q) + '</div></div>' +
+          '<div class="tpx-legend"><div class="tpx-block-k">Topics in this question</div>' + parts.map(function (x) {
+            var mine = !!tp.gSel[key(x)];
+            return '<div class="tpx-lrow' + (mine ? ' mine' : '') + '"><b>' + esc(partOf(x) || ('Q' + x.qNum)) + '</b><span>' + (mine ? '● ' : '') + esc(x.subtopic) + '</span><i>[' + x.marks + ']</i></div>';
+          }).join('') + '</div>' +
+          '<div class="tpx-pages">' + (q.pages && q.pages.length ? q.pages.map(function (src) { return '<img src="' + esc(imgUrl(src)) + '" alt="Past paper page" loading="lazy">'; }).join('') : ctxHtml(q)) + '</div>' +
+          '<details class="tpx-ms"><summary>Show mark scheme</summary>' + parts.map(function (x) {
+            return '<div class="tpx-mspart"><div class="tpx-block-k">' + esc(partOf(x) || x.qNum) + ' · ' + esc(x.subtopic) + '</div>' + (x.msImg && x.msImg.length ? bigImgs(x.msImg) : '<div class="tpx-mstext">' + fmtMS(x.ms || 'See the mark scheme.') + '</div>') + '</div>';
+          }).join('') + (q.qp ? '<div class="tpx-mslink"><a href="' + esc(String(q.qp).replace('_qp_', '_ms_')) + '" target="_blank" rel="noopener">Full mark scheme PDF ↗</a></div>' : '') + '</details>' +
+          '</section>';
+        return;
+      }
       if (!isMCQ && wkey(q) !== lastW) {
         if (open) h += '</section>';
         lastW = wkey(q); open = true; qn++;
@@ -17445,6 +17474,9 @@ function showAuthWall() {
       'table.ms td.mk{width:52px;text-align:center;font-weight:800}.mq{font-size:8.5pt;color:var(--mute);font-style:italic;margin-bottom:5px}.ma{white-space:pre-line}.ma b{color:var(--blue)}' +
       'table.ms tr.gr td{background:var(--soft);font-weight:700;font-size:8.5pt;color:var(--blue);padding:6px 10px}' +
       '.key{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.key div{border:1px solid var(--line);border-radius:7px;padding:5px 8px;display:flex;justify-content:space-between;font-size:9.5pt}.key b{color:var(--blue)}' +
+      '.xq{margin:0 0 18px}.xq+.xq{break-before:page;page-break-before:always}.xh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:5px;margin-bottom:6px}.xh b{font:800 14pt Fraunces,Georgia,serif}.xh span{font-size:8.5pt;color:var(--mute);font-weight:600}' +
+      '.xt{display:flex;flex-wrap:wrap;gap:5px 12px;font-size:8.5pt;color:var(--mute);margin-bottom:10px}.xt b{color:var(--blue)}' +
+      '.pimg{display:block;width:100%;height:auto;margin:0 0 8px;break-inside:avoid;page-break-inside:avoid}.xsrc{font-size:7.5pt;color:var(--mute);margin-top:2px}' +
       '@media print{html{background:#fff}.bar{display:none}.sheet{max-width:none;margin:0;padding:0;box-shadow:none}}';
 
     // ── cover ──
@@ -17468,13 +17500,17 @@ function showAuthWall() {
     cover += '<div class="box"><h3>Topics covered</h3><div class="chips">' + topicList.map(function (t) { return '<span class="chip">' + esc(t) + ' <i>×' + topics[t] + '</i></span>'; }).join('') + '</div></div>';
     if (isMS && isMCQ) {
       cover += '<div class="box"><h3>Answer key</h3><div class="key">' + qs.map(function (q, i) { return '<div><span>' + (i + 1) + '</span><b>' + esc(q.answer) + '</b></div>'; }).join('') + '</div></div>';
+    } else if (!isMS && !isMCQ && cfg.exact) {
+      var wm = {}, wo = []; qs.forEach(function (q) { var k = wkey(q); if (!(k in wm)) { wm[k] = 0; wo.push(k); } wm[k] += q.marks; });
+      cover += '<div class="box"><h3>For marking</h3><div class="grid">' + wo.map(function (k, i) { return '<div><b>Q' + (i + 1) + '</b><span>/ ' + wm[k] + '</span></div>'; }).join('') +
+        '<div class="tot"><b>Total</b><span>/ ' + max + '</span></div></div></div>';
     } else if (!isMS && !isMCQ) {
       cover += '<div class="box"><h3>For marking</h3><div class="grid">' + qs.map(function (q, i) { return '<div><b>Q' + (i + 1) + '</b><span>/ ' + q.marks + '</span></div>'; }).join('') +
         '<div class="tot"><b>Total</b><span>/ ' + max + '</span></div></div></div>';
     } else if (!isMS) {
       cover += '<div class="box" style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Score</h3><b style="font-size:14pt">______ / ' + max + '</b></div>';
     }
-    cover += '<div class="disc">Questions are taken from Cambridge IGCSE past papers and grouped by topic. IGCSE Mark is not affiliated with Cambridge University Press &amp; Assessment.</div></div>';
+    cover += '<div class="disc">Questions are taken from Cambridge ' + (cfg.level === 'as' ? 'International AS Level' : 'IGCSE') + ' past papers and grouped by topic. IGCSE Mark is not affiliated with Cambridge University Press &amp; Assessment.</div></div>';
 
     // ── body ──
     var body = '';
@@ -17483,7 +17519,24 @@ function showAuthWall() {
       var p = ctxParts(g.text);
       return '<div class="src"><div class="sl"><span>' + esc(g.label) + '</span></div><div class="sb">' + (p.title ? '<div class="st">' + esc(p.title) + '</div>' : '') + richText(p.body) + '</div></div>';
     }
-    if (!isMS) {
+    if (!isMS && cfg.exact) {
+      if (isMCQ) {
+        qs.forEach(function (q, i) {
+          body += '<div class="q"><div class="qt"><span class="qn">' + (i + 1) + '</span><div class="qx">' + (q.img || []).map(function (src) { return '<img class="cimg" src="' + esc(imgUrl(src)) + '" alt="">'; }).join('') +
+            '<div class="xsrc">' + srcLabel(q) + ' · ' + esc(q.subtopic) + '</div></div><span class="qm">[1]</span></div></div>';
+        });
+      } else {
+        var wseen = {}, wn = 0;
+        qs.forEach(function (q) {
+          var k = wkey(q); if (wseen[k]) return; wseen[k] = 1; wn++;
+          var parts = qs.filter(function (x) { return wkey(x) === k; }), gm = 0; parts.forEach(function (x) { gm += x.marks; });
+          body += '<div class="xq"><div class="xh"><b>Question ' + wn + '</b><span>' + srcPaper(q) + ' · Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ' · ' + gm + ' marks</span></div>' +
+            '<div class="xt">' + parts.map(function (x) { return '<span><b>' + esc(partOf(x) || x.qNum) + '</b> ' + esc(x.subtopic) + '</span>'; }).join('') + '</div>' +
+            (q.pages || []).map(function (src) { return '<img class="pimg" src="' + esc(imgUrl(src)) + '" alt="">'; }).join('') + '</div>';
+        });
+      }
+      body += '<div class="end">End of paper</div>';
+    } else if (!isMS) {
       groups.forEach(function (g) {
         if (g.key) {
           var a = g.items[0].n, b = g.items[g.items.length - 1].n;
