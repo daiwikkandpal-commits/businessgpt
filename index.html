@@ -16714,7 +16714,7 @@ function showAuthWall() {
   function numSort(a, b) { return String(a).localeCompare(String(b), undefined, { numeric: true }); }
   var tp = { subj: 'bus', data: null, mode: 'gen',
     unit: null, sub: 'all', paper: 'all', shown: 10, list: [], shuffled: false,      // browse
-    gPaper: 1, gSel: {}, gTarget: 40, gFrom: 0, paperQs: [], marking: false };                 // generate
+    gPaper: 1, gSel: {}, gTarget: 40, gFrom: 0, paperQs: [], prevIds: {}, lastSig: '', marking: false };                 // generate
 
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function clean(s){ return String(s || '').replace(/\\n/g, '\n'); }
@@ -16819,7 +16819,7 @@ function showAuthWall() {
 
   // ═════════════════ GENERATE A PAPER ═════════════════
   function isMCQPaper(paper) { return ((tp.subj === 'econ' || /acc$/.test(tp.subj)) && paper === 1) || (tp.subj === 'phys' && paper <= 2); }
-  function lengthOptions(paper) { return isMCQPaper(paper) ? [10, 20, 30, 40] : [20, 40, 60, 80]; }
+  function lengthOptions(paper) { return (isMCQPaper(paper) ? [10, 20, 30, 40] : [20, 40, 60, 80]).concat(['all']); }
 
   function tpRenderGen() {
     var d = tp.data, paper = tp.gPaper;
@@ -16867,7 +16867,7 @@ function showAuthWall() {
     // length
     h += '<div><div style="' + labelCss + '">4 · Length</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
     lengthOptions(paper).forEach(function (m) {
-      h += '<button onclick="tpGLen(' + m + ')" style="' + chipStyle(tp.gTarget === m) + '">' + m + ' marks</button>';
+      h += '<button onclick="tpGLen(' + (m === 'all' ? '\'all\'' : m) + ')" style="' + chipStyle(tp.gTarget === m) + '">' + (m === 'all' ? 'All questions' : m + ' marks') + '</button>';
     });
     h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (isMCQPaper(paper)
       ? 'Multiple choice questions, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
@@ -16882,6 +16882,7 @@ function showAuthWall() {
     var ready = selectedTopics > 0;
     h += '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">' +
       '<button onclick="tpGenerate()" style="padding:13px 28px;border-radius:10px;border:none;background:var(--blue-500);color:#fff;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);' + (ready ? '' : 'opacity:.5;') + '">Generate my paper</button>' +
+      '<button onclick="tpAllPdf()" title="Every question on your topics' + (tp.gFrom ? ' from ' + tp.gFrom + ' onwards' : '') + ', in one PDF" style="padding:12px 20px;border-radius:10px;border:1.5px solid var(--blue-500);background:transparent;color:var(--blue-500);font-size:14px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;' + (ready ? '' : 'opacity:.5;') + '">⬇ PDF of every question' + (ready ? ' (' + selectedQs + ')' : '') + '</button>' +
       '<span style="font-size:13px;color:var(--text3)">' + (ready ? selectedTopics + ' topic' + (selectedTopics === 1 ? '' : 's') + ' selected · ' + selectedQs + ' questions available' : 'Pick at least one topic') + '</span></div>';
 
     document.getElementById('tpGenForm').innerHTML = h;
@@ -16912,6 +16913,7 @@ function showAuthWall() {
       classes.forEach(function (c) { shares[c] = mk[c] / tot; });
     }
     var pool = shuffle(tp.data.filter(function (q) { return q.paper === paper && keys[key(q)] && (!tp.gFrom || Number(q.year) >= tp.gFrom); }));
+    pool = pool.filter(function (q) { return tp.prevIds[q.id]; }).concat(pool.filter(function (q) { return !tp.prevIds[q.id]; }));
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
@@ -16967,20 +16969,24 @@ function showAuthWall() {
       g.sort(function (a, b) { return numSort(a.qNum, b.qNum); });
       var sig = normText(g.map(function (q) { return q.text; }).join('')).slice(0, 160);
       if (sig && seen[sig]) return; seen[sig] = 1;
-      cands.push({ k: k, qs: g, tot: tot, ratio: hit / tot, r: Math.random() });
+      cands.push({ k: k, qs: g, tot: tot, ratio: hit / tot, r: Math.random(), prev: g.some(function (q) { return tp.prevIds[q.id]; }) });
     });
     // mostly-on-topic questions first, with some randomness
-    cands.sort(function (a, b) { return (b.ratio + b.r * 0.6) - (a.ratio + a.r * 0.6); });
+    cands.sort(function (a, b) { return (b.ratio + b.r - (b.prev ? 2 : 0)) - (a.ratio + a.r - (a.prev ? 2 : 0)); });
+    if (target === Infinity) {
+      cands.sort(function (a, b) { return newestFirst(a.qs[0], b.qs[0]) || numSort(a.qs[0].qNum, b.qs[0].qNum); });
+      var all = []; cands.forEach(function (c) { all = all.concat(c.qs); }); return all;
+    }
     var picked = [], total = 0, topicN = {};
     function topicsOf(c) { var t = {}; c.qs.forEach(function (q) { if (keys[key(q)]) t[key(q)] = 1; }); return Object.keys(t); }
     // spread across topics: prefer a question whose topics have been used least
     while (cands.length && total < target * 0.9) {
       var best = -1, bestScore = -1e9;
-      for (var i = 0; i < Math.min(cands.length, 25); i++) {
+      for (var i = 0; i < Math.min(cands.length, 40); i++) {
         var c = cands[i];
         if (total && total + c.tot > target * 1.2) continue;
         var use = topicsOf(c).reduce(function (m, t) { return Math.min(m, topicN[t] || 0); }, 99);
-        var sc = c.ratio * 2 - use * 1.5 + c.r * 0.3;
+        var sc = c.ratio * 1.2 - use * 1.5 + c.r * 0.8 - (c.prev ? 3 : 0);
         if (sc > bestScore) { bestScore = sc; best = i; }
       }
       if (best < 0) break;
@@ -16992,10 +16998,30 @@ function showAuthWall() {
     picked.forEach(function (c) { out = out.concat(c.qs); });
     return out;
   }
+  var SESS_ORD = { 'Feb/Mar': 0, 'Feb/March': 0, 'May/June': 1, 'May/Jun': 1, 'Oct/Nov': 2 };
+  function newestFirst(a, b) { return (Number(b.year) - Number(a.year)) || ((SESS_ORD[b.session] || 0) - (SESS_ORD[a.session] || 0)) || (Number(a.variant || 0) - Number(b.variant || 0)); }
+  function tpBuildAllMCQ(paper, keys) {
+    var seen = {}, out = [];
+    tp.data.forEach(function (q) {
+      if (q.paper !== paper || !keys[key(q)] || (tp.gFrom && Number(q.year) < tp.gFrom)) return;
+      var dk = (normText(q.text) || q.id); if (seen[dk]) return; seen[dk] = 1; out.push(q);
+    });
+    return out.sort(function (a, b) { return newestFirst(a, b) || numSort(a.qNum, b.qNum); });
+  }
+  window.tpAllPdf = function () {
+    if (!Object.keys(tp.gSel).length) { alert('Pick at least one topic first.'); return; }
+    tp.gTarget = 'all'; tpRenderGen(); tpGenerate();
+    if (tp.paperQs.length) tpPrint('both');
+  };
   window.tpGenerate = function () {
     var keys = tp.gSel;
     if (!Object.keys(keys).length) { alert('Pick at least one topic first.'); return; }
-    var qs = isMCQPaper(tp.gPaper) ? tpBuild(tp.gPaper, keys, tp.gTarget) : tpBuildWhole(tp.gPaper, keys, tp.gTarget);
+    var sig = tp.gPaper + '|' + tp.gFrom + '|' + Object.keys(keys).sort().join(',');
+    tp.prevIds = {};
+    if (tp.lastSig === sig) (tp.paperQs || []).forEach(function (q) { tp.prevIds[q.id] = 1; });
+    tp.lastSig = sig;
+    var tgt = tp.gTarget === 'all' ? Infinity : tp.gTarget;
+    var qs = isMCQPaper(tp.gPaper) ? (tgt === Infinity ? tpBuildAllMCQ(tp.gPaper, keys) : tpBuild(tp.gPaper, keys, tgt)) : tpBuildWhole(tp.gPaper, keys, tgt);
     tp.paperQs = qs;
     document.getElementById('tpResults').innerHTML = '';
     tpRenderPaper();
@@ -17074,12 +17100,14 @@ function showAuthWall() {
       '<div class="tpx-actions">' +
         '<button class="tpx-btn" onclick="tpPrint(\'paper\')">⬇ Question paper PDF</button>' +
         '<button class="tpx-btn" onclick="tpPrint(\'ms\')">⬇ Mark scheme PDF</button>' +
+        '<button class="tpx-btn" onclick="tpPrint(\'both\')">⬇ Both in one PDF</button>' +
         '<button class="tpx-btn ghost" onclick="tpGenerate()">🔀 New paper, same topics</button>' +
       '</div>' +
       '<div class="tpx-note">PDF tip: in the print window, choose <b>Save as PDF</b> as the destination.' +
         (tp.gFrom ? ' Questions from ' + tp.gFrom + ' onwards only.' : '') +
-        (!isMCQ ? ' Whole past paper questions are used, so the total can be a few marks off ' + tp.gTarget + '.' : '') +
-        (max < tp.gTarget * 0.85 ? ' Only ' + max + ' marks could be built from these topics, so add more topics for a longer paper.' : '') + '</div>' +
+        (tp.gTarget === 'all' ? ' This is every question on your topics' + (tp.gFrom ? ' from ' + tp.gFrom + ' onwards' : '') + ', newest first.' :
+          !isMCQ ? ' Whole past paper questions are used, so the total can be a few marks off ' + tp.gTarget + '.' : '') +
+        (tp.gTarget !== 'all' && max < tp.gTarget * 0.85 ? ' Only ' + max + ' marks could be built from these topics, so add more topics for a longer paper.' : '') + '</div>' +
     '</div>';
 
     // how to
@@ -17403,8 +17431,22 @@ function showAuthWall() {
     });
     return out;
   }
-  window.tpPrint = function (kind) {
+  window.tpPrint = function (kind, collect) {
     var qs = tp.paperQs; if (!qs.length) return;
+    if (kind === 'both') {
+      var A = window.tpPrint('paper', true), B = window.tpPrint('ms', true);
+      var html2 = '<div class="bar"><span>Questions first, then the mark scheme. To save as a PDF: click Print, then choose <b>Save as PDF</b>.</span><button onclick="window.print()">Print / Save as PDF</button></div><div class="sheet">' +
+        A.cover + A.body + '<div style="break-before:page;page-break-before:always"></div>' + B.cover + B.body + '</div>';
+      var w2 = window.open('', '_blank');
+      if (!w2) { alert('Your browser blocked the pop-up. Allow pop-ups for this site and try again.'); return; }
+      w2.document.open();
+      w2.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Questions and mark scheme - Topical Paper ' + tp.gPaper + ' - ' + esc(A.subj) + '</title>' +
+        '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,800;9..144,900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">' +
+        '<style>' + A.css.replace(/@top-right\{content:"[^"]*"/, '@top-right{content:"Questions and mark scheme"') + '</style></head><body>' + html2 +
+        '<scr' + 'ipt>window.onload=function(){var go=function(){setTimeout(function(){window.print()},300)};(document.fonts&&document.fonts.ready?document.fonts.ready.then(go):go())}</scr' + 'ipt></body></html>');
+      w2.document.close();
+      return;
+    }
     var cfg = tpCfg(), isMS = kind === 'ms', isMCQ = !!(qs[0] && qs[0].options);
     var max = paperMax(), mins = Math.max(10, Math.round(max * (isMCQ ? 1.5 : 90 / 80) / 5) * 5);
     var subj = cfg.name.replace(/^IGCSE\s+/, ''), pl = (cfg.pLabel && cfg.pLabel[tp.gPaper]) || ('Paper ' + tp.gPaper);
@@ -17565,6 +17607,7 @@ function showAuthWall() {
       body += '</tbody></table>';
     }
 
+    if (collect) return { css: css, cover: cover, body: body, subj: subj };
     var html = '<div class="bar"><span>To save as a PDF: click Print, then choose <b>Save as PDF</b>.</span><button onclick="window.print()">Print / Save as PDF</button></div><div class="sheet">' + cover + body + '</div>';
     var w = window.open('', '_blank');
     if (!w) { alert('Your browser blocked the pop-up. Allow pop-ups for this site and try again.'); return; }
