@@ -415,6 +415,15 @@ nav.nav-on-dark .btn-ghost{color:#e2e8f0;border-color:rgba(148,163,184,.3);backg
 .tpx-good{font-weight:700;color:#16a34a;white-space:nowrap}.tpx-bad{font-weight:700;color:#dc2626;white-space:nowrap}
 @media(max-width:700px){.tpx-stats{grid-template-columns:repeat(2,1fr)}.tpx-how{grid-template-columns:1fr}.tpx-head{padding:20px}.tpx-q{padding:16px}.tpx-block{padding:10px}.tpx-prog{top:64px}}
 
+
+.tpx-qtitle{display:flex;align-items:baseline;gap:10px}
+.tpx-qbig{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+.tpx-qtot{font-size:12px;font-weight:700;color:var(--text3)}
+.tpx-block-src{font-size:12.5px;color:var(--text2);font-weight:600;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tpx-q.part{border-radius:14px;padding:14px 16px}
+.tpx-num.pl{width:auto;min-width:34px;padding:0 8px;background:transparent;color:var(--text);border:1.5px solid var(--border2);font-size:14px}
+.tpx-q.other{background:rgba(148,163,184,.06)}
+.tpx-chip.topic.off{color:var(--text3);border-color:var(--border);background:transparent;font-weight:500}
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -16928,10 +16937,55 @@ function showAuthWall() {
     return picked;
   }
 
+  // whole past paper question a part belongs to
+  function wkey(q) { return (q.paperKey || q.id) + '|' + ((String(q.qNum).match(/^\d+/) || [''])[0]); }
+  function partOf(q) { return String(q.qNum).replace(/^\d+/, ''); }
+  // structured papers: pick whole questions (every part) that cover the chosen topics
+  function tpBuildWhole(paper, keys, target) {
+    var groups = {}, order = [];
+    tp.data.forEach(function (q) {
+      if (q.paper !== paper) return;
+      var k = wkey(q); if (!groups[k]) { groups[k] = []; order.push(k); } groups[k].push(q);
+    });
+    var cands = [], seen = {};
+    order.forEach(function (k) {
+      var g = groups[k];
+      if (tp.gFrom && Number(g[0].year) < tp.gFrom) return;
+      var tot = 0, hit = 0;
+      g.forEach(function (q) { tot += q.marks; if (keys[key(q)]) hit += q.marks; });
+      if (!hit) return;
+      g.sort(function (a, b) { return numSort(a.qNum, b.qNum); });
+      var sig = normText(g.map(function (q) { return q.text; }).join('')).slice(0, 160);
+      if (sig && seen[sig]) return; seen[sig] = 1;
+      cands.push({ k: k, qs: g, tot: tot, ratio: hit / tot, r: Math.random() });
+    });
+    // mostly-on-topic questions first, with some randomness
+    cands.sort(function (a, b) { return (b.ratio + b.r * 0.6) - (a.ratio + a.r * 0.6); });
+    var picked = [], total = 0, topicN = {};
+    function topicsOf(c) { var t = {}; c.qs.forEach(function (q) { if (keys[key(q)]) t[key(q)] = 1; }); return Object.keys(t); }
+    // spread across topics: prefer a question whose topics have been used least
+    while (cands.length && total < target * 0.9) {
+      var best = -1, bestScore = -1e9;
+      for (var i = 0; i < Math.min(cands.length, 25); i++) {
+        var c = cands[i];
+        if (total && total + c.tot > target * 1.2) continue;
+        var use = topicsOf(c).reduce(function (m, t) { return Math.min(m, topicN[t] || 0); }, 99);
+        var sc = c.ratio * 2 - use * 1.5 + c.r * 0.3;
+        if (sc > bestScore) { bestScore = sc; best = i; }
+      }
+      if (best < 0) break;
+      var c2 = cands.splice(best, 1)[0];
+      picked.push(c2); total += c2.tot;
+      topicsOf(c2).forEach(function (t) { topicN[t] = (topicN[t] || 0) + 1; });
+    }
+    var out = [];
+    picked.forEach(function (c) { out = out.concat(c.qs); });
+    return out;
+  }
   window.tpGenerate = function () {
     var keys = tp.gSel;
     if (!Object.keys(keys).length) { alert('Pick at least one topic first.'); return; }
-    var qs = tpBuild(tp.gPaper, keys, tp.gTarget);
+    var qs = isMCQPaper(tp.gPaper) ? tpBuild(tp.gPaper, keys, tp.gTarget) : tpBuildWhole(tp.gPaper, keys, tp.gTarget);
     tp.paperQs = qs;
     document.getElementById('tpResults').innerHTML = '';
     tpRenderPaper();
@@ -17001,7 +17055,7 @@ function showAuthWall() {
       '<div class="tpx-title">' + esc(cfg.name) + '</div>' +
       '<div class="tpx-sub">' + esc((cfg.pLabel || {})[tp.gPaper] || ('Paper ' + tp.gPaper)) + '</div>' +
       '<div class="tpx-stats">' +
-        '<div><b>' + qs.length + '</b><span>questions</span></div>' +
+        (isMCQ ? '<div><b>' + qs.length + '</b><span>questions</span></div>' : '<div><b>' + (function () { var w = {}; qs.forEach(function (q) { w[wkey(q)] = 1; }); return Object.keys(w).length; })() + '</b><span>full questions (' + qs.length + ' parts)</span></div>') +
         '<div><b>' + max + '</b><span>marks</span></div>' +
         '<div><b>~' + mins + '</b><span>minutes</span></div>' +
         '<div><b>' + Object.keys(papers).length + '</b><span>past papers used</span></div>' +
@@ -17014,39 +17068,52 @@ function showAuthWall() {
       '</div>' +
       '<div class="tpx-note">PDF tip: in the print window, choose <b>Save as PDF</b> as the destination.' +
         (tp.gFrom ? ' Questions from ' + tp.gFrom + ' onwards only.' : '') +
-        (max < tp.gTarget ? ' Only ' + max + ' of ' + tp.gTarget + ' marks could be built from these topics, so add more topics for a longer paper.' : '') + '</div>' +
+        (!isMCQ ? ' Whole past paper questions are used, so the total can be a few marks off ' + tp.gTarget + '.' : '') +
+        (max < tp.gTarget * 0.85 ? ' Only ' + max + ' marks could be built from these topics, so add more topics for a longer paper.' : '') + '</div>' +
     '</div>';
 
     // how to
     var steps = isMCQ
       ? ['Pick one answer for every question.', 'Press <b>Check answers</b> at the bottom.', 'Each question then shows the right answer, and you get a score by topic.']
       : cfg.marking
-        ? ['Questions from the same case study are grouped. Read the case study first.', 'Type your answer in each box.', 'Press <b>Mark this paper</b> for feedback on every question.']
-        : ['Questions from the same past paper question are grouped. Read the blue box first, it has the information you need.', 'Write your answers in the boxes or on paper.', 'Open <b>Show mark scheme</b> under each question to check yourself.'];
+        ? ['Each question is a full question from a real past paper. Read the case study first.', 'Parts on your topics are marked with ●. Type your answer in each box.', 'Press <b>Mark this paper</b> for feedback on every part.']
+        : ['Each question is a full question from a real past paper, with every part. Read the question information first.', 'Parts on your topics are marked with ●. Other parts show their topic in grey.', 'Open <b>Show mark scheme</b> under each part to check yourself.'];
     h += '<ol class="tpx-how">' + steps.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>';
 
     // progress
     h += '<div class="tpx-prog"><span id="tpxProgTxt">0 of ' + qs.length + ' answered</span><div class="tpx-track"><div id="tpxProgBar"></div></div><span class="tpx-prog-m">' + max + ' marks</span></div>';
 
     h += '<div class="tpx-list">';
+    var qn = 0, lastW = null, lastCtx = null;
     qs.forEach(function (q, i) {
-      if (q.paper !== 1 && q.paperKey !== lastPK && (q.ctxImg && q.ctxImg.length || q.caseStudy)) {
+      if (!isMCQ && wkey(q) !== lastW) {
         if (open) h += '</section>';
-        lastPK = q.paperKey; open = true;
-        h += '<section class="tpx-block"><div class="tpx-block-h"><div><div class="tpx-block-k">From the past paper</div><div class="tpx-block-t">' + srcPaper(q) + ' · ' + esc(q.ctxLabel ? q.ctxLabel.replace(/ \(full question\)/, '') : 'Question ' + String(q.qNum).replace(/\(.*/, '')) + '</div></div>' + qpLink(q) + '</div>' +
-          '<details class="tpx-ctx" open><summary>Read this first: ' + esc(q.ctxLabel && /Stimulus|Source/.test(q.ctxLabel) ? q.ctxLabel : (cfg.marking ? 'case study' : 'the question information')) + '</summary>' + ctxHtml(q) + '</details>';
-      } else if (q.paper === 1 && gid(q) !== lastG) {
-        if (open) { h += '</section>'; open = false; }
+        lastW = wkey(q); open = true; qn++;
+        var gm = 0; qs.forEach(function (x) { if (wkey(x) === lastW) gm += x.marks; });
+        h += '<section class="tpx-block"><div class="tpx-block-h"><div class="tpx-qtitle"><span class="tpx-qbig">Question ' + qn + '</span><span class="tpx-qtot">' + gm + ' marks</span></div>' +
+          '<div class="tpx-block-src">📄 ' + srcPaper(q) + ' · Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ' ' + qpLink(q) + '</div></div>';
+        var ctxKey = q.paperKey + '|' + (q.ctxImg && q.ctxImg.length ? q.ctxImg[0] : q.caseStudy);
+        var cs = String(q.caseStudy || '').replace(/^\d+\s*/, '').trim();
+        var hasCtx = q.ctxImg && q.ctxImg.length ? (cs.length > 15 || /^Question \d+/.test(q.caseStudy || '')) : (q.paper !== 1 && cs.length > 0);
+        if (hasCtx && ctxKey !== lastCtx) {
+          lastCtx = ctxKey;
+          h += '<details class="tpx-ctx" open><summary>' + (cfg.marking ? 'Case study' : q.ctxLabel && /Stimulus|Source/.test(q.ctxLabel) ? esc(q.ctxLabel) : 'Question information') + '</summary>' + ctxHtml(q) + '</details>';
+        } else if (q.paper === 1 && scen[gid(q)]) {
+          h += '<div class="tpx-scen">' + esc(scen[gid(q)]) + '</div>';
+        }
+      } else if (isMCQ && q.paper === 1 && gid(q) !== lastG) {
         lastG = gid(q);
         if (scen[lastG]) h += '<div class="tpx-scen"><div class="tpx-block-k">Scenario</div><div>' + esc(scen[lastG]) + '</div></div>';
       }
+      var mine = !!tp.gSel[key(q)], pl = partOf(q);
       var ans = q.options
         ? '<div class="tpx-opts" id="tpmcq-' + i + '">' + ['A', 'B', 'C', 'D'].map(function (L) { return '<label class="tpx-opt"><input type="radio" name="tpmcq-' + i + '" value="' + L + '"><span>' + L + '</span></label>'; }).join('') + '</div>'
         : '<div class="tpx-alabel">Your answer</div><textarea id="tpans-' + i + '" class="tpx-ta" rows="' + (q.marks <= 2 ? 3 : q.marks <= 4 ? 5 : q.marks <= 6 ? 8 : q.marks <= 8 ? 10 : 14) + '" placeholder="Write your answer here…"></textarea>';
-      h += '<article class="tpx-q" id="tpq-' + i + '">' +
-        '<div class="tpx-qh"><span class="tpx-num">' + (i + 1) + '</span>' +
-          '<div class="tpx-meta"><span class="tpx-chip src" title="Where this question comes from">📄 ' + srcLabel(q) + '</span><span class="tpx-chip topic">' + esc(q.subtopic) + '</span></div>' +
-          '<span class="tpx-marks">' + q.marks + ' mark' + (q.marks === 1 ? '' : 's') + '</span></div>' +
+      h += '<article class="tpx-q' + (isMCQ ? '' : ' part') + (isMCQ || mine ? '' : ' other') + '" id="tpq-' + i + '">' +
+        '<div class="tpx-qh"><span class="tpx-num' + (isMCQ ? '' : ' pl') + '">' + (isMCQ ? (i + 1) : esc(pl || qn)) + '</span>' +
+          '<div class="tpx-meta">' + (isMCQ ? '<span class="tpx-chip src" title="Where this question comes from">📄 ' + srcLabel(q) + '</span>' : '') +
+          '<span class="tpx-chip topic' + (mine ? '' : ' off') + '" title="' + (mine ? 'One of your topics' : 'Not one of your topics, included because it is part of the same question') + '">' + (mine ? '● ' : 'Topic: ') + esc(q.subtopic) + '</span></div>' +
+          '<span class="tpx-marks">[' + q.marks + ']</span></div>' +
         (shownText(q) ? '<div class="tpx-text">' + esc(shownText(q)) + '</div>' : '') +
         imgsHtml(q) + optsAfterImg(q) + ans +
         (!q.options && !cfg.marking ? msBlock(q) : '') +
