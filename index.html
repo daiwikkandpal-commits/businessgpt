@@ -433,6 +433,39 @@ nav.nav-on-dark .btn-ghost{color:#e2e8f0;border-color:rgba(148,163,184,.3);backg
 .tpx-pages img{display:block;width:100%;height:auto}
 .tpx-pages img+img{border-top:1px dashed #cbd5e1;padding-top:14px}
 .tpx-mspart{margin-top:12px}
+
+.tpx-askb{flex:none;margin-left:6px;padding:5px 10px;border-radius:8px;border:1px solid rgba(37,99,235,.3);background:rgba(37,99,235,.06);color:var(--blue-500);font:600 12px 'Sora',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s}
+.tpx-askb:hover{background:rgba(37,99,235,.14)}
+.tpx-block-src .tpx-askb{margin-left:4px}
+.ask-fab{position:fixed;right:22px;bottom:22px;z-index:9990;display:flex;align-items:center;gap:8px;padding:13px 20px;border:0;border-radius:999px;background:linear-gradient(135deg,#2563EB,#1d4ed8);color:#fff;font:700 14px 'Sora',sans-serif;cursor:pointer;box-shadow:0 12px 30px rgba(37,99,235,.4);transition:transform .15s}
+.ask-fab:hover{transform:translateY(-2px)}
+.ask-dr{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100vw;z-index:10050;background:var(--bg2);border-left:1px solid var(--border);box-shadow:-20px 0 60px rgba(15,30,46,.18);display:flex;flex-direction:column;transform:translateX(105%);transition:transform .25s ease}
+.ask-dr.open{transform:none}
+.ask-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 18px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(37,99,235,.06),transparent)}
+.ask-t{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:700;color:var(--text)}
+.ask-c{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5}.ask-c span{color:var(--text3)}
+.ask-x{border:0;background:transparent;color:var(--text3);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:8px}.ask-x:hover{background:rgba(148,163,184,.15)}
+.ask-m{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.ask-empty{font-size:13px;color:var(--text3);line-height:1.6;background:rgba(37,99,235,.04);border:1px dashed var(--border2);border-radius:12px;padding:14px}
+.ask-msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.6;word-wrap:break-word}
+.ask-msg.user{align-self:flex-end;background:var(--blue-500);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
+.ask-msg.assistant{align-self:flex-start;background:var(--bg);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px}
+.ask-msg.err{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#dc2626}
+.ask-msg pre{background:rgba(148,163,184,.12);padding:8px 10px;border-radius:8px;overflow-x:auto;font-size:12px;margin:6px 0}
+.ask-li{display:block;padding-left:4px}
+.ask-msg.typing{display:flex;gap:4px;padding:14px}.ask-msg.typing i{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:askDot 1s infinite}.ask-msg.typing i:nth-child(2){animation-delay:.15s}.ask-msg.typing i:nth-child(3){animation-delay:.3s}
+@keyframes askDot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.ask-up{align-self:flex-start;padding:7px 14px;border-radius:9px;border:0;background:#22c55e;color:#fff;font:600 12px 'Sora',sans-serif;cursor:pointer}
+.ask-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 10px}
+.ask-quick button{padding:6px 11px;border-radius:999px;border:1px solid var(--border2);background:transparent;color:var(--text2);font:600 12px 'Sora',sans-serif;cursor:pointer}
+.ask-quick button:hover{border-color:var(--blue-500);color:var(--blue-500)}
+.ask-f{display:flex;gap:8px;padding:0 18px 8px}
+.ask-f textarea{flex:1;resize:none;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font:14px 'Sora',sans-serif;outline:none}
+.ask-f textarea:focus{border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.ask-f button{padding:0 16px;border:0;border-radius:12px;background:var(--blue-500);color:#fff;font:600 14px 'Sora',sans-serif;cursor:pointer}
+.ask-f button:disabled{opacity:.5;cursor:default}
+.ask-foot{font-size:11px;color:var(--text3);text-align:center;padding:0 18px 14px}
+@media(max-width:560px){.ask-dr{width:100vw}.ask-fab{right:14px;bottom:14px;padding:12px 16px}.tpx-askb{padding:4px 8px;font-size:11px}}
 /* ─── Utility ───────────────────────────────────────── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -16998,6 +17031,116 @@ function showAuthWall() {
     picked.forEach(function (c) { out = out.concat(c.qs); });
     return out;
   }
+  // ═════════════════ ASK AI (tutor chat) ═════════════════
+  var ask = { chats: {}, cur: null, busy: false };
+  function askEnsure() {
+    if (document.getElementById('askDrawer')) return;
+    var host = document.body;
+    setInterval(function () {
+      var f = document.getElementById('askFab'), pg = document.getElementById('topicalPage'), dr = document.getElementById('askDrawer');
+      var on = pg && pg.style.display === 'block' && tp.paperQs.length && document.getElementById('tpPaper').innerHTML;
+      f.style.display = on ? 'flex' : 'none';
+      if (!on && dr) dr.classList.remove('open');
+      var ck = document.getElementById('ckMini');
+      f.style.bottom = ck && ck.offsetParent !== null && getComputedStyle(ck).display !== 'none' ? (ck.offsetHeight + 36) + 'px' : '';
+    }, 500);
+    var fab = document.createElement('button');
+    fab.id = 'askFab'; fab.className = 'ask-fab'; fab.style.display = 'none';
+    fab.innerHTML = '<span>✨</span> Ask AI'; fab.onclick = function () { tpAsk(null); };
+    host.appendChild(fab);
+    var d = document.createElement('div');
+    d.id = 'askDrawer'; d.className = 'ask-dr';
+    d.innerHTML = '<div class="ask-h"><div><div class="ask-t">✨ Ask AI</div><div class="ask-c" id="askCtx"></div></div><button class="ask-x" onclick="askClose()" aria-label="Close">✕</button></div>' +
+      '<div class="ask-m" id="askMsgs"></div>' +
+      '<div class="ask-quick" id="askQuick"></div>' +
+      '<form class="ask-f" onsubmit="askSend();return false"><textarea id="askIn" rows="2" placeholder="Ask anything about this question…" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();askSend();}"></textarea><button type="submit" id="askBtn">Send</button></form>' +
+      '<div class="ask-foot">The AI can make mistakes. Check against the mark scheme.</div>';
+    host.appendChild(d);
+  }
+  function askStudentAnswer(i, whole) {
+    var qs = tp.paperQs, out = [];
+    qs.forEach(function (x, k) {
+      if (whole ? wkey(x) !== wkey(qs[i]) : k !== i) return;
+      var v = '';
+      if (x.options) { var r = document.querySelector('input[name="tpmcq-' + k + '"]:checked'); v = r ? r.value : ''; }
+      else { var el = document.getElementById('tpans-' + k); v = el ? el.value.trim() : ''; }
+      if (v) out.push((whole ? partOf(x) + ': ' : '') + v);
+    });
+    return out.join('\n');
+  }
+  function askCtxFor(i, whole) {
+    var cfg = tpCfg();
+    if (i == null) {
+      var tps = {}; tp.paperQs.forEach(function (q) { tps[q.subtopic] = 1; });
+      return { key: 'paper', label: 'Your topical paper', subject: cfg.name, topic: Object.keys(tps).join(', '), source: 'Topical paper', text: 'The student is working on a topical paper and has a general question. No specific question is selected.', images: [] };
+    }
+    var q = tp.paperQs[i], parts = whole ? tp.paperQs.filter(function (x) { return wkey(x) === wkey(q); }) : [q];
+    var imgs = whole && q.pages && q.pages.length ? q.pages : (q.ctxImg || []).concat(q.img || []);
+    var tps2 = {}; parts.forEach(function (x) { tps2[x.subtopic] = 1; });
+    var txt = parts.map(function (x) {
+      var t = clean(x.options ? (x.stem || x.text) : (shownText(x) || x.raw || x.text || ''));
+      return (whole ? partOf(x) + ' [' + x.marks + '] ' : '') + t;
+    }).join('\n');
+    if (q.caseStudy && !(q.ctxImg && q.ctxImg.length)) txt = 'Case study / information: ' + clean(q.caseStudy) + '\n\n' + txt;
+    if (q.context) txt = 'Context: ' + clean(q.context) + '\n' + txt;
+    var marks = parts.reduce(function (m, x) { return m + x.marks; }, 0);
+    var lbl = whole ? 'Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ', ' + srcPaper(q) : 'Q' + (i + 1) + ' · ' + srcLabel(q, true);
+    return { key: (whole ? 'w:' : 'q:') + q.id, i: i, whole: !!whole, label: lbl.replace(/&amp;/g, '&'), subject: cfg.name, topic: Object.keys(tps2).join(', '),
+      source: srcLabel(q).replace(/&amp;/g, '&'), marks: marks, text: txt,
+      ms: parts.map(function (x) { return (whole ? partOf(x) + ': ' : '') + clean(x.ms || ''); }).join('\n'),
+      answer: q.options ? q.answer : '', images: imgs.slice(0, 5).map(imgUrl) };
+  }
+  window.tpAsk = function (i, whole) {
+    askEnsure();
+    var ctx = askCtxFor(i, whole);
+    if (!ask.chats[ctx.key]) ask.chats[ctx.key] = { ctx: ctx, msgs: [] };
+    ask.cur = ask.chats[ctx.key];
+    document.getElementById('askCtx').innerHTML = 'About: <b>' + esc(ctx.label) + '</b>' + (ctx.topic ? '<br><span>' + esc(ctx.topic) + '</span>' : '');
+    var quick = i == null ? ['How should I revise these topics?', 'What do examiners look for?']
+      : ctx.answer ? ['Give me a hint', 'Explain the topic', 'Why is my answer wrong?', 'Show the answer']
+      : ['Give me a hint', 'Explain the topic', 'Check my answer', 'Show the full answer'];
+    document.getElementById('askQuick').innerHTML = quick.map(function (t) { return '<button onclick="askSend(this.textContent)">' + esc(t) + '</button>'; }).join('');
+    askRender();
+    document.getElementById('askDrawer').classList.add('open');
+    setTimeout(function () { var el = document.getElementById('askIn'); if (el) el.focus(); }, 150);
+  };
+  window.askClose = function () { var d = document.getElementById('askDrawer'); if (d) d.classList.remove('open'); };
+  function askMd(t) {
+    var h = esc(t).replace(/```([\s\S]*?)```/g, function (m, c) { return '<pre>' + c.replace(/^\w*\n/, '') + '</pre>'; });
+    h = h.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(^|\n)#{1,4}\s*(.+)/g, '$1<b>$2</b>');
+    h = h.replace(/(^|\n)\s*[-*•]\s+(.+)/g, '$1<span class="ask-li">• $2</span>');
+    return h.replace(/\n/g, '<br>').replace(/(<\/span>)<br>/g, '$1');
+  }
+  function askRender(typing) {
+    var c = ask.cur, box = document.getElementById('askMsgs'); if (!c || !box) return;
+    var h = c.msgs.length ? '' : '<div class="ask-empty">Stuck? Ask for a hint, an explanation of the topic, or paste your answer and ask the AI to check it. It can see this question' + (c.ctx.images.length ? ' and the past paper page' : '') + '.</div>';
+    c.msgs.forEach(function (m) { h += '<div class="ask-msg ' + m.role + (m.err ? ' err' : '') + '">' + (m.role === 'assistant' ? askMd(m.content) : esc(m.content)) + '</div>' + (m.upsell ? '<button class="ask-up" onclick="showPricing()">See plans</button>' : ''); });
+    if (typing) h += '<div class="ask-msg assistant typing"><i></i><i></i><i></i></div>';
+    box.innerHTML = h; box.scrollTop = box.scrollHeight;
+  }
+  window.askSend = async function (preset) {
+    var c = ask.cur, inp = document.getElementById('askIn');
+    var text = (preset || inp.value || '').trim();
+    if (!c || !text || ask.busy) return;
+    if (typeof _supabase === 'undefined' || !_supabase) { showAuthWall(); return; }
+    var sess = (await _supabase.auth.getSession()).data.session;
+    if (!sess) { showAuthWall(); return; }
+    if (c.ctx.i != null) c.ctx.studentAnswer = askStudentAnswer(c.ctx.i, c.ctx.whole);
+    c.msgs.push({ role: 'user', content: text }); inp.value = '';
+    ask.busy = true; document.getElementById('askBtn').disabled = true; askRender(true);
+    try {
+      var res = await fetch('/.netlify/functions/ask', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + sess.access_token },
+        body: JSON.stringify({ messages: c.msgs.filter(function (m) { return !m.err && !m.skip; }).map(function (m) { return { role: m.role, content: m.content }; }), question: c.ctx }) });
+      var data = {}; try { data = await res.json(); } catch (e) { data = { error: 'The server sent an invalid response (status ' + res.status + ').' }; }
+      if (data.error) { c.msgs[c.msgs.length - 1].skip = true; c.msgs.push({ role: 'assistant', content: data.error, err: true, upsell: !!(data.limitHit && !data.paid) }); }
+      else c.msgs.push({ role: 'assistant', content: data.text || '(no answer)' });
+    } catch (e) {
+      c.msgs[c.msgs.length - 1].skip = true;
+      c.msgs.push({ role: 'assistant', content: 'Could not reach the AI. Check your connection and try again.', err: true });
+    }
+    ask.busy = false; document.getElementById('askBtn').disabled = false; askRender();
+  };
+
   var SESS_ORD = { 'Feb/Mar': 0, 'Feb/March': 0, 'May/June': 1, 'May/Jun': 1, 'Oct/Nov': 2 };
   function newestFirst(a, b) { return (Number(b.year) - Number(a.year)) || ((SESS_ORD[b.session] || 0) - (SESS_ORD[a.session] || 0)) || (Number(a.variant || 0) - Number(b.variant || 0)); }
   function tpBuildAllMCQ(paper, keys) {
@@ -17131,7 +17274,7 @@ function showAuthWall() {
         var parts = qs.filter(function (x) { return wkey(x) === lastW; }), gm = 0;
         parts.forEach(function (x) { gm += x.marks; });
         h += '<section class="tpx-block exact"><div class="tpx-block-h"><div class="tpx-qtitle"><span class="tpx-qbig">Question ' + qn + '</span><span class="tpx-qtot">' + gm + ' marks</span></div>' +
-          '<div class="tpx-block-src">📄 ' + srcPaper(q) + ' · Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ' ' + qpLink(q) + '</div></div>' +
+          '<div class="tpx-block-src">📄 ' + srcPaper(q) + ' · Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ' ' + qpLink(q) + '<button class="tpx-askb" onclick="tpAsk(' + i + ', true)">💬 Ask AI about this question</button></div></div>' +
           '<div class="tpx-legend"><div class="tpx-block-k">Topics in this question</div>' + parts.map(function (x) {
             var mine = !!tp.gSel[key(x)];
             return '<div class="tpx-lrow' + (mine ? ' mine' : '') + '"><b>' + esc(partOf(x) || ('Q' + x.qNum)) + '</b><span>' + (mine ? '● ' : '') + esc(x.subtopic) + '</span><i>[' + x.marks + ']</i></div>';
@@ -17170,7 +17313,7 @@ function showAuthWall() {
         '<div class="tpx-qh"><span class="tpx-num' + (isMCQ ? '' : ' pl') + '">' + (isMCQ ? (i + 1) : esc(pl || qn)) + '</span>' +
           '<div class="tpx-meta">' + (isMCQ ? '<span class="tpx-chip src" title="Where this question comes from">📄 ' + srcLabel(q) + '</span>' : '') +
           '<span class="tpx-chip topic' + (mine ? '' : ' off') + '" title="' + (mine ? 'One of your topics' : 'Not one of your topics, included because it is part of the same question') + '">' + (mine ? '● ' : 'Topic: ') + esc(q.subtopic) + '</span></div>' +
-          '<span class="tpx-marks">[' + q.marks + ']</span></div>' +
+          '<span class="tpx-marks">[' + q.marks + ']</span><button class="tpx-askb" onclick="tpAsk(' + i + ')" title="Ask the AI tutor about this question">💬 Ask AI</button></div>' +
         (shownText(q) ? '<div class="tpx-text">' + esc(shownText(q)) + '</div>' : '') +
         imgsHtml(q) + optsAfterImg(q) + ans +
         (!q.options && !cfg.marking ? msBlock(q) : '') +
@@ -17188,6 +17331,7 @@ function showAuthWall() {
     box.innerHTML = h;
     box.oninput = box.onchange = tpProgress;
     tpProgress();
+    askEnsure(); document.getElementById('askFab').style.display = 'flex';
   }
 
   // ── marking ──
