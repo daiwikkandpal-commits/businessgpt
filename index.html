@@ -16939,7 +16939,7 @@ function showAuthWall() {
 
   // whole past paper question a part belongs to
   function wkey(q) { return (q.paperKey || q.id) + '|' + ((String(q.qNum).match(/^\d+/) || [''])[0]); }
-  function partOf(q) { return String(q.qNum).replace(/^\d+/, ''); }
+  function partOf(q) { var x = String(q.qNum).replace(/^\d+/, '').trim(); return /^[a-z]+$/i.test(x) ? '(' + x + ')' : x; }
   // structured papers: pick whole questions (every part) that cover the chosen topics
   function tpBuildWhole(paper, keys, target) {
     var groups = {}, order = [];
