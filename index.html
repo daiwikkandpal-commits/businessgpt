@@ -17053,7 +17053,7 @@ function showAuthWall() {
     d.innerHTML = '<div class="ask-h"><div><div class="ask-t">✨ Ask AI</div><div class="ask-c" id="askCtx"></div></div><button class="ask-x" onclick="askClose()" aria-label="Close">✕</button></div>' +
       '<div class="ask-m" id="askMsgs"></div>' +
       '<div class="ask-quick" id="askQuick"></div>' +
-      '<form class="ask-f" onsubmit="askSend();return false"><textarea id="askIn" rows="2" placeholder="Ask anything about this question…" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();askSend();}"></textarea><button type="submit" id="askBtn">Send</button></form>' +
+      '<form class="ask-f" onsubmit="askSend();return false"><textarea id="askIn" rows="2" maxlength="800" placeholder="Ask about this question…" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();askSend();}"></textarea><button type="submit" id="askBtn">Send</button></form>' +
       '<div class="ask-foot">The AI can make mistakes. Check against the mark scheme.</div>';
     host.appendChild(d);
   }
@@ -17072,7 +17072,7 @@ function showAuthWall() {
     var cfg = tpCfg();
     if (i == null) {
       var tps = {}; tp.paperQs.forEach(function (q) { tps[q.subtopic] = 1; });
-      return { key: 'paper', label: 'Your topical paper', subject: cfg.name, topic: Object.keys(tps).join(', '), source: 'Topical paper', text: 'The student is working on a topical paper and has a general question. No specific question is selected.', images: [] };
+      return { key: 'paper', label: 'Your topical paper', subjectKey: tp.subj, subject: cfg.name, topic: Object.keys(tps).join(', '), source: 'Topical paper', text: 'The student is working on a topical paper and has a general question. No specific question is selected.', images: [] };
     }
     var q = tp.paperQs[i], parts = whole ? tp.paperQs.filter(function (x) { return wkey(x) === wkey(q); }) : [q];
     var imgs = whole && q.pages && q.pages.length ? q.pages : (q.ctxImg || []).concat(q.img || []);
@@ -17085,7 +17085,7 @@ function showAuthWall() {
     if (q.context) txt = 'Context: ' + clean(q.context) + '\n' + txt;
     var marks = parts.reduce(function (m, x) { return m + x.marks; }, 0);
     var lbl = whole ? 'Question ' + ((String(q.qNum).match(/^\d+/) || [''])[0]) + ', ' + srcPaper(q) : 'Q' + (i + 1) + ' · ' + srcLabel(q, true);
-    return { key: (whole ? 'w:' : 'q:') + q.id, i: i, whole: !!whole, label: lbl.replace(/&amp;/g, '&'), subject: cfg.name, topic: Object.keys(tps2).join(', '),
+    return { key: (whole ? 'w:' : 'q:') + q.id, i: i, whole: !!whole, label: lbl.replace(/&amp;/g, '&'), subjectKey: tp.subj, subject: cfg.name, topic: Object.keys(tps2).join(', '),
       source: srcLabel(q).replace(/&amp;/g, '&'), marks: marks, text: txt,
       ms: parts.map(function (x) { return (whole ? partOf(x) + ': ' : '') + clean(x.ms || ''); }).join('\n'),
       answer: q.options ? q.answer : '', images: imgs.slice(0, 5).map(imgUrl) };
@@ -17113,7 +17113,7 @@ function showAuthWall() {
   }
   function askRender(typing) {
     var c = ask.cur, box = document.getElementById('askMsgs'); if (!c || !box) return;
-    var h = c.msgs.length ? '' : '<div class="ask-empty">Stuck? Ask for a hint, an explanation of the topic, or paste your answer and ask the AI to check it. It can see this question' + (c.ctx.images.length ? ' and the past paper page' : '') + '.</div>';
+    var h = c.msgs.length ? '' : '<div class="ask-empty">Stuck? Ask for a hint, an explanation of the topic, or paste your answer and ask the AI to check it. It can see this question' + (c.ctx.images.length ? ' and the past paper page' : '') + '.<br><br><b>Only ' + esc(c.ctx.subject) + ' questions.</b> Anything else, or anything inappropriate, will not be answered.</div>';
     c.msgs.forEach(function (m) { h += '<div class="ask-msg ' + m.role + (m.err ? ' err' : '') + '">' + (m.role === 'assistant' ? askMd(m.content) : esc(m.content)) + '</div>' + (m.upsell ? '<button class="ask-up" onclick="showPricing()">See plans</button>' : ''); });
     if (typing) h += '<div class="ask-msg assistant typing"><i></i><i></i><i></i></div>';
     box.innerHTML = h; box.scrollTop = box.scrollHeight;
