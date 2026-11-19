@@ -1136,6 +1136,123 @@ nav .dark-toggle { flex-shrink: 0; }
   .nav-inner > div:has(#navHamburger) { order: 3; }
 }
 @media (max-width: 640px) { nav > .container.nav-inner { padding: 0 16px; height: 68px; gap: 12px; } .nav-links { top: 68px; } }
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN PASS v3 — carries the dark hero's look through the site
+   (serif headlines, navy ink, yellow accent, softer shadows)
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --ink:#0F1E2E; --navy:#071021; --navy2:#0A1628; --accent:#FFD500;
+  --sh-sm:0 1px 2px rgba(15,30,46,.04),0 2px 10px rgba(15,30,46,.04);
+  --sh-md:0 1px 2px rgba(15,30,46,.05),0 18px 40px -16px rgba(15,30,46,.18);
+}
+html:not([data-theme="dark"]){--border:rgba(15,30,46,.09);--border2:rgba(37,99,235,.35)}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:var(--ink)}
+:focus-visible{outline:2px solid #2563EB;outline-offset:2px;border-radius:6px}
+
+/* hero → content: a sheet that slides over the dark hero instead of a muddy fade */
+.hero.hx::after{display:none}
+.hero.hx{padding-bottom:140px}
+#features{margin-top:-56px;border-radius:36px 36px 0 0;background:var(--bg);padding-top:104px;box-shadow:0 -24px 60px -30px rgba(0,0,0,.5)}
+[data-theme="dark"] #features{background:#13151a}
+
+/* section headings */
+.section{padding:96px 0}
+.section-label{display:flex;align-items:center;gap:12px;color:#2563EB;letter-spacing:.16em}
+.section-label::before{content:'';width:22px;height:3px;border-radius:3px;background:var(--accent)}
+.section-title{font-size:clamp(32px,4.6vw,52px)!important;line-height:1.06!important;color:var(--ink);font-variation-settings:'opsz' 96;letter-spacing:-.018em!important;margin-bottom:18px}
+.section-sub{font-size:17px;color:#475569}
+
+/* feature cards */
+.features-grid{gap:18px;margin-top:56px}
+.feature-card{border:1px solid var(--border);border-radius:22px;padding:30px 28px;box-shadow:var(--sh-sm);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:rgba(37,99,235,.22)}
+.feature-card::before{display:none}
+.feature-icon{width:46px;height:46px;border-radius:13px;margin-bottom:22px;background:#EEF4FF!important;color:#2563EB;border:1px solid rgba(37,99,235,.14)}
+.feature-card h3{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin-bottom:10px}
+.feature-card p{font-size:14.5px;color:#526075}
+.feature-card.featured{background:var(--navy2)!important;border:1px solid #2563EB!important;box-shadow:0 24px 50px -20px rgba(37,99,235,.55)}
+.feature-card.featured::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(148,180,230,.12) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(135deg,transparent 30%,#000);mask-image:linear-gradient(135deg,transparent 30%,#000);pointer-events:none}
+.feature-card.featured h3{color:#fff}
+.feature-card.featured p{color:#a9b8d0}
+.feature-card.featured .feature-icon{background:rgba(255,213,0,.12)!important;color:var(--accent);border-color:rgba(255,213,0,.25)}
+.feature-card.featured .feature-tag{background:rgba(255,213,0,.12);color:var(--accent);border-color:rgba(255,213,0,.3)}
+
+/* how it works: one connected strip with big serif numerals */
+.steps{margin-top:56px;background:#fff;border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--sh-sm)}
+.step{background:transparent;border-right:1px solid var(--border);padding:34px 30px 36px}
+.step-connector{display:none}
+.step-num{font-family:'Fraunces',Georgia,serif;font-size:44px;font-weight:700;line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.4px #2563EB;margin-bottom:22px}
+.step:hover .step-num{color:#2563EB}
+.step h3{font-size:17px;color:var(--ink)}
+.step p{color:#526075}
+
+/* paper cards */
+.paper-card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:24px;padding:36px;box-shadow:var(--sh-sm)}
+.paper-card .paper-label{align-self:flex-start}
+.paper-card .paper-btn{margin-top:auto;align-self:flex-start}
+.paper-card .paper-meta{margin-bottom:28px}
+.paper-card:hover{transform:translateY(-4px);box-shadow:var(--sh-md);border-color:rgba(37,99,235,.22)}
+.paper-card h3{font-family:'Fraunces',Georgia,serif;font-size:30px;font-weight:700;letter-spacing:-.015em;color:var(--ink);margin:14px 0 10px}
+
+/* syllabus units: tidy 3×2 grid, no orphan card */
+.topics-grid{grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px}
+@media(max-width:900px){.topics-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.topics-grid{grid-template-columns:1fr}}
+.topic-card{position:relative;border:1px solid var(--border);border-radius:18px;padding:24px 56px 24px 24px;box-shadow:var(--sh-sm);transition:transform .2s,box-shadow .2s,border-color .2s}
+.topic-card::after{content:'→';position:absolute;right:22px;top:50%;transform:translate(-6px,-50%);opacity:0;color:#2563EB;font-size:18px;transition:all .2s}
+.topic-card:hover{background:#fff;transform:translateY(-3px);box-shadow:var(--sh-md);border-color:rgba(37,99,235,.25)}
+.topic-card:hover::after{opacity:1;transform:translate(0,-50%)}
+.topic-num{display:inline-block;font-family:'Sora',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#2563EB;background:#EEF4FF;padding:4px 9px;border-radius:999px;margin-bottom:12px}
+.topic-name{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px}
+.topic-sub{font-size:13px;color:#64748b}
+
+/* closing CTA bookends the hero */
+.cta-section{padding:40px 0 110px}
+.cta-inner{position:relative;overflow:hidden;isolation:isolate;background:var(--navy)!important;border:1px solid rgba(148,163,184,.14)!important;border-radius:32px!important;padding:88px 32px!important;box-shadow:0 40px 80px -30px rgba(7,16,33,.6)}
+.cta-inner::before{content:'';position:absolute!important;inset:0!important;width:auto!important;height:auto!important;transform:none!important;z-index:-1;opacity:1!important;filter:none!important;
+  background:radial-gradient(520px 300px at 85% 0%,rgba(37,99,235,.45),transparent 70%),radial-gradient(380px 260px at 0% 100%,rgba(74,222,128,.12),transparent 70%)!important;border-radius:0!important}
+.cta-inner::after{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(148,180,230,.14) 1px,transparent 1px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 20%,transparent 80%);mask-image:radial-gradient(ellipse 60% 70% at 50% 50%,#000 20%,transparent 80%)}
+.cta-inner h2{color:#f4f7fc!important;font-size:clamp(34px,5vw,60px)!important;line-height:1.05!important;letter-spacing:-.018em!important;font-variation-settings:'opsz' 96;margin-bottom:18px!important}
+.cta-inner p{color:#a9b8d0!important;margin-bottom:34px!important}
+
+/* footer */
+footer{background:transparent!important;border-top:1px solid var(--border)!important}
+footer .footer-col h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+footer .footer-col a{transition:color .15s}
+footer .footer-col a:hover{color:#2563EB}
+
+/* inner pages: serif titles to match the landing page */
+.pg-title{font-family:'Fraunces',Georgia,serif!important;font-size:clamp(32px,3.6vw,44px)!important;font-weight:700!important;letter-spacing:-.018em!important;line-height:1.08!important;font-variation-settings:'opsz' 96}
+.pg-title span{font-family:'Sora',sans-serif;font-size:.7em;font-weight:600;letter-spacing:-.02em;vertical-align:.08em}
+
+/* form fields: one consistent focus state */
+textarea,input[type="text"],input[type="email"],input[type="number"],select{transition:border-color .15s,box-shadow .15s}
+textarea:focus,input[type="text"]:focus,input[type="email"]:focus,input[type="number"]:focus,select:focus{border-color:#2563EB!important;box-shadow:0 0 0 4px rgba(37,99,235,.12)!important;outline:none}
+
+/* pricing: premium plan as a dark card */
+html:not([data-theme="dark"]) .price-pop{background:var(--navy2)!important;border-color:#2563EB!important;box-shadow:0 30px 60px -24px rgba(37,99,235,.55)!important;transform:translateY(-8px)}
+html:not([data-theme="dark"]) .price-pop div{color:#cbd5e1!important}
+html:not([data-theme="dark"]) .price-pop > div:nth-child(2) > div:first-child,
+html:not([data-theme="dark"]) .price-pop #pricingPricePremium{color:#fff!important}
+html:not([data-theme="dark"]) .price-pop #pricingPricePremium span{color:#93a8c8!important}
+html:not([data-theme="dark"]) .price-pop > div:first-child{color:var(--ink)!important;background:var(--accent)!important}
+#pricingPriceBasic,#pricingPricePremium,#pricingPriceSeason{font-family:'Fraunces',Georgia,serif;font-size:42px!important;letter-spacing:-.03em}
+#pricingPriceBasic span,#pricingPricePremium span,#pricingPriceSeason span{font-family:'Sora',sans-serif;letter-spacing:0;margin-left:4px}
+
+/* dark mode for the new pieces */
+[data-theme="dark"] .feature-icon,[data-theme="dark"] .topic-num{background:rgba(59,130,246,.14)!important;border-color:rgba(96,165,250,.25)!important;color:#93c5fd}
+[data-theme="dark"] .steps{background:#1c1f26;border-color:rgba(255,255,255,.08)}
+[data-theme="dark"] .step{border-color:rgba(255,255,255,.08)!important}
+[data-theme="dark"] .step-num{color:transparent;-webkit-text-stroke-color:#60a5fa}
+[data-theme="dark"] .step:hover .step-num{color:#60a5fa}
+[data-theme="dark"] .paper-meta-row strong,[data-theme="dark"] footer .footer-col h4,[data-theme="dark"] .paper-card h3,[data-theme="dark"] .topic-name{color:#f0f2f5!important}
+[data-theme="dark"] .topic-card:hover{background:#22262f}
+[data-theme="dark"] .feature-card p,[data-theme="dark"] .step p{color:#b0b8c8}
+
+/* small motion polish */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
 
@@ -1286,33 +1403,33 @@ nav .dark-toggle { flex-shrink: 0; }
     <p class="section-sub">Built specifically for IGCSE Business Studies 0450, trained on Cambridge mark schemes from multiple exam sessions.</p>
     <div class="features-grid">
       <div class="feature-card featured">
-        <div class="feature-icon icon-blue">⚡</div>
+        <div class="feature-icon icon-blue"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
         <h3>Instant Cambridge Marking</h3>
         <p>Submit any answer and receive mark-scheme aligned feedback in under 5 seconds. Every mark point explained.</p>
         <span class="feature-tag">Core feature</span>
       </div>
       <div class="feature-card">
-        <div class="feature-icon icon-teal">🎯</div>
+        <div class="feature-icon icon-teal"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg></div>
         <h3>Level-by-Level Feedback</h3>
         <p>For analyse and evaluate questions, see exactly which level your answer sits at and what's needed to move up.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon icon-purple">📋</div>
+        <div class="feature-icon icon-purple"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></div>
         <h3>Paper 1 & Paper 2 Ready</h3>
         <p>Short-answer questions for Paper 1 and full case-study questions for Paper 2 — complete coverage of the syllabus.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon icon-amber">💡</div>
+        <div class="feature-icon icon-amber"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></div>
         <h3>Missed Marks Highlighted</h3>
         <p>See exactly which mark-scheme points you didn't hit so you can learn what Cambridge actually wants.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon icon-green">📈</div>
+        <div class="feature-icon icon-green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="m4 15 5-5 4 4 7-7"/><path d="M15 7h5v5"/></svg></div>
         <h3>Progress Tracking</h3>
         <p>Track your scores across sessions and topics. Identify weak areas and focus your revision where it matters most.</p>
       </div>
       <div class="feature-card" onclick="showPastPapers()" style="cursor:pointer">
-        <div class="feature-icon icon-rose">📚</div>
+        <div class="feature-icon icon-rose"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21a2 2 0 0 1 2-2h13v2"/><path d="M9 7h6"/></svg></div>
         <h3>Full Past Paper and Mark Scheme Access</h3>
         <p>Every past paper and mark scheme from 2020 to today, all in one place — no more hunting across five different sites for the right session.</p>
       </div>
@@ -1447,7 +1564,7 @@ nav .dark-toggle { flex-shrink: 0; }
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
         <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:6px">AI Marker</div>
-        <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Mark your answer</div>
+        <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Mark your answer</div>
       </div>
       <!-- Paper tabs -->
       <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px">
@@ -1525,7 +1642,7 @@ nav .dark-toggle { flex-shrink: 0; }
     <!-- Answer -->
     <div style="display:flex;flex-direction:column;gap:7px">
       <label style="font-size:13px;font-weight:500;color:var(--text2)">Your answer</label>
-      <textarea id="m-ans" style="font-family:'Kalam',cursive;font-size:15px;line-height:1.7" rows="7" placeholder="Write your answer here..." style="width:100%;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Sora',sans-serif;font-size:14px;line-height:1.7;resize:none;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      <textarea id="m-ans" rows="7" placeholder="Write your answer here..." style="width:100%;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Kalam',cursive;font-size:16px;line-height:1.7;resize:vertical;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(59,130,246,.5)'" onblur="this.style.borderColor='var(--border)'"></textarea>
     </div>
 
     <!-- Submit -->
@@ -1628,7 +1745,7 @@ nav .dark-toggle { flex-shrink: 0; }
       <div style="margin-bottom:28px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
         <div>
           <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:6px">Past Papers</div>
-          <div style="font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="ppTitle">Cambridge IGCSE Business Studies <span style="color:var(--blue-400)">0450</span></div>
+          <div class="pg-title" style="font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="ppTitle">Cambridge IGCSE Business Studies <span style="color:var(--blue-400)">0450</span></div>
         </div>
         <div style="font-size:13px;color:var(--text3)" id="ppCount"></div>
       </div>
@@ -1654,7 +1771,7 @@ nav .dark-toggle { flex-shrink: 0; }
   <div style="max-width:1000px;margin:0 auto;padding:0 24px">
     <div style="text-align:center;margin-bottom:44px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Pricing</div>
-      <div style="font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:10px">Keep marking, no limits</div>
+      <div class="pg-title" style="font-size:32px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:10px">Keep marking, no limits</div>
       <div style="font-size:15px;color:var(--text2);max-width:520px;margin:0 auto;line-height:1.6">Free gives you 3 individual markings and 1 full paper marking per paper to try it out. Upgrade any time to keep going.</div>
     </div>
 
@@ -1684,7 +1801,7 @@ nav .dark-toggle { flex-shrink: 0; }
         <button onclick="checkoutPlan('basic')" id="pricingBtnBasic" style="padding:12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:14px;cursor:pointer;font-family:'Sora',sans-serif">Get Basic</button>
       </div>
 
-      <div style="background:var(--bg2);border:1.5px solid var(--blue-500);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;box-shadow:0 8px 30px rgba(59,130,246,.15)">
+      <div class="price-pop" style="background:var(--bg2);border:1.5px solid var(--blue-500);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;box-shadow:0 8px 30px rgba(59,130,246,.15)">
         <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue-500);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 12px;border-radius:20px">Most popular</div>
         <div>
           <div style="font-size:16px;font-weight:700;color:var(--text)">Premium</div>
@@ -1726,7 +1843,7 @@ nav .dark-toggle { flex-shrink: 0; }
   <div style="max-width:640px;margin:0 auto;padding:0 24px">
     <div style="margin-bottom:32px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Account</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Manage Subscription</div>
+      <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Manage Subscription</div>
     </div>
 
     <div id="accountLoading" style="text-align:center;padding:60px 0;color:var(--text3);font-size:14px">Loading your account…</div>
@@ -1806,7 +1923,7 @@ nav .dark-toggle { flex-shrink: 0; }
 
     <div>
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Full Paper Marking (Elite)</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:6px">Mark a full paper</div>
+      <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:6px">Mark a full paper</div>
       <p style="font-size:14px;color:var(--text2)">Select a past paper, write your answers to all 20 questions, and get a complete report out of 80 marks with detailed feedback on every question.</p>
     </div>
 
@@ -2001,7 +2118,7 @@ nav .dark-toggle { flex-shrink: 0; }
     <!-- Header -->
     <div style="margin-bottom:28px;padding-top:28px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">My Progress</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="dashWelcome">Dashboard</div>
+      <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)" id="dashWelcome">Dashboard</div>
     </div>
 
     <!-- Subscription status -->
@@ -2101,7 +2218,7 @@ nav .dark-toggle { flex-shrink: 0; }
     <div class="cta-inner">
       <h2>Ready to improve your<br/>Business grade?</h2>
       <p>Join thousands of IGCSE students using AI to get better marks. No signup required to try.</p>
-      <a href="#" onclick="showMarker();return false" class="btn-hero btn-hero-primary">Start marking for free →</a>
+      <a href="#" onclick="showMarker();return false" class="hx-btn hx-btn-main">Start marking for free <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -2140,7 +2257,7 @@ nav .dark-toggle { flex-shrink: 0; }
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 IGCSE Mark. Not affiliated with Cambridge Assessment International Education.</p>
+      <p>© 2026 IGCSE Mark. Not affiliated with Cambridge Assessment International Education.</p>
       <p style="color:var(--text3)">Built for IGCSE students worldwide</p>
     </div>
   </div>
@@ -4107,7 +4224,7 @@ function showUnit(n) {
   content.innerHTML = `
     <div style="margin-bottom:32px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:8px">Cambridge IGCSE Business Studies 0450</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">${unit.title}</div>
+      <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">${unit.title}</div>
     </div>
     ${unit.sections.map(s => `
       <div style="margin-bottom:28px">
@@ -16611,7 +16728,7 @@ function showAuthWall() {
   <div style="max-width:940px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:20px">
     <div style="padding-top:20px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:6px">Topical papers</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Build your own paper</div>
+      <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Build your own paper</div>
       <div id="tpDesc" data-bus="Pick a paper and the topics you want. We build a paper from real past paper questions on just those topics, you write your answers, and it gets marked like a full paper." style="font-size:14px;color:var(--text2);margin-top:6px;line-height:1.6">Pick a paper and the topics you want. We build a paper from real past paper questions on just those topics, you write your answers, and it gets marked like a full paper.</div>
     </div>
 
