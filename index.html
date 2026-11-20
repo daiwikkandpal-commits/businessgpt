@@ -1251,6 +1251,89 @@ html:not([data-theme="dark"]) .price-pop > div:first-child{color:var(--ink)!impo
 [data-theme="dark"] .topic-card:hover{background:#22262f}
 [data-theme="dark"] .feature-card p,[data-theme="dark"] .step p{color:#b0b8c8}
 
+/* ═══ Topical: two-column builder ═══ */
+.tp-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:0;margin-top:4px}
+.tp-subj{display:flex;gap:4px;flex-wrap:wrap}
+.tp-tab{position:relative;padding:12px 16px 14px;border:0;background:transparent;color:var(--text2);font:600 14px Sora,sans-serif;cursor:pointer;transition:color .15s}
+.tp-tab:hover{color:var(--text)}
+.tp-tab.on{color:var(--text)}
+.tp-tab.on::after{content:'';position:absolute;left:12px;right:12px;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:#2563EB}
+.tp-mode{display:flex;gap:2px;padding:3px;margin-bottom:8px;border-radius:999px;background:var(--bg2);border:1px solid var(--border)}
+.tp-mode button{padding:7px 14px;border:0;border-radius:999px;background:transparent;color:var(--text2);font:600 12.5px Sora,sans-serif;cursor:pointer}
+.tp-mode button.on{background:var(--ink,#0F1E2E);color:#fff}
+[data-theme="dark"] .tp-mode button.on{background:#f0f2f5;color:#0F1E2E}
+
+.tpg{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.tpg-k{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2563EB;margin-bottom:6px}
+.tpg-h{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:-.015em;color:var(--text)}
+.tpg-link{border:0;background:none;padding:4px 2px;color:#2563EB;font:600 12.5px Sora,sans-serif;cursor:pointer;white-space:nowrap}
+.tpg-link:hover{text-decoration:underline;text-underline-offset:3px}
+
+.tpg-main{background:var(--bg2);border:1px solid var(--border);border-radius:22px;padding:26px 28px 8px;box-shadow:var(--sh-sm)}
+.tpg-mh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:18px}
+.tpg-unit{padding:18px 0 20px;border-top:1px solid var(--border)}
+.tpg-uh{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.tpg-un{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);min-width:46px}
+.tpg-uname{font-size:15px;font-weight:600;color:var(--text);flex:1}
+.tpg-uc{font-size:11.5px;font-weight:600;color:#2563EB;background:rgba(37,99,235,.1);padding:3px 9px;border-radius:999px}
+.tpg-chips{display:flex;flex-wrap:wrap;gap:7px;padding-left:56px}
+.tpg-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px 8px 10px;border-radius:10px;border:1px solid transparent;background:rgba(15,30,46,.045);color:var(--text);font:500 13px Sora,sans-serif;cursor:pointer;transition:background .12s,border-color .12s,color .12s}
+.tpg-chip:hover{background:rgba(37,99,235,.09)}
+[data-theme="dark"] .tpg-chip{background:rgba(255,255,255,.05)}
+[data-theme="dark"] .tpg-chip:hover{background:rgba(96,165,250,.14)}
+.tpg-ck{width:15px;height:15px;border-radius:5px;border:1.5px solid rgba(100,116,139,.45);background:var(--bg2);flex:none;transition:all .12s}
+.tpg-n{font-size:11.5px;font-weight:500;color:var(--text3);margin-left:-2px}
+.tpg-chip.on{background:#2563EB;border-color:#2563EB;color:#fff}
+.tpg-chip.on .tpg-ck{border-color:#fff;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%232563EB' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.tpg-chip.on .tpg-n{color:rgba(255,255,255,.75)}
+
+.tpg-side{position:sticky;top:calc(96px + var(--exam-banner-h,0px))}
+.tpg-panel{background:var(--bg2);border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:var(--sh-md);display:flex;flex-direction:column;gap:18px}
+.tpg-panel .tpg-k{margin-bottom:-4px}
+.tpg-l{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px}
+.tpg-papers{display:flex;flex-direction:column;gap:6px}
+.tpg-pp{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--text);font:13px Sora,sans-serif;cursor:pointer;transition:border-color .12s,background .12s}
+.tpg-pp b{font-weight:600}
+.tpg-pp span:last-child{color:var(--text3);font-size:12.5px}
+.tpg-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border2,#94a3b8);flex:none;transition:all .12s}
+.tpg-pp:hover{border-color:rgba(37,99,235,.45)}
+.tpg-pp.on{border-color:#2563EB;background:rgba(37,99,235,.06)}
+.tpg-pp.on .tpg-dot{border:5px solid #2563EB}
+.tpg-sel{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font:600 13px Sora,sans-serif;cursor:pointer}
+.tpg-lens{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tpg-lens button{padding:9px 4px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text2);font:600 12.5px Sora,sans-serif;cursor:pointer}
+.tpg-lens button:hover{border-color:rgba(37,99,235,.45)}
+.tpg-lens button.on{background:#2563EB;border-color:#2563EB;color:#fff}
+.tpg-sum{font-size:13px;color:var(--text2);padding-top:16px;border-top:1px solid var(--border)}
+.tpg-sum b{color:var(--text);font-weight:700}
+.tpg-go{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border:0;border-radius:12px;background:#2563EB;color:#fff;font:600 15px Sora,sans-serif;cursor:pointer;box-shadow:0 10px 24px -10px rgba(37,99,235,.7);transition:transform .15s,box-shadow .15s}
+.tpg-go:hover{transform:translateY(-1px);box-shadow:0 14px 28px -10px rgba(37,99,235,.8)}
+.tpg-pdf{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:-8px;padding:11px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);font:600 13px Sora,sans-serif;cursor:pointer}
+.tpg-pdf:hover{border-color:#2563EB;color:#2563EB}
+.tpg-go.off,.tpg-pdf.off{opacity:.45;box-shadow:none;transform:none}
+.tpg-note{font-size:12px;line-height:1.55;color:var(--text3);margin-top:-4px}
+
+@media(max-width:920px){
+  .tpg{grid-template-columns:1fr}
+  .tpg-side{position:static}
+  .tpg-chips{padding-left:0}
+  .tpg-main{padding:20px 18px 6px}
+  .tp-mode{margin:8px 0}
+}
+
+.tpg-chip{text-align:left}
+.tpg-mbar{display:none}
+@media(max-width:920px){
+  .tpg-side{order:-1}
+  .tp-subj{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%}
+  .tp-subj::-webkit-scrollbar{display:none}
+  .tp-tab{white-space:nowrap;padding:12px 12px 14px}
+  .tp-bar{border-bottom:0}
+  .tp-subj{border-bottom:1px solid var(--border)}
+  .tpg-mbar{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;bottom:12px;margin:4px -6px 14px;padding:10px 10px 10px 16px;border-radius:14px;background:#0F1E2E;color:#cbd5e1;font-size:13px;box-shadow:0 14px 30px -10px rgba(7,16,33,.6)}
+  .tpg-mbar b{color:#fff}
+  .tpg-mbar button{padding:10px 18px;border:0;border-radius:10px;background:#2563EB;color:#fff;font:600 14px Sora,sans-serif;cursor:pointer}
+}
 /* small motion polish */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -16725,7 +16808,7 @@ function showAuthWall() {
 </script>
 <!-- ═════════ TOPICAL PAPERS (paste this whole block just before </body>) ═════════ -->
 <div id="topicalPage" style="display:none;min-height:100vh;position:relative;z-index:1;padding-top:calc(88px + var(--exam-banner-h,0px));padding-bottom:80px">
-  <div style="max-width:940px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:20px">
+  <div style="max-width:1140px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:20px">
     <div style="padding-top:20px">
       <div style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-400);margin-bottom:6px">Topical papers</div>
       <div class="pg-title" style="font-size:28px;font-weight:700;letter-spacing:-.5px;color:var(--text)">Build your own paper</div>
@@ -16742,20 +16825,22 @@ function showAuthWall() {
       </div>
     </div>
 
-    <div id="tpSubjSeg" style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
-      <button id="tpS-bus" onclick="tpSetSubject('bus')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:var(--blue-500);color:#fff">Business</button>
-      <button id="tpS-econ" onclick="tpSetSubject('econ')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Economics</button>
-      <button id="tpS-acc" onclick="tpSetSubject('acc')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Accounting</button>
-      <button id="tpS-maths" onclick="tpSetSubject('maths')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Maths</button>
-      <button id="tpS-asacc" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
-      <button id="tpS-phys" onclick="tpSetSubject('phys')" style="padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;font-family:Sora,sans-serif;border:none;cursor:pointer;background:transparent;color:var(--text2)">Physics</button>
+    <div class="tp-bar">
+    <div id="tpSubjSeg" class="tp-subj">
+      <button id="tpS-bus" class="tp-tab on" onclick="tpSetSubject('bus')">Business</button>
+      <button id="tpS-econ" class="tp-tab" onclick="tpSetSubject('econ')">Economics</button>
+      <button id="tpS-acc" class="tp-tab" onclick="tpSetSubject('acc')">Accounting</button>
+      <button id="tpS-maths" class="tp-tab" onclick="tpSetSubject('maths')">Maths</button>
+      <button id="tpS-asacc" class="tp-tab" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
+      <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
-
-    <div id="tpBusWrap"><div style="display:flex;flex-direction:column;gap:20px">
-    <div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">
+    <div class="tp-mode">
       <button id="tpTab-gen" onclick="tpSetMode('gen')"></button>
       <button id="tpTab-browse" onclick="tpSetMode('browse')"></button>
     </div>
+    </div>
+
+    <div id="tpBusWrap"><div style="display:flex;flex-direction:column;gap:20px">
 
     <!-- GENERATE VIEW -->
     <div id="tpGenView" style="display:flex;flex-direction:column;gap:20px">
@@ -16947,7 +17032,7 @@ function showAuthWall() {
     DATA_URL = cfg.url; UNIT_NAMES = cfg.units; tp.data = tpCache[s] || null;
     tp.unit = null; tp.sub = 'all'; tp.paper = 'all'; tp.shown = 10; tp.list = []; tp.shuffled = false;
     tp.gPaper = cfg.papers[0]; tp.gSel = {}; tp.paperQs = [];
-    Object.keys(TP_SUBJ).forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) { b.style.cssText = segStyle(k === s); b.style.display = (TP_SUBJ[k].level || 'igcse') === (TP_SUBJ[s].level || 'igcse') ? '' : 'none'; } });
+    Object.keys(TP_SUBJ).forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) { b.classList.toggle('on', k === s); b.style.display = (TP_SUBJ[k].level || 'igcse') === (TP_SUBJ[s].level || 'igcse') ? '' : 'none'; } });
     var d = document.getElementById('tpDesc');
     if (d) d.textContent = s === 'bus' ? d.getAttribute('data-bus')
       : 'Pick the topics you want. We build a paper from real ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.' + (s === 'asacc' ? ' Questions from 2010 to 2026, sorted by the chapters of the Cambridge AS & A Level Accounting coursebook.' : '');
@@ -16960,8 +17045,8 @@ function showAuthWall() {
 
   function tpTabs() {
     var g = document.getElementById('tpTab-gen'), b = document.getElementById('tpTab-browse');
-    g.textContent = '📝 Generate a paper'; b.textContent = '🔎 Browse questions';
-    g.style.cssText = segStyle(tp.mode === 'gen'); b.style.cssText = segStyle(tp.mode === 'browse');
+    g.textContent = 'Generate a paper'; b.textContent = 'Browse questions';
+    g.className = tp.mode === 'gen' ? 'on' : ''; b.className = tp.mode === 'browse' ? 'on' : '';
     document.getElementById('tpGenView').style.display = tp.mode === 'gen' ? 'flex' : 'none';
     document.getElementById('tpBrowseView').style.display = tp.mode === 'browse' ? 'flex' : 'none';
   }
@@ -16980,67 +17065,57 @@ function showAuthWall() {
     if (tp.gFrom && yearList.indexOf(tp.gFrom) < 0) tp.gFrom = 0;
     d.forEach(function (q) { if (q.paper === paper && (!tp.gFrom || Number(q.year) >= tp.gFrom)) counts[key(q)] = (counts[key(q)] || 0) + 1; });
 
-    var h = '';
-    // paper
-    h += '<div><div style="' + labelCss + '">1 · Paper</div><div style="display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;width:fit-content">' +
-      tpCfg().papers.map(function (p) { return '<button onclick="tpGPaper(' + p + ')" style="' + segStyle(paper === p) + '">' + tpCfg().pLabel[p] + '</button>'; }).join('') + '</div></div>';
-
-    // years
-    h += '<div><div style="' + labelCss + '">2 · Years</div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">' +
-      '<span style="font-size:14px;color:var(--text2)">Only use questions from</span>' +
-      '<select onchange="tpGFrom(this.value)" style="padding:9px 12px;border-radius:9px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font:600 13px Sora,sans-serif;cursor:pointer">' +
-      '<option value="0"' + (!tp.gFrom ? ' selected' : '') + '>All years (' + yearList[yearList.length - 1] + ' to ' + yearList[0] + ')</option>' +
-      yearList.slice(0, -1).map(function (y) { return '<option value="' + y + '"' + (tp.gFrom === y ? ' selected' : '') + '>' + y + ' onwards</option>'; }).join('') +
-      '</select></div><div style="font-size:12px;color:var(--text3);margin-top:8px">Pick a year to practise only recent papers. The topic counts below update to match.</div></div>';
-
-    // topics
-    h += '<div><div style="' + labelCss + '">3 · Topics <span style="text-transform:none;letter-spacing:0;font-weight:400">(tick as many as you like)</span></div><div style="display:flex;flex-direction:column;gap:16px">';
-    var selectedQs = 0, selectedTopics = 0;
+    var h = '', selectedQs = 0, selectedTopics = 0, units = '';
     Object.keys(UNIT_NAMES).map(Number).forEach(function (u) {
       var subs = Object.keys(counts).filter(function (k) { return k.split('|')[0] == u; }).sort(function (a, b) { return numSort(a.split('|')[1], b.split('|')[1]); });
       if (!subs.length) return;
-      var allOn = subs.every(function (k) { return tp.gSel[k]; });
-      h += '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">' +
-        '<div style="font-size:14px;font-weight:700;color:var(--text)">Unit ' + u + ' · ' + UNIT_NAMES[u] + '</div>' +
-        '<button onclick="tpGUnit(' + u + ')" style="padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer">' + (allOn ? 'Clear unit' : 'Select whole unit') + '</button></div>' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+      var nOn = subs.filter(function (k) { return tp.gSel[k]; }).length, allOn = nOn === subs.length;
+      units += '<section class="tpg-unit' + (nOn ? ' has' : '') + '"><div class="tpg-uh"><span class="tpg-un">Unit ' + u + '</span><span class="tpg-uname">' + esc(UNIT_NAMES[u]) + '</span>' +
+        (nOn ? '<span class="tpg-uc">' + nOn + ' of ' + subs.length + '</span>' : '') +
+        '<button class="tpg-link" onclick="tpGUnit(' + u + ')">' + (allOn ? 'Clear' : 'Select all') + '</button></div><div class="tpg-chips">';
       subs.forEach(function (k) {
         var on = !!tp.gSel[k]; if (on) { selectedTopics++; selectedQs += counts[k]; }
-        h += '<button data-key="' + esc(k) + '" onclick="tpGToggle(this.getAttribute(\'data-key\'))" style="' + chipStyle(on) + '">' + (on ? '✓ ' : '') + esc(k.split('|')[1]) +
-          ' <span style="opacity:.7;font-weight:500">' + counts[k] + '</span></button>';
+        units += '<button class="tpg-chip' + (on ? ' on' : '') + '" data-key="' + esc(k) + '" onclick="tpGToggle(this.getAttribute(\'data-key\'))"><span class="tpg-ck"></span>' + esc(k.split('|')[1]) + '<span class="tpg-n">' + counts[k] + '</span></button>';
       });
-      h += '</div></div>';
+      units += '</div></section>';
     });
-    h += '</div></div>';
-
-    // length
-    h += '<div><div style="' + labelCss + '">4 · Length</div><div style="display:flex;gap:8px;flex-wrap:wrap">';
-    lengthOptions(paper).forEach(function (m) {
-      h += '<button onclick="tpGLen(' + (m === 'all' ? '\'all\'' : m) + ')" style="' + chipStyle(tp.gTarget === m) + '">' + (m === 'all' ? 'All questions' : m + ' marks') + '</button>';
-    });
-    h += '</div><div style="font-size:12px;color:var(--text3);margin-top:8px">' + (isMCQPaper(paper)
-      ? 'Multiple choice questions, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
-      : paper === 1
-      ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
-      : (tp.subj === 'maths' || tp.subj === 'phys') ? 'Real Paper ' + paper + ' questions on your topics, with the diagrams and grids from the paper. Parts of the same question stay together.'
-      : /acc$/.test(tp.subj) ? 'Structured questions from real Paper 2s. Parts from the same question stay together, with the full question shown first.'
-      : tp.subj === 'econ' ? 'A mix of short and long questions, like a real Paper 2. Questions that share a source or stimulus stay together, with it shown first.'
-      : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div></div>';
-
-    // generate
     var ready = selectedTopics > 0;
-    h += '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">' +
-      '<button onclick="tpGenerate()" style="padding:13px 28px;border-radius:10px;border:none;background:var(--blue-500);color:#fff;font-size:15px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;box-shadow:0 4px 20px rgba(59,130,246,.28);' + (ready ? '' : 'opacity:.5;') + '">Generate my paper</button>' +
-      '<button onclick="tpAllPdf()" title="Every question on your topics' + (tp.gFrom ? ' from ' + tp.gFrom + ' onwards' : '') + ', in one PDF" style="padding:12px 20px;border-radius:10px;border:1.5px solid var(--blue-500);background:transparent;color:var(--blue-500);font-size:14px;font-weight:600;font-family:Sora,sans-serif;cursor:pointer;' + (ready ? '' : 'opacity:.5;') + '">⬇ PDF of every question' + (ready ? ' (' + selectedQs + ')' : '') + '</button>' +
-      '<span style="font-size:13px;color:var(--text3)">' + (ready ? selectedTopics + ' topic' + (selectedTopics === 1 ? '' : 's') + ' selected · ' + selectedQs + ' questions available' : 'Pick at least one topic') + '</span></div>';
 
+    h += '<div class="tpg"><div class="tpg-main"><div class="tpg-mh"><div><div class="tpg-k">Topics</div><div class="tpg-h">What do you want to practise?</div></div>' +
+      (ready ? '<button class="tpg-link" onclick="tpGClear()">Clear all (' + selectedTopics + ')</button>' : '') + '</div>' + units +
+      (ready ? '<div class="tpg-mbar"><span><b>' + selectedTopics + '</b> topic' + (selectedTopics === 1 ? '' : 's') + ' · ' + selectedQs + ' Qs</span><button onclick="tpGenerate()">Generate</button></div>' : '') + '</div>';
+
+    // settings panel
+    h += '<aside class="tpg-side"><div class="tpg-panel"><div class="tpg-k">Your paper</div>';
+    h += '<div class="tpg-f"><div class="tpg-l">Paper</div><div class="tpg-papers">' + tpCfg().papers.map(function (p) {
+      var lb = tpCfg().pLabel[p].split(' · ');
+      return '<button class="tpg-pp' + (paper === p ? ' on' : '') + '" onclick="tpGPaper(' + p + ')"><span class="tpg-dot"></span><b>' + esc(lb[0]) + '</b><span>' + esc(lb[1] || '') + '</span></button>';
+    }).join('') + '</div></div>';
+    h += '<div class="tpg-f"><div class="tpg-l">Questions from</div><select class="tpg-sel" onchange="tpGFrom(this.value)">' +
+      '<option value="0"' + (!tp.gFrom ? ' selected' : '') + '>All years (' + yearList[yearList.length - 1] + ' to ' + yearList[0] + ')</option>' +
+      yearList.slice(0, -1).map(function (y) { return '<option value="' + y + '"' + (tp.gFrom === y ? ' selected' : '') + '>' + y + ' onwards</option>'; }).join('') + '</select></div>';
+    h += '<div class="tpg-f"><div class="tpg-l">Length</div><div class="tpg-lens">' + lengthOptions(paper).map(function (m) {
+      return '<button class="' + (tp.gTarget === m ? 'on' : '') + '" onclick="tpGLen(' + (m === 'all' ? '\'all\'' : m) + ')">' + (m === 'all' ? 'All' : m + (isMCQPaper(paper) ? ' Qs' : ' marks')) + '</button>';
+    }).join('') + '</div></div>';
+    h += '<div class="tpg-sum">' + (ready ? '<b>' + selectedTopics + '</b> topic' + (selectedTopics === 1 ? '' : 's') + ' · <b>' + selectedQs + '</b> questions to pick from' : 'Pick at least one topic to start') + '</div>' +
+      '<button class="tpg-go' + (ready ? '' : ' off') + '" onclick="tpGenerate()">Generate my paper <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>' +
+      '<button class="tpg-pdf' + (ready ? '' : ' off') + '" onclick="tpAllPdf()" title="Every question on your topics' + (tp.gFrom ? ' from ' + tp.gFrom + ' onwards' : '') + ', in one PDF"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF of every question' + (ready ? ' (' + selectedQs + ')' : '') + '</button>' +
+      '<div class="tpg-note">' + (isMCQPaper(paper)
+      ? 'Multiple choice, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
+      : paper === 1 && tp.subj === 'bus'
+      ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
+      : (tp.subj === 'maths' || tp.subj === 'phys') ? 'Real Paper ' + paper + ' questions with the diagrams and grids from the paper. Parts of the same question stay together.'
+      : /acc$/.test(tp.subj) ? 'Structured questions from real Paper 2s. Parts of the same question stay together, with the full question shown first.'
+      : tp.subj === 'econ' ? 'Short and long questions, like a real Paper 2. Questions sharing a source stay together, with it shown first.'
+      : 'A mix of 8 and 12 mark questions. Each one comes with its own case study to read first.') + '</div>';
+    h += '</div></aside></div>';
     document.getElementById('tpGenForm').innerHTML = h;
   }
 
   window.tpGPaper = function (p) { if (tp.gPaper !== p) { tp.gPaper = p; tp.gSel = {}; document.getElementById('tpPaper').innerHTML = ''; document.getElementById('tpResults').innerHTML = ''; tp.paperQs = []; } tpRenderGen(); };
   window.tpGToggle = function (k) { if (tp.gSel[k]) delete tp.gSel[k]; else tp.gSel[k] = true; tpRenderGen(); };
   window.tpGLen = function (m) { tp.gTarget = m; tpRenderGen(); };
+  window.tpGClear = function () { tp.gSel = {}; tpRenderGen(); };
   window.tpGFrom = function (y) { tp.gFrom = Number(y) || 0; tpRenderGen(); };
   window.tpGUnit = function (u) {
     var keys = {};
