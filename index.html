@@ -1334,6 +1334,42 @@ html:not([data-theme="dark"]) .price-pop > div:first-child{color:var(--ink)!impo
   .tpg-mbar b{color:#fff}
   .tpg-mbar button{padding:10px 18px;border:0;border-radius:10px;background:#2563EB;color:#fff;font:600 14px Sora,sans-serif;cursor:pointer}
 }
+/* ═══ Site search ═══ */
+.sr-nav{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px 0 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font:500 13.5px Sora,sans-serif;cursor:pointer;transition:border-color .15s,color .15s}
+.sr-nav:hover{border-color:#2563EB;color:var(--text)}
+.sr-nav kbd,.sr-esc{font:600 10.5px Sora,sans-serif;padding:3px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text3)}
+@media(max-width:1560px){.sr-nav .sr-nav-t,.sr-nav kbd{display:none}.sr-nav{padding:0 11px}}
+.sr-modal{position:fixed;inset:0;z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;background:rgba(7,16,33,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sr-modal.show{display:flex;animation:srIn .14s ease}
+@keyframes srIn{from{opacity:0}to{opacity:1}}
+.sr-box{width:100%;max-width:680px;max-height:72vh;display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--border);border-radius:18px;box-shadow:0 30px 80px -20px rgba(7,16,33,.55);overflow:hidden}
+.sr-inwrap{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--border);color:var(--text3)}
+.sr-inwrap input{flex:1;border:0!important;outline:0;background:transparent;color:var(--text);font:500 16px Sora,sans-serif;box-shadow:none!important;padding:0}
+.sr-esc{cursor:pointer}
+.sr-results{overflow-y:auto;padding:8px}
+.sr-g{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);padding:12px 10px 6px}
+.sr-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:11px;cursor:pointer}
+.sr-item.on{background:rgba(37,99,235,.09)}
+.sr-ic{width:32px;height:32px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(37,99,235,.1);color:#2563EB}
+.sr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sr-t{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-t mark{background:rgba(255,213,0,.45);color:inherit;border-radius:3px;padding:0 1px}
+.sr-s{font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-item.more .sr-t{color:#2563EB}
+.sr-btns{display:flex;gap:6px;flex:none}
+.sr-btns a{padding:6px 10px;border-radius:8px;border:1px solid var(--border);font:600 12px Sora,sans-serif;color:var(--text2);text-decoration:none;background:var(--bg2)}
+.sr-btns a:hover{border-color:#2563EB;color:#2563EB}
+.sr-btns a.pri{background:#2563EB;border-color:#2563EB;color:#fff}
+.sr-hint{padding:14px 10px 10px}
+.sr-hint-h{font-size:12px;font-weight:600;color:var(--text3);margin-bottom:10px}
+.sr-hint button{margin:0 6px 8px 0;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text2);font:500 12.5px Sora,sans-serif;cursor:pointer}
+.sr-hint button:hover{border-color:#2563EB;color:#2563EB}
+.sr-empty{padding:28px 16px;text-align:center;font-size:13.5px;color:var(--text3)}
+#srModal .sr-inwrap input#srInput,#srModal .sr-inwrap input#srInput:focus{border:0!important;box-shadow:none!important;background:transparent!important;outline:0;padding:0;height:auto}
+@media(max-width:600px){.sr-t,.sr-s{white-space:normal}.sr-item{align-items:flex-start}.sr-btns{flex-direction:column}}
+.tpg-chip.sr-flash{animation:srFlash 1.6s ease}
+@keyframes srFlash{0%,40%{box-shadow:0 0 0 4px rgba(255,213,0,.8)}100%{box-shadow:0 0 0 0 rgba(255,213,0,0)}}
+@media(max-width:600px){.sr-modal{padding:10px}.sr-box{max-height:86vh}.sr-btns a{padding:6px 8px}}
 /* small motion polish */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -1370,6 +1406,7 @@ html:not([data-theme="dark"]) .price-pop > div:first-child{color:var(--ink)!impo
       </li>
     </ul>
     <div style="display:flex;align-items:center;gap:10px">
+      <button class="sr-nav" onclick="srOpen()" aria-label="Search" title="Search papers, topics and pages"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-nav-t">Search</span><kbd id="srKbd">⌘K</kbd></button>
       <div class="lvl-seg lvl-seg-nav" title="Choose your level"><button data-lvl="igcse" onclick="setLevel('igcse')">IGCSE</button><button data-lvl="as" onclick="setLevel('as')">AS</button></div>
       <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
       <div class="nav-cta" id="navCta" style="display:none">
@@ -19124,5 +19161,259 @@ function showAuthWall() {
   setInterval(upd, 400); upd();
 })();
 </script>
+<!-- ═══ Site search (past papers, topical topics, pages) ═══ -->
+<div id="srModal" class="sr-modal" onclick="if(event.target===this)srClose()" aria-hidden="true">
+  <div class="sr-box" role="dialog" aria-label="Search">
+    <div class="sr-inwrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="srInput" type="text" autocomplete="off" spellcheck="false" placeholder="Search papers, topics or pages… e.g. 9708 s24 12, econ june 2024 p2, elasticity" oninput="srRun()" onkeydown="srKey(event)"/>
+      <kbd class="sr-esc" onclick="srClose()">Esc</kbd>
+    </div>
+    <div id="srResults" class="sr-results"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var TOPIC_INDEX = {"bus":["Added value and opportunity cost","Business growth and size","Business objectives","Business sectors","Cash flow","Communication","Costs and break-even","Customer relationships","Economic factors","Employment issues and trade unions","Entrepreneurs and start-ups","Environmental and ethical issues","Globalisation and international trade","Government and legal controls","Income statement and profit","Inventory control","Leadership styles","Lean production","Location","Market research","Market segmentation and market types","Marketing mix","Motivation","Organisational structure and management","Place and distribution","Price","Product","Production methods","Productivity, efficiency and capacity","Promotion and packaging","Quality","Ratios and using accounts","Recruitment and selection","Sources of finance","Stakeholders","Statement of financial position","Training","Types of business ownership"],"econ":["1.1 The nature of the basic economic problem","1.2 Factors of production","1.3 Opportunity cost","1.4 Production possibility curve (PPC) diagrams","2.1 Microeconomics and macroeconomics","2.10 Mixed economic system","2.2 Demand","2.3 Supply","2.4 Price determination","2.5 Price changes","2.6 Price elasticity of demand (PED)","2.7 Price elasticity of supply (PES)","2.8 Market economic system","2.9 Market failure","3.1 Money and banking","3.2 Households","3.3 Workers","3.4 Firms","3.5 Firms and production","3.6 Firms' costs, revenue and objectives","3.7 Types of markets","4.1 The role of government","4.2 Fiscal policy","4.3 Monetary policy","4.4 Supply-side policy","4.5 Economic growth","4.6 Employment and unemployment","4.7 Inflation","5.1 Living standards","5.2 Poverty","5.3 Population","5.4 Differences in economic development between countries","6.1 Specialisation and free trade","6.2 Globalisation and trade restrictions","6.3 Foreign exchange rates","6.4 Current account of the balance of payments"],"acc":["1 Introduction to accounting","10 Accounting rules","11 Other payables and other receivables","12 Accounting for depreciation and disposal of non-current assets","13 Irrecoverable debts and provisions for doubtful debts","14 Bank reconciliation statements","15 Journal entries and correction of errors","16 Control accounts","17 Incomplete records","18 Accounts of clubs and societies","19 Partnerships","2 Double entry book-keeping Part A","20 Manufacturing accounts","21 Limited companies","22 Analysis and interpretation","3 The trial balance","4 Double entry book-keeping Part B","5 Petty cash books","6 Business documents","7 Books of prime entry","8 Financial statements Part A","9 Financial statements Part B"],"maths":["Algebra and graphs","Coordinate geometry","Geometry","Mensuration","Number","Probability","Statistics","Transformations and vectors","Trigonometry"],"phys":["1.1 Physical quantities and measurement","1.2 Motion","1.3 Mass and weight","1.4 Density","1.5 Forces","1.6 Momentum","1.7 Energy, work and power","1.8 Pressure","2.1 Kinetic particle model of matter","2.2 Thermal properties and temperature","2.3 Transfer of thermal energy","3.1 General properties of waves","3.2 Light","3.3 Electromagnetic spectrum","3.4 Sound","4.1 Simple magnetism","4.2 Electrical quantities","4.3 Electric circuits","4.4 Electrical safety","4.5 Electromagnetic effects","5.1 The nuclear model of the atom","5.2 Radioactivity","6.1 Earth and the Solar System","6.2 Stars and the Universe"],"asacc":["1 Double-entry bookkeeping: cash transactions","10 Accruals and prepayments","11 Depreciation of non-current assets","12 Irrecoverable debts","13 Bank reconciliation statements","14 Control accounts","15 The correction of errors","16 Incomplete records","18 Partnership accounts","19 Partnership changes","2 Double-entry bookkeeping: credit transactions","20 Manufacturing accounts","21 Limited company accounts","22 Limited companies: further considerations","23 Non-profit making organisations","24 Statements of cash flows","25 Auditing and stewardship","26 International accounting standards","27 Computerised accounting systems","28 Business acquisition and merger","3 Books of prime entry","30 Accounting information for stakeholders","31 Analysis and communication of accounting information","32 Costing of materials and labour","33 Absorption costing","34 Unit, job and batch costing","35 Marginal costing","37 Budgeting and budgetary control","5 Classification of accounts and division of the ledger","6 The trial balance","7 Statement of profit or loss","8 Statements of financial position for sole traders","9 Accounting concepts"],"asecon":["1.1 Scarcity, choice and opportunity cost","1.2 Economic methodology","1.3 Factors of production","1.4 Resource allocation in different economic systems","1.5 Production possibility curves","1.6 Classification of goods and services","2.1 Demand and supply curves","2.2 Price elasticity, income elasticity and cross elasticity of demand","2.3 Price elasticity of supply","2.4 The interaction of demand and supply","2.5 Consumer and producer surplus","3.1 Reasons for government intervention in markets","3.2 Methods and effects of government intervention in markets","3.3 Addressing income and wealth inequality","4.1 National income statistics","4.2 Introduction to the circular flow of income","4.3 Aggregate demand and aggregate supply analysis","4.4 Economic growth","4.5 Unemployment","4.6 Price stability","5.1 Government macroeconomic policy objectives","5.2 Fiscal policy","5.3 Monetary policy","5.4 Supply-side policy","6.1 The reasons for international trade","6.2 Protectionism","6.3 Current account of the balance of payments","6.4 Exchange rates","6.5 Policies to correct imbalances in the current account"],"asbus":["1.1 Enterprise","1.2 Business structure","1.3 Size of business","1.4 Business objectives","1.5 Stakeholders in a business","2.1 Human resource management","2.2 Motivation","2.3 Management","3.1 The nature of marketing","3.2 Market research","3.3 The marketing mix","4.1 The nature of operations","4.2 Inventory management","4.3 Capacity utilisation and outsourcing","5.1 Business finance","5.2 Sources of finance","5.3 Forecasting and managing cash flows","5.4 Costs","5.5 Budgets"],"asmaths":["1.1 Quadratics","1.2 Functions","1.3 Coordinate geometry","1.4 Circular measure","1.5 Trigonometry","1.6 Series","1.7 Differentiation","1.8 Integration","4.1 Forces and equilibrium","4.2 Kinematics of motion in a straight line","4.3 Momentum","4.4 Newton's laws of motion","4.5 Energy, work and power","5.1 Representation of data","5.2 Permutations and combinations","5.3 Probability","5.4 Discrete random variables","5.5 The normal distribution"],"ascs":["1 Information representation","10 Data types and structures","11 Programming","12 Software development","2 Communication","3 Hardware","4 Processor fundamentals","5 System software","6 Security, privacy and data integrity","7 Ethics and ownership","8 Databases","9 Algorithm design and problem-solving"],"asphys":["1 Physical quantities and units","10 D.C. circuits","11 Particle physics","2 Kinematics","3 Dynamics","4 Forces, density and pressure","5 Work, energy and power","6 Deformation of solids","7 Waves","8 Superposition","9 Electricity"],"aschem":["1 Atomic structure","10 Group 2","11 Group 17","12 Nitrogen and sulfur","13 Introduction to organic chemistry","14 Hydrocarbons","15 Halogen compounds","16 Hydroxy compounds","17 Carbonyl compounds","18 Carboxylic acids and derivatives","19 Nitrogen compounds","2 Atoms, molecules and stoichiometry","20 Polymerisation","21 Organic synthesis","22 Analytical techniques","3 Chemical bonding","4 States of matter","5 Chemical energetics","6 Electrochemistry","7 Equilibria","8 Reaction kinetics","9 The Periodic Table: chemical periodicity"],"asbio":["1 Cell structure","10 Infectious diseases","11 Immunity","2 Biological molecules","3 Enzymes","4 Cell membranes and transport","5 The mitotic cell cycle","6 Nucleic acids and protein synthesis","7 Transport in plants","8 Transport in mammals","9 Gas exchange"]};
+  var FAM = { business: ['bus', 'asbus'], economics: ['econ', 'asecon'], accounting: ['acc', 'asacc'], maths: ['maths', 'asmaths'],
+    physics: ['phys', 'asphys'], chemistry: ['chem', 'aschem'], biology: ['bio', 'asbio'], english: ['eng'], cs: ['cs', 'ascs'] };
+  var ALIAS = [['computer science', 'cs'], ['comp sci', 'cs'], ['compsci', 'cs'], ['business studies', 'business'], ['business', 'business'], ['bus', 'business'], ['bs', 'business'],
+    ['economics', 'economics'], ['econ', 'economics'], ['eco', 'economics'], ['accounting', 'accounting'], ['accounts', 'accounting'], ['acc', 'accounting'], ['accs', 'accounting'],
+    ['mathematics', 'maths'], ['maths', 'maths'], ['math', 'maths'], ['physics', 'physics'], ['phys', 'physics'], ['phy', 'physics'], ['chemistry', 'chemistry'], ['chem', 'chemistry'],
+    ['biology', 'biology'], ['bio', 'biology'], ['english', 'english'], ['eng', 'english'], ['cs', 'cs']];
+  var PAGES = [
+    { name: 'Marker', sub: 'Get an answer marked by AI', keys: 'marker mark marking my answer ai check grade', go: function () { showMarker(); } },
+    { name: 'Full paper marking', sub: 'Mark a whole paper', keys: 'full paper whole paper elite', go: function () { showFullPaper(); } },
+    { name: 'Past papers', sub: 'Every past paper with mark schemes', keys: 'past papers pastpapers qp ms', go: function () { showPastPapers(); } },
+    { name: 'Topical', sub: 'Build your own paper by topic', keys: 'topical topic build paper practice', go: function () { showTopical(); } },
+    { name: '1:1 Tutoring', sub: 'Free one-to-one tutoring', keys: 'tutoring tutor help 1:1 one to one free', go: function () { showTutoring(); } },
+    { name: 'Study Clock', sub: 'Timer for focused study', keys: 'study clock timer pomodoro focus', go: function () { showClock(); } },
+    { name: 'Notes', sub: 'Revision notes', keys: 'notes revision summary', go: function () { showNotes(); } },
+    { name: 'Pricing', sub: 'Plans and prices', keys: 'pricing price plans premium basic season pass subscribe subscription upgrade', go: function () { showPricing(); } },
+    { name: 'Dashboard', sub: 'Your progress', keys: 'dashboard progress stats history account', go: function () { showDash(); } }
+  ];
+  var LV = { igcse: 'IGCSE', as: 'AS Level' };
+  var SES = { s: 'May/June', w: 'Oct/Nov', m: 'Feb/March' };
+  var entries = null, results = [], sel = 0;
+
+  function lvOf(k) { return PP_SUBJECTS[k] ? ppLevelOf(k) : (/^as/.test(k) ? 'as' : 'igcse'); }
+  function subjName(k) {
+    if (PP_SUBJECTS[k]) return PP_SUBJECTS[k].name + ' ' + PP_SUBJECTS[k].code;
+    return k;
+  }
+  function famOf(k) { for (var f in FAM) if (FAM[f].indexOf(k) >= 0) return f; return null; }
+  function buildEntries() {
+    entries = [];
+    Object.keys(PP_SUBJECTS).forEach(function (k) {
+      var lv = lvOf(k);
+      ppNorm(k).forEach(function (y) {
+        y.sessions.forEach(function (se) {
+          var s = /June/.test(se.session) ? 's' : /Nov/.test(se.session) ? 'w' : 'm';
+          se.papers.forEach(function (p) {
+            p.rows.forEach(function (r) {
+              entries.push({ k: k, lv: lv, year: y.year, s: s, sesName: se.session, p: p.no, v: r.v, label: (p.label || '').replace(/^Paper \d+\s*[—-]\s*/, ''), qp: r.qp, ms: r.ms, extra: r.extra || [] });
+            });
+          });
+        });
+      });
+    });
+  }
+
+  function parse(q) {
+    var t = ' ' + q.toLowerCase().replace(/[_,\/|]+/g, ' ').replace(/\s+/g, ' ') + ' ';
+    var r = {};
+    function eat(re, fn) { var m = t.match(re); if (m) { fn(m); t = t.replace(m[0], ' '); return true; } return false; }
+    eat(/\b(\d{4})\s*([msw])\s*(\d{2})\s*(qp|ms|in|pm|ir|er|gt)?\s*([1-9])([1-9])\b/, function (m) { r.code = m[1]; r.s = m[2]; r.year = '20' + m[3]; if (m[4]) r.type = m[4]; r.p = +m[5]; r.v = +m[6]; });
+    eat(/\b(mark ?schemes?|marking schemes?|ms|answers?|answer key)\b/, function () { r.type = 'ms'; });
+    eat(/\b(question papers?|qp)\b/, function () { r.type = r.type || 'qp'; });
+    eat(/\b(a ?level|as ?level|alevel)\b/, function () { r.lv = 'as'; });
+    eat(/\b(igcse|o ?level)\b/, function () { r.lv = 'igcse'; });
+    eat(/ as /, function () { r.lv = 'as'; t = t + ' '; });
+    if (!r.code) eat(/\b(0\d{3}|9\d{3})\b/, function (m) { r.code = m[1]; });
+    if (!r.year) eat(/\b([msw])(\d{2})\b/, function (m) { r.s = m[1]; r.year = '20' + m[2]; });
+    if (!r.s) eat(/\b(may ?\/? ?june|may|june|jun|summer|oct ?\/? ?nov|october|november|oct|nov|winter|feb ?\/? ?march|february|march|feb|mar)\b/, function (m) {
+      r.s = /may|jun|summer/.test(m[1]) ? 's' : /oct|nov|winter/.test(m[1]) ? 'w' : 'm'; });
+    if (!r.year) eat(/\b(20[0-2]\d)\b/, function (m) { r.year = m[1]; });
+    if (!r.p) eat(/\b(?:paper|p)\s*([1-9])\b/, function (m) { r.p = +m[1]; });
+    if (!r.v) eat(/\b(?:variant|var|v)\s*([1-9])\b/, function (m) { r.v = +m[1]; });
+    if (!r.p && !r.v) eat(/\b([1-6])([1-6])\b/, function (m) { r.p = +m[1]; r.v = +m[2]; });
+    if (!r.year && r.s) eat(/\b(1\d|2[0-6])\b/, function (m) { r.year = '20' + m[1]; });
+    for (var i = 0; i < ALIAS.length; i++) {
+      var re = new RegExp('\\b' + ALIAS[i][0] + '\\b');
+      if (re.test(t)) { r.fam = ALIAS[i][1]; t = t.replace(re, ' '); break; }
+    }
+    if (!r.p) eat(/\b([1-6])\b/, function (m) { r.p = +m[1]; });
+    r.words = t.split(' ').filter(function (w) { return w.length > 1 && !/^(the|and|of|for|in|on|to|a|an|papers?|past|pastpapers|topics?|questions?|level|cambridge|international)$/.test(w); });
+    r.hasPaperBits = !!(r.year || r.s || r.p || r.v);
+    return r;
+  }
+
+  function candKeys(r, pool) {
+    var keys = [];
+    if (r.code) keys = Object.keys(PP_SUBJECTS).filter(function (k) { return PP_SUBJECTS[k].code === r.code; });
+    else if (r.fam) keys = FAM[r.fam].slice();
+    else return null;
+    keys = keys.filter(function (k) { return pool(k); });
+    if (r.lv) keys = keys.filter(function (k) { return lvOf(k) === r.lv; });
+    var cur = typeof siteLevel !== 'undefined' && siteLevel ? siteLevel : 'igcse';
+    keys.sort(function (a, b) { return (lvOf(a) === cur ? 0 : 1) - (lvOf(b) === cur ? 0 : 1); });
+    return keys;
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function hl(text, words) {
+    var out = esc(text);
+    (words || []).forEach(function (w) { if (w.length > 1) out = out.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'); });
+    return out;
+  }
+
+  window.srRun = function () {
+    var q = document.getElementById('srInput').value.trim();
+    results = []; sel = 0;
+    if (!q) { renderEmpty(); return; }
+    if (!entries) buildEntries();
+    var r = parse(q), ppKeys = candKeys(r, function (k) { return !!PP_SUBJECTS[k]; }), tpKeys = candKeys(r, function (k) { return !!TOPIC_INDEX[k]; });
+
+    // 1. papers
+    if (ppKeys && ppKeys.length && r.hasPaperBits) {
+      var hits = entries.filter(function (e) {
+        return ppKeys.indexOf(e.k) >= 0 && (!r.year || e.year === r.year) && (!r.s || e.s === r.s) && (!r.p || e.p === r.p) && (!r.v || e.v === r.v);
+      });
+      var so = { w: 3, s: 2, m: 1 };
+      hits.sort(function (a, b) { return (ppKeys.indexOf(a.k) - ppKeys.indexOf(b.k)) || (b.year - a.year) || (so[b.s] - so[a.s]) || (a.p - b.p) || (a.v - b.v); });
+      hits.slice(0, 12).forEach(function (e) {
+        results.push({ group: 'Past papers', kind: 'paper', e: e, type: r.type,
+          title: subjName(e.k) + ' · Paper ' + e.p + ' Variant ' + e.v,
+          sub: e.sesName + ' ' + e.year + ' · ' + LV[e.lv] + (e.label ? ' · ' + e.label : ''),
+          go: function () { window.open(r.type === 'ms' && e.ms ? e.ms : e.qp, '_blank', 'noopener'); } });
+      });
+      if (hits.length) {
+        var e0 = hits[0];
+        results.push({ group: 'Past papers', title: hits.length > 12 ? 'See all ' + hits.length + ' matching papers' : 'Open ' + subjName(e0.k) + ' in Past Papers', sub: (r.s ? SES[r.s] + ' ' : '') + (r.year || e0.year) + ' · ' + LV[e0.lv], more: true,
+          go: function () { goPP(e0.k, r.year || e0.year, r.s, r.p); } });
+      }
+    }
+    // 2. subjects
+    if (ppKeys || tpKeys) {
+      var seen = {};
+      (ppKeys || []).concat(tpKeys || []).forEach(function (k) {
+        if (seen[k]) return; seen[k] = 1;
+        if (PP_SUBJECTS[k] && !(r.hasPaperBits && results.length)) results.push({ group: 'Subjects', title: subjName(k) + ' past papers', sub: LV[lvOf(k)] + (r.year ? ' · ' + r.year : ''), go: function () { goPP(k, r.year, r.s, r.p); } });
+        if (TOPIC_INDEX[k] && !r.words.length) results.push({ group: 'Subjects', title: subjName(k) + ' topical', sub: LV[lvOf(k)] + ' · build a paper by topic', go: function () { goTopical(k); } });
+      });
+    }
+    // 3. topics
+    if (r.words.length) {
+      var tkeys = tpKeys || Object.keys(TOPIC_INDEX);
+      if (!tpKeys && r.lv) tkeys = tkeys.filter(function (k) { return lvOf(k) === r.lv; });
+      var cur = typeof siteLevel !== 'undefined' && siteLevel ? siteLevel : 'igcse';
+      var th = [];
+      tkeys.forEach(function (k) {
+        TOPIC_INDEX[k].forEach(function (name) {
+          var low = name.toLowerCase(), ok = r.words.every(function (w) { return low.indexOf(w) >= 0 || (w.length > 4 && low.indexOf(w.slice(0, -1)) >= 0); });
+          if (ok) th.push({ k: k, name: name, score: (lvOf(k) === cur ? 0 : 1) + (new RegExp('\\b' + r.words[0]).test(low) ? 0 : 0.5) });
+        });
+      });
+      th.sort(function (a, b) { return a.score - b.score; });
+      th.slice(0, 10).forEach(function (h) {
+        results.push({ group: 'Topics', title: h.name.replace(/^[\d.]+\s+/, ''), titleHtml: hl(h.name.replace(/^[\d.]+\s+/, ''), r.words), sub: subjName(h.k) + ' · ' + LV[lvOf(h.k)] + ' topical',
+          go: function () { goTopical(h.k, h.name); } });
+      });
+      // 4. pages
+      PAGES.forEach(function (pg) {
+        var hay = (pg.name + ' ' + pg.keys).toLowerCase();
+        if (r.words.every(function (w) { return hay.indexOf(w) >= 0; })) results.push({ group: 'Pages', title: pg.name, sub: pg.sub, go: pg.go });
+      });
+    }
+    render(r);
+  };
+
+  function goPP(k, year, s, p) {
+    srClose();
+    if (typeof setLevel === 'function') setLevel(lvOf(k), true);
+    ppSubject = k;
+    showPastPapers();
+    if (year) ppSetYear(String(year));
+    if (s) ppSetSession({ s: 'mj', w: 'on', m: 'fm' }[s]);
+    if (p) ppSetPaper(p);
+  }
+  function goTopical(k, topic) {
+    srClose();
+    if (typeof setLevel === 'function') setLevel(lvOf(k));
+    showTopical();
+    if (window.tpSetMode) tpSetMode('gen');
+    tpSetSubject(k);
+    if (!topic) return;
+    var tries = 0, tried = 0;
+    (function wait() {
+      var chip = Array.prototype.find.call(document.querySelectorAll('.tpg-chip'), function (c) { return (c.getAttribute('data-key') || '').split('|')[1] === topic; });
+      if (chip) {
+        if (!chip.classList.contains('on')) tpGToggle(chip.getAttribute('data-key'));
+        setTimeout(function () {
+          var c2 = Array.prototype.find.call(document.querySelectorAll('.tpg-chip'), function (c) { return (c.getAttribute('data-key') || '').split('|')[1] === topic; });
+          if (c2) { c2.scrollIntoView({ block: 'center', behavior: 'smooth' }); c2.classList.add('sr-flash'); }
+        }, 60);
+      } else if (document.querySelector('.tpg-chip') && tried < document.querySelectorAll('.tpg-pp').length) {
+        var pps = document.querySelectorAll('.tpg-pp'); pps[tried++].click(); setTimeout(wait, 80);
+      } else if (tries++ < 80) setTimeout(wait, 100);
+    })();
+  }
+
+  function renderEmpty() {
+    document.getElementById('srResults').innerHTML =
+      '<div class="sr-hint"><div class="sr-hint-h">Try searching for</div>' +
+      ['9708 s24 12', 'econ june 2024 paper 1', 'physics nov 23 p2 ms', 'business 2025', 'elasticity', 'normal distribution', 'cash flow'].map(function (x) {
+        return '<button onclick="srTry(\'' + x + '\')">' + x + '</button>'; }).join('') + '</div>';
+  }
+  window.srTry = function (x) { var i = document.getElementById('srInput'); i.value = x; i.focus(); srRun(); };
+
+  function render(r) {
+    var box = document.getElementById('srResults');
+    if (!results.length) {
+      box.innerHTML = '<div class="sr-empty">Nothing found for that. Try a subject and year, like <b>chemistry 2024</b>, or a topic, like <b>enzymes</b>.</div>';
+      return;
+    }
+    var h = '', g = '';
+    results.forEach(function (it, i) {
+      if (it.group !== g) { g = it.group; h += '<div class="sr-g">' + g + '</div>'; }
+      var icon = it.kind === 'paper' ? 'M7 3h7l5 5v13H7z M14 3v5h5' : it.group === 'Topics' ? 'M4 6h16M4 12h10M4 18h7' : it.group === 'Pages' ? 'M5 12h14M13 6l6 6-6 6' : 'M4 5h16v14H4z M4 9h16';
+      h += '<div class="sr-item' + (i === sel ? ' on' : '') + (it.more ? ' more' : '') + '" data-i="' + i + '" onmouseenter="srHover(' + i + ')" onclick="srGo(' + i + ')">' +
+        '<span class="sr-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="' + icon + '"/></svg></span>' +
+        '<span class="sr-tx"><span class="sr-t">' + (it.titleHtml || esc(it.title)) + '</span><span class="sr-s">' + esc(it.sub) + '</span></span>';
+      if (it.kind === 'paper') {
+        h += '<span class="sr-btns">' +
+          '<a href="' + esc(it.e.qp) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="' + (it.type !== 'ms' ? 'pri' : '') + '">QP</a>' +
+          (it.e.ms ? '<a href="' + esc(it.e.ms) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="' + (it.type === 'ms' ? 'pri' : '') + '">MS</a>' : '') +
+          (it.e.extra || []).map(function (x) { return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + esc(x.label) + '</a>'; }).join('') +
+          '</span>';
+      }
+      h += '</div>';
+    });
+    box.innerHTML = h;
+  }
+  window.srHover = function (i) { sel = i; document.querySelectorAll('.sr-item').forEach(function (el) { el.classList.toggle('on', +el.getAttribute('data-i') === i); }); };
+  window.srGo = function (i) { var it = results[i]; if (it) { var keep = it.kind === 'paper'; it.go(); if (keep) {} } };
+  window.srKey = function (ev) {
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+      ev.preventDefault(); if (!results.length) return;
+      sel = (sel + (ev.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; srHover(sel);
+      var el = document.querySelector('.sr-item.on'); if (el) el.scrollIntoView({ block: 'nearest' });
+    } else if (ev.key === 'Enter') { ev.preventDefault(); srGo(sel); }
+    else if (ev.key === 'Escape') srClose();
+  };
+  window.srOpen = function () {
+    var m = document.getElementById('srModal'); m.classList.add('show'); m.setAttribute('aria-hidden', 'false');
+    var i = document.getElementById('srInput'); i.value = ''; renderEmpty(); setTimeout(function () { i.focus(); }, 30);
+    if (!entries) setTimeout(buildEntries, 0);
+  };
+  window.srClose = function () { var m = document.getElementById('srModal'); m.classList.remove('show'); m.setAttribute('aria-hidden', 'true'); };
+  document.addEventListener('keydown', function (ev) {
+    if ((ev.metaKey || ev.ctrlKey) && (ev.key === 'k' || ev.key === 'K')) { ev.preventDefault(); srOpen(); }
+    else if (ev.key === '/' && !/input|textarea|select/i.test((document.activeElement || {}).tagName || '') && !document.getElementById('srModal').classList.contains('show')) { ev.preventDefault(); srOpen(); }
+  });
+  var kb = document.getElementById('srKbd'); if (kb && !/Mac|iPhone|iPad/.test(navigator.platform || '')) kb.textContent = 'Ctrl K';
+})();
+</script>
+
 </body>
 </html>
