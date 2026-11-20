@@ -16838,6 +16838,7 @@ function showAuthWall() {
       <button id="tpS-ascs" class="tp-tab" onclick="tpSetSubject('ascs')" style="display:none">Computer Science 9618</button>
       <button id="tpS-asphys" class="tp-tab" onclick="tpSetSubject('asphys')" style="display:none">Physics 9702</button>
       <button id="tpS-aschem" class="tp-tab" onclick="tpSetSubject('aschem')" style="display:none">Chemistry 9701</button>
+      <button id="tpS-asbio" class="tp-tab" onclick="tpSetSubject('asbio')" style="display:none">Biology 9700</button>
       <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
     <div class="tp-mode">
@@ -16950,6 +16951,11 @@ function showAuthWall() {
     aschem: { level: 'as', url: 'topical_aschem.json', name: 'AS Level Chemistry 9701', short: 'AS Chemistry', marking: false, papers: [1, 2], mcq: [1],
             pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Structured questions' },
             units: {1:'Physical chemistry',2:'Inorganic chemistry',3:'Organic chemistry and analysis'},
+            exact: true,
+            convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
+    asbio: { level: 'as', url: 'topical_asbio.json', name: 'AS Level Biology 9700', short: 'AS Biology', marking: false, papers: [1, 2], mcq: [1],
+            pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Structured questions' },
+            units: {1:'Cells, molecules and genetic information',2:'Transport, exchange, disease and immunity'},
             exact: true,
             convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
