@@ -16833,6 +16833,7 @@ function showAuthWall() {
       <button id="tpS-maths" class="tp-tab" onclick="tpSetSubject('maths')">Maths</button>
       <button id="tpS-asacc" class="tp-tab" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
       <button id="tpS-asecon" class="tp-tab" onclick="tpSetSubject('asecon')" style="display:none">Economics 9708</button>
+      <button id="tpS-asbus" class="tp-tab" onclick="tpSetSubject('asbus')" style="display:none">Business 9609</button>
       <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
     <div class="tp-mode">
@@ -16919,6 +16920,11 @@ function showAuthWall() {
     asecon: { level: 'as', url: 'topical_asecon.json', name: 'AS Level Economics 9708', short: 'AS Economics', marking: false, papers: [1, 2], mcq: [1],
             pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Data response and essays' },
             units: {1:'Basic economic ideas and resource allocation',2:'The price system and the microeconomy',3:'Government microeconomic intervention',4:'The macroeconomy',5:'Government macroeconomic intervention',6:'International economic issues'},
+            exact: true,
+            convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
+    asbus: { level: 'as', url: 'topical_asbus.json', name: 'AS Level Business 9609', short: 'AS Business', marking: false, papers: [1, 2],
+            pLabel: { 1: 'Paper 1 · Short answer and essay', 2: 'Paper 2 · Case studies' },
+            units: {1:'Business and its environment',2:'Human resource management',3:'Marketing',4:'Operations management',5:'Finance and accounting'},
             exact: true,
             convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
