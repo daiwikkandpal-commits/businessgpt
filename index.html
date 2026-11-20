@@ -16832,6 +16832,7 @@ function showAuthWall() {
       <button id="tpS-acc" class="tp-tab" onclick="tpSetSubject('acc')">Accounting</button>
       <button id="tpS-maths" class="tp-tab" onclick="tpSetSubject('maths')">Maths</button>
       <button id="tpS-asacc" class="tp-tab" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
+      <button id="tpS-asecon" class="tp-tab" onclick="tpSetSubject('asecon')" style="display:none">Economics 9708</button>
       <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
     <div class="tp-mode">
@@ -16915,6 +16916,11 @@ function showAuthWall() {
             units: {1:'The accounting system',2:'Financial accounting',3:'Cost and management accounting'},
             exact: true,
             convert: function (d) { return TP_SUBJ.acc.convert(d).map(function (r) { var c = d.contexts[r.paperKey]; r.pages = c && c.pages ? c.pages : []; if (r.paper === 2) { r.img = r.dataImg; r.dataImg = []; } r.bigImg = true; return r; }); } },
+    asecon: { level: 'as', url: 'topical_asecon.json', name: 'AS Level Economics 9708', short: 'AS Economics', marking: false, papers: [1, 2], mcq: [1],
+            pLabel: { 1: 'Paper 1 · Multiple choice', 2: 'Paper 2 · Data response and essays' },
+            units: {1:'Basic economic ideas and resource allocation',2:'The price system and the microeconomy',3:'Government microeconomic intervention',4:'The macroeconomy',5:'Government macroeconomic intervention',6:'International economic issues'},
+            exact: true,
+            convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
             pLabel: { 1: 'Paper 1 · Core', 2: 'Paper 2 · Extended', 3: 'Paper 3 · Core', 4: 'Paper 4 · Extended' },
             units: {1:'Number',2:'Algebra and graphs',3:'Coordinate geometry',4:'Geometry',5:'Mensuration',6:'Trigonometry',7:'Transformations and vectors',8:'Probability',9:'Statistics'},
@@ -17035,7 +17041,7 @@ function showAuthWall() {
     Object.keys(TP_SUBJ).forEach(function (k) { var b = document.getElementById('tpS-' + k); if (b) { b.classList.toggle('on', k === s); b.style.display = (TP_SUBJ[k].level || 'igcse') === (TP_SUBJ[s].level || 'igcse') ? '' : 'none'; } });
     var d = document.getElementById('tpDesc');
     if (d) d.textContent = s === 'bus' ? d.getAttribute('data-bus')
-      : 'Pick the topics you want. We build a paper from real ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + ({ acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.' + (s === 'asacc' ? ' Questions from 2010 to 2026, sorted by the chapters of the Cambridge AS & A Level Accounting coursebook.' : '');
+      : 'Pick the topics you want. We build a paper from real ' + (cfg.short || { acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + (cfg.short || { acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.' + (s === 'asacc' ? ' Questions from 2010 to 2026, sorted by the chapters of the Cambridge AS & A Level Accounting coursebook.' : '');
     var p = document.getElementById('tpPaper'); if (p) p.innerHTML = '';
     var r = document.getElementById('tpResults'); if (r) r.innerHTML = '';
     [1, 2, 3, 4, 6].forEach(function (n) { var pb = document.getElementById('tpP-' + n); if (pb) pb.style.display = cfg.papers.indexOf(n) < 0 ? 'none' : ''; });
@@ -17053,7 +17059,7 @@ function showAuthWall() {
   window.tpSetMode = function (m) { tp.mode = m; tpTabs(); if (tp.data) tpRenderCurrent(); };
 
   // ═════════════════ GENERATE A PAPER ═════════════════
-  function isMCQPaper(paper) { return ((tp.subj === 'econ' || /acc$/.test(tp.subj)) && paper === 1) || (tp.subj === 'phys' && paper <= 2); }
+  function isMCQPaper(paper) { var c = tpCfg(); if (c.mcq) return c.mcq.indexOf(paper) >= 0; return ((tp.subj === 'econ' || /acc$/.test(tp.subj)) && paper === 1) || (tp.subj === 'phys' && paper <= 2); }
   function lengthOptions(paper) { return (isMCQPaper(paper) ? [10, 20, 30, 40] : [20, 40, 60, 80]).concat(['all']); }
 
   function tpRenderGen() {
@@ -17104,6 +17110,7 @@ function showAuthWall() {
       ? 'Multiple choice, 1 mark each. Pick A, B, C or D, then check your answers instantly.'
       : paper === 1 && tp.subj === 'bus'
       ? 'A mix of 2, 4 and 6 mark questions, like a real Paper 1. Questions from the same scenario stay together.'
+      : tpCfg().exact && tp.subj !== 'asacc' ? 'Whole questions from real Paper ' + paper + 's, shown exactly as printed with every part. Your topics are marked on each part.'
       : (tp.subj === 'maths' || tp.subj === 'phys') ? 'Real Paper ' + paper + ' questions with the diagrams and grids from the paper. Parts of the same question stay together.'
       : /acc$/.test(tp.subj) ? 'Structured questions from real Paper 2s. Parts of the same question stay together, with the full question shown first.'
       : tp.subj === 'econ' ? 'Short and long questions, like a real Paper 2. Questions sharing a source stay together, with it shown first.'
@@ -17131,8 +17138,8 @@ function showAuthWall() {
     var econ = tp.subj !== 'bus';
     var classes = econ ? (paper === 1 ? [1] : [8, 6, 5, 4, 2, 1]) : paper === 1 ? [2, 4, 6] : [8, 12];
     var shares = econ ? (paper === 1 ? { 1: 1 } : { 8: .3, 6: .3, 5: .06, 4: .2, 2: .12, 1: .02 }) : paper === 1 ? { 2: .2, 4: .2, 6: .6 } : { 8: .4, 12: .6 };
-    if (tp.subj === 'phys' && paper <= 2) { classes = [1]; shares = { 1: 1 }; }
-    else if ((/acc$/.test(tp.subj) && paper === 2) || tp.subj === 'maths' || tp.subj === 'phys') {
+    if ((tp.subj === 'phys' && paper <= 2) || (tpCfg().mcq && isMCQPaper(paper))) { classes = [1]; shares = { 1: 1 }; }
+    else if ((/acc$/.test(tp.subj) && paper === 2) || tp.subj === 'maths' || tp.subj === 'phys' || tpCfg().exact) {
       var mk = {}, tot = 0; tp.data.forEach(function (q) { if (q.paper === paper && q.marks > 0) { mk[q.marks] = (mk[q.marks] || 0) + q.marks; tot += q.marks; } });
       classes = Object.keys(mk).map(Number).sort(function (a, b) { return b - a; }); shares = {};
       classes.forEach(function (c) { shares[c] = mk[c] / tot; });
@@ -17142,7 +17149,7 @@ function showAuthWall() {
     var seen = {}, buckets = {};
     classes.forEach(function (c) { buckets[c] = {}; });
     pool.forEach(function (q) {
-      var dk = (normText(q.text) || q.id) + '|' + q.marks + (/acc$/.test(tp.subj) && paper === 2 ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
+      var dk = (normText(q.text) || q.id) + '|' + q.marks + ((tpCfg().exact ? !isMCQPaper(paper) : /acc$/.test(tp.subj) && paper === 2) ? '|' + q.paperKey : (tp.subj === 'maths' || tp.subj === 'phys') ? '|' + q.id : '');
       if (seen[dk] || !buckets[q.marks]) return; seen[dk] = 1;
       var sk = key(q); (buckets[q.marks][sk] = buckets[q.marks][sk] || []).push(q);
     });
