@@ -16835,6 +16835,7 @@ function showAuthWall() {
       <button id="tpS-asecon" class="tp-tab" onclick="tpSetSubject('asecon')" style="display:none">Economics 9708</button>
       <button id="tpS-asbus" class="tp-tab" onclick="tpSetSubject('asbus')" style="display:none">Business 9609</button>
       <button id="tpS-asmaths" class="tp-tab" onclick="tpSetSubject('asmaths')" style="display:none">Maths 9709</button>
+      <button id="tpS-ascs" class="tp-tab" onclick="tpSetSubject('ascs')" style="display:none">Computer Science 9618</button>
       <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
     <div class="tp-mode">
@@ -16932,6 +16933,11 @@ function showAuthWall() {
     asmaths: { level: 'as', url: 'topical_asmaths.json', name: 'AS Level Mathematics 9709', short: 'AS Maths', marking: false, papers: [1, 4, 5],
             pLabel: { 1: 'Paper 1 · Pure Mathematics 1', 4: 'Paper 4 · Mechanics', 5: 'Paper 5 · Probability & Statistics 1' },
             units: {1:'Pure Mathematics 1',4:'Mechanics',5:'Probability & Statistics 1'},
+            exact: true,
+            convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
+    ascs: { level: 'as', url: 'topical_ascs.json', name: 'AS Level Computer Science 9618', short: 'AS Computer Science', marking: false, papers: [1, 2],
+            pLabel: { 1: 'Paper 1 · Theory fundamentals', 2: 'Paper 2 · Problem-solving and programming' },
+            units: {1:'Theory fundamentals',2:'Problem-solving and programming'},
             exact: true,
             convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
