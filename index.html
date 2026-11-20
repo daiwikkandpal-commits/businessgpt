@@ -16834,6 +16834,7 @@ function showAuthWall() {
       <button id="tpS-asacc" class="tp-tab" onclick="tpSetSubject('asacc')" style="display:none">Accounting 9706</button>
       <button id="tpS-asecon" class="tp-tab" onclick="tpSetSubject('asecon')" style="display:none">Economics 9708</button>
       <button id="tpS-asbus" class="tp-tab" onclick="tpSetSubject('asbus')" style="display:none">Business 9609</button>
+      <button id="tpS-asmaths" class="tp-tab" onclick="tpSetSubject('asmaths')" style="display:none">Maths 9709</button>
       <button id="tpS-phys" class="tp-tab" onclick="tpSetSubject('phys')">Physics</button>
     </div>
     <div class="tp-mode">
@@ -16868,6 +16869,7 @@ function showAuthWall() {
           <button id="tpP-2" onclick="tpSetPaper(2)"></button>
           <button id="tpP-3" onclick="tpSetPaper(3)" style="display:none"></button>
           <button id="tpP-4" onclick="tpSetPaper(4)" style="display:none"></button>
+          <button id="tpP-5" onclick="tpSetPaper(5)" style="display:none"></button>
           <button id="tpP-6" onclick="tpSetPaper(6)" style="display:none"></button>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
@@ -16925,6 +16927,11 @@ function showAuthWall() {
     asbus: { level: 'as', url: 'topical_asbus.json', name: 'AS Level Business 9609', short: 'AS Business', marking: false, papers: [1, 2],
             pLabel: { 1: 'Paper 1 · Short answer and essay', 2: 'Paper 2 · Case studies' },
             units: {1:'Business and its environment',2:'Human resource management',3:'Marketing',4:'Operations management',5:'Finance and accounting'},
+            exact: true,
+            convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
+    asmaths: { level: 'as', url: 'topical_asmaths.json', name: 'AS Level Mathematics 9709', short: 'AS Maths', marking: false, papers: [1, 4, 5],
+            pLabel: { 1: 'Paper 1 · Pure Mathematics 1', 4: 'Paper 4 · Mechanics', 5: 'Paper 5 · Probability & Statistics 1' },
+            units: {1:'Pure Mathematics 1',4:'Mechanics',5:'Probability & Statistics 1'},
             exact: true,
             convert: function (d) { return TP_SUBJ.asacc.convert(d); } },
     maths: { url: 'topical_maths.json', name: 'IGCSE Mathematics 0580', marking: false, papers: [1, 2, 3, 4],
@@ -17050,7 +17057,7 @@ function showAuthWall() {
       : 'Pick the topics you want. We build a paper from real ' + (cfg.short || { acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' past paper questions on just those topics, and you can download it with the mark scheme as a PDF. Marking for ' + (cfg.short || { acc: 'Accounting', asacc: 'AS Accounting', maths: 'Maths', phys: 'Physics' }[s] || 'Economics') + ' is coming soon.' + (s === 'asacc' ? ' Questions from 2010 to 2026, sorted by the chapters of the Cambridge AS & A Level Accounting coursebook.' : '');
     var p = document.getElementById('tpPaper'); if (p) p.innerHTML = '';
     var r = document.getElementById('tpResults'); if (r) r.innerHTML = '';
-    [1, 2, 3, 4, 6].forEach(function (n) { var pb = document.getElementById('tpP-' + n); if (pb) pb.style.display = cfg.papers.indexOf(n) < 0 ? 'none' : ''; });
+    [1, 2, 3, 4, 5, 6].forEach(function (n) { var pb = document.getElementById('tpP-' + n); if (pb) pb.style.display = cfg.papers.indexOf(n) < 0 ? 'none' : ''; });
     tpLoad();
   };
   function tpRenderCurrent() { if (tp.mode === 'gen') tpRenderGen(); else tpRender(); }
@@ -18002,7 +18009,7 @@ function showAuthWall() {
     var pool = inUnit.filter(function (q) { return tp.sub === 'all' || q.subtopic === tp.sub; });
     var pa = document.getElementById('tpP-all'), pps = tpCfg().papers;
     pa.textContent = (pps.length > 2 ? 'All' : 'Both') + ' (' + pool.length + ')'; pa.style.cssText = paperBtnStyle(tp.paper === 'all');
-    [1, 2, 3, 4, 6].forEach(function (n) {
+    [1, 2, 3, 4, 5, 6].forEach(function (n) {
       var b = document.getElementById('tpP-' + n); if (!b) return;
       if (pps.indexOf(n) < 0) { b.style.display = 'none'; return; }
       b.textContent = 'Paper ' + n + ' (' + pool.filter(function (q) { return q.paper === n; }).length + ')';
