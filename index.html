@@ -1403,6 +1403,8 @@ html:not([data-theme="dark"]) #features{box-shadow:0 -1px 0 rgba(15,30,46,.06),0
 [data-theme="dark"] .sr-inline-hero input{color:#e2e8f0}
 [data-theme="dark"] .sr-inline-hero .sr-inline-k{background:transparent;border-color:rgba(148,163,184,.3)}
 @media(max-width:600px){.sr-inline{height:52px}.sr-inline input{font-size:14px}.sr-inline-k{display:none}}
+.lvl-seg.lvl-seg-side{display:flex;width:100%}
+.lvl-seg.lvl-seg-side button{flex:1 1 auto;padding-left:6px!important;padding-right:6px!important;white-space:nowrap;min-width:0}
 /* small motion polish */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -1891,7 +1893,7 @@ html:not([data-theme="dark"]) #features{box-shadow:0 -1px 0 rgba(15,30,46,.06),0
     <!-- Sidebar -->
     <div id="ppSide" style="width:200px;min-width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:24px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:calc(64px + var(--exam-banner-h,0px));height:calc(100vh - 64px - var(--exam-banner-h,0px));overflow-y:auto;flex-shrink:0">
       <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px">Level</div>
-      <div class="lvl-seg lvl-seg-side"><button data-lvl="igcse" onclick="setPPSubject(ppLastSubj.igcse)">IGCSE</button><button data-lvl="as" onclick="setPPSubject(ppLastSubj.as)">AS Level</button></div>
+      <div class="lvl-seg lvl-seg-side"><button data-lvl="igcse" onclick="setPPSubject(ppLastSubj.igcse)">IGCSE</button><button data-lvl="as" onclick="setPPSubject(ppLastSubj.as)">AS</button><button data-lvl="al" onclick="setPPSubject(ppLastSubj.al)">A Level</button></div>
       <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin:14px 0 8px">Subject</div>
       <div id="ppSubjList" style="display:flex;flex-direction:column;gap:6px"></div>
 
@@ -3601,6 +3603,38 @@ const AS_PHYS_PAST_PAPERS = buildPapersFrom('physics-9702', '9702', asAvailCfg('
 const AS_CHEM_PAST_PAPERS = buildPapersFrom('chemistry-9701', '9701', asAvailCfg('aschem', asSciPapers));
 const AS_BIO_PAST_PAPERS = buildPapersFrom('biology-9700', '9700', asAvailCfg('asbio', asSciPapers));
 
+// A Level only papers (checked Nov 2026)
+const AL_AVAIL = {
+  albus: '2016m32 2016s31 2016s32 2016s33 2016w31 2016w32 2016w33 2017m32 2017s31 2017s32 2017s33 2017w31 2017w32 2017w33 2018m32 2018s31 2018s32 2018s33 2018w31 2018w32 2018w33 2019m32 2019s31 2019s32 2019s33 2019w31 2019w32 2019w33 2020m32 2020s31 2020s32 2020s33 2020w31 2020w32 2020w33 2021m32 2021s31 2021s32 2021s33 2021w31 2021w32 2021w33 2022m32 2022s31 2022s32 2022s33 2022w31 2022w32 2022w33 2023m32 2023m42 2023s31 2023s32 2023s33 2023s41 2023s42 2023s43 2023w31 2023w32 2023w33 2023w41 2023w42 2023w43 2024m32 2024m42 2024s31 2024s32 2024s33 2024s41 2024s42 2024s43 2024w31 2024w32 2024w33 2024w41 2024w42 2024w43 2025m32 2025m42 2025s31 2025s32 2025s33 2025s41 2025s42 2025s43 2025w31 2025w32 2025w33 2025w41 2025w42 2025w43 2026m32 2026m42 2026s31 2026s32 2026s33 2026s41 2026s42 2026s43',
+  alecon: '2010s31 2010s32 2010s33 2010s41 2010s42 2010s43 2010w31 2010w32 2010w33 2010w41 2010w42 2010w43 2011s31 2011s32 2011s33 2011s41 2011s42 2011s43 2011w31 2011w32 2011w33 2011w41 2011w42 2011w43 2012s31 2012s32 2012s33 2012s41 2012s42 2012s43 2012w31 2012w32 2012w33 2012w41 2012w42 2012w43 2013s31 2013s32 2013s33 2013s41 2013s42 2013s43 2013w31 2013w32 2013w33 2013w41 2013w42 2013w43 2014s31 2014s32 2014s33 2014s41 2014s42 2014s43 2014w31 2014w32 2014w33 2014w41 2014w42 2014w43 2015s31 2015s32 2015s33 2015s41 2015s42 2015s43 2015w31 2015w32 2015w33 2015w41 2015w42 2015w43 2016m32 2016m42 2016s31 2016s32 2016s33 2016s41 2016s42 2016s43 2016w31 2016w32 2016w33 2016w41 2016w42 2016w43 2017m32 2017m42 2017s31 2017s32 2017s33 2017s41 2017s42 2017s43 2017w31 2017w32 2017w33 2017w41 2017w42 2017w43 2018m32 2018m42 2018s31 2018s32 2018s33 2018s41 2018s42 2018s43 2018w31 2018w32 2018w33 2018w41 2018w42 2018w43 2019m32 2019m42 2019s31 2019s32 2019s33 2019s41 2019s42 2019s43 2019w31 2019w32 2019w33 2019w41 2019w42 2019w43 2020m32 2020m42 2020s31 2020s32 2020s33 2020s41 2020s42 2020s43 2020w31 2020w32 2020w33 2020w41 2020w42 2020w43 2021m32 2021m42 2021s31 2021s32 2021s33 2021s41 2021s42 2021s43 2021w31 2021w32 2021w33 2021w41 2021w42 2021w43 2022m32 2022m42 2022s31 2022s32 2022s33 2022s41 2022s42 2022s43 2022w31 2022w32 2022w33 2022w41 2022w42 2022w43 2023m32 2023m42 2023s31 2023s32 2023s33 2023s41 2023s42 2023s43 2023w31 2023w32 2023w33 2023w41 2023w42 2023w43 2024m32 2024m42 2024s31 2024s32 2024s33 2024s41 2024s42 2024s43 2024w31 2024w32 2024w33 2024w41 2024w42 2024w43 2025m32 2025m42 2025s31 2025s32 2025s33 2025s41 2025s42 2025s43 2025w31 2025w32 2025w33 2025w41 2025w42 2025w43 2026m32 2026m42 2026s31 2026s32 2026s33 2026s41 2026s42 2026s43',
+  alacc: '2010s31 2010s32 2010s33 2010s41 2010s42 2010s43 2010w31 2010w32 2010w33 2010w41 2010w42 2010w43 2011s31 2011s32 2011s33 2011s41 2011s42 2011s43 2011w31 2011w32 2011w33 2011w41 2011w42 2011w43 2012s31 2012s32 2012s33 2012s41 2012s42 2012s43 2012w31 2012w32 2012w33 2012w41 2012w42 2012w43 2013s31 2013s32 2013s33 2013s41 2013s42 2013s43 2013w31 2013w32 2013w33 2013w41 2013w42 2013w43 2014s31 2014s32 2014s33 2014s41 2014s42 2014s43 2014w31 2014w32 2014w33 2014w41 2014w42 2014w43 2015s31 2015s32 2015s33 2015s41 2015s42 2015s43 2015w31 2015w32 2015w33 2015w41 2015w42 2015w43 2016m32 2016s31 2016s32 2016s33 2016w31 2016w32 2016w33 2017m32 2017s31 2017s32 2017s33 2017w31 2017w32 2017w33 2018m32 2018s31 2018s32 2018s33 2018w31 2018w32 2018w33 2019m32 2019s31 2019s32 2019s33 2019w31 2019w32 2019w33 2020m32 2020s31 2020s32 2020s33 2020w31 2020w32 2020w33 2021m32 2021s31 2021s32 2021s33 2021w31 2021w32 2021w33 2022m32 2022s31 2022s32 2022s33 2022w31 2022w32 2022w33 2023m32 2023m42 2023s31 2023s32 2023s33 2023s41 2023s42 2023s43 2023w31 2023w32 2023w33 2023w41 2023w42 2023w43 2024m32 2024m42 2024s31 2024s32 2024s33 2024s41 2024s42 2024s43 2024w31 2024w32 2024w33 2024w41 2024w42 2024w43 2025m32 2025m42 2025s31 2025s32 2025s33 2025s41 2025s42 2025s43 2025w31 2025w32 2025w33 2025w41 2025w42 2025w43 2026m32 2026m42 2026s31 2026s32 2026s33 2026s41 2026s42 2026s43',
+  almaths: '2010s31 2010s32 2010s33 2010s51 2010s52 2010s53 2010s71 2010s72 2010s73 2010w31 2010w32 2010w33 2010w51 2010w52 2010w53 2010w71 2010w72 2010w73 2011s31 2011s32 2011s33 2011s51 2011s52 2011s53 2011s71 2011s72 2011s73 2011w31 2011w32 2011w33 2011w51 2011w52 2011w53 2011w71 2011w72 2011w73 2012s31 2012s32 2012s33 2012s51 2012s52 2012s53 2012s71 2012s72 2012s73 2012w31 2012w32 2012w33 2012w51 2012w52 2012w53 2012w71 2012w72 2012w73 2013s31 2013s32 2013s33 2013s51 2013s52 2013s53 2013s71 2013s72 2013s73 2013w31 2013w32 2013w33 2013w51 2013w52 2013w53 2013w71 2013w72 2013w73 2014s31 2014s32 2014s33 2014s51 2014s52 2014s53 2014s71 2014s72 2014s73 2014w31 2014w32 2014w33 2014w51 2014w52 2014w53 2014w71 2014w72 2014w73 2015s31 2015s32 2015s33 2015s51 2015s52 2015s53 2015s71 2015s72 2015s73 2015w31 2015w32 2015w33 2015w51 2015w52 2015w53 2015w71 2015w72 2015w73 2016m32 2016m52 2016m72 2016s31 2016s32 2016s33 2016s51 2016s52 2016s53 2016s71 2016s72 2016s73 2016w31 2016w32 2016w33 2016w51 2016w52 2016w53 2016w71 2016w72 2016w73 2017m32 2017m52 2017m72 2017s31 2017s32 2017s33 2017s51 2017s52 2017s53 2017s71 2017s72 2017s73 2017w31 2017w32 2017w33 2017w51 2017w52 2017w53 2017w71 2017w72 2017w73 2018m32 2018m52 2018m72 2018s31 2018s32 2018s33 2018s51 2018s52 2018s53 2018s71 2018s72 2018s73 2018w31 2018w32 2018w33 2018w51 2018w52 2018w53 2018w71 2018w72 2018w73 2019m32 2019m52 2019m72 2019s31 2019s32 2019s33 2019s51 2019s52 2019s53 2019s71 2019s72 2019s73 2019w31 2019w32 2019w33 2019w51 2019w52 2019w53 2019w72 2019w73 2020m32 2020m62 2020s31 2020s32 2020s33 2020s61 2020s62 2020s63 2020w31 2020w32 2020w33 2020w61 2020w62 2020w63 2021m32 2021m62 2021s31 2021s32 2021s33 2021s61 2021s62 2021s63 2021w31 2021w32 2021w33 2021w61 2021w62 2021w63 2022m32 2022m62 2022s31 2022s32 2022s33 2022s61 2022s62 2022s63 2022w31 2022w32 2022w33 2022w61 2022w62 2022w63 2023m32 2023m62 2023s31 2023s32 2023s33 2023s61 2023s62 2023s63 2023w31 2023w32 2023w33 2023w61 2023w62 2023w63 2024m32 2024m62 2024s31 2024s32 2024s33 2024s61 2024s62 2024s63 2024w31 2024w32 2024w33 2024w61 2024w62 2024w63 2025m32 2025m62 2025s31 2025s32 2025s33 2025s61 2025s62 2025s63 2025w31 2025w32 2025w33 2025w61 2025w62 2025w63 2026m32 2026m62 2026s31 2026s32 2026s33 2026s61 2026s62 2026s63',
+  alcs: '2021s31 2021s32 2021s33 2021s41 2021s42 2021s43 2021w31 2021w32 2021w41 2021w42 2022s31 2022s32 2022s33 2022s41 2022s42 2022s43 2022w31 2022w32 2022w33 2022w41 2022w42 2022w43 2023s31 2023s32 2023s33 2023s41 2023s42 2023s43 2023w31 2023w32 2023w33 2023w41 2023w42 2023w43 2024s31 2024s32 2024s33 2024s41 2024s42 2024s43 2024w31 2024w32 2024w33 2024w41 2024w42 2024w43 2025s31 2025s32 2025s33 2025s41 2025s42 2025s43 2025w31 2025w32 2025w33 2025w41 2025w42 2025w43 2026s31 2026s32 2026s33 2026s41 2026s42 2026s43',
+  alphys: '2010s41 2010s42 2010s43 2010s51 2010s52 2010s53 2010w41 2010w42 2010w43 2010w51 2010w52 2010w53 2011s41 2011s42 2011s43 2011s51 2011s52 2011s53 2011w41 2011w42 2011w43 2011w51 2011w52 2011w53 2012s41 2012s42 2012s43 2012s51 2012s52 2012s53 2012w41 2012w42 2012w43 2012w51 2012w52 2012w53 2013s41 2013s42 2013s43 2013s51 2013s52 2013s53 2013w41 2013w42 2013w43 2013w51 2013w52 2013w53 2014s41 2014s42 2014s43 2014s51 2014s52 2014s53 2014w41 2014w42 2014w43 2014w51 2014w52 2014w53 2015s41 2015s42 2015s43 2015s51 2015s52 2015s53 2015w41 2015w42 2015w43 2015w51 2015w52 2015w53 2016m42 2016m52 2016s41 2016s42 2016s43 2016s51 2016s52 2016s53 2016w41 2016w42 2016w43 2016w51 2016w52 2016w53 2017m42 2017m52 2017s41 2017s42 2017s43 2017s51 2017s52 2017s53 2017w41 2017w42 2017w43 2017w51 2017w52 2017w53 2018m42 2018m52 2018s41 2018s42 2018s43 2018s51 2018s52 2018s53 2018w41 2018w42 2018w43 2018w51 2018w52 2018w53 2019m42 2019m52 2019s41 2019s42 2019s43 2019s51 2019s52 2019s53 2019w41 2019w42 2019w43 2019w51 2019w52 2019w53 2020m42 2020m52 2020s41 2020s42 2020s43 2020s51 2020s52 2020s53 2020w41 2020w42 2020w43 2020w51 2020w52 2020w53 2021m42 2021m52 2021s41 2021s42 2021s43 2021s51 2021s52 2021s53 2021w41 2021w42 2021w43 2021w51 2021w52 2021w53 2022m42 2022m52 2022s41 2022s42 2022s43 2022s51 2022s52 2022s53 2022w41 2022w42 2022w43 2022w51 2022w52 2022w53 2023m42 2023m52 2023s41 2023s42 2023s43 2023s51 2023s52 2023s53 2023w41 2023w42 2023w43 2023w51 2023w52 2023w53 2024m42 2024m52 2024s41 2024s42 2024s43 2024s51 2024s52 2024s53 2024w41 2024w42 2024w43 2024w51 2024w52 2024w53 2025m42 2025m52 2025s41 2025s42 2025s43 2025s51 2025s52 2025s53 2025w41 2025w42 2025w43 2025w51 2025w52 2025w53 2026m42 2026m52 2026s41 2026s42 2026s43 2026s51 2026s52 2026s53',
+  alchem: '2010s41 2010s42 2010s43 2010s51 2010s52 2010s53 2010w41 2010w42 2010w43 2010w51 2010w52 2010w53 2011s41 2011s42 2011s43 2011s51 2011s52 2011s53 2011w41 2011w42 2011w43 2011w51 2011w52 2011w53 2012s41 2012s42 2012s43 2012s51 2012s52 2012s53 2012w41 2012w42 2012w43 2012w51 2012w52 2012w53 2013s41 2013s42 2013s43 2013s51 2013s52 2013s53 2013w41 2013w42 2013w43 2013w51 2013w52 2013w53 2014s41 2014s42 2014s43 2014s51 2014s52 2014s53 2014w41 2014w42 2014w43 2014w51 2014w52 2014w53 2015s41 2015s42 2015s43 2015s51 2015s52 2015s53 2015w41 2015w42 2015w43 2015w51 2015w52 2015w53 2016m42 2016m52 2016s41 2016s42 2016s43 2016s51 2016s52 2016s53 2016w41 2016w42 2016w43 2016w51 2016w52 2016w53 2017m42 2017m52 2017s41 2017s42 2017s43 2017s51 2017s52 2017s53 2017w41 2017w42 2017w43 2017w51 2017w52 2017w53 2018m42 2018m52 2018s41 2018s42 2018s43 2018s51 2018s52 2018s53 2018w41 2018w42 2018w43 2018w51 2018w52 2018w53 2019m42 2019m52 2019s41 2019s42 2019s43 2019s51 2019s52 2019s53 2019w41 2019w42 2019w43 2019w51 2019w52 2019w53 2020m42 2020m52 2020s41 2020s42 2020s43 2020s51 2020s52 2020s53 2020w41 2020w42 2020w43 2020w51 2020w52 2020w53 2021m42 2021m52 2021s41 2021s42 2021s43 2021s51 2021s52 2021s53 2021w41 2021w42 2021w43 2021w51 2021w52 2021w53 2022m42 2022m52 2022s41 2022s42 2022s43 2022s51 2022s52 2022s53 2022w41 2022w42 2022w43 2022w51 2022w52 2022w53 2023m42 2023m52 2023s41 2023s42 2023s43 2023s51 2023s52 2023s53 2023w41 2023w42 2023w43 2023w51 2023w52 2023w53 2024m42 2024m52 2024s41 2024s42 2024s43 2024s51 2024s52 2024s53 2024w41 2024w42 2024w43 2024w51 2024w52 2024w53 2025m42 2025m52 2025s41 2025s42 2025s43 2025s51 2025s52 2025s53 2025w41 2025w42 2025w43 2025w51 2025w52 2025w53 2026m42 2026m52 2026s41 2026s42 2026s43 2026s51 2026s52 2026s53',
+  albio: '2010s41 2010s42 2010s43 2010s51 2010s52 2010s53 2010w41 2010w42 2010w43 2010w51 2010w52 2010w53 2011s41 2011s42 2011s43 2011s51 2011s52 2011s53 2011w41 2011w42 2011w43 2011w51 2011w52 2011w53 2012s41 2012s42 2012s43 2012s51 2012s52 2012s53 2012w41 2012w42 2012w43 2012w51 2012w52 2012w53 2013s41 2013s42 2013s43 2013s51 2013s52 2013s53 2013w41 2013w42 2013w43 2013w51 2013w52 2013w53 2014s41 2014s42 2014s43 2014s51 2014s52 2014s53 2014w41 2014w42 2014w43 2014w51 2014w52 2014w53 2015s41 2015s42 2015s43 2015s51 2015s52 2015s53 2015w41 2015w42 2015w43 2015w51 2015w52 2015w53 2016m42 2016s41 2016s42 2016s43 2016s51 2016s52 2016s53 2016w41 2016w42 2016w43 2016w51 2016w52 2016w53 2017m42 2017m52 2017s41 2017s42 2017s43 2017s51 2017s52 2017s53 2017w41 2017w42 2017w43 2017w51 2017w52 2017w53 2018m42 2018m52 2018s41 2018s42 2018s43 2018s51 2018s52 2018s53 2018w41 2018w42 2018w43 2018w51 2018w52 2018w53 2019m42 2019m52 2019s41 2019s42 2019s43 2019s51 2019s52 2019s53 2019w41 2019w42 2019w43 2019w51 2019w52 2019w53 2020m42 2020m52 2020s41 2020s42 2020s43 2020s51 2020s52 2020s53 2020w41 2020w42 2020w43 2020w51 2020w52 2020w53 2021m42 2021m52 2021s41 2021s42 2021s43 2021s51 2021s52 2021s53 2021w41 2021w42 2021w43 2021w51 2021w52 2021w53 2022m42 2022m52 2022s41 2022s42 2022s43 2022s51 2022s52 2022s53 2022w41 2022w42 2022w43 2022w51 2022w52 2022w53 2023m42 2023m52 2023s41 2023s42 2023s43 2023s51 2023s52 2023s53 2023w41 2023w42 2023w43 2023w51 2023w52 2023w53 2024m42 2024m52 2024s41 2024s42 2024s43 2024s51 2024s52 2024s53 2024w41 2024w42 2024w43 2024w51 2024w52 2024w53 2025m42 2025m52 2025s41 2025s42 2025s43 2025s51 2025s52 2025s53 2025w41 2025w42 2025w43 2025w51 2025w52 2025w53 2026m42 2026m52 2026s41 2026s42 2026s43 2026s51 2026s52 2026s53',
+};
+Object.keys(AL_AVAIL).forEach(k => { asSet[k] = new Set(AL_AVAIL[k].split(' ')); });
+const alCfg = (key, papers, years) => ({ base: AS_BASE, years: years || AS_YEARS, papers, variants: (s) => s === 'm' ? [2] : [1, 2, 3],
+  has: (y, s, t, p, v) => asSet[key].has('' + y + s + p + v) });
+const AL_BUS_PAST_PAPERS = buildPapersFrom('business-9609', '9609', alCfg('albus', y => y >= 2023
+  ? { 3: 'Paper 3 — Business Decision-Making', 4: 'Paper 4 — Business Strategy' } : { 3: 'Paper 3 — Case Study' }));
+const AL_ECON_PAST_PAPERS = buildPapersFrom('economics-9708', '9708', alCfg('alecon', () =>
+  ({ 3: 'Paper 3 — Multiple Choice', 4: 'Paper 4 — Data Response and Essays' })));
+const AL_ACC_PAST_PAPERS = buildPapersFrom('accounting-9706', '9706', alCfg('alacc', y => y >= 2023
+  ? { 3: 'Paper 3 — Financial Accounting', 4: 'Paper 4 — Cost and Management Accounting' }
+  : y >= 2016 ? { 3: 'Paper 3 — Structured Questions' }
+  : { 3: 'Paper 3 — Multiple Choice', 4: 'Paper 4 — Problem Solving' }));
+const AL_MATHS_PAST_PAPERS = buildPapersFrom('mathematics-9709', '9709', alCfg('almaths', y => y >= 2020
+  ? { 3: 'Paper 3 — Pure Mathematics 3', 6: 'Paper 6 — Probability & Statistics 2' }
+  : { 3: 'Paper 3 — Pure Mathematics 3', 5: 'Paper 5 — Mechanics 2', 7: 'Paper 7 — Statistics 2' }));
+const AL_CS_PAST_PAPERS = buildPapersFrom('computer-science-9618', '9618', alCfg('alcs', () =>
+  ({ 3: 'Paper 3 — Advanced Theory', 4: 'Paper 4 — Practical' }), AS_YEARS.filter(y => +y >= 2021)));
+const alSciPapers = () => ({ 4: 'Paper 4 — A Level Structured Questions', 5: 'Paper 5 — Planning, Analysis and Evaluation' });
+const AL_PHYS_PAST_PAPERS = buildPapersFrom('physics-9702', '9702', alCfg('alphys', alSciPapers));
+const AL_CHEM_PAST_PAPERS = buildPapersFrom('chemistry-9701', '9701', alCfg('alchem', alSciPapers));
+const AL_BIO_PAST_PAPERS = buildPapersFrom('biology-9700', '9700', alCfg('albio', alSciPapers));
+
 const PP_SUBJECTS = {
   bus:  { name: 'Business Studies', data: () => PAST_PAPERS,      code: '0450', p1: 'Paper 1 — Short Answer',    p2: 'Paper 2 — Case Study',               inserts: true },
   econ: { name: 'Economics', data: () => ECON_PAST_PAPERS, code: '0455', p1: 'Paper 1 — Multiple Choice', p2: 'Paper 2 — Structured Questions',     inserts: false },
@@ -3618,14 +3652,24 @@ const PP_SUBJECTS = {
   ascs:   { level: 'as', name: 'Computer Science', data: () => AS_CS_PAST_PAPERS, code: '9618' },
   asphys: { level: 'as', name: 'Physics', data: () => AS_PHYS_PAST_PAPERS, code: '9702' },
   aschem: { level: 'as', name: 'Chemistry', data: () => AS_CHEM_PAST_PAPERS, code: '9701' },
-  asbio:  { level: 'as', name: 'Biology', data: () => AS_BIO_PAST_PAPERS, code: '9700' }
+  asbio:  { level: 'as', name: 'Biology', data: () => AS_BIO_PAST_PAPERS, code: '9700' },
+  albus:  { level: 'al', name: 'Business', data: () => AL_BUS_PAST_PAPERS, code: '9609' },
+  alecon: { level: 'al', name: 'Economics', data: () => AL_ECON_PAST_PAPERS, code: '9708' },
+  alacc:  { level: 'al', name: 'Accounting', data: () => AL_ACC_PAST_PAPERS, code: '9706' },
+  almaths:{ level: 'al', name: 'Mathematics', data: () => AL_MATHS_PAST_PAPERS, code: '9709' },
+  alcs:   { level: 'al', name: 'Computer Science', data: () => AL_CS_PAST_PAPERS, code: '9618' },
+  alphys: { level: 'al', name: 'Physics', data: () => AL_PHYS_PAST_PAPERS, code: '9702' },
+  alchem: { level: 'al', name: 'Chemistry', data: () => AL_CHEM_PAST_PAPERS, code: '9701' },
+  albio:  { level: 'al', name: 'Biology', data: () => AL_BIO_PAST_PAPERS, code: '9700' }
 };
 const ppLevelOf = k => PP_SUBJECTS[k].level || 'igcse';
-const LEVEL_NAME = { igcse: 'Cambridge IGCSE', as: 'Cambridge International AS Level' };
+// A Level past papers live beside AS: the rest of the site treats them as AS
+const ppSiteLv = k => ppLevelOf(k) === 'al' ? 'as' : ppLevelOf(k);
+const LEVEL_NAME = { igcse: 'Cambridge IGCSE', as: 'Cambridge International AS Level', al: 'Cambridge International A Level' };
 
 // ── Site-wide level (IGCSE / AS Level) ──
 let siteLevel = (() => { try { return localStorage.getItem('igm_level'); } catch (e) { return null; } })();
-const ppLastSubj = { igcse: 'bus', as: 'asacc' };
+const ppLastSubj = { igcse: 'bus', as: 'asacc', al: 'alecon' };
 function setLevel(l, quiet) {
   siteLevel = l;
   try { localStorage.setItem('igm_level', l); } catch (e) {}
@@ -3633,7 +3677,7 @@ function setLevel(l, quiet) {
   const m = document.getElementById('levelModal'); if (m) m.classList.remove('show');
   if (quiet) return;
   const pp = document.getElementById('pastPapersPage');
-  if (pp && pp.style.display === 'block') setPPSubject(ppLevelOf(ppSubject) === l ? ppSubject : ppLastSubj[l]);
+  if (pp && pp.style.display === 'block') setPPSubject(ppSiteLv(ppSubject) === l ? ppSubject : ppLastSubj[l]);
   if (typeof window.tpApplyLevel === 'function') window.tpApplyLevel();
 }
 function ppRenderSide() {
@@ -3670,7 +3714,7 @@ function ppNorm(key) {
 function setPPSubject(sub) {
   ppSubject = sub;
   const lv = ppLevelOf(sub); ppLastSubj[lv] = sub;
-  if (siteLevel !== lv) setLevel(lv, true);
+  if (siteLevel !== ppSiteLv(sub)) setLevel(ppSiteLv(sub), true);
   const title = document.getElementById('ppTitle');
   if (title) title.innerHTML = LEVEL_NAME[lv] + ' ' + PP_SUBJECTS[sub].name + ' <span style="color:var(--blue-400)">' + PP_SUBJECTS[sub].code + '</span>';
   ppRenderSide();
@@ -3698,7 +3742,7 @@ function showPastPapers() {
   document.getElementById('navPapers').style.fontWeight = '600';
   window.scrollTo(0,0);
   document.title = 'Past Papers — IGCSE Mark';
-  setPPSubject(siteLevel && ppLevelOf(ppSubject) !== siteLevel ? ppLastSubj[siteLevel] : ppSubject);
+  setPPSubject(siteLevel && ppSiteLv(ppSubject) !== siteLevel ? ppLastSubj[siteLevel] : ppSubject);
 }
 
 function filterPP(f) { if (/^\d{4}$/.test(f)) ppYear = f; renderPastPapers(); }
@@ -19224,8 +19268,8 @@ function showAuthWall() {
 <script>
 (function () {
   var TOPIC_INDEX = {"bus":["Added value and opportunity cost","Business growth and size","Business objectives","Business sectors","Cash flow","Communication","Costs and break-even","Customer relationships","Economic factors","Employment issues and trade unions","Entrepreneurs and start-ups","Environmental and ethical issues","Globalisation and international trade","Government and legal controls","Income statement and profit","Inventory control","Leadership styles","Lean production","Location","Market research","Market segmentation and market types","Marketing mix","Motivation","Organisational structure and management","Place and distribution","Price","Product","Production methods","Productivity, efficiency and capacity","Promotion and packaging","Quality","Ratios and using accounts","Recruitment and selection","Sources of finance","Stakeholders","Statement of financial position","Training","Types of business ownership"],"econ":["1.1 The nature of the basic economic problem","1.2 Factors of production","1.3 Opportunity cost","1.4 Production possibility curve (PPC) diagrams","2.1 Microeconomics and macroeconomics","2.10 Mixed economic system","2.2 Demand","2.3 Supply","2.4 Price determination","2.5 Price changes","2.6 Price elasticity of demand (PED)","2.7 Price elasticity of supply (PES)","2.8 Market economic system","2.9 Market failure","3.1 Money and banking","3.2 Households","3.3 Workers","3.4 Firms","3.5 Firms and production","3.6 Firms' costs, revenue and objectives","3.7 Types of markets","4.1 The role of government","4.2 Fiscal policy","4.3 Monetary policy","4.4 Supply-side policy","4.5 Economic growth","4.6 Employment and unemployment","4.7 Inflation","5.1 Living standards","5.2 Poverty","5.3 Population","5.4 Differences in economic development between countries","6.1 Specialisation and free trade","6.2 Globalisation and trade restrictions","6.3 Foreign exchange rates","6.4 Current account of the balance of payments"],"acc":["1 Introduction to accounting","10 Accounting rules","11 Other payables and other receivables","12 Accounting for depreciation and disposal of non-current assets","13 Irrecoverable debts and provisions for doubtful debts","14 Bank reconciliation statements","15 Journal entries and correction of errors","16 Control accounts","17 Incomplete records","18 Accounts of clubs and societies","19 Partnerships","2 Double entry book-keeping Part A","20 Manufacturing accounts","21 Limited companies","22 Analysis and interpretation","3 The trial balance","4 Double entry book-keeping Part B","5 Petty cash books","6 Business documents","7 Books of prime entry","8 Financial statements Part A","9 Financial statements Part B"],"maths":["Algebra and graphs","Coordinate geometry","Geometry","Mensuration","Number","Probability","Statistics","Transformations and vectors","Trigonometry"],"phys":["1.1 Physical quantities and measurement","1.2 Motion","1.3 Mass and weight","1.4 Density","1.5 Forces","1.6 Momentum","1.7 Energy, work and power","1.8 Pressure","2.1 Kinetic particle model of matter","2.2 Thermal properties and temperature","2.3 Transfer of thermal energy","3.1 General properties of waves","3.2 Light","3.3 Electromagnetic spectrum","3.4 Sound","4.1 Simple magnetism","4.2 Electrical quantities","4.3 Electric circuits","4.4 Electrical safety","4.5 Electromagnetic effects","5.1 The nuclear model of the atom","5.2 Radioactivity","6.1 Earth and the Solar System","6.2 Stars and the Universe"],"asacc":["1 Double-entry bookkeeping: cash transactions","10 Accruals and prepayments","11 Depreciation of non-current assets","12 Irrecoverable debts","13 Bank reconciliation statements","14 Control accounts","15 The correction of errors","16 Incomplete records","18 Partnership accounts","19 Partnership changes","2 Double-entry bookkeeping: credit transactions","20 Manufacturing accounts","21 Limited company accounts","22 Limited companies: further considerations","23 Non-profit making organisations","24 Statements of cash flows","25 Auditing and stewardship","26 International accounting standards","27 Computerised accounting systems","28 Business acquisition and merger","3 Books of prime entry","30 Accounting information for stakeholders","31 Analysis and communication of accounting information","32 Costing of materials and labour","33 Absorption costing","34 Unit, job and batch costing","35 Marginal costing","37 Budgeting and budgetary control","5 Classification of accounts and division of the ledger","6 The trial balance","7 Statement of profit or loss","8 Statements of financial position for sole traders","9 Accounting concepts"],"asecon":["1.1 Scarcity, choice and opportunity cost","1.2 Economic methodology","1.3 Factors of production","1.4 Resource allocation in different economic systems","1.5 Production possibility curves","1.6 Classification of goods and services","2.1 Demand and supply curves","2.2 Price elasticity, income elasticity and cross elasticity of demand","2.3 Price elasticity of supply","2.4 The interaction of demand and supply","2.5 Consumer and producer surplus","3.1 Reasons for government intervention in markets","3.2 Methods and effects of government intervention in markets","3.3 Addressing income and wealth inequality","4.1 National income statistics","4.2 Introduction to the circular flow of income","4.3 Aggregate demand and aggregate supply analysis","4.4 Economic growth","4.5 Unemployment","4.6 Price stability","5.1 Government macroeconomic policy objectives","5.2 Fiscal policy","5.3 Monetary policy","5.4 Supply-side policy","6.1 The reasons for international trade","6.2 Protectionism","6.3 Current account of the balance of payments","6.4 Exchange rates","6.5 Policies to correct imbalances in the current account"],"asbus":["1.1 Enterprise","1.2 Business structure","1.3 Size of business","1.4 Business objectives","1.5 Stakeholders in a business","2.1 Human resource management","2.2 Motivation","2.3 Management","3.1 The nature of marketing","3.2 Market research","3.3 The marketing mix","4.1 The nature of operations","4.2 Inventory management","4.3 Capacity utilisation and outsourcing","5.1 Business finance","5.2 Sources of finance","5.3 Forecasting and managing cash flows","5.4 Costs","5.5 Budgets"],"asmaths":["1.1 Quadratics","1.2 Functions","1.3 Coordinate geometry","1.4 Circular measure","1.5 Trigonometry","1.6 Series","1.7 Differentiation","1.8 Integration","4.1 Forces and equilibrium","4.2 Kinematics of motion in a straight line","4.3 Momentum","4.4 Newton's laws of motion","4.5 Energy, work and power","5.1 Representation of data","5.2 Permutations and combinations","5.3 Probability","5.4 Discrete random variables","5.5 The normal distribution"],"ascs":["1 Information representation","10 Data types and structures","11 Programming","12 Software development","2 Communication","3 Hardware","4 Processor fundamentals","5 System software","6 Security, privacy and data integrity","7 Ethics and ownership","8 Databases","9 Algorithm design and problem-solving"],"asphys":["1 Physical quantities and units","10 D.C. circuits","11 Particle physics","2 Kinematics","3 Dynamics","4 Forces, density and pressure","5 Work, energy and power","6 Deformation of solids","7 Waves","8 Superposition","9 Electricity"],"aschem":["1 Atomic structure","10 Group 2","11 Group 17","12 Nitrogen and sulfur","13 Introduction to organic chemistry","14 Hydrocarbons","15 Halogen compounds","16 Hydroxy compounds","17 Carbonyl compounds","18 Carboxylic acids and derivatives","19 Nitrogen compounds","2 Atoms, molecules and stoichiometry","20 Polymerisation","21 Organic synthesis","22 Analytical techniques","3 Chemical bonding","4 States of matter","5 Chemical energetics","6 Electrochemistry","7 Equilibria","8 Reaction kinetics","9 The Periodic Table: chemical periodicity"],"asbio":["1 Cell structure","10 Infectious diseases","11 Immunity","2 Biological molecules","3 Enzymes","4 Cell membranes and transport","5 The mitotic cell cycle","6 Nucleic acids and protein synthesis","7 Transport in plants","8 Transport in mammals","9 Gas exchange"]};
-  var FAM = { business: ['bus', 'asbus'], economics: ['econ', 'asecon'], accounting: ['acc', 'asacc'], maths: ['maths', 'asmaths'],
-    physics: ['phys', 'asphys'], chemistry: ['chem', 'aschem'], biology: ['bio', 'asbio'], english: ['eng'], cs: ['cs', 'ascs'] };
+  var FAM = { business: ['bus', 'asbus', 'albus'], economics: ['econ', 'asecon', 'alecon'], accounting: ['acc', 'asacc', 'alacc'], maths: ['maths', 'asmaths', 'almaths'],
+    physics: ['phys', 'asphys', 'alphys'], chemistry: ['chem', 'aschem', 'alchem'], biology: ['bio', 'asbio', 'albio'], english: ['eng'], cs: ['cs', 'ascs', 'alcs'] };
   var ALIAS = [['computer science', 'cs'], ['comp sci', 'cs'], ['compsci', 'cs'], ['business studies', 'business'], ['business', 'business'], ['bus', 'business'], ['bs', 'business'],
     ['economics', 'economics'], ['econ', 'economics'], ['eco', 'economics'], ['accounting', 'accounting'], ['accounts', 'accounting'], ['acc', 'accounting'], ['accs', 'accounting'],
     ['mathematics', 'maths'], ['maths', 'maths'], ['math', 'maths'], ['physics', 'physics'], ['phys', 'physics'], ['phy', 'physics'], ['chemistry', 'chemistry'], ['chem', 'chemistry'],
@@ -19241,7 +19285,7 @@ function showAuthWall() {
     { name: 'Pricing', sub: 'Plans and prices', keys: 'pricing price plans premium basic season pass subscribe subscription upgrade', go: function () { showPricing(); } },
     { name: 'Dashboard', sub: 'Your progress', keys: 'dashboard progress stats history account', go: function () { showDash(); } }
   ];
-  var LV = { igcse: 'IGCSE', as: 'AS Level' };
+  var LV = { igcse: 'IGCSE', as: 'AS Level', al: 'A Level' };
   var SES = { s: 'May/June', w: 'Oct/Nov', m: 'Feb/March' };
   var entries = null, results = [], sel = 0;
 
@@ -19275,7 +19319,8 @@ function showAuthWall() {
     eat(/\b(\d{4})\s*([msw])\s*(\d{2})\s*(qp|ms|in|pm|ir|er|gt)?\s*([1-9])([1-9])\b/, function (m) { r.code = m[1]; r.s = m[2]; r.year = '20' + m[3]; if (m[4]) r.type = m[4]; r.p = +m[5]; r.v = +m[6]; });
     eat(/\b(mark ?schemes?|marking schemes?|ms|answers?|answer key)\b/, function () { r.type = 'ms'; });
     eat(/\b(question papers?|qp)\b/, function () { r.type = r.type || 'qp'; });
-    eat(/\b(a ?level|as ?level|alevel)\b/, function () { r.lv = 'as'; });
+    eat(/\b(as ?level)\b/, function () { r.lv = 'as'; });
+    eat(/\b(a ?level|alevel|a2)\b/, function () { r.lv = 'al'; });
     eat(/\b(igcse|o ?level)\b/, function () { r.lv = 'igcse'; });
     eat(/ as /, function () { r.lv = 'as'; t = t + ' '; });
     if (!r.code) eat(/\b(0\d{3}|9\d{3})\b/, function (m) { r.code = m[1]; });
@@ -19305,7 +19350,8 @@ function showAuthWall() {
     keys = keys.filter(function (k) { return pool(k); });
     if (r.lv) keys = keys.filter(function (k) { return lvOf(k) === r.lv; });
     var cur = typeof siteLevel !== 'undefined' && siteLevel ? siteLevel : 'igcse';
-    keys.sort(function (a, b) { return (lvOf(a) === cur ? 0 : 1) - (lvOf(b) === cur ? 0 : 1); });
+    var rank = function (k) { var l = lvOf(k); return l === cur ? 0 : (l === 'al' && cur === 'as') ? 1 : 2; };
+    keys.sort(function (a, b) { return rank(a) - rank(b); });
     return keys;
   }
 
@@ -19379,7 +19425,7 @@ function showAuthWall() {
 
   function goPP(k, year, s, p) {
     srClose();
-    if (typeof setLevel === 'function') setLevel(lvOf(k), true);
+    if (typeof setLevel === 'function') setLevel(lvOf(k) === 'al' ? 'as' : lvOf(k), true);
     ppSubject = k;
     showPastPapers();
     if (year) ppSetYear(String(year));
