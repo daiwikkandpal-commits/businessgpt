@@ -400,6 +400,15 @@ body {
 .tpx-mstext{margin-top:8px;font-size:13px;color:var(--text2);line-height:1.65;white-space:pre-line;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:12px 14px}
 .tpx-mslink{margin-top:8px;font-size:12px}.tpx-mslink a{color:var(--blue-500);font-weight:600;text-decoration:none}
 .tpx-fb:empty{display:none}
+.tpx-opt.right span{background:#22c55e!important;border-color:#22c55e!important;color:#fff!important;box-shadow:0 6px 16px rgba(34,197,94,.28)!important}
+.tpx-opt.wrong span{background:#ef4444!important;border-color:#ef4444!important;color:#fff!important;box-shadow:0 6px 16px rgba(239,68,68,.25)!important}
+.tpx-opts.done .tpx-opt{cursor:default}
+.tpx-opts.done .tpx-opt:not(.right):not(.wrong) span{opacity:.45;border-color:var(--border2)!important}
+.tpx-opt.right span,.tpx-opt.wrong span{animation:tpxPop .28s ease}
+@keyframes tpxPop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+.tpx-q.is-ok{border-color:rgba(34,197,94,.55)!important;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+.tpx-q.is-no{border-color:rgba(239,68,68,.5)!important;box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.tpx-q.is-ok .tpx-num{background:#22c55e!important}.tpx-q.is-no .tpx-num{background:#ef4444!important}
 .tpx-verdict{font-size:13.5px;font-weight:700;padding:9px 12px;border-radius:10px}
 .tpx-verdict.ok{background:rgba(34,197,94,.1);color:#16a34a}.tpx-verdict.no{background:rgba(239,68,68,.08);color:#dc2626}
 .tpx-end{margin-top:18px}
@@ -17757,7 +17766,7 @@ function showAuthWall() {
 
     // how to
     var steps = isMCQ
-      ? ['Pick one answer for every question.', 'Press <b>Check answers</b> at the bottom.', 'Each question then shows the right answer, and you get a score by topic.']
+      ? ['Pick an answer. It turns green if right, red if wrong.', 'Your first pick counts, so think before you tap.', 'Press <b>Check answers</b> at the bottom for your score by topic.']
       : cfg.marking
         ? ['Each question is a full question from a real past paper. Read the case study first.', 'Parts on your topics are marked with ●. Type your answer in each box.', 'Press <b>Mark this paper</b> for feedback on every part.']
         : ['Each question is a full question from a real past paper, with every part. Read the question information first.', 'Parts on your topics are marked with ●. Other parts show their topic in grey.', 'Open <b>Show mark scheme</b> under each part to check yourself.'];
@@ -17831,10 +17840,34 @@ function showAuthWall() {
         : '<div class="tpx-endnote">AI marking for ' + esc(cfg.name.replace(/^(IGCSE|AS Level) /, '')) + ' is coming soon. Use <b>Show mark scheme</b> under each question, or download the full mark scheme above.</div>') +
       '</div>';
     box.innerHTML = h;
-    box.oninput = box.onchange = tpProgress;
+    box.oninput = tpProgress;
+    box.onchange = function (e) {
+      var t = e.target;
+      if (t && t.type === 'radio' && /^tpmcq-\d+$/.test(t.name)) tpInstant(+t.name.slice(6), t.value);
+      tpProgress();
+    };
     tpProgress();
     askEnsure(); document.getElementById('askFab').style.display = 'flex';
   }
+
+  // instant MCQ feedback: colour as soon as an answer is picked, then lock
+  function tpInstant(i, a) {
+    var q = tp.paperQs[i], box = document.getElementById('tpmcq-' + i);
+    if (!q || !box || box.classList.contains('done')) return;
+    var ok = a === q.answer;
+    box.classList.add('done');
+    box.querySelectorAll('label').forEach(function (l) {
+      var inp = l.querySelector('input'), v = inp.value;
+      l.classList.toggle('right', v === q.answer);
+      l.classList.toggle('wrong', v === a && !ok);
+      if (v !== a) inp.disabled = true;
+    });
+    var art = document.getElementById('tpq-' + i);
+    if (art) { art.classList.remove('is-ok', 'is-no'); art.classList.add(ok ? 'is-ok' : 'is-no'); }
+    var fb = document.getElementById('tpfb-' + i);
+    if (fb) fb.innerHTML = '<div class="tpx-verdict ' + (ok ? 'ok' : 'no') + '">' + (ok ? '✓ Correct' : '✗ Not quite. The answer is ' + q.answer + '.') + '</div>';
+  }
+  window.tpInstant = tpInstant;
 
   // ── marking ──
   window.tpCheckMCQ = function () {
@@ -17844,6 +17877,9 @@ function showAuthWall() {
       if (ok) right++;
       var t = byTopic[q.subtopic] || (byTopic[q.subtopic] = [0, 0]); t[1]++; if (ok) t[0]++;
       var box = document.getElementById('tpmcq-' + i);
+      if (box) box.classList.add('done');
+      var art = document.getElementById('tpq-' + i);
+      if (art) { art.classList.remove('is-ok', 'is-no'); art.classList.add(ok ? 'is-ok' : 'is-no'); }
       if (box) box.querySelectorAll('label').forEach(function (l) {
         var v = l.querySelector('input').value;
         l.classList.toggle('right', v === q.answer); l.classList.toggle('wrong', v === a && !ok);
