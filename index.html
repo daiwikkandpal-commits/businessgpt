@@ -1146,6 +1146,34 @@ nav .dark-toggle { flex-shrink: 0; }
 }
 @media (max-width: 640px) { nav > .container.nav-inner { padding: 0 16px; height: 68px; gap: 12px; } .nav-links { top: 68px; } }
 
+
+nav > .container.nav-inner { max-width: none; }
+nav.nav-compact .nav-links { gap: 0; }
+nav.nav-compact .nav-links a { padding: 8px 8px; font-size: 13.5px; gap: 5px; }
+nav.nav-compact .nav-pill { font-size: 8.5px; padding: 3px 5px; }
+nav.nav-compact .sr-nav .sr-nav-t, nav.nav-compact .sr-nav kbd { display: none; }
+nav.nav-compact .sr-nav { padding: 0 11px; }
+nav.nav-compact > .container.nav-inner { gap: 12px; }
+nav.nav-compact #navName { display: none; }
+/* nav auto-collapse: JS adds .nav-collapsed when links don't fit (zoom, long name, signed in) */
+nav.nav-collapsed .nav-hamburger { display: flex !important; }
+nav.nav-collapsed .nav-links {
+  display: none; position: absolute; top: 76px; left: 0; right: 0; flex: none;
+  flex-direction: column; align-items: stretch; gap: 4px;
+  background: var(--bg); border-bottom: 1px solid rgba(59,130,246,0.12);
+  padding: 12px 20px 18px; box-shadow: 0 16px 32px rgba(15,30,46,0.12);
+}
+nav.nav-collapsed .nav-links.mobile-open { display: flex; }
+nav.nav-collapsed .nav-links a { padding: 13px 16px; font-size: 15px; }
+nav.nav-collapsed .nav-cta { display: none !important; }
+nav.nav-collapsed .nav-cta-mobile { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 14px 4px; margin-top: 4px; border-top: 1px solid var(--border); }
+nav.nav-collapsed .nav-cta-mobile a { text-align: center; }
+body.is-signed-in nav.nav-collapsed .nav-cta-mobile { display: none; }
+nav.nav-collapsed > .container.nav-inner { justify-content: flex-end; }
+nav.nav-collapsed .nav-user { border-left: none; padding-left: 0; order: 2; }
+nav.nav-collapsed .nav-logo { margin-right: auto; order: 0; }
+nav.nav-collapsed .nav-inner > div:has(#navHamburger) { order: 3; }
+@media (max-width: 640px) { nav.nav-collapsed .nav-links { top: 68px; } }
 /* ═══════════════════════════════════════════════════════════
    DESIGN PASS v3 — carries the dark hero's look through the site
    (serif headlines, navy ink, yellow accent, softer shadows)
@@ -19658,5 +19686,34 @@ function showAuthWall() {
 })();
 </script>
 
+<script>
+/* collapse nav into the menu button whenever the links don't fit */
+(function(){
+  var nav=document.querySelector('nav'), ul=document.getElementById('navLinks'), raf=0;
+  if(!nav||!ul) return;
+  function fit(){
+    raf=0;
+    var open=ul.classList.contains('mobile-open');
+    nav.classList.remove('nav-collapsed','nav-compact');
+    var cs=getComputedStyle(ul);
+    if(cs.display==='none'||cs.position==='absolute'){ return; } // media query already collapsed it
+    if(tooTight()){ nav.classList.add('nav-compact'); if(!tooTight()) { ul.classList.remove('mobile-open'); return; } nav.classList.remove('nav-compact'); nav.classList.add('nav-collapsed'); if(open) ul.classList.add('mobile-open'); return; }
+    ul.classList.remove('mobile-open'); var hb0=document.getElementById('navHamburger'); if(hb0) hb0.classList.remove('open');
+  }
+  function tooTight(){
+    var logo=nav.querySelector('.nav-logo').getBoundingClientRect(), right=ul.nextElementSibling.getBoundingClientRect();
+    var items=[].filter.call(ul.querySelectorAll(':scope > li > a'),function(a){return a.offsetParent&&!a.closest('.nav-cta-mobile');});
+    var first=items[0]&&items[0].getBoundingClientRect(), last=items[items.length-1]&&items[items.length-1].getBoundingClientRect();
+    var user=document.getElementById('navUser'), ur=user&&user.offsetParent?user.getBoundingClientRect():null;
+    return ul.scrollWidth>ul.clientWidth+1 || (first&&first.left<logo.right+8) || (last&&last.right>right.left-8) || (ur&&last&&last.right>ur.left-8) || (ur&&right.right>ur.left-4);
+  }
+  function q(){ if(!raf) raf=requestAnimationFrame(fit); }
+  addEventListener('resize',q); addEventListener('load',q);
+  if(window.ResizeObserver){ var ro=new ResizeObserver(q); ['navUser','navCta','navName'].forEach(function(id){var e=document.getElementById(id); if(e) ro.observe(e);}); }
+  if(window.MutationObserver){ var mo=new MutationObserver(q); ['navUser','navCta'].forEach(function(id){var e=document.getElementById(id); if(e) mo.observe(e,{attributes:true,attributeFilter:['style']});}); }
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(q);
+  window.fitNav=q; q();
+})();
+</script>
 </body>
 </html>
