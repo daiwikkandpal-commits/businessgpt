@@ -1,11 +1,12 @@
 // "Ask AI" tutor chat for topical papers.
 // POST { messages: [{ role: 'user'|'assistant', content: string }], question: { subjectKey, topic, source, marks, text, ms, answer, studentAnswer, images: [url] } }
-// Requires a signed-in user (Bearer token). Daily caps: free users FREE_DAILY, paying users PAID_DAILY.
+// Requires a signed-in user (Bearer token). Free users get FREE_TOTAL questions in total (then they need a
+// subscription); paying users get PAID_DAILY a day.
 // Each chat is locked to one subject (SUBJECTS); off-topic and inappropriate messages are refused.
 // Usage is counted in the ai_chat_usage table (see supabase-ai-chat-schema.sql). If that table
 // does not exist yet, questions are still answered but not counted.
 
-const FREE_DAILY = 5;
+const FREE_TOTAL = 3;
 const PAID_DAILY = 30;
 const MAX_TURNS = 6;           // earlier messages resent each time (keeps cost down)
 const MAX_MSG_CHARS = 800;
@@ -18,7 +19,14 @@ const SUBJECTS = {
   acc:   'Cambridge IGCSE Accounting (0452)',
   maths: 'Cambridge IGCSE Mathematics (0580)',
   phys:  'Cambridge IGCSE Physics (0625)',
-  asacc: 'Cambridge International AS Level Accounting (9706)'
+  asacc:   'Cambridge International AS Level Accounting (9706)',
+  asecon:  'Cambridge International AS Level Economics (9708)',
+  asbus:   'Cambridge International AS Level Business (9609)',
+  asmaths: 'Cambridge International AS Level Mathematics (9709)',
+  ascs:    'Cambridge International AS Level Computer Science (9618)',
+  asphys:  'Cambridge International AS Level Physics (9702)',
+  aschem:  'Cambridge International AS Level Chemistry (9701)',
+  asbio:   'Cambridge International AS Level Biology (9700)'
 };
 
 function json(statusCode, body) {
@@ -68,24 +76,25 @@ exports.handler = async (event) => {
         paid = rows.some(s => ['active', 'trialing'].includes(s.status) && (!s.current_period_end || new Date(s.current_period_end) > new Date()));
       }
     } catch (e) { /* treat as free */ }
-    const limit = paid ? PAID_DAILY : FREE_DAILY;
+    const limit = paid ? PAID_DAILY : FREE_TOTAL;
 
-    // ── daily usage ──
+    // ── usage: paid users per day, free users in total ──
     const day = new Date().toISOString().slice(0, 10);
-    let used = 0, tracked = false;
+    let used = 0, usedToday = 0, tracked = false;
     try {
-      const r = await sb(`ai_chat_usage?user_id=eq.${user.id}&day=eq.${day}&select=count`);
+      const r = await sb(`ai_chat_usage?user_id=eq.${user.id}&select=day,count`);
       if (r.ok) {
         tracked = true;
         const rows = await r.json();
-        used = rows[0] ? rows[0].count : 0;
+        rows.forEach(row => { if (row.day === day) usedToday = row.count || 0; });
+        used = paid ? usedToday : rows.reduce((t, row) => t + (row.count || 0), 0);
       }
     } catch (e) { /* table missing: don't block */ }
     if (tracked && used >= limit) {
       return json(429, {
         error: paid
           ? `You've asked ${limit} questions today. The limit resets tomorrow.`
-          : `You've used your ${limit} free AI questions for today. They reset tomorrow, or upgrade for more.`,
+          : `You've used your ${limit} free AI questions. Get a subscription to keep asking the AI.`,
         limitHit: true, paid
       });
     }
@@ -94,7 +103,7 @@ exports.handler = async (event) => {
     const host = event.headers.host || event.headers.Host || '';
     const images = (Array.isArray(q.images) ? q.images : [])
       .filter(u => typeof u === 'string' && host && u.startsWith(`https://${host}/`))
-      .slice(0, 5);
+      .slice(0, 8);
 
     const system = [
       `You are the Ask AI tutor on IGCSE Mark, a revision website for school students. You ONLY help with ${subject}. The student is practising past paper questions for this subject.`,
@@ -120,7 +129,7 @@ exports.handler = async (event) => {
       q.topic ? `Topic: ${clip(q.topic, 160)}` : '',
       q.marks ? `Marks: ${clip(q.marks, 6)}` : '',
       q.text ? `Question text: ${clip(q.text, 3000)}` : '',
-      images.length ? 'The question itself is shown in the attached image(s) from the past paper.' : '',
+      images.length ? 'The question (and, where included, its official mark scheme) is shown in the attached image(s) from the past paper.' : '',
       q.answer ? `Correct option (multiple choice): ${clip(q.answer, 5)}` : '',
       q.ms ? `Official mark scheme: ${clip(q.ms, 3000)}` : '',
       q.studentAnswer ? `The student's current answer: ${clip(q.studentAnswer, 2000)}` : ''
@@ -161,7 +170,7 @@ exports.handler = async (event) => {
         await sb('ai_chat_usage?on_conflict=user_id,day', {
           method: 'POST',
           headers: { Prefer: 'resolution=merge-duplicates' },
-          body: JSON.stringify({ user_id: user.id, day, count: used + 1 })
+          body: JSON.stringify({ user_id: user.id, day, count: usedToday + 1 })
         });
       } catch (e) { /* ignore */ }
     }

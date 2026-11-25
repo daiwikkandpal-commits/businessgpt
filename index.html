@@ -464,6 +464,7 @@ body {
 .ask-li{display:block;padding-left:4px}
 .ask-msg.typing{display:flex;gap:4px;padding:14px}.ask-msg.typing i{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:askDot 1s infinite}.ask-msg.typing i:nth-child(2){animation-delay:.15s}.ask-msg.typing i:nth-child(3){animation-delay:.3s}
 @keyframes askDot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.ask-msg.note{background:none!important;border:0!important;box-shadow:none!important;padding:0 2px!important;font-size:12px!important;color:var(--text3)!important}
 .ask-up{align-self:flex-start;padding:7px 14px;border-radius:9px;border:0;background:#22c55e;color:#fff;font:600 12px 'Sora',sans-serif;cursor:pointer}
 .ask-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 10px}
 .ask-quick button{padding:6px 11px;border-radius:999px;border:1px solid var(--border2);background:transparent;color:var(--text2);font:600 12px 'Sora',sans-serif;cursor:pointer}
@@ -17627,7 +17628,7 @@ function showAuthWall() {
     return { key: (whole ? 'w:' : 'q:') + q.id, i: i, whole: !!whole, label: lbl.replace(/&amp;/g, '&'), subjectKey: tp.subj, subject: cfg.name, topic: Object.keys(tps2).join(', '),
       source: srcLabel(q).replace(/&amp;/g, '&'), marks: marks, text: txt,
       ms: parts.map(function (x) { return (whole ? partOf(x) + ': ' : '') + clean(x.ms || ''); }).join('\n'),
-      answer: q.options ? q.answer : '', images: imgs.slice(0, 5).map(imgUrl) };
+      answer: q.options ? q.answer : '', images: imgs.slice(0, 5).concat(parts.reduce(function (a, x) { return a.concat(x.msImg || []); }, []).slice(0, 3)).slice(0, 8).map(imgUrl) };
   }
   window.tpAsk = function (i, whole) {
     askEnsure();
@@ -17652,8 +17653,8 @@ function showAuthWall() {
   }
   function askRender(typing) {
     var c = ask.cur, box = document.getElementById('askMsgs'); if (!c || !box) return;
-    var h = c.msgs.length ? '' : '<div class="ask-empty">Stuck? Ask for a hint, an explanation of the topic, or paste your answer and ask the AI to check it. It can see this question' + (c.ctx.images.length ? ' and the past paper page' : '') + '.<br><br><b>Only ' + esc(c.ctx.subject) + ' questions.</b> Anything else, or anything inappropriate, will not be answered.</div>';
-    c.msgs.forEach(function (m) { h += '<div class="ask-msg ' + m.role + (m.err ? ' err' : '') + '">' + (m.role === 'assistant' ? askMd(m.content) : esc(m.content)) + '</div>' + (m.upsell ? '<button class="ask-up" onclick="showPricing()">See plans</button>' : ''); });
+    var h = c.msgs.length ? '' : '<div class="ask-empty">Stuck? Ask for a hint, an explanation of the topic, or paste your answer and ask the AI to check it. It can see this question' + (c.ctx.images.length ? ' and the past paper page' : '') + '.<br><br>Free accounts get <b>3 AI questions</b>, then you\'ll need a subscription.<br><br><b>Only ' + esc(c.ctx.subject) + ' questions.</b> Anything else, or anything inappropriate, will not be answered.</div>';
+    c.msgs.forEach(function (m) { h += '<div class="ask-msg ' + m.role + (m.err ? ' err' : '') + (m.note ? ' note' : '') + '">' + (m.role === 'assistant' ? askMd(m.content) : esc(m.content)) + '</div>' + (m.upsell ? '<button class="ask-up" onclick="showPricing()">See plans</button>' : ''); });
     if (typing) h += '<div class="ask-msg assistant typing"><i></i><i></i><i></i></div>';
     box.innerHTML = h; box.scrollTop = box.scrollHeight;
   }
@@ -17672,7 +17673,10 @@ function showAuthWall() {
         body: JSON.stringify({ messages: c.msgs.filter(function (m) { return !m.err && !m.skip; }).map(function (m) { return { role: m.role, content: m.content }; }), question: c.ctx }) });
       var data = {}; try { data = await res.json(); } catch (e) { data = { error: 'The server sent an invalid response (status ' + res.status + ').' }; }
       if (data.error) { c.msgs[c.msgs.length - 1].skip = true; c.msgs.push({ role: 'assistant', content: data.error, err: true, upsell: !!(data.limitHit && !data.paid) }); }
-      else c.msgs.push({ role: 'assistant', content: data.text || '(no answer)' });
+      else {
+        c.msgs.push({ role: 'assistant', content: data.text || '(no answer)' });
+        if (!data.paid && data.remaining != null) c.msgs.push({ role: 'assistant', note: true, content: data.remaining > 0 ? data.remaining + ' free AI question' + (data.remaining === 1 ? '' : 's') + ' left. Subscribe for unlimited help.' : 'That was your last free AI question. Subscribe to keep asking.', upsell: data.remaining === 0, skip: true });
+      }
     } catch (e) {
       c.msgs[c.msgs.length - 1].skip = true;
       c.msgs.push({ role: 'assistant', content: 'Could not reach the AI. Check your connection and try again.', err: true });
